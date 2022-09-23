@@ -6,15 +6,19 @@ const express = require("express"),
     bcrypt = require("bcryptjs"),
     passport = require("passport");
 
-const { authenticationMiddleware } = require("../auth/functions/middlewares")
+const { authenticationMiddleware, authenticationMiddlewareTrueFalse } = require("../auth/functions/middlewares")
 
 router.get("/sitemap.xml", function (req, res, next) {
     res.set("Content-Type", "text/xml");
     res.send(xml);
 });
 
-router.get("/", (req, res) => {
-    res.render("pages/login");
+router.get("/", (req, res, next) => {
+    if (authenticationMiddlewareTrueFalse(req, res, next)) {
+        res.redirect("/dashboard");
+    } else {
+        res.render("pages/login");
+    }
 });
 
 router.post(
@@ -37,38 +41,38 @@ router.post("/registro", (req, res) => {
     const db = getDatabase();
     const users = ref(db, "gestaoempresa/empresa");
     onValue(users, async (snapshot) => {
-      let allUsers;
-      if (snapshot.val() === null) {
-        allUsers = [];
-      } else {
-        allUsers = snapshot.val();
-      };
-      const user = {
-        _id: data.email,
-        email: data.email,
-        password: bcrypt.hashSync(data.password),
-        verified: false,
-        documents: {
-          nome_fantasia: data.nomeF,
-          cnpj: data.cnpj,
-        },
-        contact: {
-          number: ""
-        },
-        contractURL: ""
-      };
-  
-      const checkUnique = () => {
-        return allUsers.find((item) => item.email === user.email);
-      };
-  
-      if (checkUnique())
-        return res.redirect('/?fail=true&message=userexists');
-  
-      allUsers.push(user);
-      set(ref(db, "gestaoempresa/empresa"), allUsers);
-  
-      return res.redirect("/?message=registered");
+        let allUsers;
+        if (snapshot.val() === null) {
+            allUsers = [];
+        } else {
+            allUsers = snapshot.val();
+        };
+        const user = {
+            _id: data.email,
+            email: data.email,
+            password: bcrypt.hashSync(data.password),
+            verified: false,
+            documents: {
+                nome_fantasia: data.nomeF,
+                cnpj: data.cnpj,
+            },
+            contact: {
+                number: ""
+            },
+            contractURL: ""
+        };
+
+        const checkUnique = () => {
+            return allUsers.find((item) => item.email === user.email);
+        };
+
+        if (checkUnique())
+            return res.redirect('/?fail=true&message=userexists');
+
+        allUsers.push(user);
+        set(ref(db, "gestaoempresa/empresa"), allUsers);
+
+        return res.redirect("/?message=registered");
     });
 });
 
