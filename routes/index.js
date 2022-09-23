@@ -85,8 +85,13 @@ router.get("/logout", (req, res, next) => {
 
 
 router.get("/dashboard", (req, res, next) => {
-    authenticationMiddleware(req, res, next)
-    res.render("pages/dashboard");
+    authenticationMiddleware(req, res, next);
+
+    const data = {
+        user: req.user,
+    };
+    console.log(req.user)
+    res.render("pages/dashboard", data);
 });
 
 
