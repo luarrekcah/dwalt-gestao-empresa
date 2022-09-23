@@ -37,6 +37,7 @@ module.exports = (passport) => {
       new localStrategy(
         { usernameField: "email", passwordField: "password" },
         (email, password, done) => {
+          if (users === null) return done("null", false);
           try {
             const user = findUser(email);
             if (!user) return done(null, false);
