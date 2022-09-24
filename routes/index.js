@@ -83,16 +83,11 @@ router.get("/logout", (req, res, next) => {
     });
 });
 
-
-router.get("/dashboard", (req, res, next) => {
-    authenticationMiddleware(req, res, next);
-
-    const data = {
-        user: req.user,
-    };
-    console.log(req.user)
-    res.render("pages/dashboard", data);
+router.get("/esqueciasenha", (req, res, next) => {
+    req.logout((err) => {
+        if (err) { return next(err); }
+        res.redirect('/');
+    });
 });
-
 
 module.exports = router;

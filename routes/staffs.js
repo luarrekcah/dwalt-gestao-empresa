@@ -8,11 +8,10 @@ router.get("/", (req, res, next) => {
         user: req.user,
     };
     if (authenticationMiddlewareTrueFalse(req, res, next)) {
-        res.render("pages/profile", data);
+        res.render("pages/staffs", data);
     } else {
         res.redirect("/");
     }
 });
-
 
 module.exports = router;

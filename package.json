@@ -1,4 +1,7 @@
 {
+  "scripts": {
+    "start": "node server.js"
+  },
   "dependencies": {
     "@firebase/app": "^0.7.33",
     "@firebase/database": "^0.13.6",

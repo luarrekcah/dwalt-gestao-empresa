@@ -1,0 +1,64 @@
+<%- include("../../partials/head.ejs") %>
+
+    <body id="page-top">
+        <div id="wrapper">
+            <%- include("../../partials/sidebar.ejs") %>
+                <div id="content-wrapper" class="d-flex flex-column">
+                    <div id="content">
+                        <%- include("../../partials/topbar.ejs") %>
+                            <div class="container-fluid">
+                                <h1 class="h3 mb-2 text-gray-800">Chamados de cliente</h1>
+                                <p class="mb-4">Chamados são solicitações de clientes, pode ser tanto para vistoria
+                                    quanto algum defeito ou emergência.</p>
+                                <div class="card border-left-danger shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
+                                                    Chamado pendente</div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                                    <p>PROJETO XX</p>
+                                                    <small>ESTOU COM UM GRAVE PROBLEMA, O SISTEMA PAROU</small>
+                                                    <br><br>
+                                                    <a href="#" class="btn btn-info btn-icon-split">
+                                                        <span class="icon text-white-50">
+                                                            <i class="fas fa-info-circle"></i>
+                                                        </span>
+                                                        <span class="text">Mais informações</span>
+                                                    </a>
+                                                    <a href="#" class="btn btn-primary btn-icon-split">
+                                                        <span class="icon text-white-50">
+                                                            <i class="fas fa-flag"></i>
+                                                        </span>
+                                                        <span class="text">Designar equipe</span>
+                                                    </a>
+                                                    <a href="#" class="btn btn-success btn-icon-split">
+                                                        <span class="icon text-white-50">
+                                                            <i class="fas fa-check"></i>
+                                                        </span>
+                                                        <span class="text">Concluído</span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="fas fa-exclamation fa-2x text-gray-300"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                    <%- include("../../partials/footer.ejs") %>
+                </div>
+        </div>
+        <a class="scroll-to-top rounded" href="#page-top">
+            <i class="fas fa-angle-up"></i>
+        </a>
+        <%- include("../components/modal/logout.ejs") %>
+            <script src="/vendor/jquery/jquery.min.js"></script>
+            <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+            <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+            <script src="/js/sb-admin-2.min.js"></script>
+    </body>
+
+    </html>

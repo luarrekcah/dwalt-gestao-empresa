@@ -1,0 +1,81 @@
+<%- include("../../partials/head.ejs") %>
+
+    <body id="page-top">
+        <div id="wrapper">
+            <%- include("../../partials/sidebar.ejs") %>
+                <div id="content-wrapper" class="d-flex flex-column">
+                    <div id="content">
+                        <%- include("../../partials/topbar.ejs") %>
+                            <div class="container-fluid">
+                                <!-- Page Heading -->
+                                <h1 class="h3 mb-2 text-gray-800">Gerenciar Projetos</h1>
+                                <p class="mb-4">Altere os dados, adicione ou remova projetos.</p>
+                                <!-- DataTales Example -->
+                                <div class="card shadow mb-4">
+                                    <div class="card-header py-3">
+                                        <h6 class="m-0 font-weight-bold text-primary">Projetos</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered" id="dataTable" width="100%"
+                                                cellspacing="0">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Identificação</th>
+                                                        <th>Cliente</th>
+                                                        <th>Potência (kwp)</th>
+                                                        <th>Cidade</th>
+                                                        <th>Status</th>
+                                                        <th>Botões</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>Sistema XXX</td>
+                                                        <td>Fulano</td>
+                                                        <td>25kWp</td>
+                                                        <td>Rio Branco</td>
+                                                        <td>(1) chamado ativo</td>
+                                                        <td><a href="#" class="btn btn-info btn-circle">
+                                                                <i class="fas fa-info-circle"></i>
+                                                            </a>
+                                                            <a href="#" class="btn btn-primary btn-circle">
+                                                                <i class="fas fa-edit"></i>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Sistema XXX</td>
+                                                        <td>Fulano</td>
+                                                        <td>245kWp</td>
+                                                        <td>Ariquemes</td>
+                                                        <td>OK</td>
+                                                        <td><a href="#" class="btn btn-info btn-circle">
+                                                                <i class="fas fa-info-circle"></i>
+                                                            </a>
+                                                            <a href="#" class="btn btn-primary btn-circle">
+                                                                <i class="fas fa-edit"></i>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                    <%- include("../../partials/footer.ejs") %>
+                </div>
+        </div>
+        <a class="scroll-to-top rounded" href="#page-top">
+            <i class="fas fa-angle-up"></i>
+        </a>
+        <%- include("../components/modal/logout.ejs") %>
+            <script src="/vendor/jquery/jquery.min.js"></script>
+            <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+            <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+            <script src="/js/sb-admin-2.min.js"></script>
+    </body>
+
+    </html>
