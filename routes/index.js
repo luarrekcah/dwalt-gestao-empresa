@@ -56,6 +56,10 @@ router.post("/registro", (req, res) => {
                 nome_fantasia: data.nomeF,
                 cnpj: data.cnpj,
             },
+            profile: {
+                logo: data.logo,
+                about: data.about
+            },
             contact: {
                 number: ""
             },
