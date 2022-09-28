@@ -37,34 +37,24 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr>
-                                                        <td>Sistema XXX</td>
-                                                        <td>Fulano</td>
-                                                        <td>25kWp</td>
-                                                        <td>Rio Branco</td>
-                                                        <td>(1) chamado ativo</td>
-                                                        <td><a href="#" class="btn btn-info btn-circle">
-                                                                <i class="fas fa-info-circle"></i>
-                                                            </a>
-                                                            <a href="#" class="btn btn-primary btn-circle">
-                                                                <i class="fas fa-edit"></i>
-                                                            </a>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Sistema XXX</td>
-                                                        <td>Fulano</td>
-                                                        <td>245kWp</td>
-                                                        <td>Ariquemes</td>
-                                                        <td>OK</td>
-                                                        <td><a href="#" class="btn btn-info btn-circle">
-                                                                <i class="fas fa-info-circle"></i>
-                                                            </a>
-                                                            <a href="#" class="btn btn-primary btn-circle">
-                                                                <i class="fas fa-edit"></i>
-                                                            </a>
-                                                        </td>
-                                                    </tr>
+                                                    <% if(projects !== undefined) { %>
+                                                        <% projects.forEach((item, i) => { %>
+                                                            <tr>
+                                                                <td><%= item.apelidoProjeto %></td>
+                                                                <td><%= item.nomeComp %></td>
+                                                                <td><%= item.kwp %></td>
+                                                                <td><%= item.endComp %></td>
+                                                                <td><%= item.Status %></td>
+                                                                <td><a href="#" class="btn btn-info btn-circle">
+                                                                        <i class="fas fa-info-circle"></i>
+                                                                    </a>
+                                                                    <a href="#" class="btn btn-primary btn-circle">
+                                                                        <i class="fas fa-edit"></i>
+                                                                    </a>
+                                                                </td>
+                                                            </tr>
+                                                        <% }); %> 
+                                                    <% } %> 
                                                 </tbody>
                                             </table>
                                         </div>

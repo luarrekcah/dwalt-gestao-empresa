@@ -5,28 +5,30 @@ const express = require("express"),
 const { authenticationMiddleware, authenticationMiddlewareTrueFalse } = require("../auth/functions/middlewares")
 
 router.get("/", (req, res, next) => {
-    const data = {
-        user: req.user,
-    };
-    if (authenticationMiddlewareTrueFalse(req, res, next)) {
+    if (!authenticationMiddlewareTrueFalse(req, res, next)) return res.redirect("/");
+    const db = getDatabase();
+    const projectsdb = ref(db, "gestaoempresa/projetos");
+    onValue(projectsdb, async (snapshot) => {
+        const projects = snapshot.val().filter(item => item.business === req.user._id);
+        const data = {
+            user: req.user,
+            projects,
+        };
         res.render("pages/projects", data);
-    } else {
-        res.redirect("/");
-    }
+    });
 });
 
 router.get("/adicionar", (req, res, next) => {
+    if (!authenticationMiddlewareTrueFalse(req, res, next)) return res.redirect("/");
     const data = {
         user: req.user,
     };
-    if (authenticationMiddlewareTrueFalse(req, res, next)) {
-        res.render("pages/projects/new", data);
-    } else {
-        res.redirect("/");
-    }
+    res.render("pages/projects/new", data);
+
 });
 
 router.post("/adicionar", (req, res, next) => {
+    if (!authenticationMiddlewareTrueFalse(req, res, next)) return res.redirect("/");
     let allProjects;
     const db = getDatabase();
     const projectsdb = ref(db, "gestaoempresa/projetos");
