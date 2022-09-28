@@ -9,7 +9,12 @@ router.get("/", (req, res, next) => {
     const db = getDatabase();
     const projectsdb = ref(db, "gestaoempresa/projetos");
     onValue(projectsdb, async (snapshot) => {
-        const projects = snapshot.val().filter(item => item.business === req.user._id);
+        let projects;
+        if(snapshot.val() === null || snapshot.val() === undefined) {
+            projects = [];
+        } else {
+            projects = snapshot.val().filter(item => item.business === req.user._id);
+        }
         const data = {
             user: req.user,
             projects,
@@ -32,14 +37,13 @@ router.post("/adicionar", (req, res, next) => {
     let allProjects;
     const db = getDatabase();
     const projectsdb = ref(db, "gestaoempresa/projetos");
-    onValue(projectsdb, async (snapshot) => {
+    onValue(projectsdb, (snapshot) => {
         if (snapshot.val() === null) {
             allProjects = [];
         } else {
             allProjects = snapshot.val();
         };
         const project = req.body;
-        project.business = req.user._id;
         allProjects.push(project)
         set(ref(db, "gestaoempresa/projetos"), allProjects);
 

@@ -11,17 +11,16 @@ router.get("/", (req, res, next) => {
     const projectsdb = ref(db, "gestaoempresa");
     onValue(projectsdb, async (snapshot) => {
         let projects, users;
-        if(snapshot.val().projetos === null) {
+        if(snapshot.val().projetos === null || snapshot.val().projetos === undefined) {
             projects = [];
         } else {
             projects = snapshot.val().projetos.filter(item => item.business === req.user._id);
         }
-        if(snapshot.val().usuarios === null) {
+        if(snapshot.val().usuarios === null || snapshot.val().usuarios === undefined) {
             users = [];
         } else {
             users = snapshot.val().usuarios.filter(item => item.email_link === req.user._id);
         }
-
         const data = {
             user: req.user,
             projects,
