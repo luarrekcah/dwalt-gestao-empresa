@@ -10,8 +10,18 @@ router.get("/", (req, res, next) => {
     const db = getDatabase();
     const projectsdb = ref(db, "gestaoempresa");
     onValue(projectsdb, async (snapshot) => {
-        const projects = snapshot.val().projetos.filter(item => item.business === req.user._id);
-        const users = snapshot.val().usuarios.filter(item => item.email_link === req.user._id);
+        let projects, users;
+        if(snapshot.val().projetos === null) {
+            projects = [];
+        } else {
+            projects = snapshot.val().projetos.filter(item => item.business === req.user._id);
+        }
+        if(snapshot.val().usuarios === null) {
+            users = [];
+        } else {
+            users = snapshot.val().usuarios.filter(item => item.email_link === req.user._id);
+        }
+
         const data = {
             user: req.user,
             projects,
