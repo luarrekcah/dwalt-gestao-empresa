@@ -40,7 +40,7 @@ router.post("/registro", (req, res) => {
     if (data['g-recaptcha-response'] === '') return res.redirect('?message=errorrecaptcha');
     const db = getDatabase();
     const users = ref(db, "gestaoempresa/empresa");
-    onValue(users, async (snapshot) => {
+    onValue(users, (snapshot) => {
         let allUsers;
         if (snapshot.val() === null) {
             allUsers = [];
@@ -77,7 +77,9 @@ router.post("/registro", (req, res) => {
         set(ref(db, "gestaoempresa/empresa"), allUsers);
 
         return res.redirect("/?message=registered");
-    });
+    }, {
+        onlyOnce: true
+      });
 });
 
 router.get("/logout", (req, res, next) => {

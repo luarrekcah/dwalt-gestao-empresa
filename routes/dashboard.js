@@ -4,7 +4,6 @@ const express = require("express"),
 
 const { authenticationMiddleware, authenticationMiddlewareTrueFalse } = require("../auth/functions/middlewares")
 
-
 router.get("/", (req, res, next) => {
     if (!authenticationMiddlewareTrueFalse(req, res, next)) return res.redirect("/");
     const db = getDatabase();
@@ -27,7 +26,9 @@ router.get("/", (req, res, next) => {
             users,
         }; 
         res.render("pages/dashboard", data);
-    });
+    }, {
+        onlyOnce: true
+      });
 });
 
 router.get("/chamados", (req, res, next) => {

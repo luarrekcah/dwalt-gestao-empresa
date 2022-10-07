@@ -6,48 +6,53 @@
                 <div id="content-wrapper" class="d-flex flex-column">
                     <div id="content">
                         <%- include("../../partials/topbar.ejs") %>
-                        <div class="container-fluid">
+                            <div class="container-fluid">
 
-                            <!-- Page Heading -->
-                            <h1 class="h3 mb-2 text-gray-800">Clientes Registrados no App <b>D Walt Gestão: Cliente</b></h1>
-                            <p class="mb-4">Clientes vinculados com sua conta, você pode remover quem desejar.</p>
-        
-                            <!-- DataTales Example -->
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Clientes</h6>
-                                </div>
-                                <div class="card-body">
-                                    <div class="table-responsive">
-                                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                            <thead>
-                                                <tr>
-                                                    <th>Nome</th>
-                                                    <th>E-mail</th>
-                                                    <th>Botões</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>Fulano</td>
-                                                    <td>fulano@gmail.com</td>
-                                                    <td><a href="#" class="btn btn-danger btn-circle">
-                                                        <i class="fas fa-trash"></i>
-                                                    </a></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Fulano</td>
-                                                    <td>fulano@gmail.com</td>
-                                                    <td><a href="#" class="btn btn-danger btn-circle">
-                                                        <i class="fas fa-trash"></i>
-                                                    </a></td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
+                                <!-- Page Heading -->
+                                <h1 class="h3 mb-2 text-gray-800">Clientes Registrados no App <b>D Walt Gestão:
+                                        Cliente</b></h1>
+                                <p class="mb-4">Clientes vinculados com sua conta, você pode remover quem desejar.</p>
+
+                                <!-- DataTales Example -->
+                                <div class="card shadow mb-4">
+                                    <div class="card-header py-3">
+                                        <h6 class="m-0 font-weight-bold text-primary">Clientes</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered" id="dataTable" width="100%"
+                                                cellspacing="0">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Foto</th>
+                                                        <th>Nome</th>
+                                                        <th>E-mail</th>
+                                                        <th>Botões</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <% customers.forEach(item=> { %>
+                                                        <tr>
+                                                            <td><img src="<%=item.foto%>" alt="foto de <%=item.nome%>"
+                                                                    width="50" height="50"></td>
+                                                            <td>
+                                                                <%=item.nome%>
+                                                                    <%=item.sobrenome%>
+                                                            </td>
+                                                            <td>
+                                                                <%=item.email%>
+                                                            </td>
+                                                            <td><a href="#" class="btn btn-danger btn-circle">
+                                                                    <i class="fas fa-trash"></i>
+                                                                </a></td>
+                                                        </tr>
+                                                        <% }); %>
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
                     </div>
                     <%- include("../../partials/footer.ejs") %>
                 </div>

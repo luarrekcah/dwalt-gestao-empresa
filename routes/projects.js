@@ -20,7 +20,9 @@ router.get("/", (req, res, next) => {
             projects,
         };
         res.render("pages/projects", data);
-    });
+    }, {
+        onlyOnce: true
+      });
 });
 
 router.get("/adicionar", (req, res, next) => {
@@ -48,7 +50,9 @@ router.post("/adicionar", (req, res, next) => {
         set(ref(db, "gestaoempresa/projetos"), allProjects);
 
         return res.redirect("/dashboard/projetos?message=registered");
-    })
+    }, {
+        onlyOnce: true
+      })
 });
 
 module.exports = router;

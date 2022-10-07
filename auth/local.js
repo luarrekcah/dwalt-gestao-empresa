@@ -11,6 +11,8 @@ module.exports = (passport) => {
   onValue(users, (snapshot) => {
     const users = snapshot.val();
 
+    if(users === null) return require("../auth/local");
+
     const findUser = (email) => {
       return users.find((item) => item.email === email);
     };
