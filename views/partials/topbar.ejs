@@ -6,7 +6,7 @@
     </button>
 
     <div class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-        <img width="180" src="https://cdn.glitch.global/e3790b73-514c-45b3-a987-85c9a4b7481f/d%20walt%20logo%20nova.svg?v=1644971753268">
+        <img width="50" src="<%=user.profile.logo%>">
     </div>
 
     <!-- Topbar Navbar -->
@@ -19,8 +19,10 @@
                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">
                     <%= user.documents.nome_fantasia %>
                 </span>
+                <img class="img-profile rounded-circle" src="<%=user.profile.logo%>">
             </a>
             <!-- Dropdown - User Information -->
+
             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
                 <a class="dropdown-item" href="/conta">
                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
