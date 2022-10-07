@@ -179,13 +179,13 @@
                                             <label class="small mb-1" for="apelidoProjeto">Identificação do
                                                 Projeto</label>
                                             <input name="apelidoProjeto" class="form-control" id="apelidoProjeto"
-                                                type="text" placeholder="Apelido do projeto">
+                                                type="text" placeholder="Apelido do projeto" required>
                                         </div>
                                         <!-- Form Group (last name)-->
                                         <div class="col-md-6">
                                             <label class="small mb-1" for="kwp">kWp do Projeto</label>
                                             <input name="kwp" class="form-control" id="kwp" type="text"
-                                                placeholder="000">
+                                                placeholder="000" required>
                                         </div>
                                         <div class="col-md-6">
                                             <label class="small mb-1" for="Status">Status</label>
@@ -196,10 +196,15 @@
                                             <label class="small mb-1" for="coords">Coordenadas da unidade
                                                 consumidora</label>
                                             <input name="coords" class="form-control" id="coords" type="text"
-                                                placeholder="-9.373395, -52.814905">
-
-                                                <input name="business" class="form-control" id="business" type="text"
-                                                value="<%=user._id%>" disabled style="display: none;">
+                                                placeholder="-9.373395, -52.814905" required>
+                                        </div>
+                                    </div>
+                                    <div class="row gx-3 mb-3" style="display: none;">
+                                        <div class="col-md-6">
+                                            <input name="business" class="form-control" type="text"
+                                                value="<%=user._id%>" required autocomplete="off">
+                                                <input name="_id" class="form-control" type="text"
+                                                value="dujndnsa" required autocomplete="off">
                                         </div>
                                     </div>
                                     <!-- Save changes button-->
