@@ -1,0 +1,168 @@
+<%- include("../../partials/head.ejs") %>
+
+    <body id="page-top">
+        <div id="wrapper">
+            <%- include("../../partials/sidebar.ejs") %>
+                <div id="content-wrapper" class="d-flex flex-column">
+                    <div id="content">
+                        <%- include("../../partials/topbar.ejs") %>
+                            <div class="container-fluid">
+                                <h1 class="h3 mb-2 text-gray-800">Propriedades de <%= project.apelidoProjeto %>
+                                </h1>
+                                <p class="mb-4">Visualização de dados, para editar retorne a página principal de
+                                    projetos.</p>
+                                <div class="card shadow mb-4">
+                                    <div class="card-body">
+                                        <h1 class="h3 mb-2 text-gray-800">Resumo
+                                        </h1>
+                                        <div class="row gx-3 mb-3">
+                                            <div class="col-md-3">
+                                                <b> <i class="fas fa-info-circle"></i> Status</b>
+                                                <p>
+                                                    <%=project.Status%>
+                                                </p>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <b><i class="fas fa-bolt"></i> kWp</b>
+                                                <p>
+                                                    <%=project.kwp%>
+                                                </p>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <b><i class="fas fa-map"></i> Coordenadas</b>
+                                                <p>
+                                                    <%=project.coords%>
+                                                </p>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <b>Código do Gerador</b>
+                                                <p>
+                                                    <%=project.cod%>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <h1 class="h3 mb-2 text-gray-800">Imagens
+                                        </h1>
+                                        <div class="row gx-3 mb-3">
+
+                                        </div>
+                                        <h1 class="h3 mb-2 text-gray-800">Dados do Cliente
+                                        </h1>
+                                        <div class="row gx-3 mb-3">
+                                            <div class="col-md-3">
+                                                <b>Nome Completo</b>
+                                                <p>
+                                                    <%=project.nomeComp%>
+                                                </p>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <b>CPF</b>
+                                                <p>
+                                                    <%=project.cpf%>
+                                                </p>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <b>RG</b>
+                                                <p>
+                                                    <%=project.rg%>
+                                                </p>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <b>Data de Nascimento</b>
+                                                <p>
+                                                    <%=project.dataNasc.split('-')[2]%>/
+                                                        <%=project.dataNasc.split('-')[1]%>/
+                                                            <%=project.dataNasc.split('-')[0]%>
+                                                </p>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <b>Sexo</b>
+                                                <p>
+                                                    <%=project.sexo%>
+                                                </p>
+                                            </div>
+
+                                            <div class="col-md-3">
+                                                <b>Estado Civil</b>
+                                                <p>
+                                                    <%=project.estadoCivil%>
+                                                </p>
+                                            </div>
+
+                                            <div class="col-md-3">
+                                                <b>Nome da Mãe</b>
+                                                <p>
+                                                    <%=project.nomeMae%>
+                                                </p>
+                                            </div>
+
+                                            <div class="col-md-3">
+                                                <b>E-mail</b>
+                                                <p>
+                                                    <%=project.email%>
+                                                </p>
+                                            </div>
+
+                                            <div class="col-md-3">
+                                                <b>Celular</b>
+                                                <p>
+                                                    <%=project.celular%>
+                                                </p>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <b>Endereço Completo</b>
+                                                <p>
+                                                    <%=project.endCompleto%>
+                                                </p>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <b>Profissão</b>
+                                                <p>
+                                                    <%=project.profissao%>
+                                                </p>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <b>Ocupação</b>
+                                                <p>
+                                                    <%=project.ocupacao%>
+                                                </p>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <b>Renda</b>
+                                                <p>
+                                                    <%=project.renda%>
+                                                </p>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <b>Patrimônio</b>
+                                                <p>
+                                                    <%=project.patrimonio%>
+                                                </p>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <b>Atuando há</b>
+                                                <p>
+                                                    <%=project.anos%> anos e <%=project.meses%> meses.
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <h1 class="h3 mb-2 text-gray-800">Documentos
+                                        </h1>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                    <%- include("../../partials/footer.ejs") %>
+                </div>
+        </div>
+        <a class="scroll-to-top rounded" href="#page-top">
+            <i class="fas fa-angle-up"></i>
+        </a>
+        <%- include("../components/modal/logout.ejs") %>
+            <script src="/vendor/jquery/jquery.min.js"></script>
+            <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+            <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+            <script src="/js/sb-admin-2.min.js"></script>
+    </body>
+
+    </html>

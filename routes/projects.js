@@ -58,4 +58,26 @@ router.post("/adicionar", (req, res, next) => {
       });
 });
 
+router.get("/visualizar/:id", (req, res, next) => {
+    if (!authenticationMiddlewareTrueFalse(req, res, next)) return res.redirect("/");
+    let allProjects;
+    const db = getDatabase();
+    const projectsdb = ref(db, "gestaoempresa/projetos");
+    onValue(projectsdb, (snapshot) => {
+        if (snapshot.val() === null) {
+            allProjects = [];
+        } else {
+            allProjects = snapshot.val();
+        };
+
+       const project = allProjects.find(item => item._id === req.params.id);
+
+        const data = {
+            user: req.user,
+            project,
+        };
+        res.render("pages/projects/see", data);
+    });
+});
+
 module.exports = router;
