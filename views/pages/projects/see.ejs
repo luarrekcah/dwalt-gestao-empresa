@@ -43,8 +43,12 @@
                                         </div>
                                         <h1 class="h3 mb-2 text-gray-800">Imagens
                                         </h1>
+                                        <div class="slider">
+                                            <% project.photos.forEach(item=> { %>
+                                                <div><img style="height: 100%; width: 100%;" src="<%=item%>"></div>
+                                                <% }) %>
+                                        </div>
                                         <div class="row gx-3 mb-3">
-
                                         </div>
                                         <h1 class="h3 mb-2 text-gray-800">Dados do Cliente
                                         </h1>
@@ -162,7 +166,21 @@
             <script src="/vendor/jquery/jquery.min.js"></script>
             <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
             <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+            <script src="/vendor/slick-master/slick/slick.js"></script>
             <script src="/js/sb-admin-2.min.js"></script>
+            <script>
+                $(document).ready(function () {
+                    $('.slider').slick({
+                        infinite: true,
+                        slidesToShow: 4,
+                        slidesToScroll: 4,
+                        speed: 300,
+                        adaptiveHeight: true,
+                        autoplay: true,
+                        autoplaySpeed: 2000,
+                    });
+                });
+            </script>
     </body>
 
     </html>
