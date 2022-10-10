@@ -10,7 +10,6 @@ const { authenticationMiddleware, authenticationMiddlewareTrueFalse } = require(
 const { makeId, getDate } = require("../auth/functions/database");
 
 router.get("/", (req, res, next) => {
-    console.log(getDate(moment))
     if (authenticationMiddlewareTrueFalse(req, res, next)) {
         const db = getDatabase();
         const projectsdb = ref(db, "gestaoempresa/projetos");
