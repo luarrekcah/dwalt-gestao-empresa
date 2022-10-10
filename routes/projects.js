@@ -1,16 +1,22 @@
 const express = require("express"),
     router = express.Router(),
-    { set, getDatabase, ref, onValue } = require("@firebase/database");
+    { set, getDatabase, ref, onValue } = require("@firebase/database"),
+    moment = require('moment');
+
+moment.locale('pt-br');
 
 const { authenticationMiddleware, authenticationMiddlewareTrueFalse } = require("../auth/functions/middlewares")
 
+const { makeId, getDate } = require("../auth/functions/database");
+
 router.get("/", (req, res, next) => {
+    console.log(getDate(moment))
     if (authenticationMiddlewareTrueFalse(req, res, next)) {
         const db = getDatabase();
         const projectsdb = ref(db, "gestaoempresa/projetos");
         onValue(projectsdb, async (snapshot) => {
             let projects;
-            if(snapshot.val() === null || snapshot.val() === undefined) {
+            if (snapshot.val() === null || snapshot.val() === undefined) {
                 projects = [];
             } else {
                 projects = snapshot.val().filter(item => item.business === req.user._id);
@@ -49,14 +55,19 @@ router.post("/adicionar", (req, res, next) => {
         };
         console.log(req.body)
         const project = req.body;
+        project._id = makeId();
+        project.createdAt = getDate();
+        
         allProjects.push(project)
         set(ref(db, "gestaoempresa/projetos"), allProjects);
 
         return res.redirect("/dashboard/projetos?message=registered");
     }, {
         onlyOnce: true
-      });
+    });
 });
+
+
 
 router.get("/visualizar/:id", (req, res, next) => {
     if (!authenticationMiddlewareTrueFalse(req, res, next)) return res.redirect("/");
@@ -70,7 +81,7 @@ router.get("/visualizar/:id", (req, res, next) => {
             allProjects = snapshot.val();
         };
 
-       const project = allProjects.find(item => item._id === req.params.id);
+        const project = allProjects.find(item => item._id === req.params.id);
 
         const data = {
             user: req.user,
