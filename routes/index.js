@@ -4,8 +4,10 @@ const express = require("express"),
     fs = require("fs"),
     xml = fs.readFileSync(__dirname + '/../public/sitemap.xml'),
     bcrypt = require("bcryptjs"),
-    passport = require("passport");
+    passport = require("passport"),
+    moment = require('moment');
 
+const { getDate } = require("../auth/functions/database");
 const { authenticationMiddleware, authenticationMiddlewareTrueFalse } = require("../auth/functions/middlewares")
 
 router.get("/sitemap.xml", function (req, res, next) {
@@ -63,7 +65,8 @@ router.post("/registro", (req, res) => {
             contact: {
                 number: ""
             },
-            contractURL: ""
+            contractURL: "",
+            createdAt: getDate(moment),
         };
 
         const checkUnique = () => {
