@@ -55,7 +55,7 @@ router.post("/adicionar", (req, res, next) => {
         console.log(req.body)
         const project = req.body;
         project._id = makeId();
-        project.createdAt = getDate();
+        project.createdAt = getDate(moment);
         
         allProjects.push(project)
         set(ref(db, "gestaoempresa/projetos"), allProjects);
@@ -65,8 +65,6 @@ router.post("/adicionar", (req, res, next) => {
         onlyOnce: true
     });
 });
-
-
 
 router.get("/visualizar/:id", (req, res, next) => {
     if (!authenticationMiddlewareTrueFalse(req, res, next)) return res.redirect("/");

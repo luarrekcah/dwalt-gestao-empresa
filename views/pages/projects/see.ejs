@@ -43,133 +43,139 @@
                                         </div>
                                         <h1 class="h3 mb-2 text-gray-800">Imagens
                                         </h1>
-                                        <div class="slider">
-                                            <% project.photos.forEach(item=> { %>
-                                                <div><img style="height: 100%; width: 100%;" src="<%=item%>"></div>
-                                                <% }) %>
-                                        </div>
-                                        <h1 class="h3 mb-2 text-gray-800">Dados do Cliente
-                                        </h1>
-                                        <div class="row gx-3 mb-3">
-                                            <div class="col-md-3">
-                                                <b>Nome Completo</b>
-                                                <p>
-                                                    <%=project.nomeComp%>
-                                                </p>
+                                        <% if(project.photos) { %>
+                                            <div class="slider">
+                                                <% project.photos.forEach(item=> { %>
+                                                    <div><img style="height: 100%; width: 100%;" src="<%=item%>"></div>
+                                                    <% }) %>
                                             </div>
-                                            <div class="col-md-3">
-                                                <b>CPF</b>
-                                                <p>
-                                                    <%=project.cpf%>
-                                                </p>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <b>RG</b>
-                                                <p>
-                                                    <%=project.rg%>
-                                                </p>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <b>Data de Nascimento</b>
-                                                <p>
-                                                    <%=project.dataNasc.split('-')[2]%>/
-                                                        <%=project.dataNasc.split('-')[1]%>/
-                                                            <%=project.dataNasc.split('-')[0]%>
-                                                </p>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <b>Sexo</b>
-                                                <p>
-                                                    <%=project.sexo%>
-                                                </p>
-                                            </div>
+                                            <% } else { %>
+                                                <b> <i class="fas fa-info-circle"></i> Projeto não possui fotos</b>
+                                                <% } %>
+                                                    <h1 class="h3 mb-2 text-gray-800">Dados do Cliente
+                                                    </h1>
+                                                    <div class="row gx-3 mb-3">
+                                                        <div class="col-md-3">
+                                                            <b>Nome Completo</b>
+                                                            <p>
+                                                                <%=project.nomeComp%>
+                                                            </p>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <b>CPF</b>
+                                                            <p>
+                                                                <%=project.cpf%>
+                                                            </p>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <b>RG</b>
+                                                            <p>
+                                                                <%=project.rg%>
+                                                            </p>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <b>Data de Nascimento</b>
+                                                            <p>
+                                                                <%=project.dataNasc.split('-')[2]%>/
+                                                                    <%=project.dataNasc.split('-')[1]%>/
+                                                                        <%=project.dataNasc.split('-')[0]%>
+                                                            </p>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <b>Sexo</b>
+                                                            <p>
+                                                                <%=project.sexo%>
+                                                            </p>
+                                                        </div>
 
-                                            <div class="col-md-3">
-                                                <b>Estado Civil</b>
-                                                <p>
-                                                    <%=project.estadoCivil%>
-                                                </p>
-                                            </div>
+                                                        <div class="col-md-3">
+                                                            <b>Estado Civil</b>
+                                                            <p>
+                                                                <%=project.estadoCivil%>
+                                                            </p>
+                                                        </div>
 
-                                            <div class="col-md-3">
-                                                <b>Nome da Mãe</b>
-                                                <p>
-                                                    <%=project.nomeMae%>
-                                                </p>
-                                            </div>
+                                                        <div class="col-md-3">
+                                                            <b>Nome da Mãe</b>
+                                                            <p>
+                                                                <%=project.nomeMae%>
+                                                            </p>
+                                                        </div>
 
-                                            <div class="col-md-3">
-                                                <b>E-mail</b>
-                                                <p>
-                                                    <%=project.email%>
-                                                </p>
-                                            </div>
+                                                        <div class="col-md-3">
+                                                            <b>E-mail</b>
+                                                            <p>
+                                                                <%=project.email%>
+                                                            </p>
+                                                        </div>
 
-                                            <div class="col-md-3">
-                                                <b>Celular</b>
-                                                <p>
-                                                    <%=project.celular%>
-                                                </p>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <b>Endereço Completo</b>
-                                                <p>
-                                                    <%=project.endCompleto%>
-                                                </p>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <b>Profissão</b>
-                                                <p>
-                                                    <%=project.profissao%>
-                                                </p>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <b>Ocupação</b>
-                                                <p>
-                                                    <%=project.ocupacao%>
-                                                </p>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <b>Renda</b>
-                                                <p>
-                                                    <%=project.renda%>
-                                                </p>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <b>Patrimônio</b>
-                                                <p>
-                                                    <%=project.patrimonio%>
-                                                </p>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <b>Atuando há</b>
-                                                <p>
-                                                    <%=project.anos%> anos e <%=project.meses%> meses.
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <h1 class="h3 mb-2 text-gray-800">Documentos
-                                        </h1>
-                                        
-                                        <div class="row gx-3 mb-3">
-                                            <div class="bg-gradient-primary"
-                                                style="width: 200px; height: 200px; border-radius: 40px; align-items: center; align-content: center; text-align: center;">
-                                                <h1 style="color: #fff; margin: 40px">A.R.T</h1>
-                                                <a href="#" class="btn btn-light btn-icon-split">
-                                                    <span class="text">Ver</span>
-                                                </a>
-                                                <a href="#" class="btn btn-light btn-icon-split">
-                                                    <span class="text">Alterar</span>
-                                                </a>
-                                            </div>
-                                        </div>
+                                                        <div class="col-md-3">
+                                                            <b>Celular</b>
+                                                            <p>
+                                                                <%=project.celular%>
+                                                            </p>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <b>Endereço Completo</b>
+                                                            <p>
+                                                                <%=project.endCompleto%>
+                                                            </p>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <b>Profissão</b>
+                                                            <p>
+                                                                <%=project.profissao%>
+                                                            </p>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <b>Ocupação</b>
+                                                            <p>
+                                                                <%=project.ocupacao%>
+                                                            </p>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <b>Renda</b>
+                                                            <p>
+                                                                <%=project.renda%>
+                                                            </p>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <b>Patrimônio</b>
+                                                            <p>
+                                                                <%=project.patrimonio%>
+                                                            </p>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <b>Atuando há</b>
+                                                            <p>
+                                                                <%=project.anos%> anos e <%=project.meses%> meses.
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                    <h1 class="h3 mb-2 text-gray-800">Documentos
+                                                    </h1>
 
-                                        <h1 class="h3 mb-2 text-gray-800">Mapa
-                                        </h1>
-                                        <div class="row gx-3 mb-3">
-                                            <div class="mapa" id="mapa" style="width: 100%; height: 400px;"></div>
-                                        </div>
+                                                    <% if(project.documents) { %>
+                                                        <div class="row gx-3 mb-3">
+                                                            <div class="bg-gradient-primary"
+                                                                style="width: 200px; height: 200px; border-radius: 40px; align-items: center; align-content: center; text-align: center;">
+                                                                <h1 style="color: #fff; margin: 40px">A.R.T</h1>
+                                                                <a href="#" class="btn btn-light btn-icon-split">
+                                                                    <span class="text">Ver</span>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                        <%} else {%>
+                                                            <b> <i class="fas fa-info-circle"></i> Sem documentos</b>
+                                                            <% } %>
 
+                                                                <h1 class="h3 mb-2 text-gray-800">Mapa
+                                                                </h1>
+                                                                <div class="row gx-3 mb-3">
+                                                                    <div class="mapa" id="mapa"
+                                                                        style="width: 100%; height: 400px;">
+                                                                    </div>
+                                                                </div>
                                     </div>
                                 </div>
                             </div>
