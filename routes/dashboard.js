@@ -9,7 +9,7 @@ router.get("/", (req, res, next) => {
     const db = getDatabase();
     const projectsdb = ref(db, "gestaoempresa");
     onValue(projectsdb, async (snapshot) => {
-        let projects, users;
+        let projects, users, survey, complaint;
         if(snapshot.val().projetos === null || snapshot.val().projetos === undefined) {
             projects = [];
         } else {
@@ -20,10 +20,22 @@ router.get("/", (req, res, next) => {
         } else {
             users = snapshot.val().usuarios.filter(item => item.email_link === req.user._id);
         }
+        if(snapshot.val().survey === null || snapshot.val().survey === undefined) {
+            survey = [];
+        } else {
+            survey = snapshot.val().survey.filter(item => item.ids.businessId === req.user._id);
+        }
+        if(snapshot.val().complaint === null || snapshot.val().complaint === undefined) {
+            complaint = [];
+        } else {
+            complaint = snapshot.val().complaint.filter(item => item.ids.businessId === req.user._id);
+        }
         const data = {
             user: req.user,
             projects,
             users,
+            survey,
+            complaint,
         }; 
         res.render("pages/dashboard", data);
     }, {
