@@ -66,6 +66,42 @@
                                                 </div>
                                             </div>
                                             <% })%>
+                                                <% survey.forEach(i=> { %>
+                                                    <% if(!i.finished) return; %>
+                                                        <h1 class="h3 mb-2 text-gray-800">Chamados de cliente
+                                                            finalizados</h1>
+                                                        <div class="card border-left-success shadow h-100 py-2">
+                                                            <div class="card-body">
+                                                                <div class="row no-gutters align-items-center">
+                                                                    <div class="col mr-2">
+                                                                        <div
+                                                                            class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                                                           Chamado finalizado
+                                                                        </div>
+                                                                        <div
+                                                                            class="h5 mb-0 font-weight-bold text-gray-800">
+                                                                            <small>
+                                                                                <%= i.text %>
+                                                                            </small>
+                                                                            <br><br>
+                                                                            <a href="/dashboard/projetos/visualizar/<%=i.ids.projectId%>"
+                                                                                class="btn btn-info btn-icon-split">
+                                                                                <span class="icon text-white-50">
+                                                                                    <i class="fas fa-info-circle"></i>
+                                                                                </span>
+                                                                                <span class="text">Ver projeto</span>
+                                                                            </a>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-auto">
+                                                                        <i
+                                                                            class="fas fa-exclamation fa-2x text-gray-300"></i>
+                                                                    </div>
+                                                                </div>
+                                                                <small>Data do chamado: <%= i.createdAt %></small>
+                                                            </div>
+                                                        </div>
+                                                        <% })%>
                             </div>
                     </div>
                     <%- include("../../partials/footer.ejs") %>
