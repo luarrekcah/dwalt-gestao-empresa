@@ -5,11 +5,12 @@ const express = require("express"),
 const { authenticationMiddleware, authenticationMiddlewareTrueFalse } = require("../auth/functions/middlewares")
 
 const db = getDatabase();
+const users = ref(db, "gestaoempresa/usuarios");
 
 router.get("/", (req, res, next) => {
     if (authenticationMiddlewareTrueFalse(req, res, next)) {
-        const customersdb = ref(db, "gestaoempresa/usuarios");
-        onValue(customersdb, async (snapshot) => {
+        
+        onValue(users, async (snapshot) => {
             let customers;
             if (snapshot.val() === null || snapshot.val() === undefined) {
                 customers = [];
@@ -28,9 +29,8 @@ router.get("/", (req, res, next) => {
 });
 
 router.delete("/", (req, res, next) => {
-    const id = req.body.id,
-        customersdb = ref(db, "gestaoempresa/usuarios");
-    onValue(customersdb, async (snapshot) => {
+    const id = req.body.id
+    onValue(users, async (snapshot) => {
         let customers;
         if (snapshot.val() === null || snapshot.val() === undefined) {
             customers = [];

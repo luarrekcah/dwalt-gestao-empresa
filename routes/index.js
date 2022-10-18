@@ -10,6 +10,9 @@ const express = require("express"),
 const { getDate } = require("../auth/functions/database");
 const { authenticationMiddleware, authenticationMiddlewareTrueFalse } = require("../auth/functions/middlewares")
 
+const db = getDatabase();
+const companies = ref(db, "gestaoempresa/empresa");
+
 router.get("/sitemap.xml", function (req, res, next) {
     res.set("Content-Type", "text/xml");
     res.send(xml);
@@ -40,9 +43,8 @@ router.post("/registro", (req, res) => {
     console.log(data);
     if (data.password !== data.passwordConf) return res.redirect('?message=passwordsdontmatch');
     if (data['g-recaptcha-response'] === '') return res.redirect('?message=errorrecaptcha');
-    const db = getDatabase();
-    const users = ref(db, "gestaoempresa/empresa");
-    onValue(users, (snapshot) => {
+   
+    onValue(companies, (snapshot) => {
         let allUsers;
         if (snapshot.val() === null) {
             allUsers = [];

@@ -9,10 +9,11 @@ const { authenticationMiddleware, authenticationMiddlewareTrueFalse } = require(
 
 const { makeId, getDate } = require("../auth/functions/database");
 
+const db = getDatabase();
+const projectsdb = ref(db, "gestaoempresa/projetos");
+
 router.get("/", (req, res, next) => {
     if (authenticationMiddlewareTrueFalse(req, res, next)) {
-        const db = getDatabase();
-        const projectsdb = ref(db, "gestaoempresa/projetos");
         onValue(projectsdb, async (snapshot) => {
             let projects;
             if (snapshot.val() === null || snapshot.val() === undefined) {
@@ -44,8 +45,6 @@ router.get("/adicionar", (req, res, next) => {
 router.post("/adicionar", (req, res, next) => {
     if (!authenticationMiddlewareTrueFalse(req, res, next)) return res.redirect("/");
     let allProjects;
-    const db = getDatabase();
-    const projectsdb = ref(db, "gestaoempresa/projetos");
     onValue(projectsdb, (snapshot) => {
         if (snapshot.val() === null) {
             allProjects = [];
@@ -69,8 +68,6 @@ router.post("/adicionar", (req, res, next) => {
 router.get("/visualizar/:id", (req, res, next) => {
     if (!authenticationMiddlewareTrueFalse(req, res, next)) return res.redirect("/");
     let allProjects;
-    const db = getDatabase();
-    const projectsdb = ref(db, "gestaoempresa/projetos");
     onValue(projectsdb, (snapshot) => {
         if (snapshot.val() === null) {
             allProjects = [];
