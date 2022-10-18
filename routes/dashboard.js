@@ -10,22 +10,22 @@ router.get("/", (req, res, next) => {
     const projectsdb = ref(db, "gestaoempresa");
     onValue(projectsdb, async (snapshot) => {
         let projects, users, survey, complaint;
-        if(snapshot.val().projetos === null || snapshot.val().projetos === undefined) {
+        if (snapshot.val().projetos === null || snapshot.val().projetos === undefined) {
             projects = [];
         } else {
             projects = snapshot.val().projetos.filter(item => item.business === req.user._id);
         }
-        if(snapshot.val().usuarios === null || snapshot.val().usuarios === undefined) {
+        if (snapshot.val().usuarios === null || snapshot.val().usuarios === undefined) {
             users = [];
         } else {
             users = snapshot.val().usuarios.filter(item => item.email_link === req.user._id);
         }
-        if(snapshot.val().survey === null || snapshot.val().survey === undefined) {
+        if (snapshot.val().survey === null || snapshot.val().survey === undefined) {
             survey = [];
         } else {
             survey = snapshot.val().survey.filter(item => item.ids.businessId === req.user._id);
         }
-        if(snapshot.val().complaint === null || snapshot.val().complaint === undefined) {
+        if (snapshot.val().complaint === null || snapshot.val().complaint === undefined) {
             complaint = [];
         } else {
             complaint = snapshot.val().complaint.filter(item => item.ids.businessId === req.user._id);
@@ -36,19 +36,34 @@ router.get("/", (req, res, next) => {
             users,
             survey,
             complaint,
-        }; 
+        };
         res.render("pages/dashboard", data);
     }, {
         onlyOnce: true
-      });
+    });
 });
 
 router.get("/chamados", (req, res, next) => {
     if (!authenticationMiddlewareTrueFalse(req, res, next)) return res.redirect("/");
-    const data = {
-        user: req.user,
-    };
-    res.render("pages/staffs/calls", data);
+    const db = getDatabase();
+    const projectsdb = ref(db, "gestaoempresa");
+    onValue(projectsdb, async (snapshot) => {
+        let survey;
+
+        if (snapshot.val().survey === null || snapshot.val().survey === undefined) {
+            survey = [];
+        } else {
+            survey = snapshot.val().survey.filter(item => item.ids.businessId === req.user._id);
+        }
+
+        const data = {
+            user: req.user,
+            survey,
+        };
+        res.render("pages/staffs/calls", data);
+
+    })
+
 });
 
 
@@ -67,7 +82,7 @@ router.get("/reclamacoes", (req, res, next) => {
     const projectsdb = ref(db, "gestaoempresa");
     onValue(projectsdb, async (snapshot) => {
         let complaint;
-        if(snapshot.val().complaint === null || snapshot.val().complaint === undefined) {
+        if (snapshot.val().complaint === null || snapshot.val().complaint === undefined) {
             complaint = [];
         } else {
             complaint = snapshot.val().complaint.filter(item => item.ids.businessId === req.user._id);
