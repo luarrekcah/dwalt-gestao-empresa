@@ -34,7 +34,7 @@ module.exports = (passport) => {
         return done(err, null);
       }
     });
-
+    
     passport.use(
       new localStrategy(
         { usernameField: "email", passwordField: "password" },
@@ -43,9 +43,7 @@ module.exports = (passport) => {
           try {
             const user = findUser(email);
             if (!user) return done(null, false);
-
             const isValid = bcrypt.compareSync(password, user.password);
-
             if (!isValid) return done(null, false);
             return done(null, user);
           } catch (err) {

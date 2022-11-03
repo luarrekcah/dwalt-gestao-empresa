@@ -10,7 +10,7 @@ const database = ref(db, "gestaoempresa");
 router.get("/", (req, res, next) => {
     if (!authenticationMiddlewareTrueFalse(req, res, next)) return res.redirect("/");
     onValue(database, async (snapshot) => {
-        let projects, users, survey, complaint;
+        let projects, users, survey, complaint, staffs;
         if (snapshot.val().projetos === null || snapshot.val().projetos === undefined) {
             projects = [];
         } else {
@@ -31,12 +31,18 @@ router.get("/", (req, res, next) => {
         } else {
             complaint = snapshot.val().complaint.filter(item => item.ids.businessId === req.user._id);
         }
+        if (snapshot.val().funcionarios === null || snapshot.val().funcionarios === undefined) {
+            staffs = [];
+        } else {
+            staffs = snapshot.val().funcionarios.filter(item => item.email_link === req.user._id);
+        }
         const data = {
             user: req.user,
             projects,
             users,
             survey,
             complaint,
+            staffs,
         };
         res.render("pages/dashboard", data);
     }, {

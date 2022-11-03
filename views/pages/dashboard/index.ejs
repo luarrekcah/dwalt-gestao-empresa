@@ -9,8 +9,8 @@
                             <div class="container-fluid">
                                 <div class="d-sm-flex align-items-center justify-content-between mb-4">
                                     <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
-                                    <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                                            class="fas fa-download fa-sm text-white-50"></i> Gerar Relatório</a>
+                                    <!-- <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                                            class="fas fa-download fa-sm text-white-50"></i> Gerar Relatório</a>-->
                                 </div>
 
                                 <div class="row">
@@ -21,9 +21,12 @@
                                             <div class="card-body">
                                                 <div class="row no-gutters align-items-center">
                                                     <div class="col mr-2">
-                                                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                        <div
+                                                            class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                                             Projetos Registrados</div>
-                                                        <div class="h5 mb-0 font-weight-bold text-gray-800"><%=projects.length%></div>
+                                                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                                            <%=projects.filter(i=> i.business === user._id).length%>
+                                                        </div>
                                                     </div>
                                                     <div class="col-auto">
                                                         <i class="fas fa-solar-panel fa-2x text-gray-300"></i>
@@ -32,16 +35,19 @@
                                             </div>
                                         </div>
                                     </div>
-            
+
                                     <!-- Earnings (Monthly) Card Example -->
                                     <div class="col-xl-3 col-md-6 mb-4">
                                         <div class="card border-left-primary shadow h-100 py-2">
                                             <div class="card-body">
                                                 <div class="row no-gutters align-items-center">
                                                     <div class="col mr-2">
-                                                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                        <div
+                                                            class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                                             Clientes Registrados</div>
-                                                        <div class="h5 mb-0 font-weight-bold text-gray-800"><%=users.length%></div>
+                                                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                                            <%=users.filter(i=> i.email_link === user._id).length%>
+                                                        </div>
                                                     </div>
                                                     <div class="col-auto">
                                                         <i class="fas fa-users fa-2x text-gray-300"></i>
@@ -56,9 +62,12 @@
                                             <div class="card-body">
                                                 <div class="row no-gutters align-items-center">
                                                     <div class="col mr-2">
-                                                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                        <div
+                                                            class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                                             Funcionários Registrados</div>
-                                                        <div class="h5 mb-0 font-weight-bold text-gray-800">Não programado</div>
+                                                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                                            <%=staffs.filter(i=> i.email_link === user._id).length%>
+                                                        </div>
                                                     </div>
                                                     <div class="col-auto">
                                                         <i class="fas fa-users fa-2x text-gray-300"></i>
@@ -74,9 +83,13 @@
                                             <div class="card-body">
                                                 <div class="row no-gutters align-items-center">
                                                     <div class="col mr-2">
-                                                        <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
+                                                        <div
+                                                            class="text-xs font-weight-bold text-danger text-uppercase mb-1">
                                                             Chamados pendentes</div>
-                                                        <div class="h5 mb-0 font-weight-bold text-gray-800"><%=survey.filter(i => !i.finished).length%></div>
+                                                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                                            <%=survey.filter(i=> !i.finished && i.ids.businessId ===
+                                                                user._id).length%>
+                                                        </div>
                                                     </div>
                                                     <div class="col-auto">
                                                         <i class="fas fa-exclamation fa-2x text-gray-300"></i>
@@ -91,28 +104,13 @@
                                             <div class="card-body">
                                                 <div class="row no-gutters align-items-center">
                                                     <div class="col mr-2">
-                                                        <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
+                                                        <div
+                                                            class="text-xs font-weight-bold text-danger text-uppercase mb-1">
                                                             Vistorias em execução</div>
-                                                        <div class="h5 mb-0 font-weight-bold text-gray-800"><%=survey.filter(i => !i.finished && i.accepted).length%></div>
-                                                    </div>
-                                                    <div class="col-auto">
-                                                        <i class="fas fa-exclamation fa-2x text-gray-300"></i>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                   
-
-                                    <div class="col-xl-3 col-md-6 mb-4">
-                                        <div class="card border-left-danger shadow h-100 py-2">
-                                            <div class="card-body">
-                                                <div class="row no-gutters align-items-center">
-                                                    <div class="col mr-2">
-                                                        <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
-                                                            Vistorias não finalizadas</div>
-                                                        <div class="h5 mb-0 font-weight-bold text-gray-800"><%=survey.filter(i => !i.finished).length%></div>
+                                                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                                            <%=survey.filter(i=> !i.finished && i.accepted &&
+                                                                i.ids.businessId === user._id).length%>
+                                                        </div>
                                                     </div>
                                                     <div class="col-auto">
                                                         <i class="fas fa-exclamation fa-2x text-gray-300"></i>
@@ -127,9 +125,12 @@
                                             <div class="card-body">
                                                 <div class="row no-gutters align-items-center">
                                                     <div class="col mr-2">
-                                                        <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
+                                                        <div
+                                                            class="text-xs font-weight-bold text-danger text-uppercase mb-1">
                                                             Reclamações</div>
-                                                        <div class="h5 mb-0 font-weight-bold text-gray-800"><%=complaint.length%></div>
+                                                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                                            <%=complaint.length%>
+                                                        </div>
                                                     </div>
                                                     <div class="col-auto">
                                                         <i class="fas fa-exclamation fa-2x text-gray-300"></i>
@@ -148,8 +149,12 @@
                                                 <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;"
                                                     src="img/undraw_posting_photo.svg" alt="...">
                                             </div>
-                                            <p>Estamos arduamente trabalhando no desenvolvimento das aplicações e com uma qualidade sem igual para fornecer elementos e gestão de qualidade para sua empresa. Baixe nossos aplicativos e sempre realize os registros necessários para ter uma boa experiência com o serviço.</p>
-                                            <a target="_blank" rel="nofollow" href="https://www.dlwalt.com/">D | Walt site raíz &rarr;</a>
+                                            <p>Estamos arduamente trabalhando no desenvolvimento das aplicações e com
+                                                uma qualidade sem igual para fornecer elementos e gestão de qualidade
+                                                para sua empresa. Baixe nossos aplicativos e sempre realize os registros
+                                                necessários para ter uma boa experiência com o serviço.</p>
+                                            <a target="_blank" rel="nofollow" href="https://www.dlwalt.com/">D | Walt
+                                                site raíz &rarr;</a>
                                         </div>
                                     </div>
 
