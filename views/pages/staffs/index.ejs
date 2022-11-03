@@ -30,31 +30,66 @@
                                         <% teams.forEach(i=> { %>
                                             <div class="card shadow mb-4">
                                                 <div class="card-header py-3">
-                                                    <h6 class="m-0 font-weight-bold text-primary"><%= i.name %> </h6>
+                                                    <h6 class="m-0 font-weight-bold text-primary">
+                                                        <%= i.name %> <a href="#" data-toggle="modal"
+                                                        data-target="#addMemberModal" class="btn btn-primary btn-circle">
+                                                        <i class="fas fa-plus"></i>
+                                                    </a>
+                                                    </h6>
                                                 </div>
                                                 <div class="card-body">
                                                     <div class="table-responsive">
-                                                        <table class="table table-bordered" id="dataTable" width="100%"
-                                                            cellspacing="0">
-                                                            <thead>
-                                                                <tr>
-                                                                    <th>Nome</th>
-                                                                    <th>Cargo</th>
-                                                                    <th>Botões</th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                <tr>
-                                                                    <td>Fulano</td>
-                                                                    <td>Instalador</td>
-                                                                    <td>
-                                                                        <a href="#" class="btn btn-danger btn-circle">
-                                                                            <i class="fas fa-trash"></i>
-                                                                        </a>
-                                                                    </td>
-                                                                </tr>
-                                                            </tbody>
-                                                        </table>
+                                                        <% if(!i.members) { %>
+                                                            <h1 class="h3 mb-2 text-gray-800">Essa equipe ainda não tem
+                                                                membros. Clique <a href="#" data-toggle="modal"
+                                                                    data-target="#addMemberModal"
+                                                                    class="btn btn-primary btn-circle">
+                                                                    <i class="fas fa-plus"></i>
+                                                                </a> para registrar
+                                                            </h1>
+                                                            <% } else { %>
+                                                                <table class="table table-bordered" id="dataTable"
+                                                                    width="100%" cellspacing="0">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th>Nome</th>
+                                                                            <th>Cargo</th>
+                                                                            <th>Botões</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <tr>
+                                                                            <td>Fulano</td>
+                                                                            <td>Instalador</td>
+                                                                            <td>
+                                                                                <form method="post">
+                                                                                    <input type="text" name="type"
+                                                                                        value="DELETE_MEMBER"
+                                                                                        style="display: none;">
+                                                                                    <input type="text" name="id"
+                                                                                        value="<%= i.id %>"
+                                                                                        style="display: none;">
+                                                                                    <button class="btn btn-danger"
+                                                                                        type="submit"><a href="#"
+                                                                                            class="btn btn-danger btn-circle">
+                                                                                            <i class="fas fa-trash"></i>
+                                                                                        </a></button>
+                                                                                </form>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                                <form method="post">
+                                                                    <input type="text" name="type" value="DELETE_TEAM"
+                                                                        style="display: none;">
+                                                                    <input type="text" name="id" value="<%= i.id %>"
+                                                                        style="display: none;">
+                                                                    <button class="btn btn-danger" type="submit">Deletar
+                                                                        equipe
+                                                                        <i class="fas fa-trash"></i></button>
+                                                                </form>
+                                                                <% } %>
+
                                                     </div>
                                                 </div>
                                             </div>

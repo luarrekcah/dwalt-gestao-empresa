@@ -47,23 +47,43 @@ router.post("/", (req, res, next) => {
     const db = getDatabase();
     const teamsDb = ref(db, "gestaoempresa/equipes");
     onValue(teamsDb, (snapshot) => {
-        let allTeams;
-        const { teamName, ownerId } = req.body;
-        const team = {
-            id: makeId(),
-            name: teamName,
-            ownerId,
-            membersId: [],
-            createdAt: getDate(moment)
+        const { type } = req.body;
+
+        switch (type) {
+            case "CREATE_TEAM":
+
+                let allTeams;
+                const { teamName, ownerId } = req.body;
+                const team = {
+                    id: makeId(),
+                    name: teamName,
+                    ownerId,
+                    membersId: [],
+                    createdAt: getDate(moment)
+                }
+                if (snapshot.val() === null) {
+                    allTeams = [];
+                } else {
+                    allTeams = snapshot.val();
+                };
+                allTeams.push(team)
+                set(ref(db, "gestaoempresa/equipes"), allTeams);
+                return res.redirect("/dashboard/gerenciar/equipe");
+                break;
+
+            case "DELETE_TEAM":
+                const { id } = req.body;
+                const teams = snapshot.val()
+                const newTeams = teams.filter(team => team.id !== id)
+                set(ref(db, "gestaoempresa/equipes"), newTeams);
+                return res.redirect("/dashboard/gerenciar/equipe");
+                break;
+
+            case "DELETE_MEMBER":
+                //DELETE
+                break;
         }
-        if (snapshot.val() === null) {
-            allTeams = [];
-        } else {
-            allTeams = snapshot.val();
-        };
-        allTeams.push(team)
-        set(ref(db, "gestaoempresa/equipes"), allTeams);
-        return res.redirect("/dashboard/gerenciar/equipe?message=registered");
+
     }, {
         onlyOnce: true
     });
