@@ -1,0 +1,26 @@
+<div class="modal fade" id="addTeamModal" tabindex="-1" role="dialog" aria-labelledby="teamModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="teamModalLabel">Qual será o nome da equipe?</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body" style="padding: 40px;">
+                <form method="post">
+                    <div class="mb-3">
+                        <label class="small mb-1" for="teamName">Nome da equipe</label>
+                        <input name="teamName" class="form-control" id="teamName" type="text" placeholder="Alpha"
+                            required="">
+                    </div>
+                    <button class="btn btn-primary" style="width: 100%;" type="submit">Criar Equipe</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
