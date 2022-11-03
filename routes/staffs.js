@@ -1,11 +1,14 @@
 const express = require("express"),
     router = express.Router(),
+    moment = require("moment"),
     { set, getDatabase, ref, onValue } = require("@firebase/database");
 
+const { makeId, getDate } = require("../auth/functions/database");
 const { authenticationMiddleware, authenticationMiddlewareTrueFalse } = require("../auth/functions/middlewares")
 
 const db = getDatabase();
 const database = ref(db, "gestaoempresa");
+const teamsDb = ref(db, "gestaoempresa/equipes");
 
 router.get("/", (req, res, next) => {
     if (authenticationMiddlewareTrueFalse(req, res, next)) {
@@ -42,7 +45,29 @@ router.get("/", (req, res, next) => {
 
 
 router.post("/", (req, res, next) => {
-    console.log(req.body);
+    if (!authenticationMiddlewareTrueFalse(req, res, next)) return res.redirect("/");
+    let allTeams;
+    onValue(teamsDb, (snapshot) => {
+        console.log(req.body);
+        const { teamName, ownerId } = req.body;
+        const team = {
+            id: makeId(),
+            name: teamName,
+            ownerId,
+            membersId: [],
+            createdAt: getDate(moment)
+        }
+        if (snapshot.val() === null) {
+            allTeams = [];
+        } else {
+            allTeams = snapshot.val();
+        };
+        allTeams.push(team)
+        set(ref(db, "gestaoempresa/equipes"), allTeams);
+        return res.redirect("/dashboard/gerenciar/equipe?message=registered");
+    }, {
+        onlyOnce: true
+    });
 });
 
 module.exports = router;

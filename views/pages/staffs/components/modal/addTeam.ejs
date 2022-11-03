@@ -13,7 +13,9 @@
                     <div class="mb-3">
                         <label class="small mb-1" for="teamName">Nome da equipe</label>
                         <input name="teamName" class="form-control" id="teamName" type="text" placeholder="Alpha"
-                            required="">
+                            required>
+                        <input style="display: none;" name="ownerId" class="form-control" id="ownerId" type="text"
+                            value="<%= user._id %> " required>
                     </div>
                     <button class="btn btn-primary" style="width: 100%;" type="submit">Criar Equipe</button>
                 </form>
