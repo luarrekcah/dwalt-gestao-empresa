@@ -8,9 +8,10 @@
                         <%- include("../../partials/topbar.ejs") %>
                             <div class="container-fluid">
                                 <!-- Page Heading -->
-                                <h1 class="h3 mb-2 text-gray-800">Gerenciar Equipe <a href="#" data-toggle="modal" data-target="#addTeamModal" class="btn btn-info btn-circle">
-                                    <i class="fas fa-plus"></i>
-                                </a></h1>
+                                <h1 class="h3 mb-2 text-gray-800">Gerenciar Equipe <a href="#" data-toggle="modal"
+                                        data-target="#addTeamModal" class="btn btn-info btn-circle">
+                                        <i class="fas fa-plus"></i>
+                                    </a></h1>
                                 <p class="mb-4">Altere os dados, adiciona ou remova pessoas.</p>
                                 <!-- DataTales Example -->
 
@@ -18,58 +19,47 @@
                                     <div class="card shadow mb-4">
                                         <div class="card-body">
                                             <h1 class="h3 mb-2 text-gray-800">Sua empresa ainda não tem equipes
-                                                registradas. Clique  <a href="#" data-toggle="modal" data-target="#addTeamModal" class="btn btn-info btn-circle">
+                                                registradas. Clique <a href="#" data-toggle="modal"
+                                                    data-target="#addTeamModal" class="btn btn-info btn-circle">
                                                     <i class="fas fa-plus"></i>
                                                 </a> para registrar
                                             </h1>
                                         </div>
                                     </div>
                                     <% } else { %>
-                                        <div class="card shadow mb-4">
-                                            <div class="card-header py-3">
-                                                <h6 class="m-0 font-weight-bold text-primary">Equipe Alpha</h6>
-                                            </div>
-                                            <div class="card-body">
-                                                <div class="table-responsive">
-                                                    <table class="table table-bordered" id="dataTable" width="100%"
-                                                        cellspacing="0">
-                                                        <thead>
-                                                            <tr>
-                                                                <th>Nome</th>
-                                                                <th>Cargo</th>
-                                                                <th>Botões</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <tr>
-                                                                <td>Fulano</td>
-                                                                <td>Instalador</td>
-                                                                <td><a href="#" class="btn btn-info btn-circle">
-                                                                        <i class="fas fa-info-circle"></i>
-                                                                    </a>
-                                                                    <a href="#" class="btn btn-primary btn-circle">
-                                                                        <i class="fas fa-edit"></i>
-                                                                    </a>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Fulano</td>
-                                                                <td>Instalador</td>
-                                                                <td>
-                                                                    <a href="#" class="btn btn-info btn-circle">
-                                                                        <i class="fas fa-info-circle"></i>
-                                                                    </a>
-                                                                    <a href="#" class="btn btn-primary btn-circle">
-                                                                        <i class="fas fa-edit"></i>
-                                                                    </a>
-                                                                </td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
+                                        <% teams.forEach(i=> { %>
+                                            <div class="card shadow mb-4">
+                                                <div class="card-header py-3">
+                                                    <h6 class="m-0 font-weight-bold text-primary"><%= i.name %> </h6>
+                                                </div>
+                                                <div class="card-body">
+                                                    <div class="table-responsive">
+                                                        <table class="table table-bordered" id="dataTable" width="100%"
+                                                            cellspacing="0">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Nome</th>
+                                                                    <th>Cargo</th>
+                                                                    <th>Botões</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td>Fulano</td>
+                                                                    <td>Instalador</td>
+                                                                    <td>
+                                                                        <a href="#" class="btn btn-danger btn-circle">
+                                                                            <i class="fas fa-trash"></i>
+                                                                        </a>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <% } %>
+                                            <% }) %>
+                                                <% } %>
 
                             </div>
                     </div>
@@ -80,11 +70,11 @@
             <i class="fas fa-angle-up"></i>
         </a>
         <%- include("../components/modal/logout.ejs") %>
-        <%- include("./components/modal/addTeam.ejs") %>
-            <script src="/vendor/jquery/jquery.min.js"></script>
-            <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-            <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
-            <script src="/js/sb-admin-2.min.js"></script>
+            <%- include("./components/modal/addTeam.ejs") %>
+                <script src="/vendor/jquery/jquery.min.js"></script>
+                <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+                <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+                <script src="/js/sb-admin-2.min.js"></script>
     </body>
 
     </html>

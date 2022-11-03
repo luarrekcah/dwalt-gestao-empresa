@@ -6,12 +6,10 @@ const express = require("express"),
 const { makeId, getDate } = require("../auth/functions/database");
 const { authenticationMiddleware, authenticationMiddlewareTrueFalse } = require("../auth/functions/middlewares")
 
-const db = getDatabase();
-const database = ref(db, "gestaoempresa");
-const teamsDb = ref(db, "gestaoempresa/equipes");
-
 router.get("/", (req, res, next) => {
     if (authenticationMiddlewareTrueFalse(req, res, next)) {
+        const db = getDatabase();
+        const database = ref(db, "gestaoempresa");
         onValue(database, async (snapshot) => {
             let projects, staffs, teams;
             if (snapshot.val().projetos === null || snapshot.val().projetos === undefined) {
@@ -24,11 +22,10 @@ router.get("/", (req, res, next) => {
             } else {
                 staffs = snapshot.val().funcionarios.filter(item => item.email_link === req.user._id);
             }
-
             if (snapshot.val().equipes === null || snapshot.val().equipes === undefined) {
                 teams = [];
             } else {
-                teams = snapshot.val().equipes.filter(item => item.businessOwner === req.user._id);
+                teams = snapshot.val().equipes.filter(item => item.ownerId === req.user._id);
             }
             const data = {
                 user: req.user,
@@ -36,6 +33,7 @@ router.get("/", (req, res, next) => {
                 staffs,
                 teams,
             };
+            console.log(data.teams);
             res.render("pages/staffs", data);
         });
     } else {
@@ -46,9 +44,10 @@ router.get("/", (req, res, next) => {
 
 router.post("/", (req, res, next) => {
     if (!authenticationMiddlewareTrueFalse(req, res, next)) return res.redirect("/");
-    let allTeams;
+    const db = getDatabase();
+    const teamsDb = ref(db, "gestaoempresa/equipes");
     onValue(teamsDb, (snapshot) => {
-        console.log(req.body);
+        let allTeams;
         const { teamName, ownerId } = req.body;
         const team = {
             id: makeId(),
