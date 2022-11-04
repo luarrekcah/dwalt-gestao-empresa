@@ -9,7 +9,8 @@
                             <div class="container-fluid">
                                 <!-- Page Heading -->
                                 <h1 class="h3 mb-2 text-gray-800">Gerenciar Equipe <a href="#" data-toggle="modal"
-                                        data-target="#addTeamModal" class="btn btn-info btn-circle">
+                                        data-target="#addTeamModal" style="height: 25px; width: 25px;"
+                                        class="btn btn-info btn-circle">
                                         <i class="fas fa-plus"></i>
                                     </a></h1>
                                 <p class="mb-4">Altere os dados, adiciona ou remova pessoas.</p>
@@ -20,7 +21,8 @@
                                         <div class="card-body">
                                             <h1 class="h3 mb-2 text-gray-800">Sua empresa ainda não tem equipes
                                                 registradas. Clique <a href="#" data-toggle="modal"
-                                                    data-target="#addTeamModal" class="btn btn-info btn-circle">
+                                                    data-target="#addTeamModal" style="height: 25px; width: 25px;"
+                                                    class="btn btn-info btn-circle">
                                                     <i class="fas fa-plus"></i>
                                                 </a> para registrar
                                             </h1>
@@ -31,10 +33,12 @@
                                             <div class="card shadow mb-4">
                                                 <div class="card-header py-3">
                                                     <h6 class="m-0 font-weight-bold text-primary">
-                                                        <%= i.name %> <a href="#" data-toggle="modal"
-                                                        data-target="#addMemberModal" class="btn btn-primary btn-circle">
-                                                        <i class="fas fa-plus"></i>
-                                                    </a>
+                                                        <%= i.name %> <a onclick="setData(<%= JSON.stringify(i) %>)" href="#" data-toggle="modal"
+                                                                data-target="#addMemberModal"
+                                                                style="height: 25px; width: 25px;"
+                                                                class="btn btn-primary btn-circle">
+                                                                <i class="fas fa-plus"></i>
+                                                            </a>
                                                     </h6>
                                                 </div>
                                                 <div class="card-body">
@@ -43,7 +47,8 @@
                                                             <h1 class="h3 mb-2 text-gray-800">Essa equipe ainda não tem
                                                                 membros. Clique <a href="#" data-toggle="modal"
                                                                     data-target="#addMemberModal"
-                                                                    class="btn btn-primary btn-circle">
+                                                                    class="btn btn-primary btn-circle"
+                                                                    style="height: 25px; width: 25px;">
                                                                     <i class="fas fa-plus"></i>
                                                                 </a> para registrar
                                                             </h1>
@@ -58,16 +63,17 @@
                                                                         </tr>
                                                                     </thead>
                                                                     <tbody>
+                                                                        <% i.members.forEach(member => { %>
                                                                         <tr>
-                                                                            <td>Fulano</td>
-                                                                            <td>Instalador</td>
+                                                                            <td><%= member.nickname %></td>
+                                                                            <td><%= member.role_name %></td>
                                                                             <td>
                                                                                 <form method="post">
                                                                                     <input type="text" name="type"
                                                                                         value="DELETE_MEMBER"
                                                                                         style="display: none;">
                                                                                     <input type="text" name="id"
-                                                                                        value="<%= i.id %>"
+                                                                                        value="<%= member.email %>"
                                                                                         style="display: none;">
                                                                                     <button class="btn btn-danger"
                                                                                         type="submit"><a href="#"
@@ -77,6 +83,7 @@
                                                                                 </form>
                                                                             </td>
                                                                         </tr>
+                                                                        <% }) %> 
                                                                     </tbody>
                                                                 </table>
                                                                 <form method="post">
@@ -106,10 +113,18 @@
         </a>
         <%- include("../components/modal/logout.ejs") %>
             <%- include("./components/modal/addTeam.ejs") %>
-                <script src="/vendor/jquery/jquery.min.js"></script>
-                <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-                <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
-                <script src="/js/sb-admin-2.min.js"></script>
+                <%- include("./components/modal/addMember.ejs") %>
+                    <script>
+                        function setData(data) {
+                            document.getElementById('memberModalLabel').innerText = `Adicionar membro na equipe ${data.name}`;
+                            document.getElementById('teamId').value = data.id;
+                            return window.teamData = data;
+                        }
+                    </script>
+                    <script src="/vendor/jquery/jquery.min.js"></script>
+                    <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+                    <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+                    <script src="/js/sb-admin-2.min.js"></script>
     </body>
 
     </html>

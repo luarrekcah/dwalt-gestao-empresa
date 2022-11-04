@@ -1,0 +1,60 @@
+<div class="modal fade" id="addMemberModal" tabindex="-1" role="dialog" aria-labelledby="memberModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="memberModalLabel"></h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body" style="padding: 40px;">
+                <form method="post">
+                    <div class="mb-3">
+
+                        <p>Dados básicos</p>
+                        <label class="small mb-1" for="email_link">E-mail de cadastro no app EQUIPE</label>
+                        <input name="email_link" class="form-control" id="email_link" type="text"
+                            placeholder="nome@gmail.com" required>
+                        <label class="small mb-1" for="nickname">Apelido</label>
+                        <input name="nickname" class="form-control" id="nickname" type="text" placeholder="João"
+                            required>
+
+                        <label class="small mb-1" for="role_name">Cargo</label>
+                        <input name="role_name" class="form-control" id="role_name" type="text" placeholder="Instalador"
+                            required>
+
+                        <hr />
+
+                        <p>Permissões</p>
+
+                        <div class="form-group form-check">
+                            <input name="ADMIN" type="checkbox" class="form-check-input" id="ADMIN">
+                            <label class="form-check-label" for="ADMIN">Administrador</label>
+                        </div>
+
+                        <div class="form-group form-check">
+                            <input name="GEN_PROJECT_PHOTOS" type="checkbox" class="form-check-input"
+                                id="GEN_PROJECT_PHOTOS">
+                            <label class="form-check-label" for="GEN_PROJECT_PHOTOS">Gerenciar mídias de
+                                projetos</label>
+                        </div>
+
+                        <div class="form-group form-check">
+                            <input name="GEN_SURVEYS" type="checkbox" class="form-check-input" id="GEN_SURVEYS">
+                            <label class="form-check-label" for="GEN_SURVEYS">Gerenciar chamados</label>
+                        </div>
+
+                        <input style="display: none;" name="teamId" class="form-control" id="teamId" type="text"
+                            required>
+                        <input type="text" name="type" value="CREATE_MEMBER" style="display: none;">
+                    </div>
+                    <button class="btn btn-primary" style="width: 100%;" type="submit">Adicionar Membro</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>

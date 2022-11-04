@@ -68,7 +68,40 @@ router.post("/", (req, res, next) => {
                 };
                 allTeams.push(team)
                 set(ref(db, "gestaoempresa/equipes"), allTeams);
-                return res.redirect("/dashboard/gerenciar/equipe");
+                //return res.redirect("/dashboard/gerenciar/equipe");
+                break;
+
+            case "CREATE_MEMBER":
+                //CREATE
+                const { email_link, nickname, role_name, teamId } = req.body;
+                allTeamss = snapshot.val();
+
+                let roles = [];
+
+                if (req.body.ADMIN)
+                    roles.push("ADMIN");
+                if (req.body.GEN_PROJECT_PHOTOS)
+                    roles.push("GEN_PROJECT_PHOTOS");
+                if (req.body.GEN_SURVEYS)
+                    roles.push("GEN_SURVEYS");
+
+                const member = {
+                    email: email_link,
+                    nickname,
+                    role_name,
+                    roles,
+                };
+
+                const newTeamss = allTeamss.map(item => {
+                    if (item.id === teamId) {
+                        item.members = item.members === undefined ? [member] : item.members.push(member);
+                        return item;
+                    }
+                    return item;
+                })
+
+                set(ref(db, "gestaoempresa/equipes"), newTeamss);
+                //return res.redirect("/dashboard/gerenciar/equipe");
                 break;
 
             case "DELETE_TEAM":
@@ -76,13 +109,15 @@ router.post("/", (req, res, next) => {
                 const teams = snapshot.val()
                 const newTeams = teams.filter(team => team.id !== id)
                 set(ref(db, "gestaoempresa/equipes"), newTeams);
-                return res.redirect("/dashboard/gerenciar/equipe");
+                //return res.redirect("/dashboard/gerenciar/equipe");
                 break;
 
             case "DELETE_MEMBER":
                 //DELETE
                 break;
         }
+
+        return res.redirect("/dashboard/gerenciar/equipe");
 
     }, {
         onlyOnce: true
