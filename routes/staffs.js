@@ -41,17 +41,13 @@ router.get("/", (req, res, next) => {
     }
 });
 
-
 router.post("/", (req, res, next) => {
     if (!authenticationMiddlewareTrueFalse(req, res, next)) return res.redirect("/");
     const db = getDatabase();
-    const teamsDb = ref(db, "gestaoempresa/equipes");
-    onValue(teamsDb, (snapshot) => {
+    onValue(database, (snapshot) => {
         const { type } = req.body;
-
         switch (type) {
             case "CREATE_TEAM":
-
                 let allTeams;
                 const { teamName, ownerId } = req.body;
                 const team = {
@@ -61,64 +57,57 @@ router.post("/", (req, res, next) => {
                     membersId: [],
                     createdAt: getDate(moment)
                 }
-                if (snapshot.val() === null) {
+                if (snapshot.val().equipes === null) {
                     allTeams = [];
                 } else {
-                    allTeams = snapshot.val();
+                    allTeams = snapshot.val().equipes;
                 };
                 allTeams.push(team)
                 set(ref(db, "gestaoempresa/equipes"), allTeams);
                 //return res.redirect("/dashboard/gerenciar/equipe");
                 break;
-
             case "CREATE_MEMBER":
                 //CREATE
                 const { email_link, nickname, role_name, teamId } = req.body;
-                allTeamss = snapshot.val();
-
+                const allTeamss = snapshot.val().equipes;
                 let roles = [];
-
                 if (req.body.ADMIN)
                     roles.push("ADMIN");
                 if (req.body.GEN_PROJECT_PHOTOS)
                     roles.push("GEN_PROJECT_PHOTOS");
                 if (req.body.GEN_SURVEYS)
                     roles.push("GEN_SURVEYS");
-
                 const member = {
                     email: email_link,
                     nickname,
                     role_name,
                     roles,
                 };
-
+                console.log(member);
                 const newTeamss = allTeamss.map(item => {
                     if (item.id === teamId) {
-                        item.members = item.members === undefined ? [member] : item.members.push(member);
+                        const members = item.members === undefined ? [] : item.members;
+                        members.push(member);
+                        item.members = members;
                         return item;
                     }
                     return item;
                 })
-
                 set(ref(db, "gestaoempresa/equipes"), newTeamss);
                 //return res.redirect("/dashboard/gerenciar/equipe");
                 break;
-
             case "DELETE_TEAM":
                 const { id } = req.body;
-                const teams = snapshot.val()
+                const teams = snapshot.val().equipes
                 const newTeams = teams.filter(team => team.id !== id)
                 set(ref(db, "gestaoempresa/equipes"), newTeams);
                 //return res.redirect("/dashboard/gerenciar/equipe");
                 break;
-
             case "DELETE_MEMBER":
                 //DELETE
                 break;
         }
-
-        return res.redirect("/dashboard/gerenciar/equipe");
-
+        return res.redirect(200, "/dashboard/gerenciar/equipe");
     }, {
         onlyOnce: true
     });
