@@ -13,11 +13,17 @@
                                             <div class="card-header">Logo da empresa</div>
                                             <div class="card-body text-center">
                                                 <!-- Profile picture image-->
-                                                <img class="img-account-profile rounded-circle mb-2" width="200" src="<%=user.data.info.profile.logo%>" id="preview" alt="">
-                                                <!-- Profile picture help block-->
-                                                <div class="small font-italic text-muted mb-4">JPG ou PNG não maior que 5mb</div>
-                                                <!-- Profile picture upload button-->
-                                                <input type="file" name="logo">
+                                                <img src="<%=user.data.info.profile.logo%>" id="logoPreview" width="200" height="200" class="rounded mx-auto d-block"
+                                                    alt="Prévia da logo">
+                                                <div class="custom-file">
+                                                    
+                
+                                                    <input type="file" onchange="previewFile()" class="custom-file-input" id="logoInput"
+                                                        required accept="image/png, image/jpg">
+                                                    <label class="custom-file-label" id="labelEnd" for="logoPreview"
+                                                        data-browse="Procurar arquivo">Logotipo da empresa em PNG, recomendado 400x400, não maior que 5mb</label>
+                                          
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -42,7 +48,7 @@
                                                         <!-- Form Group (last name)-->
                                                         <div class="col-md-6">
                                                             <label class="small mb-1" for="inputLastName">Nome Completo do dono</label>
-                                                            <input class="form-control" id="inputLastName" type="text" placeholder="Nome completo">
+                                                            <input class="form-control" id="inputLastName" name="ownerName" type="text" placeholder="Nome completo" value="<%=user.data.info.profile.ownerName%>">
                                                         </div>
                                                     </div>
                                                     <!-- Form Row        -->
@@ -50,11 +56,11 @@
                                                         <!-- Form Group (location)-->
                                                         <div class="col-md-6">
                                                             <label class="small mb-1" for="inputLocation">Localização da sede</label>
-                                                            <input class="form-control" id="inputLocation" type="text" placeholder="Cidade, estado">
+                                                            <input class="form-control" id="inputLocation" name="mainLocation" type="text" placeholder="Cidade, estado" value="<%=user.data.info.profile.mainLocation%>">
                                                         </div>
                                                         <div class="col-md-6">
                                                             <label class="small mb-1" for="inputPhone">Celular</label>
-                                                            <input class="form-control" id="inputPhone" type="tel" placeholder="Número de contato" value="(XX) X.XXXX-XXXX">
+                                                            <input class="form-control" id="inputPhone" name="phone" type="tel" placeholder="Número de contato" value="<%=user.data.info.profile.phone%>">
                                                         </div>
                                                     </div>
                                                     <!-- Form Group (email address)-->
@@ -62,6 +68,8 @@
                                                         <label class="small mb-1" for="inputEmailAddress">E-mail</label>
                                                         <input class="form-control" id="inputEmailAddress" type="email" placeholder="Enter your email address" value="<%=user.data.info.email%>" disabled>
                                                     </div>
+                                                    <input type="text" name="logoSrc" class="form-control" id="compbase64" value="<%=user.data.info.profile.logo%>"
+                                        style="display: none;">
                                                     <!-- Save changes button-->
                                                     <button class="btn btn-primary" type="submit">Salvar mudanças</button>
                                                 </form>
@@ -78,6 +86,29 @@
             <i class="fas fa-angle-up"></i>
         </a>
         <%- include("../components/modal/logout.ejs") %>
+        <script>
+            function previewFile(type) {
+                const preview = document.getElementById("logoPreview"),
+                    file = document.getElementById("logoInput").files[0];
+    
+                const reader = new FileReader();
+    
+                if (file.size > 5e+7) {
+                    alert("O arquivo é muito grande, selecione outro!");
+                    document.getElementById("logoInput").value = ''
+                    return;
+                }
+    
+                reader.addEventListener("load", () => {
+                    preview.src = reader.result;
+                    document.getElementById("labelEnd").innerText = document.getElementById("logoPreview").value
+                    document.getElementById("compbase64").value = reader.result
+                }, false);
+                if (file) {
+                    reader.readAsDataURL(file);
+                }
+            }
+        </script>
             <script src="/vendor/jquery/jquery.min.js"></script>
             <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
             <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
