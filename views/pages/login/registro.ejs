@@ -55,11 +55,15 @@
                                 <div class="form-group row">
                                     <div class="col-sm-6 mb-3 mb-sm-0">
                                         <input type="password" class="form-control form-control-user" name="password"
-                                            placeholder="Senha" required>
+                                            placeholder="Senha" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                                            title="Deve conter pelo menos um número e uma letra maiúscula e minúscula e pelo menos 8 ou mais carácteres!"
+                                            required>
                                     </div>
                                     <div class="col-sm-6">
                                         <input type="password" class="form-control form-control-user"
                                             name="passwordConf" id="exampleRepeatPassword" placeholder="Repita a senha"
+                                            pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                                            title="Deve conter pelo menos um número e uma letra maiúscula e minúscula e pelo menos 8 ou mais carácteres!"
                                             required>
                                     </div>
                                 </div>
@@ -75,7 +79,8 @@
                                     <input type="file" onchange="previewFile()" class="custom-file-input" id="logo"
                                         required accept="image/png, image/jpg">
                                     <label class="custom-file-label" id="labelEnd" for="logo"
-                                        data-browse="Procurar arquivo">Logotipo da empresa em PNG, recomendado 400x400</label>
+                                        data-browse="Procurar arquivo">Logotipo da empresa em PNG, recomendado
+                                        400x400</label>
                                     <input type="text" name="logo" class="form-control" id="compbase64"
                                         style="display: none;">
                                 </div>

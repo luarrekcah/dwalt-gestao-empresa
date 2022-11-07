@@ -37,7 +37,10 @@
                                         </div>
                                         <div class="form-group">
                                             <input type="password" class="form-control form-control-user"
-                                                name="password" placeholder="Password" required>
+                                                name="password" placeholder="Password"
+                                                pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                                                title="Deve conter pelo menos um número e uma letra maiúscula e minúscula e pelo menos 8 ou mais carácteres!"
+                                                required>
                                         </div>
                                         <button type="submit" class="btn btn-primary btn-user btn-block">
                                             Entrar
