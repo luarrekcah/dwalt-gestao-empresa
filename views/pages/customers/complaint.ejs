@@ -10,8 +10,8 @@
                                 <h1 class="h3 mb-2 text-gray-800">Reclamações de cliente</h1>
                                 <p class="mb-4">Aqui você pode responder a reclamações de seus clientes e optar também por outros meios de contato</p>
                                
-                                <%- complaint.length === 0 ? '<b>Sem reclamações</b>' : '' %>
-                                <% complaint.forEach(i => { %>
+                                <%- complaints.length === 0 ? '<b>Sem reclamações</b>' : '' %>
+                                <% complaints.forEach(i => { %>
                                 <div class="card border-left-danger shadow h-100 py-2">
                                     <div class="card-body">
                                         <div class="row no-gutters align-items-center">
