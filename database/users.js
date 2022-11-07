@@ -7,7 +7,7 @@ module.exports = {
         const db = getDatabase();
         if (!path) return { error: 'Sem path' }
         push(ref(db, path), params).then(
-            console.log("[GRAVAÇÃO].")
+            console.log("[LOG] Gravação no banco de dados")
         ).catch((error) => {
             console.warn(error);
         });
@@ -18,7 +18,7 @@ module.exports = {
         update(ref(db, path),
             params
         ).then(
-            console.log("[ATUALIZAÇÃO].")
+            console.log("[LOG] Atualização no banco de dados")
         ).catch((error) => {
             console.log(error);
         });
@@ -28,7 +28,7 @@ module.exports = {
         if (!path) return { error: 'Sem path' }
         remove(ref(db, path))
             .then(
-                console.log("[REMOÇÃO].")
+                console.log("[LOG] Remoção no banco de dados")
             ).catch((error) => {
                 console.log(error);
             });

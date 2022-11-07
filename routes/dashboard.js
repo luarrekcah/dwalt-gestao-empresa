@@ -32,7 +32,6 @@ router.get("/chamados", async (req, res, next) => {
 });
 
 router.post("/chamados", (req, res, next) => {
-    console.log(req.query);
     switch (req.query.type) {
         case 'concludeCall':
             updateItem({

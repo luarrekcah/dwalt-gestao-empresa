@@ -15,7 +15,7 @@ module.exports = async (passport) => {
         users.push({ key, data })
     });
 
-    console.log(`Usuários atualizados em tempo real: ${users.length}`);
+    console.log(`[LOG] Usuários atualizados em tempo real: ${users.length}`);
 
     const findUser = (email) => {
       return users.find((item) => item.data.info.email === email);
@@ -46,7 +46,6 @@ module.exports = async (passport) => {
           if (users === null) return done(null, false);
           try {
             const user = findUser(email);
-            console.log("\n\nUsuario:\n\n", user);
             if (!user) return done(null, false);
             const isValid = bcrypt.compareSync(password, user.data.info.password);
             if (!isValid) return done(null, false);

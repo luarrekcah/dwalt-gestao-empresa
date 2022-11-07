@@ -34,7 +34,7 @@ app.use(passport.session());
 require("./routes")(app);
 
 const listener = app.listen(process.env.PORT || 3000, function () {
-  console.log(`Porta: ${listener.address().port}`);
+  console.log(`[CONNECTION INFO] Porta: ${listener.address().port}`);
 });
 
 module.exports = app;

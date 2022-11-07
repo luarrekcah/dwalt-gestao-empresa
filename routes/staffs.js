@@ -10,6 +10,7 @@ router.get("/", async (req, res, next) => {
         const projects = await getAllItems({ path: `gestaoempresa/business/${req.user.key}/projects` }),
             staffs = await getAllItems({ path: `gestaoempresa/business/${req.user.key}/staffs` }),
             teams = await getAllItems({ path: `gestaoempresa/business/${req.user.key}/teams` })
+            console.log(staffs);
         const data = {
             user: req.user,
             projects,

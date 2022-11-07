@@ -10,7 +10,6 @@ passport.use(
       callbackURL: "https://www.dlwalt.com/usuario/google/callback",
     },
     (accessToken, refreshToken, profile, done) => {
-      console.log(profile);
       const db = getDatabase();
       const users = ref(db, "gestaoempresa/empresa");
       onValue(users, (snapshot) => {
@@ -67,7 +66,6 @@ passport.use(
           allUsers.push(user);
 
           set(ref(db, "gestaoempresa/empresa"), allUsers).then(() => {
-            console.log("Registro atualizado");
             try {
               return done(null, user);
             } catch (err) {
