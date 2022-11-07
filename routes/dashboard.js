@@ -10,6 +10,7 @@ router.get("/", async (req, res, next) => {
         surveys = await getAllItems({ path: `gestaoempresa/business/${req.user.key}/surveys` }),
         complaints = await getAllItems({ path: `gestaoempresa/business/${req.user.key}/complaints` }),
         staffs = await getAllItems({ path: `gestaoempresa/business/${req.user.key}/staffs` })
+        console.log("STAFFS:\n\n", staffs);
     const data = {
         user: req.user,
         projects,
