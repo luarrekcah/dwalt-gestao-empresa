@@ -9,11 +9,6 @@ const express = require("express"),
     { authenticationMiddlewareTrueFalse } = require("../auth/functions/middlewares"),
     { createItem, getAllItems } = require("../database/users");
 
-router.get("/sitemap.xml", (req, res, next) => {
-    res.set("Content-Type", "text/xml");
-    res.send(xml);
-});
-
 router.get("/", (req, res, next) => {
     if (authenticationMiddlewareTrueFalse(req, res, next)) {
         res.redirect("/dashboard");
