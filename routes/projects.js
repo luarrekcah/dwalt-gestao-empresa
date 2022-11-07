@@ -1,34 +1,18 @@
 const express = require("express"),
     router = express.Router(),
-    { set, getDatabase, ref, onValue } = require("@firebase/database"),
-    moment = require('moment');
+    moment = require('../services/moment'),
+ { authenticationMiddlewareTrueFalse } = require("../auth/functions/middlewares"),
+ { getDate } = require("../auth/functions/database"),
+ { createItem, getAllItems, getItems } = require("../database/users");
 
-moment.locale('pt-br');
-
-const { authenticationMiddleware, authenticationMiddlewareTrueFalse } = require("../auth/functions/middlewares")
-
-const { makeId, getDate } = require("../auth/functions/database");
-
-const db = getDatabase();
-const projectsdb = ref(db, "gestaoempresa/projetos");
-
-router.get("/", (req, res, next) => {
+router.get("/", async (req, res, next) => {
     if (authenticationMiddlewareTrueFalse(req, res, next)) {
-        onValue(projectsdb, async (snapshot) => {
-            let projects;
-            if (snapshot.val() === null || snapshot.val() === undefined) {
-                projects = [];
-            } else {
-                projects = snapshot.val().filter(item => item.business === req.user._id);
-            }
-            const data = {
-                user: req.user,
-                projects,
-            };
-            res.render("pages/projects", data);
-        }, {
-            onlyOnce: true
-        });
+        const projects = await getAllItems({path: `gestaoempresa/business/${req.user.key}/projects`});
+        const data = {
+            user: req.user,
+            projects,
+        };
+        res.render("pages/projects", data);
     } else {
         res.redirect("/");
     }
@@ -44,45 +28,20 @@ router.get("/adicionar", (req, res, next) => {
 
 router.post("/adicionar", (req, res, next) => {
     if (!authenticationMiddlewareTrueFalse(req, res, next)) return res.redirect("/");
-    let allProjects;
-    onValue(projectsdb, (snapshot) => {
-        if (snapshot.val() === null) {
-            allProjects = [];
-        } else {
-            allProjects = snapshot.val();
-        };
-        console.log(req.body)
-        const project = req.body;
-        project._id = makeId();
-        project.createdAt = getDate(moment);
-        
-        allProjects.push(project)
-        set(ref(db, "gestaoempresa/projetos"), allProjects);
-
-        return res.redirect("/dashboard/projetos?message=registered");
-    }, {
-        onlyOnce: true
-    });
+    const project = req.body;
+    project.createdAt = getDate(moment);
+    createItem({path: `gestaoempresa/business/${req.user.key}/projects`, params: project});
+    return res.redirect("/dashboard/projetos?message=registered");
 });
 
-router.get("/visualizar/:id", (req, res, next) => {
+router.get("/visualizar/:id", async (req, res, next) => {
     if (!authenticationMiddlewareTrueFalse(req, res, next)) return res.redirect("/");
-    let allProjects;
-    onValue(projectsdb, (snapshot) => {
-        if (snapshot.val() === null) {
-            allProjects = [];
-        } else {
-            allProjects = snapshot.val();
-        };
-
-        const project = allProjects.find(item => item._id === req.params.id);
-
-        const data = {
-            user: req.user,
-            project,
-        };
-        res.render("pages/projects/see", data);
-    });
+    const project = await getItems({path: `gestaoempresa/business/${req.user.key}/projects/${req.params.id}`});
+    const data = {
+        user: req.user,
+        project,
+    };
+    res.render("pages/projects/see", data);
 });
 
 module.exports = router;

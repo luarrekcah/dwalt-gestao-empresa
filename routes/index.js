@@ -1,19 +1,15 @@
 const express = require("express"),
     router = express.Router(),
-    { set, getDatabase, ref, onValue } = require("@firebase/database"),
     fs = require("fs"),
     xml = fs.readFileSync(__dirname + '/../public/sitemap.xml'),
     bcrypt = require("bcryptjs"),
     passport = require("passport"),
-    moment = require('moment');
+    moment = require('moment'),
+    { getDate } = require("../auth/functions/database"),
+    { authenticationMiddlewareTrueFalse } = require("../auth/functions/middlewares"),
+    { createItem, getAllItems } = require("../database/users");
 
-const { getDate } = require("../auth/functions/database");
-const { authenticationMiddleware, authenticationMiddlewareTrueFalse } = require("../auth/functions/middlewares")
-
-const db = getDatabase();
-const companies = ref(db, "gestaoempresa/empresa");
-
-router.get("/sitemap.xml", function (req, res, next) {
+router.get("/sitemap.xml", (req, res, next) => {
     res.set("Content-Type", "text/xml");
     res.send(xml);
 });
@@ -38,21 +34,13 @@ router.get("/registro", (req, res) => {
     res.render("pages/login/registro.ejs");
 });
 
-router.post("/registro", (req, res) => {
+router.post("/registro", async (req, res) => {
     const data = req.body;
-    console.log(data);
     if (data.password !== data.passwordConf) return res.redirect('?message=passwordsdontmatch');
     if (data['g-recaptcha-response'] === '') return res.redirect('?message=errorrecaptcha');
-   
-    onValue(companies, (snapshot) => {
-        let allUsers;
-        if (snapshot.val() === null) {
-            allUsers = [];
-        } else {
-            allUsers = snapshot.val();
-        };
-        const user = {
-            _id: data.email,
+    const allUsers = await getAllItems({ path: 'gestaoempresa/business' })
+    const user = {
+        info: {
             email: data.email,
             password: bcrypt.hashSync(data.password),
             verified: false,
@@ -69,22 +57,15 @@ router.post("/registro", (req, res) => {
             },
             contractURL: "",
             createdAt: getDate(moment),
-        };
-
-        const checkUnique = () => {
-            return allUsers.find((item) => item.email === user.email);
-        };
-
-        if (checkUnique())
-            return res.redirect('/?fail=true&message=userexists');
-
-        allUsers.push(user);
-        set(ref(db, "gestaoempresa/empresa"), allUsers);
-
-        return res.redirect("/?message=registered");
-    }, {
-        onlyOnce: true
-      });
+        }
+    };
+    const checkUnique = () => {
+        return allUsers.find((item) => item.data.info.email === user.email);
+    };
+    if (checkUnique())
+        return res.redirect('/?fail=true&message=userexists');
+    createItem({ path: 'gestaoempresa/business', params: user })
+    return res.redirect("/?message=registered");
 });
 
 router.get("/logout", (req, res, next) => {

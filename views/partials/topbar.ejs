@@ -6,7 +6,7 @@
     </button>
 
     <div class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-        <img width="50" src="<%=user.profile.logo%>">
+        <img width="50" src="<%=user.data.info.profile.logo%>">
     </div>
 
     <!-- Topbar Navbar -->
@@ -17,9 +17,9 @@
             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
                 aria-haspopup="true" aria-expanded="false">
                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">
-                    <%= user.documents.nome_fantasia %>
+                    <%= user.data.info.documents.nome_fantasia %>
                 </span>
-                <img class="img-profile rounded-circle" src="<%=user.profile.logo%>">
+                <img class="img-profile rounded-circle" src="<%=user.data.info.profile.logo%>">
             </a>
             <!-- Dropdown - User Information -->
 

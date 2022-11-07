@@ -25,7 +25,7 @@
                                                             class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                                             Projetos Registrados</div>
                                                         <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                                            <%=projects.filter(i=> i.business === user._id).length%>
+                                                            <%=projects.length%>
                                                         </div>
                                                     </div>
                                                     <div class="col-auto">
@@ -46,7 +46,7 @@
                                                             class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                                             Clientes Registrados</div>
                                                         <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                                            <%=users.filter(i=> i.email_link === user._id).length%>
+                                                            <%=users.length%>
                                                         </div>
                                                     </div>
                                                     <div class="col-auto">
@@ -66,7 +66,7 @@
                                                             class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                                             Funcionários Registrados</div>
                                                         <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                                            <%=staffs.filter(i=> i.email_link === user._id).length%>
+                                                            <%=staffs.length%>
                                                         </div>
                                                     </div>
                                                     <div class="col-auto">
@@ -87,8 +87,7 @@
                                                             class="text-xs font-weight-bold text-danger text-uppercase mb-1">
                                                             Chamados pendentes</div>
                                                         <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                                            <%=survey.filter(i=> !i.finished && i.ids.businessId ===
-                                                                user._id).length%>
+                                                            <%=surveys.length%>
                                                         </div>
                                                     </div>
                                                     <div class="col-auto">
@@ -108,8 +107,7 @@
                                                             class="text-xs font-weight-bold text-danger text-uppercase mb-1">
                                                             Vistorias em execução</div>
                                                         <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                                            <%=survey.filter(i=> !i.finished && i.accepted &&
-                                                                i.ids.businessId === user._id).length%>
+                                                            <%=surveys.length%>
                                                         </div>
                                                     </div>
                                                     <div class="col-auto">
@@ -129,7 +127,7 @@
                                                             class="text-xs font-weight-bold text-danger text-uppercase mb-1">
                                                             Reclamações</div>
                                                         <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                                            <%=complaint.length%>
+                                                            <%=complaints.length%>
                                                         </div>
                                                     </div>
                                                     <div class="col-auto">

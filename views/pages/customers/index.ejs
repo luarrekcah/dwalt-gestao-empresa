@@ -29,18 +29,18 @@
                                                 <tbody>
                                                     <% customers.forEach(item=> { %>
                                                         <tr>
-                                                            <td><img src="<%=item.foto%>" alt="foto de <%=item.nome%>"
+                                                            <td><img src="<%=item.data.foto%>" alt="foto de <%=item.data.nome%>"
                                                                     width="50" height="50"></td>
                                                             <td>
-                                                                <%=item.nome%>
-                                                                    <%=item.sobrenome%>
+                                                                <%=item.data.nome%>
+                                                                    <%=item.data.sobrenome%>
                                                             </td>
                                                             <td>
-                                                                <%=item.email%>
+                                                                <%=item.data.email%>
                                                             </td>
                                                             <td>
 
-                                                                <a href="#" onclick="onDelete('<%=item._id%>')"
+                                                                <a href="#" onclick="onDelete('<%=item.key%>')"
                                                                     class="btn btn-danger btn-circle">
                                                                     <i class="fas fa-trash"></i>
                                                                 </a>

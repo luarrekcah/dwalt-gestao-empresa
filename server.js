@@ -7,9 +7,9 @@ const createError = require("http-errors"),
   session = require("express-session");
 const app = express();
 
-require("./auth/local")(passport);
-
 require('./database.js');
+
+require("./auth/local")(passport);
 
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");

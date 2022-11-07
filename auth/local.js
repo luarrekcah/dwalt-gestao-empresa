@@ -1,28 +1,32 @@
 const bcrypt = require("bcryptjs"),
   localStrategy = require("passport-local").Strategy;
-
 const { getDatabase, ref, onValue } = require("@firebase/database");
 
-require("../database");
-
-module.exports = (passport) => {
+module.exports = async (passport) => {
   const db = getDatabase();
-  const users = ref(db, "gestaoempresa/empresa");
-  onValue(users, (snapshot) => {
-    const users = snapshot.val();
 
-    if(users === null) return require("../auth/local");
+  const usersRef = ref(db, 'gestaoempresa/business');
+  onValue(usersRef, (snapshot) => {
+
+    let users = [];
+    snapshot.forEach(childSnapshot => {
+        let key = childSnapshot.key,
+            data = childSnapshot.val();
+        users.push({ key, data })
+    });
+
+    console.log(`Usuários atualizados em tempo real: ${users.length}`);
 
     const findUser = (email) => {
-      return users.find((item) => item.email === email);
+      return users.find((item) => item.data.info.email === email);
     };
 
     const findUserById = (id) => {
-      return users.find((item) => item._id === id);
+      return users.find((item) => item.key === id);
     };
 
     passport.serializeUser((user, done) => {
-      done(null, user._id);
+      done(null, user.key);
     });
 
     passport.deserializeUser((id, done) => {
@@ -34,7 +38,7 @@ module.exports = (passport) => {
         return done(err, null);
       }
     });
-    
+
     passport.use(
       new localStrategy(
         { usernameField: "email", passwordField: "password" },
@@ -42,8 +46,9 @@ module.exports = (passport) => {
           if (users === null) return done(null, false);
           try {
             const user = findUser(email);
+            console.log("\n\nUsuario:\n\n", user);
             if (!user) return done(null, false);
-            const isValid = bcrypt.compareSync(password, user.password);
+            const isValid = bcrypt.compareSync(password, user.data.info.password);
             if (!isValid) return done(null, false);
             return done(null, user);
           } catch (err) {

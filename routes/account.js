@@ -1,7 +1,7 @@
 const express = require("express"),
     router = express.Router();
     
-const { authenticationMiddleware, authenticationMiddlewareTrueFalse } = require("../auth/functions/middlewares")
+const { authenticationMiddlewareTrueFalse } = require("../auth/functions/middlewares")
 
 router.get("/", (req, res, next) => {
     const data = {
