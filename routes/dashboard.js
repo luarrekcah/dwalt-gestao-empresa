@@ -1,7 +1,7 @@
 const express = require("express"),
     router = express.Router(),
     { authenticationMiddlewareTrueFalse } = require("../auth/functions/middlewares"),
-    { getAllItems, updateItem } = require("../database/users");
+    { getAllItems, updateItem, getUser } = require("../database/users");
 
 router.get("/", async (req, res, next) => {
     if (!authenticationMiddlewareTrueFalse(req, res, next)) return res.redirect("/");
@@ -9,10 +9,10 @@ router.get("/", async (req, res, next) => {
         users = await getAllItems({ path: `gestaoempresa/business/${req.user.key}/users` }),
         surveys = await getAllItems({ path: `gestaoempresa/business/${req.user.key}/surveys` }),
         complaints = await getAllItems({ path: `gestaoempresa/business/${req.user.key}/complaints` }),
-        staffs = await getAllItems({ path: `gestaoempresa/business/${req.user.key}/staffs` })
-        console.log("STAFFS:\n\n", staffs);
+        staffs = await getAllItems({ path: `gestaoempresa/business/${req.user.key}/staffs` }),
+        user = await getUser({userId: req.user.key})
     const data = {
-        user: req.user,
+        user,
         projects,
         users,
         surveys,
@@ -25,8 +25,9 @@ router.get("/", async (req, res, next) => {
 router.get("/chamados", async (req, res, next) => {
     if (!authenticationMiddlewareTrueFalse(req, res, next)) return res.redirect("/");
     const surveys = await getAllItems({ path: `gestaoempresa/business/${req.user.key}/surveys` })
+    const user = await getUser({userId: req.user.key})
     const data = {
-        user: req.user,
+        user,
         surveys,
     };
     res.render("pages/staffs/calls", data);
@@ -55,10 +56,11 @@ router.post("/chamados", (req, res, next) => {
     }
 });
 
-router.get("/localizar/equipe", (req, res, next) => {
+router.get("/localizar/equipe", async(req, res, next) => {
     if (!authenticationMiddlewareTrueFalse(req, res, next)) return res.redirect("/");
+    const user = await getUser({userId: req.user.key})
     const data = {
-        user: req.user,
+        user
     };
     res.render("pages/staffs/track", data);
 });
@@ -66,8 +68,9 @@ router.get("/localizar/equipe", (req, res, next) => {
 router.get("/reclamacoes", async (req, res, next) => {
     if (!authenticationMiddlewareTrueFalse(req, res, next)) return res.redirect("/");
     const complaints = await getAllItems({path: `gestaoempresa/business/${req.user.key}/complaints/`});
+    const user = await getUser({userId: req.user.key})
     const data = {
-        user: req.user,
+        user,
         complaints,
     };
     res.render("pages/customers/complaint", data);

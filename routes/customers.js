@@ -1,13 +1,14 @@
 const express = require("express"),
     router = express.Router(),
     { authenticationMiddlewareTrueFalse } = require("../auth/functions/middlewares"),
-    { deleteItem, getAllItems } = require("../database/users");
+    { deleteItem, getAllItems, getUser } = require("../database/users");
 
 router.get("/", async (req, res, next) => {
     if (authenticationMiddlewareTrueFalse(req, res, next)) {
         const customers = await getAllItems({ path: `gestaoempresa/business/${req.user.key}/customers` })
+        const user = await getUser({userId: req.user.key})
         const data = {
-            user: req.user,
+            user,
             customers,
         };
         res.render("pages/customers", data);

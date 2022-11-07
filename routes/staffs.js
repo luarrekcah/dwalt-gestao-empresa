@@ -3,15 +3,16 @@ const express = require("express"),
     moment = require("moment"),
     { getDate } = require("../auth/functions/database"),
     { authenticationMiddlewareTrueFalse } = require("../auth/functions/middlewares"),
-    { createItem, deleteItem, getAllItems } = require('../database/users');
+    { createItem, deleteItem, getAllItems, getUser } = require('../database/users');
 
 router.get("/", async (req, res, next) => {
     if (authenticationMiddlewareTrueFalse(req, res, next)) {
+        const user = await getUser({userId: req.user.key});
         const projects = await getAllItems({ path: `gestaoempresa/business/${req.user.key}/projects` });
         const staffs = await getAllItems({ path: `gestaoempresa/business/${req.user.key}/staffs` });
         const teams = await getAllItems({ path: `gestaoempresa/business/${req.user.key}/teams` });
         const data = {
-            user: req.user,
+            user,
             projects,
             staffs,
             teams,

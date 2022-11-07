@@ -51,4 +51,11 @@ module.exports = {
         const snapshot = await get(ref(db, path))
         return snapshot.val();
     },
+    getUser: async ({userId}) => {
+        const db = getDatabase();
+        if (!userId) return { error: 'Sem id' }
+        const snapshot = await get(ref(db, `gestaoempresa/business/${userId}/info`))
+        const data = snapshot.val()
+        return {key: userId, data}
+    }
 }
