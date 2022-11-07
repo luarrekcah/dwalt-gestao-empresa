@@ -44,7 +44,8 @@
                                                         <th>Cliente</th>
                                                         <th>Potência (kwp)</th>
                                                         <th>Status</th>
-                                                        <th>Botões</th>
+                                                        <th>Ver/Editar</th>
+                                                        <th>Deletar</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -61,6 +62,15 @@
                                                                     <a href="projetos/editar/<%= item.key %>" class="btn btn-primary btn-circle">
                                                                         <i class="fas fa-edit"></i>
                                                                     </a>
+                                                                </td>
+                                                                <td>
+                                                                    <form method="post">
+                                                                        <input type="text" name="type" value="DELETE_PROJECT" style="display: none;">
+                                                                        <input type="text" name="projectId" value="<%= item.key %>" style="display: none;">
+                                                                        <button type="submit" class="btn btn-danger btn-circle">
+                                                                            <i class="fas fa-trash"></i>
+                                                                        </button>
+                                                                    </form>
                                                                 </td>
                                                             </tr>
                                                         <% }); %> 

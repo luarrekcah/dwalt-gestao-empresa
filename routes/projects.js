@@ -1,14 +1,14 @@
 const express = require("express"),
     router = express.Router(),
     moment = require('../services/moment'),
- { authenticationMiddlewareTrueFalse } = require("../auth/functions/middlewares"),
- { getDate } = require("../auth/functions/database"),
- { createItem, getAllItems, getItems, getUser, deleteItem } = require("../database/users");
+    { authenticationMiddlewareTrueFalse } = require("../auth/functions/middlewares"),
+    { getDate } = require("../auth/functions/database"),
+    { createItem, getAllItems, getItems, getUser, deleteItem } = require("../database/users");
 
 router.get("/", async (req, res, next) => {
     if (authenticationMiddlewareTrueFalse(req, res, next)) {
-        const projects = await getAllItems({path: `gestaoempresa/business/${req.user.key}/projects`});
-        const user = await getUser({userId: req.user.key});
+        const projects = await getAllItems({ path: `gestaoempresa/business/${req.user.key}/projects` });
+        const user = await getUser({ userId: req.user.key });
         const data = {
             user,
             projects,
@@ -19,9 +19,19 @@ router.get("/", async (req, res, next) => {
     }
 });
 
-router.get("/adicionar", async(req, res, next) => {
+router.post("/", async (req, res, next) => {
+    console.log(req.body);
+    switch (req.body.type) {
+        case "DELETE_PROJECT":
+            deleteItem({ path: `gestaoempresa/business/${req.user.key}/projects/${req.body.projectId}` })
+            break;
+    }
+    return res.redirect("/dashboard/projetos?message=deleted");
+});
+
+router.get("/adicionar", async (req, res, next) => {
     if (!authenticationMiddlewareTrueFalse(req, res, next)) return res.redirect("/");
-    const user = await getUser({userId: req.user.key})
+    const user = await getUser({ userId: req.user.key })
     const data = {
         user,
     };
@@ -32,15 +42,15 @@ router.post("/adicionar", (req, res, next) => {
     if (!authenticationMiddlewareTrueFalse(req, res, next)) return res.redirect("/");
     const project = req.body;
     project.createdAt = getDate(moment);
-    createItem({path: `gestaoempresa/business/${req.user.key}/projects`, params: project});
+    createItem({ path: `gestaoempresa/business/${req.user.key}/projects`, params: project });
     return res.redirect("/dashboard/projetos?message=registered");
 });
 
 router.get("/visualizar/:id", async (req, res, next) => {
     if (!authenticationMiddlewareTrueFalse(req, res, next)) return res.redirect("/");
-    const user = await getUser({userId: req.user.key})
-    const project = await getItems({path: `gestaoempresa/business/${req.user.key}/projects/${req.params.id}`});
-    const documents = await getAllItems({path: `gestaoempresa/business/${req.user.key}/projects/${req.params.id}/documents`})
+    const user = await getUser({ userId: req.user.key })
+    const project = await getItems({ path: `gestaoempresa/business/${req.user.key}/projects/${req.params.id}` });
+    const documents = await getAllItems({ path: `gestaoempresa/business/${req.user.key}/projects/${req.params.id}/documents` })
     const data = {
         user,
         project,
@@ -52,10 +62,10 @@ router.get("/visualizar/:id", async (req, res, next) => {
 router.post("/visualizar/:id", async (req, res, next) => {
     switch (req.body.type) {
         case "CREATE_DOCUMENT":
-            createItem({path: `gestaoempresa/business/${req.user.key}/projects/${req.params.id}/documents`, params: req.body});
+            createItem({ path: `gestaoempresa/business/${req.user.key}/projects/${req.params.id}/documents`, params: req.body });
             break;
-            case "DELETE_DOCUMENT":
-                deleteItem({path: `gestaoempresa/business/${req.user.key}/projects/${req.params.id}/documents/${req.body.documentId}`})
+        case "DELETE_DOCUMENT":
+            deleteItem({ path: `gestaoempresa/business/${req.user.key}/projects/${req.params.id}/documents/${req.body.documentId}` })
             break;
     }
     return res.redirect("/dashboard/projetos/visualizar/" + req.params.id);
