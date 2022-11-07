@@ -3,7 +3,7 @@ const express = require("express"),
     moment = require('../services/moment'),
     { authenticationMiddlewareTrueFalse } = require("../auth/functions/middlewares"),
     { getDate } = require("../auth/functions/database"),
-    { createItem, getAllItems, getItems, getUser, deleteItem } = require("../database/users");
+    { createItem, getAllItems, getItems, getUser, deleteItem, updateItem } = require("../database/users");
 
 router.get("/", async (req, res, next) => {
     if (authenticationMiddlewareTrueFalse(req, res, next)) {
@@ -20,7 +20,7 @@ router.get("/", async (req, res, next) => {
 });
 
 router.post("/", async (req, res, next) => {
-    console.log(req.body);
+    if (!authenticationMiddlewareTrueFalse(req, res, next)) return res.redirect("/");
     switch (req.body.type) {
         case "DELETE_PROJECT":
             deleteItem({ path: `gestaoempresa/business/${req.user.key}/projects/${req.body.projectId}` })
@@ -60,6 +60,7 @@ router.get("/visualizar/:id", async (req, res, next) => {
 });
 
 router.post("/visualizar/:id", async (req, res, next) => {
+    if (!authenticationMiddlewareTrueFalse(req, res, next)) return res.redirect("/");
     switch (req.body.type) {
         case "CREATE_DOCUMENT":
             createItem({ path: `gestaoempresa/business/${req.user.key}/projects/${req.params.id}/documents`, params: req.body });
@@ -68,6 +69,23 @@ router.post("/visualizar/:id", async (req, res, next) => {
             deleteItem({ path: `gestaoempresa/business/${req.user.key}/projects/${req.params.id}/documents/${req.body.documentId}` })
             break;
     }
+    return res.redirect("/dashboard/projetos/visualizar/" + req.params.id);
+});
+
+router.get("/editar/:id", async (req, res, next) => {
+    if (!authenticationMiddlewareTrueFalse(req, res, next)) return res.redirect("/");
+    const user = await getUser({ userId: req.user.key })
+    const project = await getItems({ path: `gestaoempresa/business/${req.user.key}/projects/${req.params.id}` });
+    const data = {
+        user,
+        project,
+    };
+    res.render("pages/projects/edit", data);
+});
+
+router.post("/editar/:id", async (req, res, next) => {
+    if (!authenticationMiddlewareTrueFalse(req, res, next)) return res.redirect("/");
+    updateItem({path: `gestaoempresa/business/${req.user.key}/projects/${req.params.id}`, params: req.body});
     return res.redirect("/dashboard/projetos/visualizar/" + req.params.id);
 });
 
