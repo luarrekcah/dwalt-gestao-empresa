@@ -3,7 +3,7 @@ const express = require("express"),
     moment = require("moment"),
     { getDate } = require("../auth/functions/database"),
     { authenticationMiddlewareTrueFalse } = require("../auth/functions/middlewares"),
-    { createItem, deleteItem, getAllItems } = require('../database/users');
+    { createItem, deleteItem, getAllItems, getItems } = require('../database/users');
 
 router.get("/", async (req, res, next) => {
     if (authenticationMiddlewareTrueFalse(req, res, next)) {
@@ -22,7 +22,7 @@ router.get("/", async (req, res, next) => {
     }
 });
 
-router.post("/", (req, res, next) => {
+router.post("/", async(req, res, next) => {
     if (!authenticationMiddlewareTrueFalse(req, res, next)) return res.redirect("/");
     const { type } = req.body;
     switch (type) {
@@ -55,8 +55,15 @@ router.post("/", (req, res, next) => {
             const { id } = req.body;
             deleteItem({ path: `gestaoempresa/business/${req.user.key}/teams/${id}` })
             break;
+        case "DELETE_MEMBER":
+            const {email, teamMemberId} = req.body;
+            const allMembers = await getAllItems({path: `gestaoempresa/business/${req.user.key}/teams/${teamMemberId}/members`});
+            const staffId = allMembers.find(staff => staff.data.email === email).key;
+            deleteItem({ path: `gestaoempresa/business/${req.user.key}/teams/${teamMemberId}/members/${staffId}` })
+            break;
     }
     return res.redirect("/dashboard/gerenciar/equipe");
 });
+
 
 module.exports = router;

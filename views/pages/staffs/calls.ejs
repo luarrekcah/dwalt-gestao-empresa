@@ -10,8 +10,8 @@
                                 <h1 class="h3 mb-2 text-gray-800">Chamados de cliente</h1>
                                 <p class="mb-4">Chamados são solicitações de clientes, pode ser tanto para vistoria
                                     quanto algum defeito ou emergência.</p>
-                                <%- survey.length===0 ? '<b>Sem chamados</b>' : '' %>
-                                    <% survey.forEach(i=> { %>
+                                <%- surveys.length===0 ? '<b>Sem chamados</b>' : '' %>
+                                    <% surveys.forEach(i=> { %>
                                         <% if(i.finished) return; %>
                                             <div
                                                 class="card border-left-<%=!i.aceppted ? 'danger' : 'primary'%> shadow h-100 py-2">
@@ -66,7 +66,7 @@
                                                 </div>
                                             </div>
                                             <% })%>
-                                                <% survey.forEach(i=> { %>
+                                                <% surveys.forEach(i=> { %>
                                                     <% if(!i.finished) return; %>
                                                         <h1 class="h3 mb-2 text-gray-800">Chamados de cliente
                                                             finalizados</h1>
