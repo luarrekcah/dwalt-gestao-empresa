@@ -3,7 +3,7 @@ const express = require("express"),
     moment = require('../services/moment'),
  { authenticationMiddlewareTrueFalse } = require("../auth/functions/middlewares"),
  { getDate } = require("../auth/functions/database"),
- { createItem, getAllItems, getItems, getUser } = require("../database/users");
+ { createItem, getAllItems, getItems, getUser, deleteItem } = require("../database/users");
 
 router.get("/", async (req, res, next) => {
     if (authenticationMiddlewareTrueFalse(req, res, next)) {
@@ -40,11 +40,25 @@ router.get("/visualizar/:id", async (req, res, next) => {
     if (!authenticationMiddlewareTrueFalse(req, res, next)) return res.redirect("/");
     const user = await getUser({userId: req.user.key})
     const project = await getItems({path: `gestaoempresa/business/${req.user.key}/projects/${req.params.id}`});
+    const documents = await getAllItems({path: `gestaoempresa/business/${req.user.key}/projects/${req.params.id}/documents`})
     const data = {
         user,
         project,
+        documents,
     };
     res.render("pages/projects/see", data);
+});
+
+router.post("/visualizar/:id", async (req, res, next) => {
+    switch (req.body.type) {
+        case "CREATE_DOCUMENT":
+            createItem({path: `gestaoempresa/business/${req.user.key}/projects/${req.params.id}/documents`, params: req.body});
+            break;
+            case "DELETE_DOCUMENT":
+                deleteItem({path: `gestaoempresa/business/${req.user.key}/projects/${req.params.id}/documents/${req.body.documentId}`})
+            break;
+    }
+    return res.redirect("/dashboard/projetos/visualizar/" + req.params.id);
 });
 
 module.exports = router;
