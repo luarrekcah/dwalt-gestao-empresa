@@ -137,7 +137,6 @@ router.get("/esqueciasenha", (req, res, next) => {
         message = null;
     }
 
-
     const data = {
         message,
     }
@@ -158,7 +157,7 @@ router.post("/esqueciasenha", async (req, res, next) => {
             path: `gestaoempresa/business/${foundBusiness.key}/info`,
             params: { token: jwtToken }
         });
-        sendForgotPasswordEmail(email, `https://localhost:3000/resetarsenha?token=${jwtToken}`)
+        sendForgotPasswordEmail(email, `https://${req.get('host')}/resetarsenha?token=${jwtToken}`)
         return res.redirect('/esqueciasenha?message=checkemail');
     } else {
         return res.redirect('/esqueciasenha?message=notfound');
