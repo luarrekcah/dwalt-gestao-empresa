@@ -1,3 +1,5 @@
+const { sendForgotPasswordEmail } = require("../services/nodemailer");
+
 const express = require("express"),
     router = express.Router(),
     fs = require("fs"),
@@ -33,7 +35,6 @@ router.get("/", (req, res, next) => {
         } else {
             message = null;
         }
-
         const data = {
             message,
         }
@@ -123,7 +124,10 @@ router.get("/esqueciasenha", (req, res, next) => {
     if (req.query.message) {
         switch (req.query.message.toLowerCase()) {
             case "notfound":
-                message = { type: 'error', title: 'Não encontrado!', description: 'O token inserido não pertence a uma conta.' }
+                message = { type: 'error', title: 'Não encontrado!', description: 'O e-mail inserido não pertence a uma conta.' }
+                break;
+                case "checkemail":
+                message = { type: 'info', title: 'E-mail enviado!', description: 'Enviamos um e-mail com o token para resetar sua senha.' }
                 break;
             default:
                 message = null;
@@ -154,14 +158,8 @@ router.post("/esqueciasenha", async (req, res, next) => {
             path: `gestaoempresa/business/${foundBusiness.key}/info`,
             params: { token: jwtToken }
         });
-
-        /*
-         *   ENVIAR EMAIL COM ENDERECO
-         *   https://site/resetarsenha?token=${token}
-         */
-
-        //return res.redirect('/esqueciasenha?message=checkemail');
-        return res.redirect(`resetarsenha?token=${jwtToken}`);
+        sendForgotPasswordEmail(email, `https://localhost:3000/resetarsenha?token=${jwtToken}`)
+        return res.redirect('/esqueciasenha?message=checkemail');
     } else {
         return res.redirect('/esqueciasenha?message=notfound');
     }
