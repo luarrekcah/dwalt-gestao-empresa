@@ -5,9 +5,10 @@ const express = require("express"),
     bcrypt = require("bcryptjs"),
     passport = require("passport"),
     moment = require('moment'),
+    jwt = require('jsonwebtoken'),
     { getDate } = require("../auth/functions/database"),
     { authenticationMiddlewareTrueFalse } = require("../auth/functions/middlewares"),
-    { createItem, getAllItems } = require("../database/users");
+    { createItem, getAllItems, updateItem } = require("../database/users");
 
 router.get("/", (req, res, next) => {
     if (authenticationMiddlewareTrueFalse(req, res, next)) {
@@ -71,10 +72,73 @@ router.get("/logout", (req, res, next) => {
 });
 
 router.get("/esqueciasenha", (req, res, next) => {
-    req.logout((err) => {
-        if (err) { return next(err); }
-        res.redirect('/');
+    res.render("pages/login/forgot.ejs");
+});
+
+router.post("/esqueciasenha", async (req, res, next) => {
+    const { email } = req.body;
+    const business = await getAllItems({ path: `gestaoempresa/business` });
+    const foundBusiness = await business.find(i => i.data.info.email === email);
+    if (foundBusiness !== undefined) {
+        const jwtToken = jwt.sign({
+            id: foundBusiness.key
+        }, 'forgotpassword', { expiresIn: '1h' })
+
+        updateItem({ 
+            path: `gestaoempresa/business/${foundBusiness.key}/info`, 
+            params: { token: jwtToken } 
+        });
+
+        /*
+         *   ENVIAR EMAIL COM ENDERECO
+         *   https://site/resetarsenha?token=${token}
+         */
+
+        //return res.redirect('/esqueciasenha?message=checkemail');
+        return res.redirect(`resetarsenha?token=${jwtToken}`);
+    } else {
+        return res.redirect('/esqueciasenha?message=notfound');
+    }
+});
+
+router.get("/resetarsenha", async (req, res, next) => {
+    const { token } = req.query;
+    let data = {};
+
+    if (!token || token.length < 100) {
+        return res.redirect('/');
+    }
+    jwt.verify(token, 'forgotpassword', async (err, decoded) => {
+        if (err) {
+            console.log(err);
+            data.sys = "InvalidToken"
+        } else {
+            const business = await getAllItems({ path: `gestaoempresa/business` });
+            const foundBusiness = await business.find(i => i.data.info.token === token);
+            if (foundBusiness !== undefined && foundBusiness.key === decoded.id) {
+                data.id = decoded.id;
+                data.sys = "PermissionGranted";
+            } else {
+                data.sys = "NotFound";
+            }
+        }
+        return res.render("pages/login/reset.ejs", data);
     });
+});
+
+router.post("/resetarsenha", async (req, res, next) => {
+    console.log(req.body);
+    const { password, passwordConf, id } = req.body;
+    const { token } = req.query;
+    if (password === passwordConf) {
+        updateItem({
+            path: `gestaoempresa/business/${id}/info`,
+            params: { password: bcrypt.hashSync(password), token: null }
+        });
+        return res.redirect(`/?message=RedefinedPassword`);
+    } else {
+        return res.redirect(`/resetarsenha?message=PasswordDontMatch&token=${token}`);
+    }
 });
 
 module.exports = router;
