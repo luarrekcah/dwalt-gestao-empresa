@@ -18,6 +18,7 @@ router.get("/", async (req, res, next) => {
         surveys,
         complaints,
         staffs,
+        message: null,
     };
     res.render("pages/dashboard", data);
 });
@@ -25,10 +26,11 @@ router.get("/", async (req, res, next) => {
 router.get("/chamados", async (req, res, next) => {
     if (!authenticationMiddlewareTrueFalse(req, res, next)) return res.redirect("/");
     const surveys = await getAllItems({ path: `gestaoempresa/business/${req.user.key}/surveys` })
-    const user = await getUser({userId: req.user.key})
+    const user = await getUser({userId: req.user.key});
     const data = {
         user,
         surveys,
+        message: null
     };
     res.render("pages/staffs/calls", data);
 });
@@ -60,7 +62,8 @@ router.get("/localizar/equipe", async(req, res, next) => {
     if (!authenticationMiddlewareTrueFalse(req, res, next)) return res.redirect("/");
     const user = await getUser({userId: req.user.key})
     const data = {
-        user
+        user,
+        message: null,
     };
     res.render("pages/staffs/track", data);
 });
@@ -72,6 +75,7 @@ router.get("/reclamacoes", async (req, res, next) => {
     const data = {
         user,
         complaints,
+        message: null,
     };
     res.render("pages/customers/complaint", data);
 });

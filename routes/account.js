@@ -8,7 +8,8 @@ router.get("/", async (req, res, next) => {
     if (authenticationMiddlewareTrueFalse(req, res, next)) {
         const user = await getUser({userId: req.user.key})
         const data = {
-            user
+            user,
+            message: null,
         };
         res.render("pages/profile", data);
     } else {

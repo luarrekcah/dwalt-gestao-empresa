@@ -10,6 +10,7 @@ router.get("/", async (req, res, next) => {
         const data = {
             user,
             customers,
+            message: null,
         };
         res.render("pages/customers", data);
     } else {

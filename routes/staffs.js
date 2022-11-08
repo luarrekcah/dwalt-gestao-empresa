@@ -16,6 +16,7 @@ router.get("/", async (req, res, next) => {
             projects,
             staffs,
             teams,
+            message: null,
         };
         res.render("pages/staffs", data);
     } else {
