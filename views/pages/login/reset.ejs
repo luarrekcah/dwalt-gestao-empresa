@@ -53,7 +53,7 @@
                             <div class="text-center">
                                 <h1 class="h4 text-gray-900 mb-4">Redefinir senha</h1>
                             </div>
-                            <% if(sys==='InvalidToken' || sys==='NotFound' ) {%>
+                            <% if(message==='InvalidToken' || message==='NotFound' ) {%>
 
                                 <div class="col-sm-6 mb-3 mb-sm-0">
                                     <h1>Token inválido.</h1>
@@ -107,16 +107,24 @@
         </div>
 
     </div>
-    <!-- Bootstrap core JavaScript-->
-    <script src="/vendor/jquery/jquery.min.js"></script>
-    <script src="/vendor/bootstrap//bootstrap.bundle.min.js"></script>
 
-    <!-- Core plugin JavaScript-->
-    <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+    
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <%if(message) {%>
+        <script>
+            swal("<%=message.title%>", "<%=message.description%>", "<%=message.type%>");
+        </script>
+        <%}%>
+            <!-- Bootstrap core JavaScript-->
+            <script src="/vendor/jquery/jquery.min.js"></script>
+            <script src="/vendor/bootstrap//bootstrap.bundle.min.js"></script>
 
-    <!-- Custom scripts for all pages-->
-    <script src="/js/sb-admin-2.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+            <!-- Core plugin JavaScript-->
+            <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+            <!-- Custom scripts for all pages-->
+            <script src="/js/sb-admin-2.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
 </body>
 

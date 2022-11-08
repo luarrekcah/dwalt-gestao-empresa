@@ -79,6 +79,14 @@
             </div>
         </div>
     </div>
+    
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+    <%if(message) {%>
+        <script>
+            swal("<%=message.title%>", "<%=message.description%>", "<%=message.type%>");
+        </script>
+    <%}%>
     <script src="/vendor/jquery/jquery.min.js"></script>
     <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
     <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

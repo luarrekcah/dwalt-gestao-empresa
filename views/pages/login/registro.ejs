@@ -123,6 +123,14 @@
 
     </div>
 
+    
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+    <%if(message) {%>
+        <script>
+            swal("<%=message.title%>", "<%=message.description%>", "<%=message.type%>");
+        </script>
+    <%}%>
 
     <script>
         function previewFile(type) {

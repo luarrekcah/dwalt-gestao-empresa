@@ -14,7 +14,30 @@ router.get("/", (req, res, next) => {
     if (authenticationMiddlewareTrueFalse(req, res, next)) {
         res.redirect("/dashboard");
     } else {
-        res.render("pages/login");
+        let message;
+        if (req.query.message) {
+            switch (req.query.message.toLowerCase()) {
+                case "redefinedpassword":
+                    message = { type: 'success', title: 'Sua senha foi redefinida!', description: 'Clique em OK e faça login com as novas credenciais.' }
+                    break;
+                case "userexists":
+                    message = { type: 'warning', title: 'Usuário já existe!', description: 'Clique em OK e faça login com as credenciais ou recupere sua conta.' }
+                    break;
+                case "credentialserror":
+                    message = { type: 'error', title: 'Email ou senha incorreta!', description: '' }
+                    break;
+                default:
+                    message = null;
+                    break;
+            }
+        } else {
+            message = null;
+        }
+
+        const data = {
+            message,
+        }
+        res.render("pages/login", data);
     }
 });
 
@@ -27,7 +50,31 @@ router.post(
 );
 
 router.get("/registro", (req, res) => {
-    res.render("pages/login/registro.ejs");
+    let message;
+    if (req.query.message) {
+        switch (req.query.message.toLowerCase()) {
+            case "passwordsdontmatch":
+                message = { type: 'error', title: 'Senhas não coincidem!', description: 'Insira a mesma senha nos dois campos de senha.' }
+                break;
+            case "errorrecaptcha":
+                message = { type: 'error', title: 'Verifique o captcha!', description: 'Ei! Você não passou pela verificação de robô' }
+                break;
+            case "registered":
+                message = { type: 'success', title: 'Usuário registrado com sucesso!', description: 'Clique em OK e faça login com as credenciais.' }
+                break;
+            default:
+                message = null;
+                break;
+        }
+    } else {
+        message = null;
+    }
+
+    const data = {
+        message,
+    }
+
+    res.render("pages/login/registro.ejs", data);
 });
 
 router.post("/registro", async (req, res) => {
@@ -72,7 +119,26 @@ router.get("/logout", (req, res, next) => {
 });
 
 router.get("/esqueciasenha", (req, res, next) => {
-    res.render("pages/login/forgot.ejs");
+    let message;
+    if (req.query.message) {
+        switch (req.query.message.toLowerCase()) {
+            case "notfound":
+                message = { type: 'error', title: 'Não encontrado!', description: 'O token inserido não pertence a uma conta.' }
+                break;
+            default:
+                message = null;
+                break;
+        }
+    } else {
+        message = null;
+    }
+
+
+    const data = {
+        message,
+    }
+
+    res.render("pages/login/forgot.ejs", data);
 });
 
 router.post("/esqueciasenha", async (req, res, next) => {
@@ -84,9 +150,9 @@ router.post("/esqueciasenha", async (req, res, next) => {
             id: foundBusiness.key
         }, 'forgotpassword', { expiresIn: '1h' })
 
-        updateItem({ 
-            path: `gestaoempresa/business/${foundBusiness.key}/info`, 
-            params: { token: jwtToken } 
+        updateItem({
+            path: `gestaoempresa/business/${foundBusiness.key}/info`,
+            params: { token: jwtToken }
         });
 
         /*
@@ -111,15 +177,15 @@ router.get("/resetarsenha", async (req, res, next) => {
     jwt.verify(token, 'forgotpassword', async (err, decoded) => {
         if (err) {
             console.log(err);
-            data.sys = "InvalidToken"
+            data.message = { type: 'error', title: 'Token inválido!', description: 'O token inserido é inválido.' }
         } else {
             const business = await getAllItems({ path: `gestaoempresa/business` });
             const foundBusiness = await business.find(i => i.data.info.token === token);
             if (foundBusiness !== undefined && foundBusiness.key === decoded.id) {
                 data.id = decoded.id;
-                data.sys = "PermissionGranted";
+                data.message = { type: 'success', title: 'Token válido!', description: 'Clique em OK e redefina sua senha.' }
             } else {
-                data.sys = "NotFound";
+                data.message = { type: 'error', title: 'Empresa não encontrada!', description: 'O token inserido é inválido.' }
             }
         }
         return res.render("pages/login/reset.ejs", data);
