@@ -3,11 +3,11 @@ const express = require("express"),
     moment = require("moment"),
     { getDate } = require("../auth/functions/database"),
     { authenticationMiddlewareTrueFalse } = require("../auth/functions/middlewares"),
-    { createItem, deleteItem, getAllItems, getUser } = require('../database/users');
+    { createItem, deleteItem, getAllItems, getUser, updateItem } = require('../database/users');
 
 router.get("/", async (req, res, next) => {
     if (authenticationMiddlewareTrueFalse(req, res, next)) {
-        const user = await getUser({userId: req.user.key});
+        const user = await getUser({ userId: req.user.key });
         const projects = await getAllItems({ path: `gestaoempresa/business/${req.user.key}/projects` });
         const staffs = await getAllItems({ path: `gestaoempresa/business/${req.user.key}/staffs` });
         const teams = await getAllItems({ path: `gestaoempresa/business/${req.user.key}/teams` });
@@ -29,15 +29,19 @@ router.post("/", async (req, res, next) => {
     const { type } = req.body;
     switch (type) {
         case "CREATE_TEAM":
-            const { teamName } = req.body;
+            const name = req.body.teamName;
             const team = {
-                name: teamName,
+                name,
                 createdAt: getDate(moment)
             }
-            createItem({ path: `gestaoempresa/business/${req.user.key}/teams`, params: team })
+            try {
+                createItem({ path: `gestaoempresa/business/${req.user.key}/teams`, params: team })
+            } catch (e) {
+                console.log(e)
+            }
             break;
         case "CREATE_MEMBER":
-            const { email_link, nickname, role_name, teamId } = req.body;
+            const { email_link, nickname, role_name, teamId, teamName } = req.body;
             let roles = [];
             if (req.body.ADMIN)
                 roles.push("ADMIN");
@@ -51,21 +55,32 @@ router.post("/", async (req, res, next) => {
                 role_name,
                 roles,
             };
-            createItem({ path: `gestaoempresa/business/${req.user.key}/teams/${teamId}/members`, params: member })
             const allStaffs = await getAllItems({ path: `gestaoempresa/business/${req.user.key}/staffs` });
-            const findStaff = allStaffs.find(staff => staff.data.email === email_link);
-            if (findStaff) {
-                //update team reference of user
+            const findStaff = await allStaffs.find(staff => staff.data.email === email_link);
+            if (findStaff !== undefined) {
+                try {
+                    createItem({ path: `gestaoempresa/business/${req.user.key}/teams/${teamId}/members`, params: member })
+                    updateItem({
+                        path: `gestaoempresa/business/${req.user.key}/staffs/${findStaff.key}`, params: {
+                            team: {
+                                id: teamId,
+                                name: teamName,
+                                role: role_name,
+                                roles,
+                                addedAt: getDate(moment),
+                            }
+                        }
+                    });
+                } catch (e) {
+                    console.log(e)
+                }
             } else {
-                createItem({
-                    path: `gestaoempresa/business/${req.user.key}/staffs`, params: {
-                        email: email_link,
-                        nickname,
-                        role_name,
-                        roles,
-                        teamId,
-                    }
-                })
+                try {
+                    createItem({ path: `gestaoempresa/business/${req.user.key}/teams/${teamId}/members`, params: member });
+                    //CRIAR STAFF OU FZR O APP VERIFICAR SE ELE JA EXISTE EM ALGUMA TEAM E ATUALIZAR OS PROPRIOS DADOS
+                } catch (e) {
+                    console.log(e)
+                }
             }
             break;
         case "DELETE_TEAM":
@@ -76,7 +91,7 @@ router.post("/", async (req, res, next) => {
             const { email, teamMemberId } = req.body;
             const allMembers = await getAllItems({ path: `gestaoempresa/business/${req.user.key}/teams/${teamMemberId}/members` });
             const staffId = allMembers.find(staff => staff.data.email === email).key;
-            deleteItem({ path: `gestaoempresa/business/${req.user.key}/teams/${teamMemberId}/members/${staffId}` })
+            deleteItem({ path: `gestaoempresa/business/${req.user.key}/teams/${teamMemberId}/members/${staffId}` });
             break;
     }
     return res.redirect("/dashboard/gerenciar/equipe");

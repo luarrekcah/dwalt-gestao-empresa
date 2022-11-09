@@ -124,8 +124,8 @@
                     <script>
                         function setData(data) {
                             document.getElementById('memberModalLabel').innerText = `Adicionar membro na equipe ${data.data.name}`;
+                            document.getElementById('teamName').value = `${data.data.name}`;
                             document.getElementById('teamId').value = data.key;
-                            return window.teamData = data;
                         }
                     </script>
                     <script src="/vendor/jquery/jquery.min.js"></script>
