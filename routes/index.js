@@ -126,7 +126,7 @@ router.get("/esqueciasenha", (req, res, next) => {
             case "notfound":
                 message = { type: 'error', title: 'Não encontrado!', description: 'O e-mail inserido não pertence a uma conta.' }
                 break;
-                case "checkemail":
+            case "checkemail":
                 message = { type: 'info', title: 'E-mail enviado!', description: 'Enviamos um e-mail com o token para resetar sua senha.' }
                 break;
             default:
@@ -185,8 +185,13 @@ router.get("/resetarsenha", async (req, res, next) => {
                 data.message = { type: 'error', title: 'Empresa não encontrada!', description: 'O token inserido é inválido.' }
             }
         }
+        if (data.id === undefined) {
+            data.id = null;
+            data.message = { type: 'error', title: 'Token inválido!', description: 'O token inserido é inválido.' }
+        }
         return res.render("pages/login/reset.ejs", data);
     });
+
 });
 
 router.post("/resetarsenha", async (req, res, next) => {
