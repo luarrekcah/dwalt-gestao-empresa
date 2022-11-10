@@ -45,8 +45,8 @@
                                         </h1>
                                         <% if(project.photos) { %>
                                             <div class="slider">
-                                                <% project.photos.forEach(item=> { %>
-                                                    <div><img style="height: 100%; width: 100%;" src="<%=item%>"></div>
+                                                <% photos.forEach(item=> { %>
+                                                    <div><img style="height: 100%; width: 100%;" src="<%=item.data.base64%>"></div>
                                                     <% }) %>
                                             </div>
                                             <% } else { %>

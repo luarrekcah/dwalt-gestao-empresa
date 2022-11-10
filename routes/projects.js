@@ -71,7 +71,7 @@ router.get("/visualizar/:id", async (req, res, next) => {
     const user = await getUser({ userId: req.user.key })
     const project = await getItems({ path: `gestaoempresa/business/${req.user.key}/projects/${req.params.id}` });
     const documents = await getAllItems({ path: `gestaoempresa/business/${req.user.key}/projects/${req.params.id}/documents` });
-
+    const photos = await getAllItems({ path: `gestaoempresa/business/${req.user.key}/projects/${req.params.id}/photos` });
     let message;
     if (req.query.message) {
         switch (req.query.message.toLowerCase()) {
@@ -91,12 +91,12 @@ router.get("/visualizar/:id", async (req, res, next) => {
     } else {
         message = null;
     }
-
     const data = {
         user,
         project,
         documents,
         message,
+        photos,
     };
     res.render("pages/projects/see", data);
 });
