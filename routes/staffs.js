@@ -41,7 +41,9 @@ router.post("/", async (req, res, next) => {
             }
             break;
         case "CREATE_MEMBER":
-            const { email_link, nickname, role_name, teamId, teamName } = req.body;
+            const { email_link, nickname, role_name, teamId, teamNameStaff } = req.body;
+            console.log(req.body);
+            if(teamId === '' || teamNameStaff === '') break;
             let roles = [];
             if (req.body.ADMIN)
                 roles.push("ADMIN");
@@ -64,7 +66,7 @@ router.post("/", async (req, res, next) => {
                         path: `gestaoempresa/business/${req.user.key}/staffs/${findStaff.key}`, params: {
                             team: {
                                 id: teamId,
-                                name: teamName,
+                                name: teamNameStaff,
                                 role: role_name,
                                 roles,
                                 addedAt: getDate(moment),
