@@ -55,3 +55,14 @@
     </div>
   </div>
 </div>
+
+<script>
+  function setData(data) {
+    const memberModalLabel = document.getElementById('memberModalLabel'),
+      teamNameStaff = document.getElementById('teamNameStaff'),
+      teamId = document.getElementById('teamId');
+    memberModalLabel.innerText = `Adicionar membro na equipe ${data.data.name}`;
+    teamNameStaff.value = `${data.data.name}`;
+    teamId.value = data.key;
+  }
+</script>

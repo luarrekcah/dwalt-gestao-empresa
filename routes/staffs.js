@@ -3,7 +3,7 @@ const express = require("express"),
     moment = require("moment"),
     { getDate } = require("../auth/functions/database"),
     { authenticationMiddlewareTrueFalse } = require("../auth/functions/middlewares"),
-    { createItem, deleteItem, getAllItems, getUser, updateItem } = require('../database/users');
+    { createItem, deleteItem, getAllItems, getUser, updateItem, getItems } = require('../database/users');
 
 router.get("/", async (req, res, next) => {
     if (authenticationMiddlewareTrueFalse(req, res, next)) {
@@ -34,8 +34,46 @@ router.post("/", async (req, res, next) => {
                 name,
                 createdAt: getDate(moment)
             }
+            const teamsAll = await getAllItems({path: `gestaoempresa/business/${req.user.key}/teams`});
+
+            const founded = teamsAll.find(i => i.data.name === name);
+
+            if(founded !== undefined) break;
+
             try {
-                createItem({ path: `gestaoempresa/business/${req.user.key}/teams`, params: team })
+                createItem({ path: `gestaoempresa/business/${req.user.key}/teams`, params: team });
+
+                /* 
+
+                -----RECLAMACOES-----
+                
+                createItem({
+                    path: `gestaoempresa/business/${req.user.key}/complaints`, params: {
+                        projectId: "-NGTx9FoC3_Za5evJdNi",
+                        title: "Mal atendido"
+                        text: "bla bla bla"
+                        publishedAt: getDate(moment),
+                    }
+                });
+
+
+                -----CHAMADOS-----
+ 
+                createItem({
+                     path: `gestaoempresa/business/${req.user.key}/surveys`, params: {
+                         projectId: "-NGTx9FoC3_Za5evJdNi",
+                         title: 'Sistema não liga',
+                         text: 'Entao, eu dei olhada, acho que está com algum problema na fiação porque parou de funcinar e ta quente os fios.',
+                         createdAt: getDate(moment),
+                         finished: false,
+                         status: 'Aguardando resposta da empresa...',
+                         team: {
+                             teamId: '',
+                             timestamp: '',
+                             coords: ''
+                         }
+                     }
+                 })*/
             } catch (e) {
                 console.log(e)
             }
@@ -43,7 +81,7 @@ router.post("/", async (req, res, next) => {
         case "CREATE_MEMBER":
             const { email_link, nickname, role_name, teamId, teamNameStaff } = req.body;
             console.log(req.body);
-            if(teamId === '' || teamNameStaff === '') break;
+            if (teamId === '' || teamNameStaff === '') break;
             let roles = [];
             if (req.body.ADMIN)
                 roles.push("ADMIN");

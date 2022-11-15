@@ -87,7 +87,7 @@
                                                             class="text-xs font-weight-bold text-danger text-uppercase mb-1">
                                                             Chamados pendentes</div>
                                                         <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                                            <%=surveys.length%>
+                                                            <%=surveys.filter(i => !i.finished && !i.aceppted).length%>
                                                         </div>
                                                     </div>
                                                     <div class="col-auto">
@@ -105,9 +105,9 @@
                                                     <div class="col mr-2">
                                                         <div
                                                             class="text-xs font-weight-bold text-danger text-uppercase mb-1">
-                                                            Vistorias em execução</div>
+                                                            Chamados em execução</div>
                                                         <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                                            <%=surveys.length%>
+                                                            <%=surveys.filter(i => !i.finished && i.aceppted).length%>
                                                         </div>
                                                     </div>
                                                     <div class="col-auto">

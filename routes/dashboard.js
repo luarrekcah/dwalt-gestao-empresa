@@ -10,7 +10,7 @@ router.get("/", async (req, res, next) => {
         surveys = await getAllItems({ path: `gestaoempresa/business/${req.user.key}/surveys` }),
         complaints = await getAllItems({ path: `gestaoempresa/business/${req.user.key}/complaints` }),
         staffs = await getAllItems({ path: `gestaoempresa/business/${req.user.key}/staffs` }),
-        user = await getUser({userId: req.user.key})
+        user = await getUser({ userId: req.user.key })
     const data = {
         user,
         projects,
@@ -26,7 +26,7 @@ router.get("/", async (req, res, next) => {
 router.get("/chamados", async (req, res, next) => {
     if (!authenticationMiddlewareTrueFalse(req, res, next)) return res.redirect("/");
     const surveys = await getAllItems({ path: `gestaoempresa/business/${req.user.key}/surveys` })
-    const user = await getUser({userId: req.user.key});
+    const user = await getUser({ userId: req.user.key });
     const data = {
         user,
         surveys,
@@ -36,33 +36,28 @@ router.get("/chamados", async (req, res, next) => {
 });
 
 router.post("/chamados", (req, res, next) => {
-    switch (req.query.type) {
+    console.log(req.body);
+    switch (req.body.type) {
         case 'concludeCall':
             updateItem({
-                path: `gestaoempresa/business/${req.user.key}/surveys/${req.query.id}`, params: {
+                path: `gestaoempresa/business/${req.user.key}/surveys/${req.body.surveyId}`, params: {
                     finished: true,
                     status: 'Solicitação finalizada'
                 }
             })
-            res.redirect('/dashboard/chamados');
-            break;
-        case 'acceptCall':
-            updateItem({
-                path: `gestaoempresa/business/${req.user.key}/surveys/${req.query.id}`, params: {
-                    accepted: true,
-                    status: 'Empresa aceitou o chamado'
-                }
-            })
-            res.redirect('/dashboard/chamados');
             break;
     }
+
+    return res.redirect('/dashboard/chamados');
 });
 
-router.get("/localizar/equipe", async(req, res, next) => {
+router.get("/localizar/equipe", async (req, res, next) => {
     if (!authenticationMiddlewareTrueFalse(req, res, next)) return res.redirect("/");
-    const user = await getUser({userId: req.user.key})
+    const teams = await getAllItems({ path: `gestaoempresa/business/${req.user.key}/teams` }),
+        user = await getUser({ userId: req.user.key })
     const data = {
         user,
+        teams,
         message: null,
     };
     res.render("pages/staffs/track", data);
@@ -70,8 +65,8 @@ router.get("/localizar/equipe", async(req, res, next) => {
 
 router.get("/reclamacoes", async (req, res, next) => {
     if (!authenticationMiddlewareTrueFalse(req, res, next)) return res.redirect("/");
-    const complaints = await getAllItems({path: `gestaoempresa/business/${req.user.key}/complaints/`});
-    const user = await getUser({userId: req.user.key})
+    const complaints = await getAllItems({ path: `gestaoempresa/business/${req.user.key}/complaints/` });
+    const user = await getUser({ userId: req.user.key })
     const data = {
         user,
         complaints,
