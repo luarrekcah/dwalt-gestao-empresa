@@ -14,13 +14,13 @@
                                     <% surveys.forEach(i=> { %>
                                         <% if(i.data.finished) return; %>
                                             <div
-                                                class="card border-left-<%=!i.data.aceppted ? 'danger' : 'primary'%> shadow h-100 py-2">
+                                                class="card border-left-<%=!i.data.accepted ? 'danger' : 'primary'%> shadow h-100 py-2">
                                                 <div class="card-body">
                                                     <div class="row no-gutters align-items-center">
                                                         <div class="col mr-2">
                                                             <div
-                                                                class="text-xs font-weight-bold text-<%=!i.data.aceppted ? 'danger' : 'primary'%> text-uppercase mb-1">
-                                                                <%=!i.data.aceppted ? 'Chamado pendente'
+                                                                class="text-xs font-weight-bold text-<%=!i.data.accepted ? 'danger' : 'primary'%> text-uppercase mb-1">
+                                                                <%=!i.data.accepted ? 'Chamado pendente'
                                                                     : 'Chamado em execução' %>
                                                             </div>
                                                             <div class="h5 mb-0 font-weight-bold text-gray-800">
@@ -61,8 +61,8 @@
                                             </div>
                                             <% })%>
                                                 <% surveys.forEach(i=> { %>
-                                                    <% if(!i.finished) return; %>
-                                                        <h1 class="h3 mb-2 text-gray-800">Chamados de cliente
+                                                    <% if(!i.data.finished) return; %>
+                                                        <h1 class="h3 mb-2 text-gray-800" style="padding-top: 20px">Chamados de cliente
                                                             finalizados</h1>
                                                         <div class="card border-left-success shadow h-100 py-2">
                                                             <div class="card-body">

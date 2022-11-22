@@ -43,6 +43,7 @@ router.post("/", async (req, res, next) => {
             try {
                 createItem({ path: `gestaoempresa/business/${req.user.key}/teams`, params: team });
 
+                
                 /* 
 
                 -----RECLAMACOES-----
@@ -66,6 +67,7 @@ router.post("/", async (req, res, next) => {
                          text: 'Entao, eu dei olhada, acho que está com algum problema na fiação porque parou de funcinar e ta quente os fios.',
                          createdAt: getDate(moment),
                          finished: false,
+                         accepted: false,
                          status: 'Aguardando resposta da empresa...',
                          team: {
                              teamId: '',
