@@ -6,7 +6,7 @@ const express = require("express"),
 router.get("/", async (req, res, next) => {
     if (!authenticationMiddlewareTrueFalse(req, res, next)) return res.redirect("/");
     const projects = await getAllItems({ path: `gestaoempresa/business/${req.user.key}/projects` }),
-        users = await getAllItems({ path: `gestaoempresa/business/${req.user.key}/users` }),
+        customers = await getAllItems({ path: `gestaoempresa/business/${req.user.key}/customers` }),
         surveys = await getAllItems({ path: `gestaoempresa/business/${req.user.key}/surveys` }),
         complaints = await getAllItems({ path: `gestaoempresa/business/${req.user.key}/complaints` }),
         staffs = await getAllItems({ path: `gestaoempresa/business/${req.user.key}/staffs` }),
@@ -14,7 +14,7 @@ router.get("/", async (req, res, next) => {
     const data = {
         user,
         projects,
-        users,
+        customers,
         surveys,
         complaints,
         staffs,
