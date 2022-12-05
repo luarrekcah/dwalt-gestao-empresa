@@ -53,7 +53,7 @@
                                                         <% projects.forEach((item, i) => { %>
                                                             <tr>
                                                                 <td><%= item.data.apelidoProjeto %></td>
-                                                                <td><%= item.data.nomeComp %></td>
+                                                                <td><%= item.data.nomeComp %><br>(<%= item.data.email %>)</td>
                                                                 <td><%= item.data.kwp %></td>
                                                                 <td><%= item.data.Status %></td>
                                                                 <td><a href="projetos/visualizar/<%= item.key %>" class="btn btn-info btn-circle">
