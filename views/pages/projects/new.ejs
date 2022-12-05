@@ -17,10 +17,16 @@
                                 <form method="POST">
                                     <!-- Form Group (username)-->
                                     <div class="mb-3">
-                                        <label class="small mb-1" for="email">E-mail do cliente</label>
+                                        <label class="small mb-1" for="email">E-mail do cliente <b style="color: red">*</b></label>
                                         <input name="emailApp" class="form-control" id="email" type="text"
                                             placeholder="E-mail de registro no app 'cliente', vá em 'Usuário' para encontrar."
                                             required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="small mb-1" for="username_growatt">Nome de usuário no sistema da Growatt (opcional)</label>
+                                        <input name="username_growatt" class="form-control" id="username_growatt" type="text"
+                                            placeholder="Nome de usuário único da planta."
+                                            >
                                     </div>
                                     <b class="mb-4">Dados Básicos</b>
                                     <!-- Form Row-->
@@ -177,29 +183,29 @@
                                         <!-- Form Group (first name)-->
                                         <div class="col-md-6">
                                             <label class="small mb-1" for="apelidoProjeto">Identificação do
-                                                Projeto</label>
+                                                Projeto <b style="color: red">*</b></label>
                                             <input name="apelidoProjeto" class="form-control" id="apelidoProjeto"
                                                 type="text" placeholder="Apelido do projeto" required>
                                         </div>
                                         <div class="col-md-6">
-                                            <label class="small mb-1" for="category">Categoria</label>
+                                            <label class="small mb-1" for="category">Categoria <b style="color: red">*</b></label>
                                             <input name="category" class="form-control" id="category" type="text"
                                                 placeholder="Residencial / Comercial / Usina" required>
                                         </div>
                                         <!-- Form Group (last name)-->
                                         <div class="col-md-6">
-                                            <label class="small mb-1" for="kwp">kWp do Projeto</label>
+                                            <label class="small mb-1" for="kwp">kWp do Projeto <b style="color: red">*</b></label>
                                             <input name="kwp" class="form-control" id="kwp" type="text"
                                                 placeholder="000" required>
                                         </div>
                                         <div class="col-md-6">
                                             <label class="small mb-1" for="Status">Status</label>
                                             <input name="Status" class="form-control" id="Status" type="text"
-                                                placeholder="Em homologação">
+                                                value="Aguardando dados">
                                         </div>
                                         <div class="col-md-6">
                                             <label class="small mb-1" for="coords">Coordenadas da unidade
-                                                consumidora</label>
+                                                consumidora <b style="color: red">*</b></label>
                                             <input name="coords" class="form-control" id="coords" type="text"
                                                 placeholder="-9.373395, -52.814905" required>
                                         </div>
