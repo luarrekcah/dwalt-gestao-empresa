@@ -68,6 +68,14 @@
                                                         <label class="small mb-1" for="inputEmailAddress">E-mail</label>
                                                         <input class="form-control" id="inputEmailAddress" type="email" placeholder="Enter your email address" value="<%=user.data.email%>" disabled>
                                                     </div>
+                                                    <div class="mb-3">
+                                                        <label class="small mb-1" for="inputEmailAddress">TOKEN GROWATT</label>
+                                                        <input class="form-control" name="token" type="text" placeholder="Coloque seu token da Growatt" value="<%=user.data.tokenGrowatt%>">
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label class="small mb-1">Sobre a empresa</label>
+                                                        <input class="form-control" name="token" type="text" placeholder="Coloque seu token da Growatt" value="<%=user.data.profile.about%>">
+                                                    </div>
                                                     <input type="text" name="logoSrc" class="form-control" id="compbase64" value="<%=user.data.profile.logo%>"
                                         style="display: none;">
                                                     <!-- Save changes button-->

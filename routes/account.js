@@ -19,7 +19,7 @@ router.get("/", async (req, res, next) => {
 
 router.post("/", (req, res, next) => {
     if (authenticationMiddlewareTrueFalse(req, res, next)) {
-        const { logoSrc, ownerName, mainLocation, phone } = req.body;
+        const { logoSrc, ownerName, mainLocation, phone, about, tokenGrowatt } = req.body;
         console.log(req.body);
         updateItem({
             path: `gestaoempresa/business/${req.user.key}/info/profile`, params: {
@@ -27,6 +27,12 @@ router.post("/", (req, res, next) => {
                 ownerName,
                 mainLocation,
                 phone,
+                about,
+            }
+        });
+        updateItem({
+            path: `gestaoempresa/business/${req.user.key}/info`, params: {
+                tokenGrowatt
             }
         });
         return res.redirect("/conta");
