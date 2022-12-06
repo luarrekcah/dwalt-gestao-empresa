@@ -39,14 +39,12 @@ router.get("/", async (req, res, next) => {
         growatt,
         message,
     };
-
-    console.log(growatt);
     res.render("pages/dashboard", data);
 });
 
 router.post("/", async (req, res, next) => {
     if (!authenticationMiddlewareTrueFalse(req, res, next)) return res.redirect("/");
-    const growattData = await getItems({ path: `gestaoempresa/business/${req.user.key}/growatt/token` });
+    const growattData = await getItems({ path: `gestaoempresa/business/${req.user.key}/growatt` });
     if (growattData === []) {
         axios.get("https://test.growatt.com/v1/plant/user_plant_list", { headers: { token: req.body.token } })
             .then(response => {
@@ -64,10 +62,9 @@ router.post("/", async (req, res, next) => {
             });
     } else {
         const now = moment(new Date());
-        const date = moment(growattData.lastUse);
-        const hours = date.diff(now, 'hours');
-        console.log(hours);
-        if (hours <= 2) {
+        const date = moment(growattData.token.lastUse);
+        const duration = moment.duration(now.diff(date));
+        if (duration.asHours() <= 2.5) {
             return res.redirect('/dashboard?message=waitMore');
         } else {
             axios.get("https://test.growatt.com/v1/plant/user_plant_list", { headers: { token: req.body.token } })
