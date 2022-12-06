@@ -23,6 +23,10 @@ router.get("/", async (req, res, next) => {
     res.render("pages/dashboard", data);
 });
 
+router.post("/", (req, res, next) => {
+    console.log(req.body);
+});
+
 router.get("/chamados", async (req, res, next) => {
     if (!authenticationMiddlewareTrueFalse(req, res, next)) return res.redirect("/");
     const surveys = await getAllItems({ path: `gestaoempresa/business/${req.user.key}/surveys` })

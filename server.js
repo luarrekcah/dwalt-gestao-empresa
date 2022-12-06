@@ -33,20 +33,6 @@ app.use(passport.session());
 
 require("./routes")(app);
 
-const axios = require('axios');
-
-axios.get("https://test.growatt.com/v1/plant/list", 
-{ 
-  headers: { 
-    // the test token runs ok and retrieve data.
-    token: '6eb6f069523055a339d71e5b1f6c88cc',
-    //but the real token shows 'error_permission_denied'.
-    //token: 'n28w63x324e1sli5yr84xr0z043cl145',
-  } 
-}).then(response => {
-  console.log(response.data.data);
-})
-
 const listener = app.listen(process.env.PORT || 3000, function () {
   console.log(`[CONNECTION INFO] Porta: ${listener.address().port}`);
 });
