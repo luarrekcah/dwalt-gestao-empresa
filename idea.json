@@ -1,0 +1,24 @@
+{
+    "plants": [
+      {
+        "total_energy": 3166.6,
+        "plant_id": 6,
+        "country": "China",
+        "latitude_f": null,
+        "latitude_d": null,
+        "city": "深圳",
+        "image_url": null,
+        "latitude": "22.62",
+        "current_power": 0.0,
+        "locale": "en-US",
+        "peak_power": 0,
+        "operator": null,
+        "installer": null,
+        "user_id": 7,
+        "name": "APX",
+        "create_date": "2022-06-29",
+        "status": 1,
+        "longitude": "114.07"
+      }
+    ]
+}
