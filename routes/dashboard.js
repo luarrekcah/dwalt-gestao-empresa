@@ -47,7 +47,6 @@ router.get("/", async (req, res, next) => {
 router.post("/", async (req, res, next) => {
     if (!authenticationMiddlewareTrueFalse(req, res, next)) return res.redirect("/");
     const growattData = await getItems({ path: `gestaoempresa/business/${req.user.key}/growatt/token` });
-    console.log(growattData);
     if (growattData === []) {
         axios.get("https://test.growatt.com/v1/plant/user_plant_list", { headers: { token: req.body.token } })
             .then(response => {
@@ -67,6 +66,7 @@ router.post("/", async (req, res, next) => {
         const now = moment(new Date());
         const date = moment(growattData.lastUse);
         const hours = date.diff(now, 'hours');
+        console.log(hours);
         if (hours <= 2) {
             return res.redirect('/dashboard?message=waitMore');
         } else {
