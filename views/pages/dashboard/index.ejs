@@ -10,16 +10,24 @@
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
             <% if(user.data.tokenGrowatt) { %>
-            <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Atualizar dados pela Growatt</a>
+            <form method="post">
+              <input type="text" name="type" value="RELOAD_GROWATT" style="display: none;">
+              <input type="text" name="userID" value="<%=user.key%>" style="display: none;">
+              <input type="text" name="token" value="<%=user.data.tokenGrowatt%>" style="display: none;">
+
+              <button type="submit" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+                <i class="fas fa-download fa-sm text-white-50"></i>
+                Atualizar dados pela Growatt
+              </button>
+            </form>
+
             <% } else { %>
             <a href="/conta" class="d-none d-sm-inline-block btn btn-sm btn-danger shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Adicionar TOKEN Growatt</a>
-            <%}%>
-                                     
+            <%}%>      
                                 </div>
-
  <% if(user.data.tokenGrowatt) { %>
             <div class="d-sm-flex align-items-center justify-content-between mb-4">
-              <p>Última vez que os dados da Growatt foram carregados: 22-02-2022</p>
+              <p>Última vez que os dados da Growatt foram carregados: <%= user.data.tokenTimestamp === '' ||  user.data.tokenTimestamp === null ||  user.data.tokenTimestamp === undefined ? "Não coletado" : user.data.tokenTimestamp %></p>
             </div>
             <% } %>
 
