@@ -1,3 +1,6 @@
+const { default: axios } = require("axios");
+const { getDate } = require("../auth/functions/database");
+
 const express = require("express"),
     router = express.Router(),
     { authenticationMiddlewareTrueFalse } = require("../auth/functions/middlewares"),
@@ -23,8 +26,21 @@ router.get("/", async (req, res, next) => {
     res.render("pages/dashboard", data);
 });
 
-router.post("/", (req, res, next) => {
-    console.log(req.body);
+router.post("/", async (req, res, next) => {
+    axios.get("https://test.growatt.com/v1/plant/user_plant_list", {headers: {token: req.body.token}})
+    .then(response => {
+        const data = response.data.data;
+        updateItem({
+            path: `gestaoempresa/business/${req.user.key}/growatt/plantList`, params: {data}
+        });
+        updateItem({
+            path: `gestaoempresa/business/${req.user.key}/growatt/token`, params: {
+                lastUse: getDate(),
+                requestByDay: 10,
+            }
+        });
+        return res.redirect('/dashboard');
+    });
 });
 
 router.get("/chamados", async (req, res, next) => {
