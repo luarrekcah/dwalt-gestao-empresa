@@ -1,3 +1,5 @@
+const moment = require("../../services/moment");
+
 const makeId = () => {
     let result = '';
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -9,7 +11,7 @@ const makeId = () => {
     return result;
 }
 
-const getDate = (moment) => {
+const getDate = () => {
     return moment().format(); 
 };
 

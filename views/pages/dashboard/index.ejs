@@ -27,7 +27,7 @@
                                 </div>
  <% if(user.data.tokenGrowatt) { %>
             <div class="d-sm-flex align-items-center justify-content-between mb-4">
-              <p>Última vez que os dados da Growatt foram carregados: <%= user.data.tokenTimestamp === '' ||  user.data.tokenTimestamp === null ||  user.data.tokenTimestamp === undefined ? "Não coletado" : user.data.tokenTimestamp %></p>
+              <p>Última vez que os dados da Growatt foram carregados: <%= growatt.token.lastUse === '' ||  growatt.token.lastUse === null ||  growatt.token.lastUse === undefined ? "Não coletado" : growatt.token.lastUse %></p>
             </div>
             <% } %>
 
@@ -178,6 +178,11 @@
     <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
     <script src="/js/sb-admin-2.min.js"></script>
+    <%if(message) {%>
+        <script>
+            swal("<%=message.title%>", "<%=message.description%>", "<%=message.type%>");
+        </script>
+    <%}%>
 </body>
 
 </html>

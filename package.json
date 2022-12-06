@@ -1,6 +1,7 @@
 {
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "test": "jasmine"
   },
   "dependencies": {
     "@firebase/app": "^0.7.33",
@@ -22,6 +23,7 @@
     "path": "^0.12.7"
   },
   "devDependencies": {
-    "eslint": "^8.27.0"
+    "eslint": "^8.27.0",
+    "jasmine": "^4.5.0"
   }
 }

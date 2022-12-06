@@ -49,7 +49,7 @@ module.exports = {
         const db = getDatabase();
         if (!path) return { error: 'Sem path' }
         const snapshot = await get(ref(db, path))
-        return snapshot.val();
+        return snapshot.val() || [];
     },
     getUser: async ({userId}) => {
         const db = getDatabase();
