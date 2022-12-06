@@ -24,10 +24,16 @@ router.get("/", async (req, res, next) => {
             case "waitmore":
                 message = { type: 'warning', title: 'Opa! A api da growatt tem limite de requisição.', description: 'Tente novamente daqui algumas horas, o tempo entre as requisições deve ser de 2.5 horas.' }
                 break;
+                case "error":
+                message = { type: 'danger', title: 'Ocorreu um erro!', description: 'Verifique se temos permissão para acessar sua API ou se está com o funcionamento normal.' }
+                break;
         }
     } else {
         message = null;
     }
+
+    let kwh = 0;
+    growatt.plantList.data.plants.forEach(i =>  kwh = parseInt(i.total_energy) + kwh);
 
     const data = {
         user,
@@ -38,6 +44,7 @@ router.get("/", async (req, res, next) => {
         staffs,
         growatt,
         message,
+        kwh,
     };
     res.render("pages/dashboard", data);
 });
@@ -46,8 +53,9 @@ router.post("/", async (req, res, next) => {
     if (!authenticationMiddlewareTrueFalse(req, res, next)) return res.redirect("/");
     const growattData = await getItems({ path: `gestaoempresa/business/${req.user.key}/growatt` });
     if (growattData === []) {
-        axios.get("https://test.growatt.com/v1/plant/user_plant_list", { headers: { token: req.body.token } })
+        axios.get("https://test.growatt.com/v1/plant/list", { headers: { token: req.body.token } })
             .then(response => {
+                console.log(response);
                 const data = response.data.data;
                 updateItem({
                     path: `gestaoempresa/business/${req.user.key}/growatt/plantList`, params: { data }
@@ -67,9 +75,11 @@ router.post("/", async (req, res, next) => {
         if (duration.asHours() <= 2.5) {
             return res.redirect('/dashboard?message=waitMore');
         } else {
-            axios.get("https://test.growatt.com/v1/plant/user_plant_list", { headers: { token: req.body.token } })
+            axios.get("https://test.growatt.com/v1/plant/list", { headers: { token: req.body.token } })
                 .then(response => {
                     const data = response.data.data;
+                    console.log(response.data);
+                    if(response.data.error_code !== 0) return res.redirect('/dashboard?message=error');
                     updateItem({
                         path: `gestaoempresa/business/${req.user.key}/growatt/plantList`, params: { data }
                     });
