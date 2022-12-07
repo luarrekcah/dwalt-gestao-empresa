@@ -27,10 +27,16 @@
                                 </div>
  <% if(user.data.tokenGrowatt) { %>
             <div class="d-sm-flex align-items-center justify-content-between mb-4">
-              <p>Última vez que os dados da Growatt foram carregados: <%= growatt.token.lastUse === '' ||  growatt.token.lastUse === null ||  growatt.token.lastUse === undefined ? "Não coletado" : growatt.token.lastUse %></p>
+              <p>
+                Última vez que os dados da Growatt foram carregados:
+                <b>
+                  <script>
+                    document.write(moment("<%=growatt.token.lastUse%>").fromNow());
+                  </script>
+                </b>
+              </p>
             </div>
             <% } %>
-
             <div class="row">
               <div class="col-xl-3 col-md-6 mb-4">
                 <div class="card border-left-primary shadow h-100 py-2">
@@ -51,7 +57,7 @@
                 </div>
               </div>
 
- <% if(user.data.tokenGrowatt) { %>
+              <% if(user.data.tokenGrowatt) { %>
               <div class="col-xl-3 col-md-6 mb-4">
                 <div class="card border-left-success shadow h-100 py-2">
                   <div class="card-body">
@@ -219,10 +225,12 @@
     <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
     <script src="/js/sb-admin-2.min.js"></script>
     <%if(message) {%>
-        <script>
-            swal("<%=message.title%>", "<%=message.description%>", "<%=message.type%>");
-        </script>
+    <script>
+      swal("<%=message.title%>", "<%=message.description%>", "<%=message.type%>");
+    </script>
     <%}%>
+    
 </body>
+
 
 </html>
