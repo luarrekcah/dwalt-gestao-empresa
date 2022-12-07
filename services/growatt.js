@@ -1,7 +1,7 @@
 const { getAllItems, updateItem } = require("../database/users")
     , { getDate } = require("../auth/functions/database")
-    , moment = require('./moment');
-axios = require('axios');
+    , moment = require('./moment')
+    , axios = require('axios');
 
 const growattConfig = {
     minimumTime: 2.5,
