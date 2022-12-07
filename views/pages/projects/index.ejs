@@ -1,99 +1,105 @@
 <%- include("../../partials/head.ejs") %>
 
-    <body id="page-top">
-        <div id="wrapper">
-            <%- include("../../partials/sidebar.ejs") %>
-                <div id="content-wrapper" class="d-flex flex-column">
-                    <div id="content">
-                        <%- include("../../partials/topbar.ejs") %>
-                            <div class="container-fluid">
-                                <!-- Page Heading -->
-                                <h1 class="h3 mb-2 text-gray-800">Gerenciar Projetos</h1>
-                                <p class="mb-4">Altere os dados, adicione ou remova projetos.</p>
-                                <!-- DataTales Example -->
-                                <% if(projects.length===0) {%>
-                                    <div class="card shadow mb-4">
-                                        <div class="card-body">
-                                            <h1 class="h3 mb-2 text-gray-800">Sua empresa ainda não tem projetos
-                                                registrados. Clique <a href="/dashboard/projetos/adicionar" style="height: 25px; width: 25px;"
-                                                    class="btn btn-info btn-circle">
-                                                    <i class="fas fa-plus"></i>
-                                                </a> para registrar
-                                            </h1>
-                                        </div>
-                                    </div>
-                                    <% } else { %>
-                                <div class="card shadow mb-4">
-                                    <div class="card-header py-3">
-                                        <h6 class="m-0 font-weight-bold text-primary">Projetos</h6>
-                                        <br>
-                                        <a href="/dashboard/projetos/adicionar" class="btn btn-info btn-icon-split">
-                                            <span class="icon text-white-50">
-                                                <i class="fas fa-plus"></i>
-                                            </span>
-                                            <span class="text">Adicionar Projeto</span>
-                                        </a>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="table-responsive">
-                                            <table class="table table-bordered" id="dataTable" width="100%"
-                                                cellspacing="0">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Identificação</th>
-                                                        <th>Cliente</th>
-                                                        <th>Potência (kwp)</th>
-                                                        <th>Status</th>
-                                                        <th>Ver/Editar</th>
-                                                        <th>Deletar</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <% if(projects !== undefined) { %>
-                                                        <% projects.forEach((item, i) => { %>
-                                                            <tr>
-                                                                <td><%= item.data.apelidoProjeto %></td>
-                                                                <td><%= item.data.nomeComp %><br>(<%= item.data.email %>)</td>
-                                                                <td><%= item.data.kwp %></td>
-                                                                <td><%= item.data.Status %></td>
-                                                                <td><a href="projetos/visualizar/<%= item.key %>" class="btn btn-info btn-circle">
-                                                                        <i class="fas fa-info-circle"></i>
-                                                                    </a>
-                                                                    <a href="projetos/editar/<%= item.key %>" class="btn btn-primary btn-circle">
-                                                                        <i class="fas fa-edit"></i>
-                                                                    </a>
-                                                                </td>
-                                                                <td>
-                                                                    <form method="post">
-                                                                        <input type="text" name="type" value="DELETE_PROJECT" style="display: none;">
-                                                                        <input type="text" name="projectId" value="<%= item.key %>" style="display: none;">
-                                                                        <button type="submit" class="btn btn-danger btn-circle">
-                                                                            <i class="fas fa-trash"></i>
-                                                                        </button>
-                                                                    </form>
-                                                                </td>
-                                                            </tr>
-                                                        <% }); %> 
-                                                    <% } %> 
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                                <% } %> 
-                            </div>
-                    </div>
-                    <%- include("../../partials/footer.ejs") %>
-                </div>
+<body id="page-top">
+  <div id="wrapper">
+    <%- include("../../partials/sidebar.ejs") %>
+    <div id="content-wrapper" class="d-flex flex-column">
+      <div id="content">
+        <%- include("../../partials/topbar.ejs") %>
+        <div class="container-fluid">
+          <!-- Page Heading -->
+          <h1 class="h3 mb-2 text-gray-800">Gerenciar Projetos</h1>
+          <p class="mb-4">Altere os dados, adicione ou remova projetos.</p>
+          <!-- DataTales Example -->
+          <% if(projects.length===0) {%>
+          <div class="card shadow mb-4">
+            <div class="card-body">
+              <h1 class="h3 mb-2 text-gray-800">Sua empresa ainda não tem projetos
+                registrados. Clique <a href="/dashboard/projetos/adicionar" style="height: 25px; width: 25px;" class="btn btn-info btn-circle">
+                  <i class="fas fa-plus"></i>
+                </a> para registrar
+              </h1>
+            </div>
+          </div>
+          <% } else { %>
+          <div class="card shadow mb-4">
+            <div class="card-header py-3">
+              <h6 class="m-0 font-weight-bold text-primary">Projetos</h6>
+              <br>
+              <a href="/dashboard/projetos/adicionar" class="btn btn-info btn-icon-split">
+                <span class="icon text-white-50">
+                  <i class="fas fa-plus"></i>
+                </span>
+                <span class="text">Adicionar Projeto</span>
+              </a>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                  <thead>
+                    <tr>
+                      <th>Identificação</th>
+                      <th>Cliente</th>
+                      <th>Potência (kwp)</th>
+                      <th>Status</th>
+                      <th>Ver/Editar</th>
+                      <th>Deletar</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% if(projects !== undefined) { %>
+                    <% projects.forEach((item, i) => { %>
+                    <tr>
+                      <td><%= item.data.apelidoProjeto %></td>
+                      <td><%= item.data.nomeComp %><br>(<%= item.data.email %>)</td>
+                      <td><%= item.data.kwp %></td>
+                      <td><%= item.data.Status %></td>
+                      <td><a href="projetos/visualizar/<%= item.key %>" class="btn btn-info btn-circle">
+                          <i class="fas fa-info-circle"></i>
+                        </a>
+                        <a href="projetos/editar/<%= item.key %>" class="btn btn-primary btn-circle">
+                          <i class="fas fa-edit"></i>
+                        </a>
+                      </td>
+                      <td>
+                        <form method="post">
+                          <input type="text" name="type" value="DELETE_PROJECT" style="display: none;">
+                          <input type="text" name="projectId" value="<%= item.key %>" style="display: none;">
+                          <button type="submit" class="btn btn-danger btn-circle">
+                            <i class="fas fa-trash"></i>
+                          </button>
+                        </form>
+                      </td>
+                    </tr>
+                    <% }); %>
+                    <% } %>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <% } %>
         </div>
-        <a class="scroll-to-top rounded" href="#page-top">
-            <i class="fas fa-angle-up"></i>
-        </a>
-        <%- include("../components/modal/logout.ejs") %>
-            <script src="/vendor/jquery/jquery.min.js"></script>
-            <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-            <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
-            <script src="/js/sb-admin-2.min.js"></script>
-    </body>
+        <%- include("../../partials/footer.ejs") %>
+      </div>
+    </div>
+    <a class="scroll-to-top rounded" href="#page-top">
+      <i class="fas fa-angle-up"></i>
+    </a>
+    <%- include("../components/modal/logout.ejs") %>
+    <script src="/vendor/jquery/jquery.min.js"></script>
+    <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="/js/sb-admin-2.min.js"></script>
 
-    </html>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap4.min.js"></script>
+
+    <script>
+      $(document).ready(function() {
+        $('#dataTable').DataTable();
+      });
+    </script>
+</body>
+
+</html>
