@@ -1,4 +1,4 @@
-const { getAllItems, updateItem, getUser, getItems } = require("../database/users")
+const { getAllItems, updateItem } = require("../database/users")
     , { getDate } = require("../auth/functions/database")
     , moment = require('./moment');
 axios = require('axios');
