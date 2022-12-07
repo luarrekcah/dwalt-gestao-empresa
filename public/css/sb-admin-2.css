@@ -11,6 +11,7 @@
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  */
 :root {
+  --main-color: #009eef;
   --blue: #4e73df;
   --indigo: #6610f2;
   --purple: #6f42c1;
@@ -56,6 +57,24 @@ html {
 
 article, aside, figcaption, figure, footer, header, hgroup, main, nav, section {
   display: block;
+}
+
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--main-color);
+  border: 4.1px none #525252;
+  border-radius: 30px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--main-color);
+}
+::-webkit-scrollbar-track {
+  background: #ebebeb;
+  border-radius: 0px;
+  box-shadow: inset 0px 0px 0px 0px #f0f0f0;
 }
 
 body {
@@ -10861,19 +10880,19 @@ a:focus {
 }
 
 .bg-login-image {
-  background: url("https://source.unsplash.com/K4mSJ7kc0As/600x800");
+  background: url("/public/");
   background-position: center;
   background-size: cover;
 }
 
 .bg-register-image {
-  background: url("https://source.unsplash.com/Mv9hjnEUHR4/600x800");
+  background: url("https://cdn.discordapp.com/attachments/893220475663187968/1022680159922425896/banner-login.jpg");
   background-position: center;
   background-size: cover;
 }
 
 .bg-password-image {
-  background: url("https://source.unsplash.com/oWTW-jNGl9I/600x800");
+  background: url("https://cdn.discordapp.com/attachments/893220475663187968/1022680159922425896/banner-login.jpg");
   background-position: center;
   background-size: cover;
 }
