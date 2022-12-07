@@ -13,7 +13,7 @@ const firebaseConfig = {
 
 try {
   const app = initializeApp(firebaseConfig);
-  console.log('[LOG] Connected to Firebase Database')
+  console.log('[LOG] Conectado ao banco de dados')
 } catch (error) {
   console.error(error);
 }

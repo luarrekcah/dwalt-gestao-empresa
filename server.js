@@ -33,6 +33,8 @@ app.use(passport.session());
 
 require("./routes")(app);
 
+require('./services/growatt');
+
 const listener = app.listen(process.env.PORT || 3000, function () {
   console.log(`[CONNECTION INFO] Porta: ${listener.address().port}`);
 });
