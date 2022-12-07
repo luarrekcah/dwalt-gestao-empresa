@@ -136,11 +136,9 @@ router.get("/esqueciasenha", (req, res, next) => {
     } else {
         message = null;
     }
-
     const data = {
         message,
     }
-
     res.render("pages/login/forgot.ejs", data);
 });
 
@@ -156,6 +154,12 @@ router.post("/esqueciasenha", async (req, res, next) => {
         updateItem({
             path: `gestaoempresa/business/${foundBusiness.key}/info`,
             params: { token: jwtToken }
+        });
+        createItem({
+            path: `gestaoempresa/business/${foundBusiness.key}/logs`, params: {
+                type: 'forgotpassword',
+                date: getDate(),
+            }
         });
         sendForgotPasswordEmail(email, `https://${req.get('host')}/resetarsenha?token=${jwtToken}`)
         return res.redirect('/esqueciasenha?message=checkemail');
@@ -202,6 +206,12 @@ router.post("/resetarsenha", async (req, res, next) => {
         updateItem({
             path: `gestaoempresa/business/${id}/info`,
             params: { password: bcrypt.hashSync(password), token: null }
+        });
+        createItem({
+            path: `gestaoempresa/business/${id}/logs`, params: {
+                type: 'resetedpassword',
+                date: getDate(),
+            }
         });
         return res.redirect(`/?message=RedefinedPassword`);
     } else {
