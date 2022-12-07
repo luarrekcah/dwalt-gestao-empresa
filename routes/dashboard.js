@@ -33,7 +33,10 @@ router.get("/", async (req, res, next) => {
     }
 
     let kwh = 0;
-    growatt.plantList.data.plants.forEach(i =>  kwh = parseInt(i.total_energy) + kwh);
+
+    if(growatt.plantList) {
+        growatt.plantList.data.plants.forEach(i =>  kwh = parseInt(i.total_energy) + kwh);
+    }
 
     const data = {
         user,
