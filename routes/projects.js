@@ -135,4 +135,14 @@ router.post("/editar/:id", async (req, res, next) => {
     return res.redirect("/dashboard/projetos/visualizar/" + req.params.id + "?message=editado");
 });
 
+router.get("/config", async (req, res, next) => {
+    if (!authenticationMiddlewareTrueFalse(req, res, next)) return res.redirect("/");
+    const user = await getUser({ userId: req.user.key })
+    const data = {
+        user,
+        message: null,
+    };
+    res.render("pages/projects/config", data);
+});
+
 module.exports = router;
