@@ -42,6 +42,7 @@
                       <th>Cliente</th>
                       <th>Potência (kwp)</th>
                       <th>Status</th>
+                      <th>Data de Registro</th>
                       <th>Ver/Editar</th>
                       <th>Deletar</th>
                     </tr>
@@ -54,6 +55,10 @@
                       <td><%= item.data.nomeComp %><br>(<%= item.data.email %>)</td>
                       <td><%= item.data.kwp %></td>
                       <td><%= item.data.Status %></td>
+                      <td>
+                      <script>
+                    document.write(moment("<%=item.data.createdAt%>").format("L LT"));
+                  </script></td>
                       <td><a href="projetos/visualizar/<%= item.key %>" class="btn btn-info btn-circle">
                           <i class="fas fa-info-circle"></i>
                         </a>
