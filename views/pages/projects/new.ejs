@@ -17,10 +17,10 @@
                                 <form method="POST">
                                     <!-- Form Group (username)-->
                                     <div class="mb-3">
-                                        <label class="small mb-1" for="email">E-mail do cliente <b style="color: red">*</b></label>
+                                        <label class="small mb-1" for="email">E-mail do cliente</label>
                                         <input name="emailApp" class="form-control" id="email" type="text"
                                             placeholder="E-mail de registro no app 'cliente', vá em 'Usuário' para encontrar."
-                                            required>
+                                            >
                                     </div>
                                     <div class="mb-3">
                                         <label class="small mb-1" for="username_growatt">Nome de usuário no sistema da Growatt (opcional)</label>
@@ -188,9 +188,28 @@
                                                 type="text" placeholder="Apelido do projeto" required>
                                         </div>
                                         <div class="col-md-6">
-                                            <label class="small mb-1" for="category">Categoria <b style="color: red">*</b></label>
-                                            <input name="category" class="form-control" id="category" type="text"
-                                                placeholder="Residencial / Comercial / Usina" required>
+                                        <label class="small mb-1" for="category">Categoria <b style="color: red">*</b></label>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="category"
+                                                    id="flexRadioDefault1" value="residencial" checked>
+                                                <label class="form-check-label" for="flexRadioDefault1">
+                                                    Residencial
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="category"
+                                                    id="flexRadioDefault2" value="comercial">
+                                                <label class="form-check-label" for="flexRadioDefault2">
+                                                    Comercial
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="category"
+                                                    id="flexRadioDefault2" value="usina">
+                                                <label class="form-check-label" for="flexRadioDefault2">
+                                                    Usina
+                                                </label>
+                                            </div>
                                         </div>
                                         <!-- Form Group (last name)-->
                                         <div class="col-md-6">
@@ -201,7 +220,12 @@
                                         <div class="col-md-6">
                                             <label class="small mb-1" for="Status">Status</label>
                                             <input name="Status" class="form-control" id="Status" type="text"
-                                                value="Aguardando dados">
+                                                value="Em análise">
+                                        </div>
+                                         <div class="col-md-6">
+                                            <label class="small mb-1" for="RStatus">Razão do Status</label>
+                                            <input name="RStatus" class="form-control" id="RStatus" type="text" placeholder="Estamos aguardando X documentação."
+                                               >
                                         </div>
                                         <div class="col-md-6">
                                             <label class="small mb-1" for="coords">Coordenadas da unidade
