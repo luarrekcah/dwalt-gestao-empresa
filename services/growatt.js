@@ -1,7 +1,6 @@
 const { getAllItems, updateItem } = require("../database/users")
     , { getDate } = require("../auth/functions/database")
-    , moment = require('./moment')
-    , axios = require('axios');
+    , moment = require('./moment');
 
 const growattConfig = {
     minimumTime: 2.5,
@@ -9,11 +8,11 @@ const growattConfig = {
 };
 
 console.log("[GROWATT] Monitoramento ativo");
-const getData = (dataB) => {
-    axios.get("https://test.growatt.com/v1/plant/list", { headers: { token: dataB.data.info.tokenGrowatt } })
+const getData = async (dataB) => {
+    await fetch("https://test.growatt.com/v1/plant/list", { headers: { token: dataB.data.info.tokenGrowatt } })
+        .then((response) => response.json())
         .then(response => {
-            const data = response.data.data;
-            if (response.data.error_code !== 0) return;
+            const data = response.data
             updateItem({
                 path: `gestaoempresa/business/${dataB.key}/growatt/plantList`, params: { data }
             });

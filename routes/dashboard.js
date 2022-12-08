@@ -1,4 +1,3 @@
-const { default: axios } = require("axios");
 const { getDate } = require("../auth/functions/database");
 
 const express = require("express"),
@@ -24,8 +23,8 @@ router.get("/", async (req, res, next) => {
             case "waitmore":
                 message = { type: 'warning', title: 'Opa! A api da growatt tem limite de requisição.', description: 'Tente novamente daqui algumas horas, o tempo entre as requisições deve ser de 2.5 horas.' }
                 break;
-                case "error":
-                message = { type: 'danger', title: 'Ocorreu um erro!', description: 'Verifique se temos permissão para acessar sua API ou se está com o funcionamento normal.' }
+            case "error":
+                message = { type: 'error', title: 'Ocorreu um erro!', description: 'Verifique se temos permissão para acessar sua API ou se está com o funcionamento normal.' }
                 break;
         }
     } else {
@@ -34,8 +33,8 @@ router.get("/", async (req, res, next) => {
 
     let kwh = 0;
 
-    if(growatt.plantList) {
-        growatt.plantList.data.plants.forEach(i =>  kwh = parseInt(i.total_energy) + kwh);
+    if (growatt.plantList && growatt.plantList.data !== '') {
+        growatt.plantList.data.plants.forEach(i => kwh = parseInt(i.total_energy) + kwh);
     }
 
     const data = {
@@ -56,10 +55,10 @@ router.post("/", async (req, res, next) => {
     if (!authenticationMiddlewareTrueFalse(req, res, next)) return res.redirect("/");
     const growattData = await getItems({ path: `gestaoempresa/business/${req.user.key}/growatt` });
     if (growattData === []) {
-        axios.get("https://test.growatt.com/v1/plant/list", { headers: { token: req.body.token } })
+        await fetch("https://test.growatt.com/v1/plant/list", { headers: { token: req.body.token } })
+            .then((response) => response.json())
             .then(response => {
-                console.log(response);
-                const data = response.data.data;
+                const data = response.data
                 updateItem({
                     path: `gestaoempresa/business/${req.user.key}/growatt/plantList`, params: { data }
                 });
@@ -78,11 +77,10 @@ router.post("/", async (req, res, next) => {
         if (duration.asHours() <= 2.5) {
             return res.redirect('/dashboard?message=waitMore');
         } else {
-            axios.get("https://test.growatt.com/v1/plant/list", { headers: { token: req.body.token } })
+            await fetch("https://test.growatt.com/v1/plant/list", { headers: { token: req.body.token } })
+                .then((response) => response.json())
                 .then(response => {
-                    const data = response.data.data;
-                    console.log(response.data);
-                    if(response.data.error_code !== 0) return res.redirect('/dashboard?message=error');
+                    const data = response.data;
                     updateItem({
                         path: `gestaoempresa/business/${req.user.key}/growatt/plantList`, params: { data }
                     });
