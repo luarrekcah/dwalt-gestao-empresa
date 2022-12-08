@@ -1,3 +1,4 @@
 template
 node_modules
 .env
+credentials/firebase.json

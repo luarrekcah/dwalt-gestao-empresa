@@ -8,6 +8,7 @@ const createError = require("http-errors"),
 const app = express();
 
 require('./database.js');
+require('./admin.js');
 
 require("./auth/local")(passport);
 

@@ -5,6 +5,7 @@ const express = require("express"),
     { authenticationMiddlewareTrueFalse } = require("../auth/functions/middlewares"),
     { getAllItems, updateItem, getUser, getItems } = require("../database/users"),
     moment = require("../services/moment");
+admin = require('firebase-admin');
 
 router.get("/", async (req, res, next) => {
     if (!authenticationMiddlewareTrueFalse(req, res, next)) return res.redirect("/");
@@ -25,6 +26,9 @@ router.get("/", async (req, res, next) => {
                 break;
             case "error":
                 message = { type: 'error', title: 'Ocorreu um erro!', description: 'Verifique se temos permissão para acessar sua API ou se está com o funcionamento normal.' }
+                break;
+                case "notifysend":
+                message = { type: 'success', title: 'Notificação enviada!', description: 'Você sabia que, 95% das notificações podem ser entregues em 250ms?' }
                 break;
         }
     } else {
@@ -53,48 +57,101 @@ router.get("/", async (req, res, next) => {
 
 router.post("/", async (req, res, next) => {
     if (!authenticationMiddlewareTrueFalse(req, res, next)) return res.redirect("/");
-    const growattData = await getItems({ path: `gestaoempresa/business/${req.user.key}/growatt` });
-    if (growattData === []) {
-        await fetch("https://test.growatt.com/v1/plant/list", { headers: { token: req.body.token } })
-            .then((response) => response.json())
-            .then(response => {
-                const data = response.data
-                updateItem({
-                    path: `gestaoempresa/business/${req.user.key}/growatt/plantList`, params: { data }
-                });
-                updateItem({
-                    path: `gestaoempresa/business/${req.user.key}/growatt/token`, params: {
-                        lastUse: getDate(),
-                        requestByDay: 10,
-                    }
-                });
-                return res.redirect('/dashboard');
-            });
-    } else {
-        const now = moment(new Date());
-        const date = moment(growattData.token.lastUse);
-        const duration = moment.duration(now.diff(date));
-        if (duration.asHours() <= 2.5) {
-            return res.redirect('/dashboard?message=waitMore');
-        } else {
-            await fetch("https://test.growatt.com/v1/plant/list", { headers: { token: req.body.token } })
-                .then((response) => response.json())
-                .then(response => {
-                    const data = response.data;
-                    updateItem({
-                        path: `gestaoempresa/business/${req.user.key}/growatt/plantList`, params: { data }
+    console.log(req.body);
+    switch (req.body.type.toLowerCase()) {
+        case 'reload_growatt':
+            const growattData = await getItems({ path: `gestaoempresa/business/${req.user.key}/growatt` });
+            if (growattData === []) {
+                await fetch("https://test.growatt.com/v1/plant/list", { headers: { token: req.body.token } })
+                    .then((response) => response.json())
+                    .then(response => {
+                        const data = response.data
+                        updateItem({
+                            path: `gestaoempresa/business/${req.user.key}/growatt/plantList`, params: { data }
+                        });
+                        updateItem({
+                            path: `gestaoempresa/business/${req.user.key}/growatt/token`, params: {
+                                lastUse: getDate(),
+                                requestByDay: 10,
+                            }
+                        });
+                        return res.redirect('/dashboard');
                     });
-                    updateItem({
-                        path: `gestaoempresa/business/${req.user.key}/growatt/token`, params: {
-                            lastUse: getDate(),
-                            requestByDay: 10,
+            } else {
+                const now = moment(new Date());
+                const date = moment(growattData.token.lastUse);
+                const duration = moment.duration(now.diff(date));
+                if (duration.asHours() <= 2.5) {
+                    return res.redirect('/dashboard?message=waitMore');
+                } else {
+                    await fetch("https://test.growatt.com/v1/plant/list", { headers: { token: req.body.token } })
+                        .then((response) => response.json())
+                        .then(response => {
+                            const data = response.data;
+                            updateItem({
+                                path: `gestaoempresa/business/${req.user.key}/growatt/plantList`, params: { data }
+                            });
+                            updateItem({
+                                path: `gestaoempresa/business/${req.user.key}/growatt/token`, params: {
+                                    lastUse: getDate(),
+                                    requestByDay: 10,
+                                }
+                            });
+                            return res.redirect('/dashboard');
+                        });
+                }
+            }
+            break;
+        case 'send_notify':
+            if (req.body.way === 'apps') {
+                let tokens = [];
+                const staffs = await getAllItems({ path: `gestaoempresa/business/${req.user.key}/staffs` });
+                const customers = await getAllItems({ path: `gestaoempresa/business/${req.user.key}/customers` });
+                if (req.body.to === 'staffs') {
+                    staffs.forEach(i => {
+                        if(i.data.token) {
+                            tokens.push(i.data.token)
                         }
                     });
-                    return res.redirect('/dashboard');
-                });
-        }
+                } else if (req.body.to === 'customers') {
+                    customers.forEach(i => {
+                        if(i.data.token) {
+                            tokens.push(i.data.token)
+                        }
+                    });
+                } else {
+                    customers.forEach(i => {
+                        if(i.data.token) {
+                            tokens.push(i.data.token)
+                        }
+                    });
+                    staffs.forEach(i => {
+                        if(i.data.token) {
+                            tokens.push(i.data.token)
+                        }
+                    });
+                }
+                console.log(tokens);
+                if (tokens === null) {
+                    return res.redirect('/dashboard?message=error');
+                } else {
+                    await admin.messaging().sendMulticast({
+                        tokens,
+                        data: {
+                            notifee: JSON.stringify({
+                                title: req.body.notifyTitle,
+                                body: req.body.notifyMessage,
+                                android: {
+                                    channelId: 'default',
+                                  },
+                            }),
+                        },
+                    });
+                    return res.redirect('/dashboard?message=notifySend');
+                }
+            }
+            break;
     }
-
 });
 
 router.get("/chamados", async (req, res, next) => {

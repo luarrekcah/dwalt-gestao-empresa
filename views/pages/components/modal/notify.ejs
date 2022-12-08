@@ -1,19 +1,72 @@
-<div class="modal fade" id="NotifyModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-aria-hidden="true">
-<div class="modal-dialog" role="document">
+<div class="modal fade" id="NotifyModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
     <div class="modal-content">
-        <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Enviar notificação</h5>
-            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">×</span>
-            </button>
-        </div>
-        <div class="modal-body">
-           Em desenvolvimento.
-        </div>
-        <div class="modal-footer">
-            <button class="btn btn-secondary" type="button" data-dismiss="modal">Fechar</button>
-        </div>
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Enviar notificação</h5>
+        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form method="POST">
+          <div class="mb-3">
+            <label class="small mb-1" for="notifyTitle">Titulo curto</label>
+            <input name="notifyTitle" class="form-control" id="notifyTitle" type="text">
+          </div>
+
+          <div class="mb-3">
+            <label class="small mb-1" for="notifyMessage">Mensagem curta</label>
+            <input name="notifyMessage" class="form-control" id="notifyMessage" type="text">
+          </div>
+
+          <div class="col-md-6">
+            <label class="small mb-1" for="category">Enviar para</label>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="to" id="flexRadioDefault1" value="staffs" checked>
+              <label class="form-check-label" for="flexRadioDefault1">
+                Funcionários
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="to" id="flexRadioDefault2" value="customers">
+              <label class="form-check-label" for="flexRadioDefault2">
+                Clientes
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="to" id="flexRadioDefault2" value="all">
+              <label class="form-check-label" for="flexRadioDefault2">
+                Todos
+              </label>
+            </div>
+
+
+            <label class="small mb-1" for="category">Por meio de</label>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="way" id="flexRadioDefault1" value="apps" checked>
+              <label class="form-check-label" for="flexRadioDefault1">
+                Notificação nos apps
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="way" id="flexRadioDefault2" value="email">
+              <label class="form-check-label" for="flexRadioDefault2">
+                E-mail
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="way" id="flexRadioDefault2" value="all">
+              <label class="form-check-label" for="flexRadioDefault2">
+                Todos
+              </label>
+            </div>
+            <input type="text" name="type" value="SEND_NOTIFY" style="display: none;">
+            <button class="btn btn-primary" style="width: 100%; margin-top: 20px" type="submit">Enviar notificações</button>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" type="button" data-dismiss="modal">Fechar</button>
+      </div>
     </div>
-</div>
+  </div>
 </div>
