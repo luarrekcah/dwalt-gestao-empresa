@@ -1,5 +1,4 @@
-const createError = require("http-errors"),
-  express = require("express"),
+const express = require("express"),
   path = require("path"),
   logger = require("morgan"),
   cookieParser = require("cookie-parser"),
@@ -25,7 +24,7 @@ app.use(
     secret: "123",
     resave: false,
     saveUninitialized: false,
-    cookie: { maxAge: 60 * 60 * 1000 },
+    cookie: { maxAge: 86400000 }, //24 hours
   })
 );
 

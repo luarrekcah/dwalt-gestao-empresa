@@ -4,8 +4,29 @@ const express = require("express"),
     router = express.Router(),
     { authenticationMiddlewareTrueFalse } = require("../auth/functions/middlewares"),
     { getAllItems, updateItem, getUser, getItems } = require("../database/users"),
-    moment = require("../services/moment");
-admin = require('firebase-admin');
+    moment = require("../services/moment"),
+    axios = require('axios'),
+    admin = require('firebase-admin');
+
+const getData = async (res, req) => {
+    axios.get("https://test.growatt.com/v1/plant/list", { headers: { token: req.body.token } })
+        .then(response => {
+            const data = response.data
+            if (data.error_code !== 0)
+                return res.redirect('/dashboard?message=error');
+            updateItem({
+                path: `gestaoempresa/business/${req.user.key}/growatt/plantList`, params: { data }
+            });
+            updateItem({
+                path: `gestaoempresa/business/${req.user.key}/growatt/token`, params: {
+                    lastUse: getDate(),
+                    requestByDay: 10,
+                }
+            });
+            return res.redirect('/dashboard');
+
+        });
+}
 
 router.get("/", async (req, res, next) => {
     if (!authenticationMiddlewareTrueFalse(req, res, next)) return res.redirect("/");
@@ -27,7 +48,7 @@ router.get("/", async (req, res, next) => {
             case "error":
                 message = { type: 'error', title: 'Ocorreu um erro!', description: 'Verifique se temos permissão para acessar sua API ou se está com o funcionamento normal.' }
                 break;
-                case "notifysend":
+            case "notifysend":
                 message = { type: 'success', title: 'Notificação enviada!', description: 'Você sabia que, 95% das notificações podem ser entregues em 250ms?' }
                 break;
         }
@@ -36,9 +57,8 @@ router.get("/", async (req, res, next) => {
     }
 
     let kwh = 0;
-
-    if (growatt.plantList && growatt.plantList.data !== '') {
-        growatt.plantList.data.plants.forEach(i => kwh = parseInt(i.total_energy) + kwh);
+    if (growatt.plantList && typeof (growatt.plantList.data.data) === Array) {
+        growatt.plantList.data.data.plants.forEach(i => kwh = parseInt(i.total_energy) + kwh);
     }
 
     const data = {
@@ -62,21 +82,7 @@ router.post("/", async (req, res, next) => {
         case 'reload_growatt':
             const growattData = await getItems({ path: `gestaoempresa/business/${req.user.key}/growatt` });
             if (growattData === []) {
-                await fetch("https://test.growatt.com/v1/plant/list", { headers: { token: req.body.token } })
-                    .then((response) => response.json())
-                    .then(response => {
-                        const data = response.data
-                        updateItem({
-                            path: `gestaoempresa/business/${req.user.key}/growatt/plantList`, params: { data }
-                        });
-                        updateItem({
-                            path: `gestaoempresa/business/${req.user.key}/growatt/token`, params: {
-                                lastUse: getDate(),
-                                requestByDay: 10,
-                            }
-                        });
-                        return res.redirect('/dashboard');
-                    });
+                getData(res, req);
             } else {
                 const now = moment(new Date());
                 const date = moment(growattData.token.lastUse);
@@ -84,21 +90,7 @@ router.post("/", async (req, res, next) => {
                 if (duration.asHours() <= 2.5) {
                     return res.redirect('/dashboard?message=waitMore');
                 } else {
-                    await fetch("https://test.growatt.com/v1/plant/list", { headers: { token: req.body.token } })
-                        .then((response) => response.json())
-                        .then(response => {
-                            const data = response.data;
-                            updateItem({
-                                path: `gestaoempresa/business/${req.user.key}/growatt/plantList`, params: { data }
-                            });
-                            updateItem({
-                                path: `gestaoempresa/business/${req.user.key}/growatt/token`, params: {
-                                    lastUse: getDate(),
-                                    requestByDay: 10,
-                                }
-                            });
-                            return res.redirect('/dashboard');
-                        });
+                    getData(res, req);
                 }
             }
             break;
@@ -109,24 +101,24 @@ router.post("/", async (req, res, next) => {
                 const customers = await getAllItems({ path: `gestaoempresa/business/${req.user.key}/customers` });
                 if (req.body.to === 'staffs') {
                     staffs.forEach(i => {
-                        if(i.data.token) {
+                        if (i.data.token) {
                             tokens.push(i.data.token)
                         }
                     });
                 } else if (req.body.to === 'customers') {
                     customers.forEach(i => {
-                        if(i.data.token) {
+                        if (i.data.token) {
                             tokens.push(i.data.token)
                         }
                     });
                 } else {
                     customers.forEach(i => {
-                        if(i.data.token) {
+                        if (i.data.token) {
                             tokens.push(i.data.token)
                         }
                     });
                     staffs.forEach(i => {
-                        if(i.data.token) {
+                        if (i.data.token) {
                             tokens.push(i.data.token)
                         }
                     });
@@ -143,7 +135,7 @@ router.post("/", async (req, res, next) => {
                                 body: req.body.notifyMessage,
                                 android: {
                                     channelId: 'default',
-                                  },
+                                },
                             }),
                         },
                     });

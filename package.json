@@ -4,13 +4,14 @@
     "test": "jasmine"
   },
   "dependencies": {
-    "@firebase/app": "^0.7.33",
-    "@firebase/database": "^0.13.6",
+    "@firebase/app": "^0.9.0",
+    "@firebase/database": "^0.14.0",
+    "axios": "^1.2.1",
     "bcryptjs": "^2.4.3",
     "cookie-parser": "^1.4.6",
-    "dotenv": "^16.0.2",
+    "dotenv": "^16.0.3",
     "ejs": "^3.1.8",
-    "express": "^4.18.1",
+    "express": "^4.18.2",
     "express-session": "^1.17.3",
     "firebase-admin": "^11.3.0",
     "http-errors": "^2.0.0",
