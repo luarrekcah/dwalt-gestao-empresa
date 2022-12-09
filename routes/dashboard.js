@@ -57,7 +57,7 @@ router.get("/", async (req, res, next) => {
     }
 
     let kwh = 0;
-    if (growatt.plantList && typeof (growatt.plantList.data.data) === Array) {
+    if (growatt.plantList) {
         growatt.plantList.data.data.plants.forEach(i => kwh = parseInt(i.total_energy) + kwh);
     }
 
