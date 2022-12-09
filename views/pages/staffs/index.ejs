@@ -1,131 +1,113 @@
 <%- include("../../partials/head.ejs") %>
-    <body id="page-top">
-        <div id="wrapper">
-            <%- include("../../partials/sidebar.ejs") %>
-                <div id="content-wrapper" class="d-flex flex-column">
-                    <div id="content">
-                        <%- include("../../partials/topbar.ejs") %>
-                            <div class="container-fluid">
-                                <h1 class="h3 mb-2 text-gray-800">Gerenciar Equipe <a href="#" data-toggle="modal"
-                                        data-target="#addTeamModal" style="height: 25px; width: 25px;"
-                                        class="btn btn-info btn-circle">
-                                        <i class="fas fa-plus"></i>
-                                    </a></h1>
-                                <p class="mb-4">Altere os dados, adiciona ou remova pessoas.</p>
-                                <% if(teams.length===0) {%>
-                                    <div class="card shadow mb-4">
-                                        <div class="card-body">
-                                            <h1 class="h3 mb-2 text-gray-800">Sua empresa ainda não tem equipes
-                                                registradas. Clique <a href="#" data-toggle="modal"
-                                                    data-target="#addTeamModal" style="height: 25px; width: 25px;"
-                                                    class="btn btn-info btn-circle">
-                                                    <i class="fas fa-plus"></i>
-                                                </a> para registrar
-                                            </h1>
-                                        </div>
-                                    </div>
-                                    <% } else { %>
-                                        <% teams.forEach(i=> { %>
-                                            <div class="card shadow mb-4">
-                                                <div class="card-header py-3">
-                                                    <h6 class="m-0 font-weight-bold text-primary">
-                                                        <%= i.data.name %> <a
-                                                                onclick="setData(<%= JSON.stringify(i) %>)" href="#"
-                                                                data-toggle="modal" data-target="#addMemberModal"
-                                                                style="height: 25px; width: 25px;"
-                                                                class="btn btn-primary btn-circle">
-                                                                <i class="fas fa-plus"></i>
-                                                            </a>
-                                                    </h6>
-                                                </div>
-                                                <div class="card-body">
-                                                    <div class="table-responsive">
-                                                        <% if(!i.data.members) { %>
-                                                            <h1 class="h3 mb-2 text-gray-800">Essa equipe ainda não tem
-                                                                membros. Clique <a onclick="setData(<%= JSON.stringify(i) %>)" 
-                                                                    href="#" data-toggle="modal"
-                                                                    data-target="#addMemberModal"
-                                                                    class="btn btn-primary btn-circle"
-                                                                    style="height: 25px; width: 25px;">
-                                                                    <i class="fas fa-plus"></i>
-                                                                </a> para registrar
-                                                            </h1>
-                                                            <% } else { %>
-                                                                <table class="table table-bordered" id="dataTable"
-                                                                    width="100%" cellspacing="0">
-                                                                    <thead>
-                                                                        <tr>
-                                                                            <th>Nome</th>
-                                                                            <th>Cargo</th>
-                                                                            <th>Botões</th>
-                                                                        </tr>
-                                                                    </thead>
-                                                                    <tbody>
 
-                                                                        <% Object.values(i.data.members).forEach(member=>
+<body id="page-top">
+  <div id="wrapper">
+    <%- include("../../partials/sidebar.ejs") %>
+    <div id="content-wrapper" class="d-flex flex-column">
+      <div id="content">
+        <%- include("../../partials/topbar.ejs") %>
+        <div class="container-fluid">
+          <h1 class="h3 mb-2 text-gray-800">Gerenciar Equipe <a href="#" data-toggle="modal" data-target="#addTeamModal" style="height: 25px; width: 25px;" class="btn btn-info btn-circle">
+              <i class="fas fa-plus"></i>
+            </a></h1>
+          <p class="mb-4">Altere os dados, adiciona ou remova pessoas.</p>
+          <% if(teams.length===0) {%>
+          <div class="card shadow mb-4">
+            <div class="card-body">
+              <h1 class="h3 mb-2 text-gray-800">Sua empresa ainda não tem equipes
+                registradas. Clique <a href="#" data-toggle="modal" data-target="#addTeamModal" style="height: 25px; width: 25px;" class="btn btn-info btn-circle">
+                  <i class="fas fa-plus"></i>
+                </a> para registrar
+              </h1>
+            </div>
+          </div>
+          <% } else { %>
+          <% teams.forEach((i, index)=> { %>
+          <div class="card shadow mb-4">
+            <a href="#d<%=index%>" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardExample">
+              <h6 class="m-0 font-weight-bold text-primary"><%= index + 1 %> - <%= i.data.name %></h6>
+            </a>
+            <div class="collapse" id="d<%=index%>">
+              <div class="card-body">
+                <div class="table-responsive">
+                  <% if(!i.data.members) { %>
+                  <h1 class="h3 mb-2 text-gray-800">Essa equipe ainda não tem
+                    membros. Clique <a onclick="setData(<%= JSON.stringify(i) %>)" href="#" data-toggle="modal" data-target="#addMemberModal" class="btn btn-primary btn-circle" style="height: 25px; width: 25px;">
+                      <i class="fas fa-plus"></i>
+                    </a> para registrar
+                  </h1>
+                  <% } else { %>
+                  <a href="#" onclick="setData(<%= JSON.stringify(i) %>)" data-toggle="modal" data-target="#addMemberModal" class="btn btn-info btn-icon-split">
+                <span class="icon text-white-50">
+                  <i class="fas fa-plus"></i>
+                </span>
+                <span class="text">Adicionar membro</span>
+              </a>
+                  <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                  
+                    <thead>
+                      <tr>
+                        <th>Nome</th>
+                        <th>Cargo</th>
+                        <th>Botões</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+
+                      <% Object.values(i.data.members).forEach(member=>
                                                                             { %>
-                                                                            <tr>
-                                                                                <td>
-                                                                                    <%= member.nickname %>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <%= member.role_name %>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <form method="post">
-                                                                                        <input type="text" name="type"
-                                                                                            value="DELETE_MEMBER"
-                                                                                            style="display: none;">
-                                                                                        <input type="text" name="email"
-                                                                                            value="<%= member.email %>"
-                                                                                            style="display: none;">
-                                                                                            <input type="text" name="teamMemberId"
-                                                                                            value="<%= i.key %>"
-                                                                                            style="display: none;">
-                                                                                        <button class="btn btn-danger"
-                                                                                            type="submit"><a href="#"
-                                                                                                class="btn btn-danger btn-circle">
-                                                                                                <i
-                                                                                                    class="fas fa-trash"></i>
-                                                                                            </a></button>
-                                                                                    </form>
-                                                                                </td>
-                                                                            </tr>
-                                                                            <% }) %>
-                                                                    </tbody>
-                                                                </table>
+                      <tr>
+                        <td>
+                          <%= member.nickname %>
+                        </td>
+                        <td>
+                          <%= member.role_name %>
+                        </td>
+                        <td>
+                          <form method="post">
+                            <input type="text" name="type" value="DELETE_MEMBER" style="display: none;">
+                            <input type="text" name="email" value="<%= member.email %>" style="display: none;">
+                            <input type="text" name="teamMemberId" value="<%= i.key %>" style="display: none;">
+                            <button class="btn btn-danger" type="submit"><a href="#" class="btn btn-danger btn-circle">
+                                <i class="fas fa-trash"></i>
+                              </a></button>
+                          </form>
+                        </td>
+                      </tr>
+                      <% }) %>
+                    </tbody>
+                  </table>
 
-                                                                <% } %>
-                                                                    <form method="post">
-                                                                        <input type="text" name="type"
-                                                                            value="DELETE_TEAM" style="display: none;">
-                                                                        <input type="text" name="id"
-                                                                            value="<%= i.key %>" style="display: none;">
-                                                                        <button class="btn btn-danger"
-                                                                            type="submit">Deletar
-                                                                            equipe
-                                                                            <i class="fas fa-trash"></i></button>
-                                                                    </form>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <% }) %>
-                                                <% } %>
-                            </div>
-                    </div>
-                    <%- include("../../partials/footer.ejs") %>
+                  <% } %>
+                  <form method="post">
+                    <input type="text" name="type" value="DELETE_TEAM" style="display: none;">
+                    <input type="text" name="id" value="<%= i.key %>" style="display: none;">
+                    <button class="btn btn-danger" type="submit">Deletar
+                      equipe
+                      <i class="fas fa-trash"></i></button>
+                  </form>
                 </div>
+              </div>
+            </div>
+          </div>
+          <% }) %>
+          <% } %>
         </div>
-        <a class="scroll-to-top rounded" href="#page-top">
-            <i class="fas fa-angle-up"></i>
-        </a>
-        <%- include("../components/modal/logout.ejs") %>
-            <%- include("./components/modal/addTeam.ejs") %>
-                <%- include("./components/modal/addMember.ejs") %>
-                   
-                    <script src="/vendor/jquery/jquery.min.js"></script>
-                    <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-                    <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
-                    <script src="/js/sb-admin-2.min.js"></script>
-    </body>
-    </html>
+      </div>
+      <%- include("../../partials/footer.ejs") %>
+    </div>
+  </div>
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+  <%- include("../components/modal/logout.ejs") %>
+  <%- include("./components/modal/addTeam.ejs") %>
+  <%- include("./components/modal/addMember.ejs") %>
+
+  <script src="/vendor/jquery/jquery.min.js"></script>
+  <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+  <script src="/js/sb-admin-2.min.js"></script>
+</body>
+
+</html>
