@@ -12,7 +12,7 @@ const transporter = nodemailer.createTransport({
 
 module.exports = {
   sendForgotPasswordEmail: (to, link) => {
-    var mailOptions = {
+    const mailOptions = {
       from: 'contato@dlwalt.com',
       to,
       subject: 'Recuperação de conta - D Walt Gestão',
