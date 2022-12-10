@@ -1,5 +1,5 @@
 const { getDatabase, set, ref, push, query, equalTo, update, remove, onValue, child, Database, get } = require('@firebase/database');
-
+const moment = require("../services/moment");
 require('../database');
 
 module.exports = {
@@ -57,5 +57,13 @@ module.exports = {
         const snapshot = await get(ref(db, `gestaoempresa/business/${userId}/info`))
         const data = snapshot.val()
         return {key: userId, data}
-    }
+    },
+    createLogs: (userId, message) => {
+        const db = getDatabase();
+        push(ref(db, `gestaoempresa/business/${userId}/logs`), {message, createdAt: moment().format() }).then(
+            console.log("[LOG] Gravação LOGS no banco de dados")
+        ).catch((error) => {
+            console.warn(error);
+        });
+    },
 }
