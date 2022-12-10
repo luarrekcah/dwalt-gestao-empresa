@@ -3,7 +3,7 @@ const { getDate } = require("../auth/functions/database");
 const express = require("express"),
     router = express.Router(),
     { authenticationMiddlewareTrueFalse } = require("../auth/functions/middlewares"),
-    { getAllItems, updateItem, getUser, getItems } = require("../database/users"),
+    { getAllItems, updateItem, getUser, getItems, createLogs } = require("../database/users"),
     moment = require("../services/moment"),
     axios = require('axios'),
     admin = require('firebase-admin');
@@ -95,6 +95,7 @@ router.post("/", async (req, res, next) => {
             }
             break;
         case 'send_notify':
+            createLogs(req.user.key, `Notificação enviada para os usuários.`);
             if (req.body.way === 'apps') {
                 let tokens = [];
                 const staffs = await getAllItems({ path: `gestaoempresa/business/${req.user.key}/staffs` });
@@ -167,7 +168,8 @@ router.post("/chamados", (req, res, next) => {
                     finished: true,
                     status: 'Solicitação finalizada'
                 }
-            })
+            });
+            createLogs(user.key, "Chamado finalizado");
             break;
     }
 

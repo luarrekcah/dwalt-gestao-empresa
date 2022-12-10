@@ -115,6 +115,7 @@ router.post("/registro", async (req, res) => {
 router.get("/logout", (req, res, next) => {
     req.logout((err) => {
         if (err) { return next(err); }
+        createLogs(user.key, "Usuário deslogado.");
         res.redirect('/');
     });
 });
@@ -161,7 +162,9 @@ router.post("/esqueciasenha", async (req, res, next) => {
                 date: getDate(),
             }
         });
-        sendForgotPasswordEmail(email, `https://${req.get('host')}/resetarsenha?token=${jwtToken}`)
+        sendForgotPasswordEmail(email, `https://${req.get('host')}/resetarsenha?token=${jwtToken}`);
+        
+        createLogs(foundBusiness.key, "Token de recuperação de conta criado");
         return res.redirect('/esqueciasenha?message=checkemail');
     } else {
         return res.redirect('/esqueciasenha?message=notfound');
@@ -213,6 +216,7 @@ router.post("/resetarsenha", async (req, res, next) => {
                 date: getDate(),
             }
         });
+        createLogs(user.key, "Senha atualizada.");
         return res.redirect(`/?message=RedefinedPassword`);
     } else {
         return res.redirect(`/resetarsenha?message=PasswordDontMatch&token=${token}`);
