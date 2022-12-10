@@ -169,7 +169,7 @@ router.post("/chamados", (req, res, next) => {
                     status: 'Solicitação finalizada'
                 }
             });
-            createLogs(user.key, "Chamado finalizado");
+            createLogs(req.user.key, "Chamado finalizado");
             break;
     }
 
