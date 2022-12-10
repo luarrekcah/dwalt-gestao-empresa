@@ -1,6 +1,7 @@
 const bcrypt = require("bcryptjs"),
   localStrategy = require("passport-local").Strategy;
 const { getDatabase, ref, onValue } = require("@firebase/database");
+const { createLogs } = require("../database/users");
 
 module.exports = async (passport) => {
   const db = getDatabase();
@@ -49,6 +50,7 @@ module.exports = async (passport) => {
             if (!user) return done(null, false);
             const isValid = bcrypt.compareSync(password, user.data.info.password);
             if (!isValid) return done(null, false);
+            createLogs(user.key, "Login realizado");
             return done(null, user);
           } catch (err) {
             console.log(err);
