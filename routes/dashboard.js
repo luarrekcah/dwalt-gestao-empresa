@@ -95,7 +95,6 @@ router.post("/", async (req, res, next) => {
             }
             break;
         case 'send_notify':
-            createLogs(req.user.key, `Notificação enviada para os usuários.`);
             if (req.body.way === 'apps') {
                 let tokens = [];
                 const staffs = await getAllItems({ path: `gestaoempresa/business/${req.user.key}/staffs` });
@@ -130,16 +129,11 @@ router.post("/", async (req, res, next) => {
                 } else {
                     await admin.messaging().sendMulticast({
                         tokens,
-                        data: {
-                            notifee: JSON.stringify({
-                                title: req.body.notifyTitle,
-                                body: req.body.notifyMessage,
-                                android: {
-                                    channelId: 'default',
-                                },
-                            }),
+                        notification: {
+                          title: req.body.notifyTitle,
+                          body: req.body.notifyMessage,
                         },
-                    });
+                      });
                     return res.redirect('/dashboard?message=notifySend');
                 }
             }
