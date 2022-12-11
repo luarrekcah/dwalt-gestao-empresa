@@ -10,7 +10,7 @@ const express = require("express"),
     jwt = require('jsonwebtoken'),
     { getDate } = require("../auth/functions/database"),
     { authenticationMiddlewareTrueFalse } = require("../auth/functions/middlewares"),
-    { createItem, getAllItems, updateItem } = require("../database/users");
+    { createItem, getAllItems, updateItem, createLogs } = require("../database/users");
 
 router.get("/", (req, res, next) => {
     if (authenticationMiddlewareTrueFalse(req, res, next)) {

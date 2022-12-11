@@ -3,7 +3,7 @@ const express = require("express"),
     moment = require('../services/moment'),
     { authenticationMiddlewareTrueFalse } = require("../auth/functions/middlewares"),
     { getDate } = require("../auth/functions/database"),
-    { createItem, getAllItems, getItems, getUser, deleteItem, updateItem } = require("../database/users");
+    { createItem, getAllItems, getItems, getUser, deleteItem, updateItem, createLogs } = require("../database/users");
 
 router.get("/", async (req, res, next) => {
     if (authenticationMiddlewareTrueFalse(req, res, next)) {

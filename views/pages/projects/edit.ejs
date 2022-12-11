@@ -200,11 +200,66 @@
                                             <input name="kwp" class="form-control" id="kwp" type="text"
                                                 placeholder="000" value="<%=project.kwp%>" required>
                                         </div>
-                                        <div class="col-md-6">
-                                            <label class="small mb-1" for="Status">Status</label>
-                                            <input name="Status" value="<%=project.Status%>" class="form-control" id="Status" type="text"
-                                                placeholder="Em homologação">
-                                        </div>
+
+            <div class="col-md-6">
+                <label class="small mb-1" for="Status">Status <b style="color: red">*</b></label>
+              
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="Status" id="flexRadioDefault1" value="dadosEntregue" <%-project.Status === 'dadosEntregue' ? "checked" : ''%>>
+                  <label class="form-check-label" for="flexRadioDefault1">
+                    Dados entregue
+                  </label>
+                </div>
+
+                  <div class="form-check">
+                  <input class="form-check-input" type="radio" name="Status" id="flexRadioDefault1" value="protocolado" <%-project.Status === 'protocolado' ? "checked" : ''%>>
+                  <label class="form-check-label" for="flexRadioDefault1">
+                    Projeto Protocolado
+                  </label>
+                </div>
+
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="Status" id="flexRadioDefault1" value="aprovado" <%-project.Status === 'aprovado' ? "checked" : ''%>>
+                  <label class="form-check-label" for="flexRadioDefault1">
+                    Projeto aprovado
+                  </label>
+                </div>
+
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="Status" id="flexRadioDefault1" value="equipamentoEntregue" <%-project.Status === 'equipamentoEntregue' ? "checked" : ''%>>
+                  <label class="form-check-label" for="flexRadioDefault1">
+                    Equipamentos entregue
+                  </label>
+                </div>
+
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="Status" id="flexRadioDefault1" value="concluido" <%-project.Status === 'concluido' ? "checked" : ''%>>
+                  <label class="form-check-label" for="flexRadioDefault1">
+                    Instalação concluída
+                  </label>
+                </div>
+
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="Status" id="flexRadioDefault1" value="vistoriaSolicitada" <%-project.Status === 'vistoriaSolicitada' ? "checked" : ''%>>
+                  <label class="form-check-label" for="flexRadioDefault1">
+                    Vistoria solicitada
+                  </label>
+                </div>
+
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="Status" id="flexRadioDefault1" value="vistoriaAprovada" <%-project.Status === 'vistoriaAprovada' ? checked : ''%>>
+                  <label class="form-check-label" for="flexRadioDefault1">
+                    Vistoria Aprovada
+                  </label>
+                </div>
+
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="Status" id="flexRadioDefault1" value="finalizado" <%-project.Status === 'finalizado' ? "checked" : ''%>>
+                  <label class="form-check-label" for="flexRadioDefault1">
+                    Finalizado
+                  </label>
+                </div>
+              </div>
                                          <div class="col-md-6">
                                             <label class="small mb-1" for="RStatus">Razão do Status</label>
                                             <input name="RStatus" class="form-control" id="RStatus" type="text" placeholder="Estamos aguardando X documentação."

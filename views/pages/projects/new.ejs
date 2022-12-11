@@ -190,48 +190,57 @@
                 <label class="small mb-1" for="kwp">kWp do Projeto <b style="color: red">*</b></label>
                 <input name="kwp" class="form-control" id="kwp" type="text" placeholder="000" required>
               </div>
+
+              
                <div class="col-md-6">
                 <label class="small mb-1" for="Status">Status <b style="color: red">*</b></label>
               
                 <div class="form-check">
-                  <input class="form-check-input" type="radio" name="Status" id="flexRadioDefault1" value="aguardando" checked>
+                  <input class="form-check-input" type="radio" name="Status" id="flexRadioDefault1" value="dadosEntregue" checked>
                   <label class="form-check-label" for="flexRadioDefault1">
-                    Aguardando dados
+                    Dados entregue
                   </label>
                 </div>
 
                   <div class="form-check">
-                  <input class="form-check-input" type="radio" name="Status" id="flexRadioDefault1" value="andamento">
+                  <input class="form-check-input" type="radio" name="Status" id="flexRadioDefault1" value="protocolado">
                   <label class="form-check-label" for="flexRadioDefault1">
-                    Em andamento
+                    Projeto Protocolado
                   </label>
                 </div>
 
                 <div class="form-check">
-                  <input class="form-check-input" type="radio" name="Status" id="flexRadioDefault1" value="homologacao">
+                  <input class="form-check-input" type="radio" name="Status" id="flexRadioDefault1" value="aprovado">
                   <label class="form-check-label" for="flexRadioDefault1">
-                    Em homologação
+                    Projeto aprovado
                   </label>
                 </div>
 
                 <div class="form-check">
-                  <input class="form-check-input" type="radio" name="Status" id="flexRadioDefault1" value="aguardandoEquipamentos">
+                  <input class="form-check-input" type="radio" name="Status" id="flexRadioDefault1" value="equipamentoEntregue">
                   <label class="form-check-label" for="flexRadioDefault1">
-                    Aguardando equipamentos
+                    Equipamentos entregue
                   </label>
                 </div>
 
                 <div class="form-check">
-                  <input class="form-check-input" type="radio" name="Status" id="flexRadioDefault1" value="obra">
+                  <input class="form-check-input" type="radio" name="Status" id="flexRadioDefault1" value="concluido">
                   <label class="form-check-label" for="flexRadioDefault1">
-                    Em obra
+                    Instalação concluída
                   </label>
                 </div>
 
                 <div class="form-check">
-                  <input class="form-check-input" type="radio" name="Status" id="flexRadioDefault1" value="aguardandoVistoria">
+                  <input class="form-check-input" type="radio" name="Status" id="flexRadioDefault1" value="vistoriaSolicitada">
                   <label class="form-check-label" for="flexRadioDefault1">
-                    Aguardando vistoria
+                    Vistoria solicitada
+                  </label>
+                </div>
+
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="Status" id="flexRadioDefault1" value="vistoriaAprovada">
+                  <label class="form-check-label" for="flexRadioDefault1">
+                    Vistoria Aprovada
                   </label>
                 </div>
 
@@ -241,9 +250,8 @@
                     Finalizado
                   </label>
                 </div>
-                
-                
               </div>
+
               <div class="col-md-6">
                 <label class="small mb-1" for="RStatus">Razão do Status</label>
                 <input name="RStatus" class="form-control" id="RStatus" type="text" placeholder="Estamos aguardando X documentação.">
