@@ -8,6 +8,8 @@ customersRouter = require("./routes/customers");
 const api = require("./routes/api");
 
 module.exports = (app) => {
+    //api
+    app.use("/api/v1", api);
     app.use("/", indexRouter);
     app.use("/conta", accountRouter);
     app.use("/dashboard", dashboardRouter);
@@ -15,7 +17,4 @@ module.exports = (app) => {
     app.use("/dashboard/gerenciar/equipe", staffsRouter);
     app.use("/dashboard/gerenciar/clientes", customersRouter);
     //app.use("*", notFoundRouter);
-
-    //api
-    app.use("/api/v1", api);
 };
