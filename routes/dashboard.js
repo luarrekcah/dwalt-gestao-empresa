@@ -1,4 +1,5 @@
 const { getDate } = require("../auth/functions/database");
+const { sendNotification } = require("../services/nodemailer");
 
 const express = require("express"),
     router = express.Router(),
@@ -95,10 +96,10 @@ router.post("/", async (req, res, next) => {
             }
             break;
         case 'send_notify':
+            let tokens = [], emails = []
+            const staffs = await getAllItems({ path: `gestaoempresa/business/${req.user.key}/staffs` });
+            const customers = await getAllItems({ path: `gestaoempresa/business/${req.user.key}/customers` });
             if (req.body.way === 'apps') {
-                let tokens = [];
-                const staffs = await getAllItems({ path: `gestaoempresa/business/${req.user.key}/staffs` });
-                const customers = await getAllItems({ path: `gestaoempresa/business/${req.user.key}/customers` });
                 if (req.body.to === 'staffs') {
                     staffs.forEach(i => {
                         if (i.data.token) {
@@ -123,19 +124,66 @@ router.post("/", async (req, res, next) => {
                         }
                     });
                 }
-                console.log(tokens);
                 if (tokens === null) {
                     return res.redirect('/dashboard?message=error');
                 } else {
                     await admin.messaging().sendMulticast({
                         tokens,
                         notification: {
-                          title: req.body.notifyTitle,
-                          body: req.body.notifyMessage,
+                            title: req.body.notifyTitle,
+                            body: req.body.notifyMessage,
                         },
-                      });
+                    });
                     return res.redirect('/dashboard?message=notifySend');
                 }
+            } else if (req.body.way === 'email') {
+                if (req.body.to === 'staffs') {
+                    staffs.forEach(i => {
+                        emails.push(i.data.email);
+                    });
+                } else if (req.body.to === 'customers') {
+                    customers.forEach(i => {
+                        emails.push(i.data.email);
+                    });
+                } else {
+                    customers.forEach(i => {
+                        emails.push(i.data.email);
+                    });
+                    staffs.forEach(i => {
+                        emails.push(i.data.email);
+                    });
+                }
+                sendNotification(emails, {
+                    title: req.body.notifyTitle,
+                    message: req.body.notifyMessage
+                });
+                return res.redirect('/dashboard?message=notifySend');
+            } else {
+                customers.forEach(i => {
+                    if (i.data.token) {
+                        tokens.push(i.data.token)
+                    }
+                    emails.push(i.data.email);
+                    
+                });
+                staffs.forEach(i => {
+                    if (i.data.token) {
+                        tokens.push(i.data.token)
+                    }
+                    emails.push(i.data.email);
+                });
+                sendNotification(emails, {
+                    title: req.body.notifyTitle,
+                    message: req.body.notifyMessage
+                });
+                await admin.messaging().sendMulticast({
+                    tokens,
+                    notification: {
+                        title: req.body.notifyTitle,
+                        body: req.body.notifyMessage,
+                    },
+                });
+                return res.redirect('/dashboard?message=notifySend');
             }
             break;
     }

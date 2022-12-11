@@ -40,12 +40,13 @@ router.get("/", async (req, res, next) => {
 
 router.post("/", async (req, res, next) => {
     if (!authenticationMiddlewareTrueFalse(req, res, next)) return res.redirect("/");
+    if(!req.body.type) return res.redirect("/dashboard?message=wrongtry");
     switch (req.body.type) {
         case "DELETE_PROJECT":
             deleteItem({ path: `gestaoempresa/business/${req.user.key}/projects/${req.body.projectId}` })
+            return res.redirect("/dashboard/projetos?message=deletado");
             break;
     }
-    return res.redirect("/dashboard/projetos?message=deletado");
 });
 
 router.get("/adicionar", async (req, res, next) => {

@@ -26,5 +26,21 @@ module.exports = {
         console.log('[EMAIL] Sent ' + info.response);
       }
     });
+  },
+  sendNotification: (emails, message) => {
+    const mailOptions = {
+      from: 'contato@dlwalt.com',
+      to: emails,
+      subject: `${message.title} - D Walt Gestão`,
+      html: `${message.message}`
+    };
+
+    transporter.sendMail(mailOptions, function(error, info){
+      if (error) {
+        console.log(error);
+      } else {
+        console.log('[EMAIL] Sent ' + info.response);
+      }
+    });
   }
 };
