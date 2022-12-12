@@ -11,21 +11,21 @@ router.get("/", async (req, res, next) => {
         const user = await getUser({ userId: req.user.key });
 
         let message;
-    if (req.query.message) {
-        switch (req.query.message.toLowerCase()) {
-            case "registrado":
-                message = { type: 'success', title: 'Projeto registrado!', description: 'Clique em OK para ver as informações atualizadas.' }
-                break;
+        if (req.query.message) {
+            switch (req.query.message.toLowerCase()) {
+                case "registrado":
+                    message = { type: 'success', title: 'Projeto registrado!', description: 'Clique em OK para ver as informações atualizadas.' }
+                    break;
                 case "deletado":
-                message = { type: 'success', title: 'Projeto deletado!', description: 'Clique em OK para ver as informações atualizadas.' }
-                break;
-            default:
-                message = null;
-                break;
+                    message = { type: 'success', title: 'Projeto deletado!', description: 'Clique em OK para ver as informações atualizadas.' }
+                    break;
+                default:
+                    message = null;
+                    break;
+            }
+        } else {
+            message = null;
         }
-    } else {
-        message = null;
-    }
 
         const data = {
             user,
@@ -40,7 +40,7 @@ router.get("/", async (req, res, next) => {
 
 router.post("/", async (req, res, next) => {
     if (!authenticationMiddlewareTrueFalse(req, res, next)) return res.redirect("/");
-    if(!req.body.type) return res.redirect("/dashboard?message=wrongtry");
+    if (!req.body.type) return res.redirect("/dashboard?message=wrongtry");
     switch (req.body.type) {
         case "DELETE_PROJECT":
             deleteItem({ path: `gestaoempresa/business/${req.user.key}/projects/${req.body.projectId}` })
@@ -148,6 +148,10 @@ router.get("/config", async (req, res, next) => {
         message: null,
     };
     res.render("pages/projects/config", data);
+});
+
+router.post("/config", async (req, res, next) => {
+    console.log(req.body);
 });
 
 module.exports = router;
