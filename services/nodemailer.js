@@ -15,7 +15,7 @@ module.exports = {
     const mailOptions = {
       from: 'contato@dlwalt.com',
       to,
-      subject: 'Recuperação de conta - D Walt Gestão',
+      subject: 'Recuperação de conta - D Walt Connect: Empresa',
       html: `Entre nesse link para resetar sua senha:\n\n${link}`
     };
 
