@@ -27,7 +27,7 @@
                                 </div>
  <% if(user.data.tokenGrowatt) { %>
             <div class="d-sm-flex align-items-center justify-content-between mb-4">
-              <p >
+              <p>
                 Última vez que os dados da Growatt foram atualizados:
                 <b>
                   <script>
@@ -191,22 +191,46 @@
                   </div>
                 </div>
               </div>
-              <div class="card shadow mb-4">
-                <div class="card-header py-3">
-                  <h6 class="m-0 font-weight-bold text-primary">Gestão de Empresas</h6>
-                </div>
-                <div class="card-body">
-                  <div class="text-center">
-                    <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;" src="img/undraw_posting_photo.svg" alt="...">
+
+              <div class="col-lg-6 mb-4">
+
+                <!-- Project Card -->
+                <div class="card shadow mb-4">
+                  <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Projetos</h6>
                   </div>
-                  <p>Estamos arduamente trabalhando no desenvolvimento das aplicações e com
-                    uma qualidade sem igual para fornecer elementos e gestão de qualidade
-                    para sua empresa. Baixe nossos aplicativos e sempre realize os registros
-                    necessários para ter uma boa experiência com o serviço.</p>
-                  <a target="_blank" rel="nofollow" href="https://www.dlwalt.com/">D | Walt
-                    site raíz &rarr;</a>
+                  <div class="card-body">
+                    <h4 class="small font-weight-bold">Projetos pendentes<span class="float-right"><%=projects.filter(i => i.Status !== 'finalizado').length * 100/ projects.length%>%</span></h4>
+                    <div class="progress mb-4">
+                      <div class="progress-bar bg-danger" role="progressbar" style="width: <%=projects.filter(i => i.Status !== 'finalizado').length * 100/ projects.length%>%" aria-valuenow="<%=projects.filter(i => i.Status !== 'finalizado').length * 100/ projects.length%>" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <h4 class="small font-weight-bold">Projetos finalizados <span class="float-right"><%=projects.filter(i => i.Status === "finalizado").length * 100/ projects.length%>%</span></h4>
+                    <div class="progress mb-4">
+                      <div class="progress-bar bg-info" role="progressbar" style="width: <%=projects.filter(i => i.Status === "finalizado").length * 100/ projects.length%>%" aria-valuenow="<%=projects.filter(i => i.Status === "finalizado").length * 100/ projects.length%>" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                  </div>
                 </div>
               </div>
+              <!--card-->
+              <div class="col-lg-6 mb-4">
+                <div class="card shadow mb-4">
+                  <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Gestão de Empresas</h6>
+                  </div>
+                  <div class="card-body">
+                    <div class="text-center">
+                      <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;" src="img/undraw_posting_photo.svg" alt="...">
+                    </div>
+                    <p>Estamos arduamente trabalhando no desenvolvimento das aplicações e com
+                      uma qualidade sem igual para fornecer elementos e gestão de qualidade
+                      para sua empresa. Baixe nossos aplicativos e sempre realize os registros
+                      necessários para ter uma boa experiência com o serviço.</p>
+                    <a target="_blank" rel="nofollow" href="https://www.dlwalt.com/">D | Walt
+                      site raíz &rarr;</a>
+                  </div>
+                </div>
+              </div>
+              <!--card-->
             </div>
           </div>
         </div>
