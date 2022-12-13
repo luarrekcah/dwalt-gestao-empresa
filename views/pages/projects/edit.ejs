@@ -1,209 +1,182 @@
 <%- include("../../partials/head.ejs") %>
 
-    <body id="page-top">
-        <div id="wrapper">
-            <%- include("../../partials/sidebar.ejs") %>
-                <div id="content-wrapper" class="d-flex flex-column">
-                    <div id="content">
-                        <%- include("../../partials/topbar.ejs") %>
-                            <div class="container-fluid">
-                                <h1 class="h3 mb-2 text-gray-800">Editando <%=project.apelidoProjeto%></h1>
-                                <p class="mb-4">Adicione projetos, gerencie-os pelos apps Cliente, Equipe e o site
-                                    atual. Seu cliente e sua Equipe
-                                    pode contribuir para a inserção dos dados.
-                                    Adicione mais dados adicionais em formato de imagem utilizando os apps. Todos da sua
-                                    equipe terão acesso aos projetos.
-                                </p>
-                                <form method="POST">
-                                    <!-- Form Group (username)-->
-                                    <div class="mb-3">
-                                        <label class="small mb-1" for="email">E-mail do cliente</label>
-                                        <input name="emailApp" class="form-control" id="email" type="text" value="<%=project.emailApp%>"
-                                            placeholder="E-mail de registro no app 'cliente', vá em 'Usuário' para encontrar."
-                                            required>
-                                    </div>
-                                     <div class="mb-3">
-                                        <label class="small mb-1" for="username_growatt">Nome de usuário no sistema da Growatt (opcional)</label>
-                                        <input name="username_growatt" class="form-control" id="username_growatt" type="text"
-                                            placeholder="Nome de usuário único da planta."
-                                            >
-                                    </div>
-                                    <b class="mb-4">Dados Básicos</b>
-                                    <!-- Form Row-->
-                                    <div class="row gx-3 mb-3">
-                                        <!-- Form Group (first name)-->
-                                        <div class="col-md-6">
-                                            <label class="small mb-1" for="cod">Código do Produto</label>
-                                            <input name="cod" class="form-control" id="cod" type="text"
-                                                placeholder="00000-00"
-                                                value="<%=project.cod%>">
-                                        </div>
-                                        <!-- Form Group (last name)-->
-                                        <div class="col-md-6">
-                                            <label class="small mb-1" for="nomeComp">Nome Completo</label>
-                                            <input name="nomeComp" class="form-control" id="nomeComp" type="text"
-                                                placeholder="Nome completo"
-                                                value="<%=project.nomeComp%>">
-                                        </div>
-                                    </div>
-                                    <div class="row gx-3 mb-3">
-                                        <!-- Form Group (first name)-->
-                                        <div class="col-md-6">
-                                            <label class="small mb-1" for="cpf">CPF</label>
-                                            <input name="cpf" class="form-control" id="cpf" type="text"
-                                                placeholder="000.000.000-00" value="<%=project.cpf%>">
-                                        </div>
-                                        <!-- Form Group (last name)-->
-                                        <div class="col-md-6">
-                                            <label class="small mb-1" for="dataNasc">Data de Nascimento</label>
-                                            <input name="dataNasc" class="form-control" id="dataNasc" type="date" value="<%=project.dataNasc%>">
-                                        </div>
-                                    </div>
+<body id="page-top">
+  <div id="wrapper">
+    <%- include("../../partials/sidebar.ejs") %>
+    <div id="content-wrapper" class="d-flex flex-column">
+      <div id="content">
+        <%- include("../../partials/topbar.ejs") %>
+        <div class="container-fluid">
+          <h1 class="h3 mb-2 text-gray-800">Editando <%=project.apelidoProjeto%></h1>
+          <p class="mb-4">Adicione projetos, gerencie-os pelos apps Cliente, Equipe e o site
+            atual. Seu cliente e sua Equipe
+            pode contribuir para a inserção dos dados.
+            Adicione mais dados adicionais em formato de imagem utilizando os apps. Todos da sua
+            equipe terão acesso aos projetos.
+          </p>
+          <form method="POST">
+            <!-- Form Group (username)-->
+            <div class="mb-3">
+              <label class="small mb-1" for="email">E-mail do cliente</label>
+              <input name="emailApp" class="form-control" id="email" type="text" value="<%=project.emailApp%>" placeholder="E-mail de registro no app 'cliente', vá em 'Usuário' para encontrar." required>
+            </div>
+            <div class="mb-3">
+              <label class="small mb-1" for="username_growatt">Nome de usuário no sistema da Growatt (opcional)</label>
+              <input name="username_growatt" class="form-control" id="username_growatt" type="text" placeholder="Nome de usuário único da planta.">
+            </div>
+            <b class="mb-4">Dados Básicos</b>
+            <!-- Form Row-->
+            <div class="row gx-3 mb-3">
+              <!-- Form Group (first name)-->
+              <div class="col-md-6">
+                <label class="small mb-1" for="cod">Código do Produto</label>
+                <input name="cod" class="form-control" id="cod" type="text" placeholder="00000-00" value="<%=project.cod%>">
+              </div>
+              <!-- Form Group (last name)-->
+              <div class="col-md-6">
+                <label class="small mb-1" for="nomeComp">Nome Completo</label>
+                <input name="nomeComp" class="form-control" id="nomeComp" type="text" placeholder="Nome completo" value="<%=project.nomeComp%>">
+              </div>
+            </div>
+            <div class="row gx-3 mb-3">
+              <!-- Form Group (first name)-->
+              <div class="col-md-6">
+                <label class="small mb-1" for="cpf">CPF</label>
+                <input name="cpf" class="form-control" id="cpf" type="text" placeholder="000.000.000-00" value="<%=project.cpf%>">
+              </div>
+              <!-- Form Group (last name)-->
+              <div class="col-md-6">
+                <label class="small mb-1" for="dataNasc">Data de Nascimento</label>
+                <input name="dataNasc" class="form-control" id="dataNasc" type="date" value="<%=project.dataNasc%>">
+              </div>
+            </div>
 
-                                    <div class="row gx-3 mb-3">
-                                        <!-- Form Group (first name)-->
-                                        <div class="col-md-6">
-                                            <label class="small mb-1" for="email">E-mail</label>
-                                            <input name="email" class="form-control" id="email" type="text"
-                                                placeholder="fulano@gmail.com" value="<%=project.email%>">
-                                        </div>
-                                        <!-- Form Group (last name)-->
-                                        <div class="col-md-6">
-                                            <label class="small mb-1" for="celular">Celular</label>
-                                            <input name="celular" class="form-control" id="celular" type="text"
-                                                placeholder="(00) 0.0000-0000" value="<%=project.celular%>">
-                                        </div>
-                                    </div>
+            <div class="row gx-3 mb-3">
+              <!-- Form Group (first name)-->
+              <div class="col-md-6">
+                <label class="small mb-1" for="email">E-mail</label>
+                <input name="email" class="form-control" id="email" type="text" placeholder="fulano@gmail.com" value="<%=project.email%>">
+              </div>
+              <!-- Form Group (last name)-->
+              <div class="col-md-6">
+                <label class="small mb-1" for="celular">Celular</label>
+                <input name="celular" class="form-control" id="celular" type="text" placeholder="(00) 0.0000-0000" value="<%=project.celular%>">
+              </div>
+            </div>
 
-                                    <div class="row gx-3 mb-3">
-                                        <!-- Form Group (first name)-->
-                                        <div class="col-md-6">
-                                            <label class="small mb-1" for="nomeMae">Nome da Mãe</label>
-                                            <input name="nomeMae" class="form-control" id="nomeMae" type="text"
-                                                placeholder="" value="<%=project.nomeMae%>">
-                                        </div>
-                                        <!-- Form Group (last name)-->
-                                        <div class="col-md-6">
-                                            <label class="small mb-1" for="rg">RG</label>
-                                            <input name="rg" class="form-control" id="rg" type="text" placeholder="" value="<%=project.rg%>">
-                                        </div>
-                                    </div>
+            <div class="row gx-3 mb-3">
+              <!-- Form Group (first name)-->
+              <div class="col-md-6">
+                <label class="small mb-1" for="nomeMae">Nome da Mãe</label>
+                <input name="nomeMae" class="form-control" id="nomeMae" type="text" placeholder="" value="<%=project.nomeMae%>">
+              </div>
+              <!-- Form Group (last name)-->
+              <div class="col-md-6">
+                <label class="small mb-1" for="rg">RG</label>
+                <input name="rg" class="form-control" id="rg" type="text" placeholder="" value="<%=project.rg%>">
+              </div>
+            </div>
 
 
-                                    <div class="row gx-3 mb-3">
-                                        <div class="col-md-6">
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="sexo"
-                                                    id="flexRadioDefault1" value="masculino" <%- project.sexo === 'masculino' ? 'checked' : '' %>>
-                                                <label class="form-check-label" for="flexRadioDefault1">
-                                                    Masculino
-                                                </label>
-                                            </div>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="sexo"
-                                                    id="flexRadioDefault2" value="feminino" <%- project.sexo === 'feminino' ? 'checked' : '' %>>
-                                                <label class="form-check-label" for="flexRadioDefault2">
-                                                    Feminino
-                                                </label>
-                                            </div>
-                                        </div>
+            <div class="row gx-3 mb-3">
+              <div class="col-md-6">
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="sexo" id="flexRadioDefault1" value="masculino" <%- project.sexo === 'masculino' ? 'checked' : '' %>>
+                  <label class="form-check-label" for="flexRadioDefault1">
+                    Masculino
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="sexo" id="flexRadioDefault2" value="feminino" <%- project.sexo === 'feminino' ? 'checked' : '' %>>
+                  <label class="form-check-label" for="flexRadioDefault2">
+                    Feminino
+                  </label>
+                </div>
+              </div>
 
 
-                                        <div class="col-md-6">
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="estadoCivil"
-                                                    id="flexRadioDefault1" value="casado" <%- project.estadoCivil === 'casado' ? 'checked' : '' %> >
-                                                <label class="form-check-label" for="flexRadioDefault1">
-                                                    Casado(a)
-                                                </label>
-                                            </div>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="estadoCivil"
-                                                    id="flexRadioDefault2" value="solteiro" <%- project.estadoCivil === 'solteiro' ? 'checked' : '' %>>
-                                                <label class="form-check-label" for="flexRadioDefault2">
-                                                    Solteiro(a)
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div>
+              <div class="col-md-6">
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="estadoCivil" id="flexRadioDefault1" value="casado" <%- project.estadoCivil === 'casado' ? 'checked' : '' %>>
+                  <label class="form-check-label" for="flexRadioDefault1">
+                    Casado(a)
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="estadoCivil" id="flexRadioDefault2" value="solteiro" <%- project.estadoCivil === 'solteiro' ? 'checked' : '' %>>
+                  <label class="form-check-label" for="flexRadioDefault2">
+                    Solteiro(a)
+                  </label>
+                </div>
+              </div>
+            </div>
 
-                                    <div class="row gx-3 mb-3">
-                                        <!-- Form Group (first name)-->
-                                        <div class="col-md-6">
-                                            <label class="small mb-1" for="patrimonio">Patrimônio</label>
-                                            <input name="patrimonio" class="form-control" id="patrimonio" type="text"
-                                                placeholder="R$00000" value="<%=project.patrimonio%>">
-                                        </div>
-                                        <!-- Form Group (last name)-->
-                                        <div class="col-md-6">
-                                            <label class="small mb-1" for="ocupacao">Ocupação</label>
-                                            <input name="ocupacao" class="form-control" id="ocupacao" type="text"
-                                                placeholder="Empresário" value="<%=project.ocupacao%>">
-                                        </div>
-                                    </div>
+            <div class="row gx-3 mb-3">
+              <!-- Form Group (first name)-->
+              <div class="col-md-6">
+                <label class="small mb-1" for="patrimonio">Patrimônio</label>
+                <input name="patrimonio" class="form-control" id="patrimonio" type="text" placeholder="R$00000" value="<%=project.patrimonio%>">
+              </div>
+              <!-- Form Group (last name)-->
+              <div class="col-md-6">
+                <label class="small mb-1" for="ocupacao">Ocupação</label>
+                <input name="ocupacao" class="form-control" id="ocupacao" type="text" placeholder="Empresário" value="<%=project.ocupacao%>">
+              </div>
+            </div>
 
-                                    <div class="row gx-3 mb-3">
-                                        <!-- Form Group (first name)-->
-                                        <div class="col-md-6">
-                                            <label class="small mb-1" for="profissao">Profissão</label>
-                                            <input name="profissao" class="form-control" id="profissao" type="text"
-                                                placeholder="Dono de empresa" value="<%=project.profissao%>">
-                                        </div>
-                                        <!-- Form Group (last name)-->
-                                        <div class="col-md-6">
-                                            <label class="small mb-1" for="anos">Anos Atuando</label>
-                                            <input name="anos" class="form-control" id="anos" type="text"
-                                                placeholder="9" value="<%=project.anos%>">
-                                        </div>
-                                    </div>
+            <div class="row gx-3 mb-3">
+              <!-- Form Group (first name)-->
+              <div class="col-md-6">
+                <label class="small mb-1" for="profissao">Profissão</label>
+                <input name="profissao" class="form-control" id="profissao" type="text" placeholder="Dono de empresa" value="<%=project.profissao%>">
+              </div>
+              <!-- Form Group (last name)-->
+              <div class="col-md-6">
+                <label class="small mb-1" for="anos">Anos Atuando</label>
+                <input name="anos" class="form-control" id="anos" type="text" placeholder="9" value="<%=project.anos%>">
+              </div>
+            </div>
 
-                                    <div class="row gx-3 mb-3">
-                                        <!-- Form Group (first name)-->
-                                        <div class="col-md-6">
-                                            <label class="small mb-1" for="meses">Meses Atuando</label>
-                                            <input name="meses" class="form-control" id="meses" type="text"
-                                                placeholder="12" value="<%=project.meses%>">
-                                        </div>
-                                        <!-- Form Group (last name)-->
-                                        <div class="col-md-6">
-                                            <label class="small mb-1" for="renda">Renda Mensal</label>
-                                            <input name="renda" class="form-control" id="renda" type="text"
-                                                placeholder="R$00.000" value="<%=project.renda%>">
-                                        </div>
-                                    </div>
+            <div class="row gx-3 mb-3">
+              <!-- Form Group (first name)-->
+              <div class="col-md-6">
+                <label class="small mb-1" for="meses">Meses Atuando</label>
+                <input name="meses" class="form-control" id="meses" type="text" placeholder="12" value="<%=project.meses%>">
+              </div>
+              <!-- Form Group (last name)-->
+              <div class="col-md-6">
+                <label class="small mb-1" for="renda">Renda Mensal</label>
+                <input name="renda" class="form-control" id="renda" type="text" placeholder="R$00.000" value="<%=project.renda%>">
+              </div>
+            </div>
 
-                                    <div class="mb-3">
-                                        <label class="small mb-1" for="endCompleto">Endereço Completo</label>
-                                        <input name="endCompleto" class="form-control" id="endCompleto" type="text"
-                                            placeholder="Rua, bairro, número, complemento - Cidade / Estado - CEP"
-                                            value="" value="<%=project.endCompleto%>">
-                                    </div>
+            <div class="mb-3">
+              <label class="small mb-1" for="endCompleto">Endereço Completo</label>
+              <input name="endCompleto" class="form-control" id="endCompleto" type="text" placeholder="Rua, bairro, número, complemento - Cidade / Estado - CEP" value="" value="<%=project.endCompleto%>">
+            </div>
 
-                                    <b class="mb-4">Dados para visualização (todos os apps)</b>
+            <b class="mb-4">Dados para visualização (todos os apps)</b>
 
-                                    <div class="row gx-3 mb-3">
-                                        <!-- Form Group (first name)-->
-                                        <div class="col-md-6">
-                                            <label class="small mb-1" for="apelidoProjeto">Identificação do
-                                                Projeto</label>
-                                            <input name="apelidoProjeto" class="form-control" id="apelidoProjeto"
-                                                type="text" placeholder="Apelido do projeto" value="<%=project.apelidoProjeto%>" required>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label class="small mb-1" for="category">Categoria</label>
-                                            <input name="category" class="form-control" id="category" type="text"
-                                                placeholder="Residencial / Comercial / Usina" value="<%=project.category%>" required>
-                                        </div>
-                                        <!-- Form Group (last name)-->
-                                        <div class="col-md-6">
-                                            <label class="small mb-1" for="kwp">kWp do Projeto</label>
-                                            <input name="kwp" class="form-control" id="kwp" type="text"
-                                                placeholder="000" value="<%=project.kwp%>" required>
-                                        </div>
+            <div class="row gx-3 mb-3">
+              <!-- Form Group (first name)-->
+              <div class="col-md-6">
+                <label class="small mb-1" for="apelidoProjeto">Identificação do
+                  Projeto</label>
+                <input name="apelidoProjeto" class="form-control" id="apelidoProjeto" type="text" placeholder="Apelido do projeto" value="<%=project.apelidoProjeto%>" required>
+              </div>
+              <div class="col-md-6">
+                <label class="small mb-1" for="category">Categoria</label>
+                <input name="category" class="form-control" id="category" type="text" placeholder="Residencial / Comercial / Usina" value="<%=project.category%>" required>
+              </div>
+              <!-- Form Group (last name)-->
+              <div class="col-md-6">
+                <label class="small mb-1" for="kwp">kWp do Projeto</label>
+                <input name="kwp" class="form-control" id="kwp" type="text" placeholder="000" value="<%=project.kwp%>" required>
+              </div>
 
-            <div class="col-md-6">
+              <div class="col-md-6">
                 <label class="small mb-1" for="Status">Status <b style="color: red">*</b></label>
-              
+
                 <div class="form-check">
                   <input class="form-check-input" type="radio" name="Status" id="flexRadioDefault1" value="dadosEntregue" <%-project.Status === 'dadosEntregue' ? "checked" : ''%>>
                   <label class="form-check-label" for="flexRadioDefault1">
@@ -211,7 +184,7 @@
                   </label>
                 </div>
 
-                  <div class="form-check">
+                <div class="form-check">
                   <input class="form-check-input" type="radio" name="Status" id="flexRadioDefault1" value="protocolado" <%-project.Status === 'protocolado' ? "checked" : ''%>>
                   <label class="form-check-label" for="flexRadioDefault1">
                     Projeto Protocolado
@@ -260,41 +233,42 @@
                   </label>
                 </div>
               </div>
-                                         <div class="col-md-6">
-                                            <label class="small mb-1" for="RStatus">Razão do Status</label>
-                                            <input name="RStatus" class="form-control" id="RStatus" type="text" placeholder="Estamos aguardando X documentação."
-                                               >
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label class="small mb-1" for="coords">Coordenadas da unidade
-                                                consumidora</label>
-                                            <input name="coords" class="form-control" id="coords" type="text"
-                                                placeholder="-9.373395, -52.814905" value="<%=project.coords%>" required>
-                                        </div>
-                                    </div>
-                                    <div class="row gx-3 mb-3" style="display: none;">
-                                        <div class="col-md-6">
-                                            <input name="business" class="form-control" type="text"
-                                                value="<%=user.key%>" value="<%=project.business%>" required autocomplete="off" />
-                                        </div>
-                                    </div>
-                                    <!-- Save changes button-->
-                                    <button class="btn btn-primary" style="width: 100%;" type="submit">Atualizar
-                                        Projeto</button>
-                                </form>
-                            </div>
-                    </div>
-                    <%- include("../../partials/footer.ejs") %>
-                </div>
+              <div class="col-md-6">
+                <label class="small mb-1" for="RStatus">Razão do Status</label>
+                <input name="RStatus" class="form-control" id="RStatus" type="text" placeholder="Estamos aguardando X documentação.">
+              </div>
+              <div class="col-md-6">
+                <label class="small mb-1" for="coords">Coordenadas da unidade
+                  consumidora</label>
+                <input name="coords" class="form-control" id="coords" type="text" placeholder="-9.373395, -52.814905" value="<%=project.coords%>" required>
+              </div>
+              <div class="col-md-6">
+                <label class="small mb-1" for="statusRastreio">Status de rastreio dos equipamentos<b style="color: red">*</b></label>
+                <input name="statusRastreio" class="form-control" id="statusRastreio" type="text" value="<%=project.statusRastreio === undefined ? 'Rastreio indisponível no momento' : project.statusRastreio%>" required>
+              </div>
+            </div>
+            <div class="row gx-3 mb-3" style="display: none;">
+              <div class="col-md-6">
+                <input name="business" class="form-control" type="text" value="<%=user.key%>" value="<%=project.business%>" required autocomplete="off" />
+              </div>
+            </div>
+            <!-- Save changes button-->
+            <button class="btn btn-primary" style="width: 100%;" type="submit">Atualizar
+              Projeto</button>
+          </form>
         </div>
-        <a class="scroll-to-top rounded" href="#page-top">
-            <i class="fas fa-angle-up"></i>
-        </a>
-        <%- include("../components/modal/logout.ejs") %>
-            <script src="/vendor/jquery/jquery.min.js"></script>
-            <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-            <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
-            <script src="/js/sb-admin-2.min.js"></script>
-    </body>
+      </div>
+      <%- include("../../partials/footer.ejs") %>
+    </div>
+  </div>
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+  <%- include("../components/modal/logout.ejs") %>
+  <script src="/vendor/jquery/jquery.min.js"></script>
+  <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+  <script src="/js/sb-admin-2.min.js"></script>
+</body>
 
-    </html>
+</html>
