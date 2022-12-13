@@ -115,7 +115,6 @@ router.post("/registro", async (req, res) => {
 router.get("/logout", (req, res, next) => {
     req.logout((err) => {
         if (err) { return next(err); }
-        createLogs(user.key, "Usuário deslogado.");
         res.redirect('/');
     });
 });
