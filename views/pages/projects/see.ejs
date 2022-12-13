@@ -19,14 +19,15 @@
                 <div class="col-md-3">
                   <b> <i class="fas fa-info-circle"></i> Status</b>
                   <p>
-                    <%=project.Status%> - <%=project.RStatus%>
+                    <%=project.Status%> - <%-project.RStatus === '' ? '<b style="color: red;">Não provido</b>' : `${project.RStatus}` %>
                   </p>
                 </div>
                 <div class="col-md-3">
                   <b><i class="fas fa-bolt"></i> kWp</b>
                   <p>
-                    <%=project.kwp%>
+                    <%-project.kwp === '' ? '<b style="color: red;">Não provido</b>' : `${project.kwp}` %>
                   </p>
+
                 </div>
                 <div class="col-md-3">
                   <b><i class="fas fa-map"></i> Coordenadas</b>
@@ -37,13 +38,13 @@
                 <div class="col-md-3">
                   <b>Código do Gerador</b>
                   <p>
-                    <%=project.cod%>
+                    <%-project.cod === '' ? '<b style="color: red;">Não provido</b>' : `${project.cod}` %>
                   </p>
                 </div>
                 <div class="col-md-3">
                   <b>Usuário Growatt</b>
                   <p>
-                    <%=project.username_growatt%>
+                    <%-project.username_growatt === '' ? '<b style="color: red;">Não provido</b>' : `${project.username_growatt}` %>
                   </p>
                 </div>
               </div>
@@ -64,97 +65,106 @@
                 <div class="col-md-3">
                   <b>Nome Completo</b>
                   <p>
-                    <%=project.nomeComp%>
+                    <%-project.nomeComp === '' ? '<b style="color: red;">Não provido</b>' : `${project.nomeComp}` %>
                   </p>
                 </div>
                 <div class="col-md-3">
                   <b>CPF</b>
                   <p>
-                    <%=project.cpf%>
+                    <%-project.cpf === '' ? '<b style="color: red;">Não provido</b>' : `${project.cpf}` %>
                   </p>
                 </div>
                 <div class="col-md-3">
                   <b>RG</b>
                   <p>
-                    <%=project.rg%>
+                    <%-project.rg === '' ? '<b style="color: red;">Não provido</b>' : `${project.rg}` %>
+
                   </p>
                 </div>
                 <div class="col-md-3">
                   <b>Data de Nascimento</b>
                   <p>
+                    <% if(project.dataNasc === '') { %>
+                    <b style="color: red;">Não provido</b>
+                    <% } else { %>
                     <%=project.dataNasc.split('-')[2]%>/
                     <%=project.dataNasc.split('-')[1]%>/
                     <%=project.dataNasc.split('-')[0]%>
+                    <%}%>
                   </p>
                 </div>
                 <div class="col-md-3">
                   <b>Sexo</b>
                   <p>
-                    <%=project.sexo%>
+                    <%-project.sexo === '' ? '<b style="color: red;">Não provido</b>' : `${project.sexo}` %>
                   </p>
                 </div>
 
                 <div class="col-md-3">
                   <b>Estado Civil</b>
                   <p>
-                    <%=project.estadoCivil%>
+                    <%-project.estadoCivil === '' ? '<b style="color: red;">Não provido</b>' : `${project.estadoCivil}` %>
                   </p>
                 </div>
 
                 <div class="col-md-3">
                   <b>Nome da Mãe</b>
                   <p>
-                    <%=project.nomeMae%>
+                    <%-project.nomeMae === '' ? '<b style="color: red;">Não provido</b>' : `${project.nomeMae}` %>
                   </p>
                 </div>
 
                 <div class="col-md-3">
                   <b>E-mail</b>
                   <p>
-                    <%=project.email%>
+                    <%-project.email === '' ? '<b style="color: red;">Não provido</b>' : `${project.email}` %>
                   </p>
                 </div>
 
                 <div class="col-md-3">
                   <b>Celular</b>
                   <p>
-                    <%=project.celular%>
+                    <%-project.celular === '' ? '<b style="color: red;">Não provido</b>' : `${project.celular}` %>
                   </p>
                 </div>
                 <div class="col-md-3">
                   <b>Endereço Completo</b>
                   <p>
-                    <%=project.endCompleto%>
+                    <%-project.endCompleto === '' ? '<b style="color: red;">Não provido</b>' : `${project.endCompleto}` %>
                   </p>
                 </div>
                 <div class="col-md-3">
                   <b>Profissão</b>
                   <p>
-                    <%=project.profissao%>
+                    <%-project.profissao === '' ? '<b style="color: red;">Não provido</b>' : `${project.profissao}` %>
                   </p>
                 </div>
                 <div class="col-md-3">
                   <b>Ocupação</b>
                   <p>
-                    <%=project.ocupacao%>
+                    <%-project.ocupacao === '' ? '<b style="color: red;">Não provido</b>' : `${project.ocupacao}` %>
                   </p>
                 </div>
                 <div class="col-md-3">
                   <b>Renda</b>
                   <p>
-                    <%=project.renda%>
+                    <%-project.renda === '' ? '<b style="color: red;">Não provido</b>' : `${project.renda}` %>
                   </p>
                 </div>
                 <div class="col-md-3">
                   <b>Patrimônio</b>
                   <p>
-                    <%=project.patrimonio%>
+                    <%-project.patrimonio === '' ? '<b style="color: red;">Não provido</b>' : `${project.patrimonio}` %>
                   </p>
                 </div>
                 <div class="col-md-3">
                   <b>Atuando há</b>
                   <p>
+                    <% if(project.anos === '' && project.meses === '') { %>
+                    <b style="color: red;">Não provido</b>
+                    <% } else { %>
                     <%=project.anos%> anos e <%=project.meses%> meses.
+                    <%}%>
                   </p>
                 </div>
               </div>
@@ -164,46 +174,46 @@
               </h1>
               <div class="row gx-3 mb-3">
                 <% if(documents.length !==0) { %>
-                <% documents.forEach(i=> { %>
-                <div class="card mb-4 py-3 border-bottom-primary" style="margin-left: 15px">
-                  <div class="card-body">
-                    <h1 style="color: #4e73df; margin: 40px">
-                      <%=i.data.documentName%>
-                    </h1>
-                    <div class="row" style=" 
+                    <% documents.forEach(i=> { %>
+                  <div class="card mb-4 py-3 border-bottom-primary" style="margin-left: 15px">
+                    <div class="card-body">
+                      <h1 style="color: #4e73df; margin: 40px">
+                        <%=i.data.documentName%>
+                      </h1>
+                      <div class="row" style=" 
                                                                     align-items: center;
                                                                     justify-content: center;">
-                      <a download="<%=i.data.documentName%>.pdf" href="<%=i.data.documentBase64%>" class="btn btn-dark btn-icon-split">
-                        <span class="text">Ver</span>
-                      </a>
-                      <form method="post">
-                        <input type="text" name="type" value="DELETE_DOCUMENT" style="display: none;">
-                        <input type="text" name="documentId" value="<%=i.key%>" style="display: none;">
-                        <button class="btn btn-danger" style="margin-left: 10px;" type="submit">Deletar
-                          <i class="fas fa-trash"></i></button>
-                      </form>
+                        <a download="<%=i.data.documentName%>.pdf" href="<%=i.data.documentBase64%>" class="btn btn-dark btn-icon-split">
+                          <span class="text">Ver</span>
+                        </a>
+                        <form method="post">
+                          <input type="text" name="type" value="DELETE_DOCUMENT" style="display: none;">
+                          <input type="text" name="documentId" value="<%=i.key%>" style="display: none;">
+                          <button class="btn btn-danger" style="margin-left: 10px;" type="submit">Deletar
+                            <i class="fas fa-trash"></i></button>
+                        </form>
+                      </div>
                     </div>
                   </div>
+                  <% }) %>
                 </div>
-                <% }) %>
+                <%} else {%>
+                <b> <i class="fas fa-info-circle"></i> Sem
+                  documentos</b>
               </div>
-              <%} else {%>
-              <b> <i class="fas fa-info-circle"></i> Sem
-                documentos</b>
-            </div>
-            <% } %>
-            <h1 class="h3 mb-2 text-gray-800">Mapa
-            </h1>
-            <div class="row gx-3 mb-3">
-              <div class="mapa" id="mapa" style="width: 100%; height: 400px;">
+              <% } %>
+              <h1 class="h3 mb-2 text-gray-800">Mapa
+              </h1>
+              <div class="row gx-3 mb-3">
+                <div class="mapa" id="mapa" style="width: 100%; height: 400px;">
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
+      <%- include("../../partials/footer.ejs") %>
     </div>
-    <%- include("../../partials/footer.ejs") %>
-  </div>
   </div>
   <a class="scroll-to-top rounded" href="#page-top">
     <i class="fas fa-angle-up"></i>
