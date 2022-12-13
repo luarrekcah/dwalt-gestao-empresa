@@ -7,7 +7,7 @@
       <div id="content">
         <%- include("../../partials/topbar.ejs") %>
         <div class="container-fluid">
-          <h1 class="h3 mb-2 text-gray-800">Preferências do sistema</h1>
+          <h1 class="h3 mb-2 text-gray-800">Preferências do sistema (não utilizar, em desenvolvimento)</h1>
           <p class="mb-4">Configurar padrões de projetos e mais.</p>
 
           <form method="post">
@@ -80,13 +80,41 @@
 
 
                   <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="maps" id="maps" checked>
-                    <label class="form-check-label" for="maps">
+                    <input class="form-check-input" type="checkbox" name="mapWidget" id="mapWidget" checked>
+                    <label class="form-check-label" for="mapWidget">
                       Mapa de projetos
                     </label>
                   </div>
 
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="growattWidgets" id="growattWidgets" checked>
+                    <label class="form-check-label" for="growattWidgets">
+                      Dados Growatt
+                    </label>
+                  </div>
 
+
+                </div>
+              </div>
+            </div>
+            <!--CARD -->
+            <!--card-->
+            <div class="card shadow mb-4">
+              <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Login</h6>
+              </div>
+              <div class="card-body">
+                <div class="col-md-6">
+                  <p>Limitar login a horários específicos</p>
+                  Das <input type="time" name="hourSpecified" id="hourSpecified"> Até
+                  <input type="time" name="hourSpecified" id="hourSpecified">
+                  <hr>
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="loginAlert" id="loginAlert">
+                    <label class="form-check-label" for="loginAlert">
+                      Enviar alerta de login fora dos horários.
+                    </label>
+                  </div>
                 </div>
               </div>
             </div>
