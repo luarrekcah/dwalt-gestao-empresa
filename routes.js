@@ -4,6 +4,7 @@ logsRouter = require("./routes/logs"),
 dashboardRouter = require("./routes/dashboard"),
 projectsRouter = require("./routes/projects"),
 staffsRouter = require("./routes/staffs"),
+configRouter = require("./routes/config"),
 customersRouter = require("./routes/customers");
 
 const api = require("./routes/api");
@@ -17,6 +18,7 @@ module.exports = (app) => {
     app.use("/dashboard/projetos", projectsRouter);
     app.use("/dashboard/gerenciar/equipe", staffsRouter);
     app.use("/dashboard/gerenciar/clientes", customersRouter);
+    app.use("/dashboard/configuracao", configRouter);
     
     //api
     app.use("/api/v1", api);
