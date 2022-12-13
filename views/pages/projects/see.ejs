@@ -23,6 +23,12 @@
                   </p>
                 </div>
                 <div class="col-md-3">
+                  <b> <i class="fas fa-truck"></i> Status de Rastreio</b>
+                  <p>
+                    <%-project.statusRastreio === '' || project.statusRastreio === undefined ? '<b style="color: red;">Não provido</b>' : `${project.statusRastreio}` %>
+                  </p>
+                </div>
+                <div class="col-md-3">
                   <b><i class="fas fa-bolt"></i> kWp</b>
                   <p>
                     <%-project.kwp === '' ? '<b style="color: red;">Não provido</b>' : `${project.kwp}` %>
