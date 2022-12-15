@@ -4,12 +4,13 @@ const express = require("express"),
   cookieParser = require("cookie-parser"),
   passport = require("passport"),
   session = require("express-session");
+  
 const app = express();
 
 require('./database.js');
-require('./admin.js');
-
 require("./auth/local")(passport);
+require('./admin.js');
+require('./services/growatt');
 
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
@@ -32,8 +33,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 require("./routes")(app);
-
-require('./services/growatt');
+require('./services/sticknotes');
 
 const listener = app.listen(process.env.PORT || 3000, function () {
   console.log(`[CONNECTION INFO] Porta: ${listener.address().port}`);

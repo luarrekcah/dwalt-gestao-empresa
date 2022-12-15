@@ -29,6 +29,7 @@ const getData = async (res, req) => {
         });
 }
 
+
 router.get("/", async (req, res, next) => {
     if (!authenticationMiddlewareTrueFalse(req, res, next)) return res.redirect("/");
     const projects = await getAllItems({ path: `gestaoempresa/business/${req.user.key}/projects` }),
@@ -72,6 +73,7 @@ router.get("/", async (req, res, next) => {
         growatt,
         message,
         kwh,
+        stickNotes
     };
     res.render("pages/dashboard", data);
 });
@@ -164,7 +166,7 @@ router.post("/", async (req, res, next) => {
                         tokens.push(i.data.token)
                     }
                     emails.push(i.data.email);
-                    
+
                 });
                 staffs.forEach(i => {
                     if (i.data.token) {

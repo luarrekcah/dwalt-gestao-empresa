@@ -194,19 +194,29 @@
 
               <div class="col-lg-6 mb-4">
 
-
-              
                 <div class="card shadow mb-4">
                   <div class="card-header py-3">
                     <h6 class="m-0 font-weight-bold text-primary">Lembretes</h6>
                   </div>
                   <div class="card-body">
+
+                    <% if(stickNotes.length === 0) {%>
                     <a href="#" class="btn btn-primary" style="width: 100%">
                       <span class="icon text-white-50">
-                        <i class="fas fa-exclamation-triangle"></i>
+                        <i class="fas fa-info"></i>
                       </span>
-                      <span class="text">Em desenvolvimento</span>
+                      <span class="text">Sem lembretes</span>
                     </a>
+                    <%} else {%>
+                    <% stickNotes.forEach(i => { %>
+                    <a href="<%i.url%>" class="btn btn-<%i.style%>" style="width: 100%">
+                      <span class="icon text-white-50">
+                        <i class="fas fa-<%i.icon%>"></i>
+                      </span>
+                      <span class="text"><%i.message%></span>
+                    </a>
+                    <% }); %>
+                    <% }%>
                   </div>
                 </div>
 
@@ -227,7 +237,7 @@
                   </div>
                 </div>
 
-                 <!--card-->
+                <!--card-->
                 <div class="card shadow mb-4">
                   <div class="card-header py-3">
                     <h6 class="m-0 font-weight-bold text-primary">Mapa dos projetos</h6>
