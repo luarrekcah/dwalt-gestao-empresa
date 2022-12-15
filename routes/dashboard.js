@@ -37,8 +37,9 @@ router.get("/", async (req, res, next) => {
         surveys = await getAllItems({ path: `gestaoempresa/business/${req.user.key}/surveys` }),
         complaints = await getAllItems({ path: `gestaoempresa/business/${req.user.key}/complaints` }),
         staffs = await getAllItems({ path: `gestaoempresa/business/${req.user.key}/staffs` }),
+        stickNotes = await getItems({ path: `gestaoempresa/business/${req.user.key}/sticknotes` }),
         growatt = await getItems({ path: `gestaoempresa/business/${req.user.key}/growatt` }),
-        user = await getUser({ userId: req.user.key })
+        user = await getUser({ userId: req.user.key });
 
     let message;
 
