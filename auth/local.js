@@ -4,6 +4,7 @@ const { getDatabase, ref, onValue } = require("@firebase/database");
 const { createLogs, getItems } = require("../database/users");
 
 const moment = require("../services/moment");
+const { sendNotification } = require("../services/nodemailer");
 
 module.exports = async (passport) => {
   const db = getDatabase();
@@ -54,7 +55,6 @@ module.exports = async (passport) => {
             if (!isValid) return done(null, false);
             createLogs(user.key, "Login realizado");
             const loginLimit = await getItems({ path: `gestaoempresa/business/${user.key}/config/login` });
-
             if (loginLimit.hourSpecified[0] !== '') {
               const nowHours = moment().format('LT').split(":")[0];
               const nowMins = moment().format('LT').split(":")[1];
@@ -67,13 +67,19 @@ module.exports = async (passport) => {
                 return done(null, user);
               } else {
                 console.log("LOGIN FORA DE HORARIO PERMITIDO")
+                if (loginLimit.loginAlert) {
+                  sendNotification([user.data.info.email],
+                    {
+                      title: 'Tentativa de login',
+                      message: 'Detectamos um login em horário incomum e barramos ele.'
+                    });
+                }
                 return done(null, false);
               }
             } else {
               console.log("HORARIO DE LOGIN NAO DEFINIDO")
               return done(null, user);
             }
-
           } catch (err) {
             console.log(err);
             return done(err, false);

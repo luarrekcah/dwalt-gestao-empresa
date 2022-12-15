@@ -31,7 +31,7 @@ module.exports = {
     const mailOptions = {
       from: 'contato@dlwalt.com',
       to: emails,
-      subject: `${message.title} - D Walt Gestão`,
+      subject: `${message.title} - D Walt Connect: Empresa`,
       html: `${message.message}`
     };
 
