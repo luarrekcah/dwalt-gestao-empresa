@@ -34,36 +34,46 @@ module.exports = {
             });
     },
     getAllItems: async ({ path }) => {
-         const db = getDatabase();
-         if (!path) return { error: 'Sem path' }
-         const snapshot = await get(ref(db, path))
-         let alldata = [];
-         snapshot.forEach(childSnapshot => {
-             let key = childSnapshot.key,
-                 data = childSnapshot.val();
-             alldata.push({ key, data })
-         });
-         return alldata;
+        const db = getDatabase();
+        if (!path) return { error: 'Sem path' }
+        const snapshot = await get(ref(db, path))
+        let alldata = [];
+        snapshot.forEach(childSnapshot => {
+            let key = childSnapshot.key,
+                data = childSnapshot.val();
+            alldata.push({ key, data })
+        });
+        return alldata;
     },
-    getItems: async ({path}) => {
+    getItems: async ({ path }) => {
         const db = getDatabase();
         if (!path) return { error: 'Sem path' }
         const snapshot = await get(ref(db, path))
         return snapshot.val() || [];
     },
-    getUser: async ({userId}) => {
+    getUser: async ({ userId }) => {
         const db = getDatabase();
         if (!userId) return { error: 'Sem id' }
         const snapshot = await get(ref(db, `gestaoempresa/business/${userId}/info`))
         const data = snapshot.val()
-        return {key: userId, data}
+        return { key: userId, data }
     },
     createLogs: (userId, message) => {
         const db = getDatabase();
-        push(ref(db, `gestaoempresa/business/${userId}/logs`), {message, createdAt: moment().format() }).then(
+        push(ref(db, `gestaoempresa/business/${userId}/logs`), { message, createdAt: moment().format() }).then(
             console.log("[LOG] Gravação LOGS no banco de dados")
         ).catch((error) => {
             console.warn(error);
         });
     },
+    uploadFile: ({ path, base64 }) => {
+        const storage = getStorage();
+        const storageRef = ref(storage, path);
+        const url = uploadString(storageRef, base64, 'data_url').then((snapshot) => {
+            return getDownloadURL(snapshot.ref).then((downloadURL) => {
+                return downloadURL
+            });
+        })
+        return url;
+    }
 }
