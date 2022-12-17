@@ -46,7 +46,7 @@ router.get("/", async (req, res, next) => {
     if (req.query.message) {
         switch (req.query.message.toLowerCase()) {
             case "waitmore":
-                message = { type: 'warning', title: 'Opa! A api da growatt tem limite de requisição.', description: 'Tente novamente daqui algumas horas, o tempo entre as requisições deve ser de 2.5 horas.' }
+                message = { type: 'warning', title: 'Opa! A api da growatt tem limite de requisição.', description: 'Tente novamente daqui algumas horas, o tempo entre as requisições deve ser de 2h e 30min.' }
                 break;
             case "error":
                 message = { type: 'error', title: 'Ocorreu um erro!', description: 'Verifique se temos permissão para acessar sua API ou se está com o funcionamento normal.' }

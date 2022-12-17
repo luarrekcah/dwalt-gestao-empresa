@@ -11,6 +11,8 @@ const express = require("express"),
     { getDate } = require("../auth/functions/database"),
     { authenticationMiddlewareTrueFalse } = require("../auth/functions/middlewares"),
     { createItem, getAllItems, updateItem, createLogs } = require("../database/users");
+    
+const { getStorage, uploadString, getDownloadURL, ref } = require("@firebase/storage");
 
 router.get("/", (req, res, next) => {
     if (authenticationMiddlewareTrueFalse(req, res, next)) {
@@ -83,6 +85,7 @@ router.post("/registro", async (req, res) => {
     if (data.password !== data.passwordConf) return res.redirect('?message=passwordsdontmatch');
     if (data['g-recaptcha-response'] === '') return res.redirect('?message=errorrecaptcha');
     const allUsers = await getAllItems({ path: 'gestaoempresa/business' })
+
     const user = {
         info: {
             email: data.email,
@@ -93,7 +96,7 @@ router.post("/registro", async (req, res) => {
                 cnpj: data.cnpj,
             },
             profile: {
-                logo: data.logo,
+                logo: 'https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png',
                 about: data.about
             },
             contact: {
