@@ -139,7 +139,7 @@ router.post("/visualizar/:id", async (req, res, next) => {
             createLogs(req.user.key, "Documento deletado de um projeto.");
             break;
     }
-    return res.redirect("/dashboard/projetos/visualizar/" + req.params.id + "?message=" + status);
+    return res.redirect("/dashboard/projetos/visualizar/" + req.params.id + "?message=" + status + "#documentos");
 });
 
 router.get("/editar/:id", async (req, res, next) => {
