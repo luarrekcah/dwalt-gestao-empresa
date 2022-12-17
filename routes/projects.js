@@ -4,6 +4,7 @@ const express = require("express"),
     { authenticationMiddlewareTrueFalse } = require("../auth/functions/middlewares"),
     { getDate } = require("../auth/functions/database"),
     { createItem, getAllItems, getItems, getUser, deleteItem, updateItem, createLogs } = require("../database/users");
+const { getStorage, ref, uploadString, deleteObject, getDownloadURL } = require("@firebase/storage")
 
 router.get("/", async (req, res, next) => {
     if (authenticationMiddlewareTrueFalse(req, res, next)) {
@@ -104,17 +105,37 @@ router.get("/visualizar/:id", async (req, res, next) => {
 });
 
 router.post("/visualizar/:id", async (req, res, next) => {
+    const storage = getStorage();
     if (!authenticationMiddlewareTrueFalse(req, res, next)) return res.redirect("/");
     let status;
     switch (req.body.type) {
         case "CREATE_DOCUMENT":
             status = 'criado'
-            createItem({ path: `gestaoempresa/business/${req.user.key}/projects/${req.params.id}/documents`, params: req.body });
-            createLogs(req.user.key, "Documento adicionado a um projeto.");
+            const data = req.body;
+            const storageRef = ref(storage, `gestaoempresa/${req.user.key}/projects/${req.params.id}/documents/${data.documentName}.pdf`);
+            uploadString(storageRef, data.documentBase64, 'data_url').then((snapshot) => {
+                console.log(snapshot);
+                getDownloadURL(snapshot.ref).then((downloadURL) => {
+                    createItem({
+                        path: `gestaoempresa/business/${req.user.key}/projects/${req.params.id}/documents`, params: {
+                            documentName: data.documentName,
+                            documentURL: downloadURL,
+                            createdAt: getDate()
+                        }
+                    });
+                    createLogs(req.user.key, "Documento adicionado a um projeto.");
+                  });
+            });
             break;
         case "DELETE_DOCUMENT":
             status = 'deletado'
             deleteItem({ path: `gestaoempresa/business/${req.user.key}/projects/${req.params.id}/documents/${req.body.documentId}` });
+            const desertRef = ref(storage, `gestaoempresa/business/${req.user.key}/projects/${req.params.id}/documents/${req.body.documentName}.pdf`);
+            deleteObject(desertRef).then(() => {
+                console.log("Deletado")
+            }).catch((error) => {
+                console.log("Erro", error)
+            });
             createLogs(req.user.key, "Documento deletado de um projeto.");
             break;
     }

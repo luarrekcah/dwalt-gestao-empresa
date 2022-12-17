@@ -55,7 +55,8 @@ module.exports = async (passport) => {
             if (!isValid) return done(null, false);
             createLogs(user.key, "Login realizado");
             const loginLimit = await getItems({ path: `gestaoempresa/business/${user.key}/config/login` });
-            if (loginLimit.hourSpecified[0] !== '') {
+            console.log(loginLimit)
+            if (loginLimit !== [] &&  loginLimit.hourSpecified && loginLimit.hourSpecified[0] !== '') {
               const nowHours = moment().format('LT').split(":")[0];
               const nowMins = moment().format('LT').split(":")[1];
               if ((Number(nowHours) >= Number(loginLimit.hourSpecified[0].split(":")[0])

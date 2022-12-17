@@ -193,9 +193,13 @@
                               <a download="<%=i.data.documentName%>.pdf" href="<%=i.data.documentBase64%>" class="btn btn-dark">
                                 <span class="text"> <i class="fas fa-eye"></i></span>
                               </a>
+                               <a download="<%=i.data.documentName%>.pdf" target="_blank" href="<%=i.data.documentURL%>" class="btn btn-dark">
+                                <span class="text"> <i class="fas fa-eye"></i></span>
+                              </a>
                               <form method="post">
                                 <input type="text" name="type" value="DELETE_DOCUMENT" style="display: none;">
                                 <input type="text" name="documentId" value="<%=i.key%>" style="display: none;">
+                                <input type="text" name="documentName" value="<%=i.data.documentName%>" style="display: none;">
                                 <button class="btn btn-danger" style="margin-left: 10px;" type="submit">
                                   <i class="fas fa-trash"></i></button>
                               </form>

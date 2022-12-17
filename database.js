@@ -1,4 +1,5 @@
 const { initializeApp } = require("@firebase/app");
+const {getStorage} = require("@firebase/storage")
   require('dotenv').config();
 
 const firebaseConfig = {
@@ -13,6 +14,7 @@ const firebaseConfig = {
 
 try {
   const app = initializeApp(firebaseConfig);
+  const storage = getStorage(app);
   console.log('[LOG] Conectado ao banco de dados')
 } catch (error) {
   console.error(error);

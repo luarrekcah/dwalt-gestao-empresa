@@ -129,6 +129,16 @@
   dependencies:
     tslib "^2.1.0"
 
+"@firebase/storage@^0.10.0":
+  version "0.10.0"
+  resolved "https://registry.yarnpkg.com/@firebase/storage/-/storage-0.10.0.tgz#5b94fb270a8fa551ac0f136257123a889ecbea27"
+  integrity sha512-2rp7+/bQ1gkUgrqDv5qHf/vlPAOKV+a/h1tnZ8D9zN0/6wc42gqFTORJUZj/A4efVnX7Ix8MWHBe4woO/2Th0w==
+  dependencies:
+    "@firebase/component" "0.6.0"
+    "@firebase/util" "1.8.0"
+    node-fetch "2.6.7"
+    tslib "^2.1.0"
+
 "@firebase/util@1.7.3":
   version "1.7.3"
   resolved "https://registry.yarnpkg.com/@firebase/util/-/util-1.7.3.tgz#e71640b6b2970b754f947235ceb10cba3f70e62c"
@@ -1823,7 +1833,7 @@ negotiator@0.6.3:
   resolved "https://registry.npmjs.org/negotiator/-/negotiator-0.6.3.tgz"
   integrity sha512-+EUsqGPLsM+j/zdChZjsnX51g4XrHFOIXwfnCVPGlQk/k5giakcKsuxCObBRu6DSm9opw/O6slWbJdghQM4bBg==
 
-node-fetch@^2.6.1, node-fetch@^2.6.7:
+node-fetch@2.6.7, node-fetch@^2.6.1, node-fetch@^2.6.7:
   version "2.6.7"
   resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.7.tgz#24de9fba827e3b4ae44dc8b20256a379160052ad"
   integrity sha512-ZjMPFEfVx5j+y2yF35Kzx5sF7kDzxuDj6ziH4FFbOp87zKDZNx8yExJIb05OGF4Nlt9IHFIMBkRl41VdvcNdbQ==
