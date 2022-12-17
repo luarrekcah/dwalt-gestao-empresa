@@ -190,9 +190,6 @@
                               <%=i.data.documentName%>
                             </div>
                             <div class='row' style="margin-left: 0px">
-                              <a download="<%=i.data.documentName%>.pdf" href="<%=i.data.documentBase64%>" class="btn btn-dark">
-                                <span class="text"> <i class="fas fa-eye"></i></span>
-                              </a>
                                <a download="<%=i.data.documentName%>.pdf" target="_blank" href="<%=i.data.documentURL%>" class="btn btn-dark">
                                 <span class="text"> <i class="fas fa-eye"></i></span>
                               </a>
@@ -205,10 +202,15 @@
                               </form>
                             </div>
                           </div>
+                          
                           <div class="col-auto">
                             <i class="fas fa-file fa-2x text-gray-300"></i>
                           </div>
                         </div>
+                        
+                            <small><script>
+                    document.write(moment("<%=i.data.createdAt%>").format("L LT"));
+                  </script></small>
                       </div>
                     </div>
                   </div>
