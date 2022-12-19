@@ -7,22 +7,29 @@
       <div id="content">
         <%- include("../../partials/topbar.ejs") %>
         <div class="container-fluid">
-          <h1 class="h3 mb-2 text-gray-800">Clientes Registrados no App <b>D Walt Connect:
-              Cliente</b></h1>
-          <p class="mb-4">Clientes vinculados com sua conta, você pode remover quem desejar.</p>
+          <h1 class="h3 mb-2 text-gray-800">Clientes Registrados</h1>
+          <p class="mb-4">Gerencie seus clientes e dados de login.</p>
           <% if(customers.length===0) {%>
-          <div class="card shadow mb-4">
+           <div class="card shadow mb-4">
             <div class="card-body">
-              <h1 class="h3 mb-2 text-gray-800">Sua empresa ainda não tem clientes
-                registrados no app. Indique o app D | Walt Connect: Clientes, para que
-                seus clientes apareçam aqui!
+              <h1 class="h3 mb-2 text-gray-800">Sua empresa ainda não tem projetos
+                registrados. Clique <a href="/dashboard/clientes/adicionar" style="height: 25px; width: 25px;" class="btn btn-info btn-circle">
+                  <i class="fas fa-plus"></i>
+                </a> para registrar
               </h1>
             </div>
           </div>
           <% } else { %>
           <div class="card shadow mb-4">
-            <div class="card-header py-3">
+             <div class="card-header py-3">
               <h6 class="m-0 font-weight-bold text-primary">Clientes</h6>
+              <br>
+              <a href="/dashboard/clientes/adicionar" style="width: 100%" class="btn btn-info">
+                <span class="icon text-white-50">
+                  <i class="fas fa-plus"></i>
+                </span>
+                <span class="text">Registrar Cliente</span>
+              </a>
             </div>
             <div class="card-body">
               <div class="table-responsive">
