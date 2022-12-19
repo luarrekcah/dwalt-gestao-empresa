@@ -83,12 +83,12 @@
   <script src="/js/sb-admin-2.min.js"></script>
   <script>
     function onDelete(id) {
-      axios.delete('/dashboard/gerenciar/clientes', {
+      axios.delete('/dashboard/clientes', {
         data: {
           id
         }
       }).then(() => {
-        location.href = '/dashboard/gerenciar/clientes?message=userunlinked';
+        location.href = '/dashboard/clientes?message=userunlinked';
       });
     };
   </script>

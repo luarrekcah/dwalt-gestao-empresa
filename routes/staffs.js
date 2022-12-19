@@ -136,7 +136,7 @@ router.post("/", async (req, res, next) => {
             deleteItem({ path: `gestaoempresa/business/${req.user.key}/teams/${teamMemberId}/members/${staffId}` });
             break;
     }
-    return res.redirect("/dashboard/gerenciar/equipe");
+    return res.redirect("/dashboard/equipe");
 });
 
 

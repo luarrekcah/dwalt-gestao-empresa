@@ -16,8 +16,8 @@ module.exports = (app) => {
     app.use("/logs", logsRouter);
     app.use("/dashboard", dashboardRouter);
     app.use("/dashboard/projetos", projectsRouter);
-    app.use("/dashboard/gerenciar/equipe", staffsRouter);
-    app.use("/dashboard/gerenciar/clientes", customersRouter);
+    app.use("/dashboard/equipe", staffsRouter);
+    app.use("/dashboard/clientes", customersRouter);
     app.use("/dashboard/configuracao", configRouter);
     
     //api

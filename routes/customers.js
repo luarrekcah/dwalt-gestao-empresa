@@ -24,4 +24,17 @@ router.delete("/", (req, res, next) => {
     res.sendStatus(200);
 });
 
+router.get("/adicionar", async (req, res, next) => {
+    if (authenticationMiddlewareTrueFalse(req, res, next)) {
+        const user = await getUser({userId: req.user.key})
+        const data = {
+            user,
+            message: null,
+        };
+        res.render("pages/customers/new", data);
+    } else {
+        res.redirect("/");
+    }
+});
+
 module.exports = router;
