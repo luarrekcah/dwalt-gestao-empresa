@@ -20,6 +20,9 @@ router.get("/", async (req, res, next) => {
                 case "deletado":
                     message = { type: 'success', title: 'Projeto deletado!', description: 'Clique em OK para ver as informações atualizadas.' }
                     break;
+                    case "semcliente":
+                    message = { type: 'warning', title: 'Sem cliente!', description: 'Você não selecionou o cliente na tela de registro de projeto, caso não tenha registrado, vá em CLIENTES > GERENCIAR.' }
+                    break;
                 default:
                     message = null;
                     break;
@@ -53,9 +56,11 @@ router.post("/", async (req, res, next) => {
 router.get("/adicionar", async (req, res, next) => {
     if (!authenticationMiddlewareTrueFalse(req, res, next)) return res.redirect("/");
     const user = await getUser({ userId: req.user.key })
+    const customers = await getAllItems({path: `gestaoempresa/business/${req.user.key}/customers`});
     const data = {
         user,
         message: null,
+        customers
     };
     res.render("pages/projects/new", data);
 });
@@ -64,6 +69,8 @@ router.post("/adicionar", (req, res, next) => {
     if (!authenticationMiddlewareTrueFalse(req, res, next)) return res.redirect("/");
     const project = req.body;
     project.createdAt = getDate(moment);
+    console.log(project);
+    if(project.customerID === 'Nenhum selecionado') return res.redirect("/dashboard/projetos?message=semcliente");
     createItem({ path: `gestaoempresa/business/${req.user.key}/projects`, params: project });
     createLogs(req.user.key, "Projeto adicionado.");
     return res.redirect("/dashboard/projetos?message=registrado");
@@ -144,12 +151,14 @@ router.post("/visualizar/:id", async (req, res, next) => {
 
 router.get("/editar/:id", async (req, res, next) => {
     if (!authenticationMiddlewareTrueFalse(req, res, next)) return res.redirect("/");
+    const customers = await getAllItems({ path: `gestaoempresa/business/${req.user.key}/customers` })
     const user = await getUser({ userId: req.user.key })
     const project = await getItems({ path: `gestaoempresa/business/${req.user.key}/projects/${req.params.id}` });
     const data = {
         user,
         project,
         message: null,
+        customers
     };
     res.render("pages/projects/edit", data);
 });

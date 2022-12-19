@@ -52,13 +52,24 @@
                     <% projects.forEach((item, i) => { %>
                     <tr>
                       <td><%= item.data.apelidoProjeto %></td>
-                      <td><%= item.data.nomeComp %><br>(<%= item.data.email %>)</td>
+                      <td>
+                        <%if(item.data.customerID) { %>
+                        <a href="/dashboard/clientes/visualizar/<%= item.data.customerID %>">
+                          <i class="fas fa-eye"></i> Ver dados
+                        </a>
+                        <% } else { %>
+                        <a style="color:red;" href="/dashboard/projetos/editar/<%= item.key %>">
+                          <i class="fas fa-exclamation"></i> Cliente não associado
+                        </a>
+                        <% } %>
+                      </td>
                       <td><%= item.data.kwp %></td>
                       <td><%= item.data.Status %></td>
                       <td>
-                      <script>
-                    document.write(moment("<%=item.data.createdAt%>").format("L LT"));
-                  </script></td>
+                        <script>
+                          document.write(moment("<%=item.data.createdAt%>").format("L LT"));
+                        </script>
+                      </td>
                       <td><a href="projetos/visualizar/<%= item.key %>" class="btn btn-info btn-circle">
                           <i class="fas fa-info-circle"></i>
                         </a>

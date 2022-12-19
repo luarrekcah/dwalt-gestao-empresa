@@ -1,0 +1,141 @@
+<%- include("../../partials/head.ejs") %>
+
+<body id="page-top">
+  <div id="wrapper">
+    <%- include("../../partials/sidebar.ejs") %>
+    <div id="content-wrapper" class="d-flex flex-column">
+      <div id="content">
+        <%- include("../../partials/topbar.ejs") %>
+        <div class="container-fluid">
+          <h1 class="h3 mb-2 text-gray-800">Propriedades de <%= customer.nomeComp %>
+          </h1>
+          <p class="mb-4">Visualização de dados, para editar retorne a página principal de
+            clientes.</p>
+          <div class="card shadow mb-4">
+            <div class="card-body">
+              <h1 class="h3 mb-2 text-gray-800">Dados do Cliente
+              </h1>
+              <div class="row gx-3 mb-3">
+                <div class="col-md-3">
+                  <b>Nome Completo</b>
+                  <p>
+                    <%-customer.nomeComp === '' ? '<b style="color: red;">Não provido</b>' : `${customer.nomeComp}` %>
+                  </p>
+                </div>
+                <div class="col-md-3">
+                  <b>CPF</b>
+                  <p>
+                    <%-customer.cpf === '' ? '<b style="color: red;">Não provido</b>' : `${customer.cpf}` %>
+                  </p>
+                </div>
+                <div class="col-md-3">
+                  <b>RG</b>
+                  <p>
+                    <%-customer.rg === '' ? '<b style="color: red;">Não provido</b>' : `${customer.rg}` %>
+
+                  </p>
+                </div>
+                <div class="col-md-3">
+                  <b>Data de Nascimento</b>
+                  <p>
+                    <% if(customer.dataNasc === '') { %>
+                    <b style="color: red;">Não provido</b>
+                    <% } else { %>
+                    <%=customer.dataNasc.split('-')[2]%>/<%=customer.dataNasc.split('-')[1]%>/<%=customer.dataNasc.split('-')[0]%>
+                    <%}%>
+                  </p>
+                </div>
+                <div class="col-md-3">
+                  <b>Sexo</b>
+                  <p>
+                    <%-customer.sexo === '' ? '<b style="color: red;">Não provido</b>' : `${customer.sexo}` %>
+                  </p>
+                </div>
+
+                <div class="col-md-3">
+                  <b>Estado Civil</b>
+                  <p>
+                    <%-customer.estadoCivil === '' ? '<b style="color: red;">Não provido</b>' : `${customer.estadoCivil}` %>
+                  </p>
+                </div>
+
+                <div class="col-md-3">
+                  <b>Nome da Mãe</b>
+                  <p>
+                    <%-customer.nomeMae === '' ? '<b style="color: red;">Não provido</b>' : `${customer.nomeMae}` %>
+                  </p>
+                </div>
+
+                <div class="col-md-3">
+                  <b>E-mail</b>
+                  <p>
+                    <%-customer.email === '' ? '<b style="color: red;">Não provido</b>' : `${customer.email}` %>
+                  </p>
+                </div>
+
+                <div class="col-md-3">
+                  <b>Celular</b>
+                  <p>
+                    <%-customer.celular === '' ? '<b style="color: red;">Não provido</b>' : `${customer.celular}` %>
+                  </p>
+                </div>
+                <div class="col-md-3">
+                  <b>Endereço Completo</b>
+                  <p>
+                    <%-customer.endCompleto === '' ? '<b style="color: red;">Não provido</b>' : `${customer.endCompleto}` %>
+                  </p>
+                </div>
+                <div class="col-md-3">
+                  <b>Profissão</b>
+                  <p>
+                    <%-customer.profissao === '' ? '<b style="color: red;">Não provido</b>' : `${customer.profissao}` %>
+                  </p>
+                </div>
+                <div class="col-md-3">
+                  <b>Ocupação</b>
+                  <p>
+                    <%-customer.ocupacao === '' ? '<b style="color: red;">Não provido</b>' : `${customer.ocupacao}` %>
+                  </p>
+                </div>
+                <div class="col-md-3">
+                  <b>Renda</b>
+                  <p>
+                    <%-customer.renda === '' ? '<b style="color: red;">Não provido</b>' : `${customer.renda}` %>
+                  </p>
+                </div>
+                <div class="col-md-3">
+                  <b>Patrimônio</b>
+                  <p>
+                    <%-customer.patrimonio === '' ? '<b style="color: red;">Não provido</b>' : `${customer.patrimonio}` %>
+                  </p>
+                </div>
+                <div class="col-md-3">
+                  <b>Atuando há</b>
+                  <p>
+                    <% if(customer.anos === '' && customer.meses === '') { %>
+                    <b style="color: red;">Não provido</b>
+                    <% } else { %>
+                    <%=customer.anos%> anos e <%=customer.meses%> meses.
+                    <%}%>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <%- include("../../partials/footer.ejs") %>
+    </div>
+  </div>
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+  <%- include("../components/modal/logout.ejs") %>
+  <script src="/vendor/jquery/jquery.min.js"></script>
+  <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+  <script src="/vendor/slick-master/slick/slick.js"></script>
+  <script src="/js/sb-admin-2.min.js"></script>
+</body>
+
+</html>

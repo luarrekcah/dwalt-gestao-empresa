@@ -10,9 +10,9 @@
           <h1 class="h3 mb-2 text-gray-800">Clientes Registrados</h1>
           <p class="mb-4">Gerencie seus clientes e dados de login.</p>
           <% if(customers.length===0) {%>
-           <div class="card shadow mb-4">
+          <div class="card shadow mb-4">
             <div class="card-body">
-              <h1 class="h3 mb-2 text-gray-800">Sua empresa ainda não tem projetos
+              <h1 class="h3 mb-2 text-gray-800">Sua empresa ainda não tem clientes
                 registrados. Clique <a href="/dashboard/clientes/adicionar" style="height: 25px; width: 25px;" class="btn btn-info btn-circle">
                   <i class="fas fa-plus"></i>
                 </a> para registrar
@@ -21,7 +21,7 @@
           </div>
           <% } else { %>
           <div class="card shadow mb-4">
-             <div class="card-header py-3">
+            <div class="card-header py-3">
               <h6 class="m-0 font-weight-bold text-primary">Clientes</h6>
               <br>
               <a href="/dashboard/clientes/adicionar" style="width: 100%" class="btn btn-info">
@@ -36,29 +36,37 @@
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                   <thead>
                     <tr>
-                      <th>Foto</th>
                       <th>Nome</th>
+                      <th>CPF</th>
                       <th>E-mail</th>
-                      <th>Botões</th>
+                      <th>Editar/Ver</th>
+                      <th>Apagar</th>
                     </tr>
                   </thead>
                   <tbody>
                     <% customers.forEach(item=> { %>
                     <tr>
-                      <td><img src="<%=item.data.foto%>" alt="foto de <%=item.data.nome%>" width="50" height="50"></td>
                       <td>
-                        <%=item.data.nome%>
-                        <%=item.data.sobrenome%>
+                        <%=item.data.nomeComp%>
+                      </td>
+                      <td>
+                        <%=item.data.cpf%>
                       </td>
                       <td>
                         <%=item.data.email%>
                       </td>
                       <td>
-
+                        <a href="clientes/visualizar/<%= item.key %>" class="btn btn-info btn-circle">
+                          <i class="fas fa-info-circle"></i>
+                        </a>
+                        <a href="clientes/editar/<%= item.key %>" class="btn btn-primary btn-circle">
+                          <i class="fas fa-edit"></i>
+                        </a>
+                      </td>
+                      <td>
                         <a href="#" onclick="onDelete('<%=item.key%>')" class="btn btn-danger btn-circle">
                           <i class="fas fa-trash"></i>
                         </a>
-
                       </td>
                     </tr>
                     <% }); %>

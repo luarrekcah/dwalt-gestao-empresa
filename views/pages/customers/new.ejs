@@ -133,6 +133,18 @@
               <label class="small mb-1" for="endCompleto">Endereço Completo <b style="color: red">*</b></label>
               <input name="endCompleto" class="form-control" id="endCompleto" type="text" placeholder="Rua, bairro, número, complemento - Cidade / Estado - CEP" value="" required>
             </div>
+
+             <b class="mb-4">Configuração de login</b>
+
+               <div class="row gx-3 mb-3">
+              <!-- Form Group (first name)-->
+              <div class="col-md-6">
+                <label class="small mb-1" for="password">Senha</label>
+                <input name="password" class="form-control" id="password" type="text" value="<%=config.users ? config.users.passCommon : ''%>">
+              </div>
+            </div>
+
+
             <div class="row gx-3 mb-3" style="display: none;">
               <div class="col-md-6">
                 <input name="business" class="form-control" type="text" value="<%=user.key%>" required autocomplete="off" />
