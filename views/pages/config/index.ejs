@@ -119,6 +119,19 @@
               </div>
             </div>
             <!--CARD -->
+             <!--card-->
+            <div class="card shadow mb-4">
+              <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Usuários</h6>
+              </div>
+              <div class="card-body">
+                 <div class="col-md-6">
+                <label class="small mb-1" for="passCommon">Senha padrão dos usuários<b style="color: red">*</b></label>
+                <input name="passCommon" class="form-control" id="passCommon" type="text" value="<%=config.users === undefined ? '' : config.users.passCommon%>" required>
+              </div>
+              </div>
+            </div>
+            <!--CARD -->
             <button class="btn btn-primary" style="width: 100%;" type="submit">Salvar Configurações</button>
           </form>
         </div>

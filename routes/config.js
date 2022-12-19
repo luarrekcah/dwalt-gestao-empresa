@@ -59,6 +59,12 @@ router.post("/", async (req, res, next) => {
         }
     });
 
+    updateItem({
+        path: `gestaoempresa/business/${req.user.key}/config/users`, params: {
+            passCommon: data.passCommon,
+        }
+    });
+
     return res.redirect('/dashboard/configuracao?message=updated');
 });
 
