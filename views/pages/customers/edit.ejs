@@ -1,0 +1,170 @@
+<%- include("../../partials/head.ejs") %>
+
+<body id="page-top">
+  <div id="wrapper">
+    <%- include("../../partials/sidebar.ejs") %>
+    <div id="content-wrapper" class="d-flex flex-column">
+      <div id="content">
+        <%- include("../../partials/topbar.ejs") %>
+        <div class="container-fluid">
+          <h1 class="h3 mb-2 text-gray-800">Editando <%=customer.nomeComp%></h1>
+          <form method="POST">
+            <b class="mb-4">Dados Básicos</b>
+            <!-- Form Row-->
+            <div class="row gx-3 mb-3">
+              <div class="col-md-6">
+                <label class="small mb-1" for="nomeComp">Nome Completo <b style="color: red">*</b></label>
+                <input name="nomeComp" value="<%=customer.nomeComp%>" class="form-control" id="nomeComp" type="text" placeholder="Nome completo" required>
+              </div>
+              <!-- Form Group (first name)-->
+              <div class="col-md-6">
+                <label class="small mb-1" for="cpf">CPF <b style="color: red">*</b></label>
+                <input name="cpf"  value="<%=customer.cpf%>" class="form-control" id="cpf" type="text" placeholder="000.000.000-00" required>
+              </div>
+              <!-- Form Group (last name)-->
+              <div class="col-md-6">
+                <label class="small mb-1" for="dataNasc">Data de Nascimento <b style="color: red">*</b></label>
+                <input name="dataNasc"  value="<%=customer.dataNasc%>" class="form-control" id="dataNasc" type="date" required>
+              </div>
+            </div>
+
+            <div class="row gx-3 mb-3">
+              <!-- Form Group (first name)-->
+              <div class="col-md-6">
+                <label class="small mb-1" for="email">E-mail <b style="color: red">*</b></label>
+                <input name="email" value="<%=customer.email%>" class="form-control" id="email" type="text" placeholder="fulano@gmail.com" required>
+              </div>
+              <!-- Form Group (last name)-->
+              <div class="col-md-6">
+                <label class="small mb-1" for="celular">Celular <b style="color: red">*</b></label>
+                <input name="celular" value="<%=customer.celular%>" class="form-control" id="celular" type="text" placeholder="(00) 0.0000-0000" required>
+              </div>
+            </div>
+
+            <div class="row gx-3 mb-3">
+              <!-- Form Group (first name)-->
+              <div class="col-md-6">
+                <label class="small mb-1" for="nomeMae">Nome da Mãe <b style="color: red">*</b></label>
+                <input name="nomeMae"  value="<%=customer.nomeMae%>" class="form-control" id="nomeMae" type="text" placeholder="" required>
+              </div>
+              <!-- Form Group (last name)-->
+              <div class="col-md-6">
+                <label class="small mb-1" for="rg">RG <b style="color: red">*</b></label>
+                <input name="rg" value="<%=customer.rg%>" class="form-control" id="rg" type="text" placeholder="" required>
+              </div>
+            </div>
+
+
+            <div class="row gx-3 mb-3">
+              <div class="col-md-6">
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="sexo" id="flexRadioDefault1" value="masculino" <%-customer.sexo.toLowerCase() === 'masculino' ? "checked" : ''%>>
+                  <label class="form-check-label" for="flexRadioDefault1">
+                    Masculino
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="sexo" id="flexRadioDefault2" value="feminino" <%-customer.sexo.toLowerCase() === 'feminino' ? "checked" : ''%>>
+                  <label class="form-check-label" for="flexRadioDefault2">
+                    Feminino
+                  </label>
+                </div>
+              </div>
+
+
+              <div class="col-md-6">
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="estadoCivil" id="flexRadioDefault1" value="casado" <%-customer.estadoCivil.toLowerCase() === 'casado' ? "checked" : ''%>>
+                  <label class="form-check-label" for="flexRadioDefault1">
+                    Casado(a)
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="estadoCivil" id="flexRadioDefault2" value="solteiro" <%-customer.estadoCivil.toLowerCase() === 'solteiro' ? "checked" : ''%>>
+                  <label class="form-check-label" for="flexRadioDefault2">
+                    Solteiro(a)
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <div class="row gx-3 mb-3">
+              <!-- Form Group (first name)-->
+              <div class="col-md-6">
+                <label class="small mb-1" for="patrimonio">Patrimônio</label>
+                <input name="patrimonio" value="<%=customer.patrimonio%>" class="form-control" id="patrimonio" type="text" placeholder="R$00000">
+              </div>
+              <!-- Form Group (last name)-->
+              <div class="col-md-6">
+                <label class="small mb-1" for="ocupacao">Ocupação</label>
+                <input name="ocupacao" value="<%=customer.ocupacao%>" class="form-control" id="ocupacao" type="text" placeholder="Empresário">
+              </div>
+            </div>
+
+            <div class="row gx-3 mb-3">
+              <!-- Form Group (first name)-->
+              <div class="col-md-6">
+                <label class="small mb-1" for="profissao">Profissão</label>
+                <input name="profissao" value="<%=customer.profissao%>" class="form-control" id="profissao" type="text" placeholder="Dono de empresa">
+              </div>
+              <!-- Form Group (last name)-->
+              <div class="col-md-6">
+                <label class="small mb-1" for="anos">Anos Atuando</label>
+                <input name="anos" value="<%=customer.anos%>" class="form-control" id="anos" type="text" placeholder="9">
+              </div>
+            </div>
+
+            <div class="row gx-3 mb-3">
+              <!-- Form Group (first name)-->
+              <div class="col-md-6">
+                <label class="small mb-1" for="meses">Meses Atuando</label>
+                <input name="meses" value="<%=customer.meses%>" class="form-control" id="meses" type="text" placeholder="12">
+              </div>
+              <!-- Form Group (last name)-->
+              <div class="col-md-6">
+                <label class="small mb-1" for="renda">Renda Mensal</label>
+                <input name="renda" value="<%=customer.renda%>" class="form-control" id="renda" type="text" placeholder="R$00.000">
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label class="small mb-1" for="endCompleto">Endereço Completo <b style="color: red">*</b></label>
+              <input name="endCompleto" value="<%=customer.endCompleto%>" class="form-control" id="endCompleto" type="text" placeholder="Rua, bairro, número, complemento - Cidade / Estado - CEP" value="" required>
+            </div>
+
+             <b class="mb-4">Configuração de login</b>
+
+               <div class="row gx-3 mb-3">
+              <!-- Form Group (first name)-->
+              <div class="col-md-6">
+                <label class="small mb-1" for="password">Senha</label>
+                <input name="password" class="form-control" id="password" type="text" value="<%=customer.password%>">
+              </div>
+            </div>
+
+
+            <div class="row gx-3 mb-3" style="display: none;">
+              <div class="col-md-6">
+                <input name="business" class="form-control" type="text" value="<%=user.key%>" required autocomplete="off" />
+              </div>
+            </div>
+            <!-- Save changes button-->
+            <button class="btn btn-primary" style="width: 100%;" type="submit">Atualizar
+              Cliente</button>
+          </form>
+        </div>
+      </div>
+      <%- include("../../partials/footer.ejs") %>
+    </div>
+  </div>
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+  <%- include("../components/modal/logout.ejs") %>
+  <script src="/vendor/jquery/jquery.min.js"></script>
+  <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+  <script src="/js/sb-admin-2.min.js"></script>
+</body>
+
+</html>
