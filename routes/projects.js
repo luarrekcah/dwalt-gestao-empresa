@@ -84,6 +84,7 @@ router.get("/visualizar/:id", async (req, res, next) => {
     const documents = await getAllItems({ path: `gestaoempresa/business/${req.user.key}/projects/${req.params.id}/documents` });
     const photos = await getAllItems({ path: `gestaoempresa/business/${req.user.key}/projects/${req.params.id}/photos` });
     let message;
+    const growattData = growatt.plantList.data.data.plants.find(g => g.name === project.username_growatt);
     if (req.query.message) {
         switch (req.query.message.toLowerCase()) {
             case "editado":
@@ -102,8 +103,55 @@ router.get("/visualizar/:id", async (req, res, next) => {
     } else {
         message = null;
     }
-    
-    const growattData = growatt.plantList.data.data.plants.find(g => g.name === project.username_growatt);
+
+    const power = [],
+    labelsMonths = []
+
+    project.month_power.data.data.energys.forEach(m => {
+        const month = m.date.split('-')[1];
+        switch (month) {
+            case '01':
+                labelsMonths.push("Jan")
+            break;
+            case '02':
+                labelsMonths.push("Fev")
+            break;
+            case '03':
+                labelsMonths.push("Mar")
+            break;
+            case '04':
+                labelsMonths.push("Abr")
+            break;
+            case '05':
+                labelsMonths.push("Mai")
+            break;
+            case '06':
+                labelsMonths.push("Jun")
+            break;
+            case '07':
+                labelsMonths.push("Jul")
+            break;
+            case '08':
+                labelsMonths.push("Ago")
+            break;
+            case '09':
+                labelsMonths.push("Set")
+            break;
+            case '10':
+                labelsMonths.push("Out")
+            break;
+            case '11':
+                labelsMonths.push("Nov")
+            break;
+            case '12':
+                labelsMonths.push("Dez")
+            break;
+        }
+        power.push(m.energy);
+    });
+
+    const labels = JSON.stringify(labelsMonths)
+    const dataChart = JSON.stringify(power)
 
     const data = {
         user,
@@ -112,6 +160,8 @@ router.get("/visualizar/:id", async (req, res, next) => {
         message,
         photos,
         growattData,
+        labels,
+        dataChart
     };
     res.render("pages/projects/see", data);
 });
