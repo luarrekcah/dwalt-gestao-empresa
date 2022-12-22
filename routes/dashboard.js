@@ -10,23 +10,60 @@ const express = require("express"),
     admin = require('firebase-admin');
 
 const getData = async (res, req) => {
-    axios.get("https://test.growatt.com/v1/plant/list", { headers: { token: req.body.token } })
-        .then(response => {
-            const data = response.data
-            if (data.error_code !== 0)
-                return res.redirect('/dashboard?message=error');
-            updateItem({
-                path: `gestaoempresa/business/${req.user.key}/growatt/plantList`, params: { data }
-            });
-            updateItem({
-                path: `gestaoempresa/business/${req.user.key}/growatt/token`, params: {
-                    lastUse: getDate(),
-                    requestByDay: 10,
-                }
-            });
-            return res.redirect('/dashboard');
 
+    const projects = await getAllItems({path: `gestaoempresa/business/${req.user.key}/projects`});
+    const growatt = await getItems({path: `gestaoempresa/business/${req.user.key}/growatt`});
+
+    axios.get("https://test.growatt.com/v1/plant/list", { headers: { token: req.body.token } })
+    .then(response => {
+        const data = response.data
+        if (data.error_code !== 0)
+            return res.redirect('/dashboard?message=error');
+        updateItem({
+            path: `gestaoempresa/business/${req.user.key}/growatt/plantList`, params: { data }
         });
+        updateItem({
+            path: `gestaoempresa/business/${req.user.key}/growatt/token`, params: {
+                lastUse: getDate(),
+            }
+        });
+
+        return res.redirect('/dashboard');
+    });
+
+    projects.forEach(p => {
+        if(p.data.username_growatt !== '' && p.data.username_growatt !== undefined) {
+            const username = p.data.username_growatt;
+            const plant = growatt.plantList.data.data.plants.find(plant => plant.name === username);
+            const data = new Date();
+
+            const now = moment(new Date());
+            const date = moment(p.data.month_power.data.lastUpdate);
+            const duration = moment.duration(now.diff(date));
+            
+            if (duration.asHours() <= 3.0) {
+                axios.get("https://test.growatt.com/v1/plant/energy",
+                {
+                    headers: { token: req.body.token },
+                    params: {
+                        plant_id: plant.plant_id,
+                        start_date: plant.create_date,
+                        end_date: `${data.getFullYear()}-${data.getMonth() + 1}-${data.getDate()}`, 
+                        time_unit: 'month',
+                    }
+                })
+                .then(response => {
+                    const data = response.data;
+                    data.lastUpdate = getDate();
+                    updateItem({
+                        path: `gestaoempresa/business/${req.user.key}/projects/${p.key}/month_power`, params: { data }
+                    });
+                });
+            } else {
+                return;
+            } 
+        }
+    });
 }
 
 
