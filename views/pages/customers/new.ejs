@@ -167,6 +167,52 @@
   <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
   <script src="/js/sb-admin-2.min.js"></script>
+
+  
+  <script type='text/javascript' src="https://rawgit.com/RobinHerbots/jquery.inputmask/3.x/dist/jquery.inputmask.bundle.js"></script>
+  <script>
+    $(document).ready(function() {
+      $(":input").inputmask();
+
+      $("#celular").inputmask({
+        mask: '+55 (99) 9.9999-9999',
+        placeholder: 'X',
+        showMaskOnHover: false,
+        showMaskOnFocus: false,
+      });
+
+      $("#cpf").inputmask({
+        mask: '999.999.999-99',
+        placeholder: 'X',
+        showMaskOnHover: false,
+        showMaskOnFocus: false,
+      });
+
+      $("#patrimonio").inputmask('currency', {
+        greedy: false,
+        radixPoint: ",",
+        prefix: "R$",
+        groupSeparator: ".",
+        alias: "numeric",
+        autoGroup: true,
+        digits: 2,
+        digitsOptional: false,
+        clearMaskOnLostFocus: false
+      })
+
+      $("#renda").inputmask('currency', {
+        greedy: false,
+        radixPoint: ",",
+        prefix: "R$",
+        groupSeparator: ".",
+        alias: "numeric",
+        autoGroup: true,
+        digits: 2,
+        digitsOptional: false,
+        clearMaskOnLostFocus: false
+      })
+    })
+  </script>
 </body>
 
 </html>
