@@ -108,10 +108,6 @@ router.get("/visualizar/:id", async (req, res, next) => {
             labelsMonths = []
 
     if (project.month_power) {
-
-
-        
-
         project.month_power.data.data.energys.forEach(m => {
             const month = m.date.split('-')[1];
             switch (month) {
