@@ -19,12 +19,12 @@
               <!-- Form Group (first name)-->
               <div class="col-md-6">
                 <label class="small mb-1" for="cpf">CPF <b style="color: red">*</b></label>
-                <input name="cpf"  value="<%=customer.cpf%>" class="form-control" id="cpf" type="text" placeholder="000.000.000-00" required>
+                <input name="cpf" value="<%=customer.cpf%>" class="form-control" id="cpf" type="text" placeholder="000.000.000-00" required>
               </div>
               <!-- Form Group (last name)-->
               <div class="col-md-6">
                 <label class="small mb-1" for="dataNasc">Data de Nascimento <b style="color: red">*</b></label>
-                <input name="dataNasc"  value="<%=customer.dataNasc%>" class="form-control" id="dataNasc" type="date" required>
+                <input name="dataNasc" value="<%=customer.dataNasc%>" class="form-control" id="dataNasc" type="date" required>
               </div>
             </div>
 
@@ -45,7 +45,7 @@
               <!-- Form Group (first name)-->
               <div class="col-md-6">
                 <label class="small mb-1" for="nomeMae">Nome da Mãe <b style="color: red">*</b></label>
-                <input name="nomeMae"  value="<%=customer.nomeMae%>" class="form-control" id="nomeMae" type="text" placeholder="" required>
+                <input name="nomeMae" value="<%=customer.nomeMae%>" class="form-control" id="nomeMae" type="text" placeholder="" required>
               </div>
               <!-- Form Group (last name)-->
               <div class="col-md-6">
@@ -123,7 +123,7 @@
               <!-- Form Group (last name)-->
               <div class="col-md-6">
                 <label class="small mb-1" for="renda">Renda Mensal</label>
-                <input name="renda" value="<%=customer.renda%>" class="form-control" id="renda" type="text" placeholder="R$00.000">
+                <input name="renda" value="<%=customer.renda%>" data-inputmask="'alias': 'currency'" class="form-control" id="renda" type="text" placeholder="R$00.000">
               </div>
             </div>
 
@@ -132,9 +132,9 @@
               <input name="endCompleto" value="<%=customer.endCompleto%>" class="form-control" id="endCompleto" type="text" placeholder="Rua, bairro, número, complemento - Cidade / Estado - CEP" value="" required>
             </div>
 
-             <b class="mb-4">Configuração de login</b>
+            <b class="mb-4">Configuração de login</b>
 
-               <div class="row gx-3 mb-3">
+            <div class="row gx-3 mb-3">
               <!-- Form Group (first name)-->
               <div class="col-md-6">
                 <label class="small mb-1" for="password">Senha</label>
@@ -165,6 +165,51 @@
   <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
   <script src="/js/sb-admin-2.min.js"></script>
+
+  <script type='text/javascript' src="https://rawgit.com/RobinHerbots/jquery.inputmask/3.x/dist/jquery.inputmask.bundle.js"></script>
+  <script>
+    $(document).ready(function() {
+      $(":input").inputmask();
+
+      $("#celular").inputmask({
+        mask: '+55 (99) 9.9999-9999',
+        placeholder: 'X',
+        showMaskOnHover: false,
+        showMaskOnFocus: false,
+      });
+
+      $("#cpf").inputmask({
+        mask: '999.999.999-99',
+        placeholder: 'X',
+        showMaskOnHover: false,
+        showMaskOnFocus: false,
+      });
+
+      $("#patrimonio").inputmask('currency', {
+        greedy: false,
+        radixPoint: ",",
+        prefix: "R$",
+        groupSeparator: ".",
+        alias: "numeric",
+        autoGroup: true,
+        digits: 2,
+        digitsOptional: false,
+        clearMaskOnLostFocus: false
+      })
+
+      $("#renda").inputmask('currency', {
+        greedy: false,
+        radixPoint: ",",
+        prefix: "R$",
+        groupSeparator: ".",
+        alias: "numeric",
+        autoGroup: true,
+        digits: 2,
+        digitsOptional: false,
+        clearMaskOnLostFocus: false
+      })
+    })
+  </script>
 </body>
 
 </html>
