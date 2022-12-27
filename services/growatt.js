@@ -1,11 +1,11 @@
-const { getAllItems, updateItem } = require("../database/users")
+const { getAllItems, updateItem, getItems } = require("../database/users")
     , { getDate } = require("../auth/functions/database")
     , moment = require('./moment')
     , axios = require("axios");
 
 const growattConfig = {
     minimumTime: 2.5,
-    intervalCheckHours: 3
+    intervalCheckHours: 2
 };
 
 console.log("[GROWATT] Monitoramento ativo");
@@ -38,23 +38,25 @@ const getData = async (dataB) => {
                     const duration = moment.duration(now.diff(date));
                     
                     if (duration.asHours() <= 3.0) {
-                        axios.get("https://test.growatt.com/v1/plant/energy",
-                        {
-                            headers: { token: dataB.data.info.tokenGrowatt },
-                            params: {
-                                plant_id: plant.plant_id,
-                                start_date: plant.create_date,
-                                end_date: `${data.getFullYear()}-${data.getMonth() + 1}-${data.getDate()}`, 
-                                time_unit: 'month',
-                            }
-                        })
-                        .then(response => {
-                            const data = response.data;
-                            data.lastUpdate = getDate();
-                            updateItem({
-                                path: `gestaoempresa/business/${dataB.key}/projects/${p.key}/month_power`, params: { data }
+                        setTimeout(() => {
+                            axios.get("https://test.growatt.com/v1/plant/energy",
+                            {
+                                headers: { token: dataB.data.info.tokenGrowatt },
+                                params: {
+                                    plant_id: plant.plant_id,
+                                    start_date: plant.create_date,
+                                    end_date: `${data.getFullYear()}-${data.getMonth() + 1}-${data.getDate()}`, 
+                                    time_unit: 'month',
+                                }
+                            })
+                            .then(response => {
+                                const data = response.data;
+                                data.lastUpdate = getDate();
+                                updateItem({
+                                    path: `gestaoempresa/business/${dataB.key}/projects/${p.key}/month_power`, params: { data }
+                                });
                             });
-                        });
+                        }, 5 * 60 * 1000);
                     } else {
                         return;
                     } 
@@ -78,4 +80,4 @@ setInterval(async () => {
             }
         }
     });
-}, growattConfig.intervalCheckHours * 60 * 1000)
+}, growattConfig.intervalCheckHours * 60 * 60 * 1000)
