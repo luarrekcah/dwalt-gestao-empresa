@@ -84,6 +84,34 @@ router.get("/visualizar/:id", async (req, res, next) => {
     const overview = await getItems({ path: `gestaoempresa/business/${req.user.key}/projects/${req.params.id}/overview` });
     const documents = await getAllItems({ path: `gestaoempresa/business/${req.user.key}/projects/${req.params.id}/documents` });
     const photos = await getAllItems({ path: `gestaoempresa/business/${req.user.key}/projects/${req.params.id}/photos` });
+    const requiredPhotos = await getAllItems({ path: `gestaoempresa/business/${req.user.key}/projects/${req.params.id}/requiredPhotos` });
+    const requiredPhotosConfig = await getAllItems({ path: `gestaoempresa/business/${req.user.key}/config/projectRequiredImages` });
+    
+    let required = [];
+
+    console.log(requiredPhotos);
+    console.log(requiredPhotosConfig);
+
+
+    requiredPhotosConfig.forEach(rq => {
+        if(!rq.data.checked) return;
+        const find = requiredPhotos.find(i => i.data.requiredKey === rq.key);
+        if(find) {
+            required.push({
+                key: rq.key,
+                data: rq.data,
+                array: find.data
+            })
+        } else {
+            required.push({
+                key: rq.key,
+                data: rq.data,
+            })
+        }
+    });
+
+    console.log(required);
+
     let message;
     const growattData = growatt.plantList.data.data.plants.find(g => g.name === project.username_growatt);
     if (req.query.message) {
@@ -106,7 +134,7 @@ router.get("/visualizar/:id", async (req, res, next) => {
     }
 
     const power = [],
-            labelsMonths = []
+        labelsMonths = []
 
     if (project.month_power) {
         project.month_power.data.data.energys.forEach(m => {
@@ -165,7 +193,8 @@ router.get("/visualizar/:id", async (req, res, next) => {
         growattData,
         labels,
         dataChart,
-        overview
+        overview,
+        required
     };
     res.render("pages/projects/see", data);
 });

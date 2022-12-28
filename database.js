@@ -1,6 +1,6 @@
 const { initializeApp } = require("@firebase/app");
 const { getStorage } = require("@firebase/storage");
-const { getAllItems, updateItem, deleteItem } = require("./database/users");
+const { getAllItems, updateItem, deleteItem, createItem } = require("./database/users");
 require('dotenv').config();
 
 
