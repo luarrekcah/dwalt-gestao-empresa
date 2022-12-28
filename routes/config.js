@@ -1,5 +1,5 @@
 const { authenticationMiddlewareTrueFalse } = require("../auth/functions/middlewares");
-const { getUser, updateItem, getItems } = require("../database/users");
+const { getUser, updateItem, getItems, createItem, getAllItems, deleteItem } = require("../database/users");
 
 const express = require("express"),
     router = express.Router();
@@ -8,6 +8,7 @@ router.get("/", async (req, res, next) => {
     if (!authenticationMiddlewareTrueFalse(req, res, next)) return res.redirect("/");
     const user = await getUser({ userId: req.user.key })
     const config = await getItems({ path: `gestaoempresa/business/${req.user.key}/config` });
+    const requiredImages = await getAllItems({ path: `gestaoempresa/business/${req.user.key}/config/projectRequiredImages` });
     let message;
     if (req.query.message) {
         switch (req.query.message.toLowerCase()) {
@@ -26,12 +27,34 @@ router.get("/", async (req, res, next) => {
         user,
         message,
         config,
+        requiredImages,
     };
     res.render("pages/config", data);
 });
 
 router.post("/", async (req, res, next) => {
+    if (!authenticationMiddlewareTrueFalse(req, res, next)) return res.redirect("/");
     const data = req.body;
+    console.log(data);
+
+    const requiredImages = await getAllItems({ path: `gestaoempresa/business/${req.user.key}/config/projectRequiredImages` });
+    if (requiredImages) {
+        requiredImages.forEach(r => {
+            if (data[r.key] === 'on') {
+                updateItem({
+                    path: `gestaoempresa/business/${req.user.key}/config/projectRequiredImages/${r.key}`, params: {
+                        checked: true
+                    }
+                });
+            } else {
+                updateItem({
+                    path: `gestaoempresa/business/${req.user.key}/config/projectRequiredImages/${r.key}`, params: {
+                        checked: false
+                    }
+                });
+            }
+        })
+    }
 
     updateItem({
         path: `gestaoempresa/business/${req.user.key}/config/projectRules`, params: {
@@ -64,8 +87,28 @@ router.post("/", async (req, res, next) => {
             passCommon: data.passCommon,
         }
     });
-
     return res.redirect('/dashboard/configuracao?message=updated');
 });
+
+router.post("/addItem", async (req, res, next) => {
+    if (!authenticationMiddlewareTrueFalse(req, res, next)) return res.redirect("/");
+    const data = req.body;
+    console.log(data);
+    createItem({
+        path: `gestaoempresa/business/${req.user.key}/config/projectRequiredImages`, params: {
+            titulo: data.content,
+            checked: true
+        }
+    });
+    return res.redirect('/dashboard/configuracao');
+});
+
+
+router.delete("/item", async (req, res, next) => {
+    if (!authenticationMiddlewareTrueFalse(req, res, next)) return res.redirect("/");
+    const data = req.body;
+    deleteItem({ path: `gestaoempresa/business/${req.user.key}/config/projectRequiredImages/${data.key}` })
+    return res.redirect('/dashboard/configuracao');
+})
 
 module.exports = router;

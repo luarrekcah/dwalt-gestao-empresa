@@ -81,6 +81,7 @@ router.get("/visualizar/:id", async (req, res, next) => {
     const user = await getUser({ userId: req.user.key })
     const project = await getItems({ path: `gestaoempresa/business/${req.user.key}/projects/${req.params.id}` });
     const growatt = await getItems({ path: `gestaoempresa/business/${req.user.key}/growatt` });
+    const overview = await getItems({ path: `gestaoempresa/business/${req.user.key}/projects/${req.params.id}/overview` });
     const documents = await getAllItems({ path: `gestaoempresa/business/${req.user.key}/projects/${req.params.id}/documents` });
     const photos = await getAllItems({ path: `gestaoempresa/business/${req.user.key}/projects/${req.params.id}/photos` });
     let message;
@@ -163,7 +164,8 @@ router.get("/visualizar/:id", async (req, res, next) => {
         photos,
         growattData,
         labels,
-        dataChart
+        dataChart,
+        overview
     };
     res.render("pages/projects/see", data);
 });
