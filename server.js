@@ -4,7 +4,8 @@ const express = require("express"),
   cookieParser = require("cookie-parser"),
   passport = require("passport"),
   session = require("express-session");
-  
+helmet = require("helmet");
+
 const app = express();
 
 require('./database.js');
@@ -15,6 +16,7 @@ require('./services/growatt');
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
+//app.use(helmet());
 app.use(logger("dev"));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "/public/")));
@@ -25,7 +27,12 @@ app.use(
     secret: "123",
     resave: false,
     saveUninitialized: false,
-    cookie: { maxAge: 86400000 }, //24 hours
+    cookie: {
+      //secure: true,
+      //httpOnly: true,
+      maxAge: 10800000, //3 hours
+      //domain: 'dlwalt.com',
+    }, 
   })
 );
 

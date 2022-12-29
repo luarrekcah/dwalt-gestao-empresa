@@ -94,7 +94,7 @@ setInterval(async () => {
         const projects = await getAllItems({ path: `gestaoempresa/business/${b.key}/projects` })
         const growatt = await getItems({ path: `gestaoempresa/business/${b.key}/growatt` });
         projects.forEach(async p => {
-            if (p.data.username_growatt === '' && p.data.username_growatt === undefined && p.data.month_power !== undefined) return;
+            if (p.data.username_growatt === '' && p.data.username_growatt === undefined) return;
             const username = p.data.username_growatt;
             if(growatt.plantList === undefined) return;
             const plant = growatt.plantList.data.data.plants.find(plant => plant.name === username);
