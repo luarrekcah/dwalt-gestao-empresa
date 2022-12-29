@@ -89,13 +89,9 @@ router.get("/visualizar/:id", async (req, res, next) => {
     
     let required = [];
 
-    console.log(requiredPhotos);
-    console.log(requiredPhotosConfig);
-
-
     requiredPhotosConfig.forEach(rq => {
         if(!rq.data.checked) return;
-        const find = requiredPhotos.find(i => i.data.requiredKey === rq.key);
+        const find = requiredPhotos.find(i => i.key === rq.key);
         if(find) {
             required.push({
                 key: rq.key,
@@ -109,8 +105,6 @@ router.get("/visualizar/:id", async (req, res, next) => {
             })
         }
     });
-
-    console.log(required);
 
     let message;
     const growattData = growatt.plantList.data.data.plants.find(g => g.name === project.username_growatt);

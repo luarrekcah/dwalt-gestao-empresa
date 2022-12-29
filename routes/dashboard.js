@@ -32,7 +32,7 @@ const getData = async (res, req) => {
     });
 
     projects.forEach(p => {
-        if(p.data.username_growatt !== '' && p.data.username_growatt !== undefined) {
+        if(p.data.username_growatt !== '' && p.data.username_growatt !== undefined && p.data.month_power !== undefined) {
             const username = p.data.username_growatt;
             const plant = growatt.plantList.data.data.plants.find(plant => plant.name === username);
             const data = new Date();

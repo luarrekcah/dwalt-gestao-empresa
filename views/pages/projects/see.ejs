@@ -182,7 +182,7 @@
 
               <%if(required) { %>
               <%required.forEach(r => { %>
-              
+
               <div class="col-xl-3 col-md-6 mb-4">
                 <div class="card border-left-<%= r.array ? 'primary' : 'danger'%> shadow h-100 py-2">
                   <div class="card-body">
@@ -192,53 +192,55 @@
                           <%=r.data.titulo%>
                         </div>
                         <div class='row' style="margin-left: 0px">
-                        <%if(r.array) { %>
- <a download="AAAAAAAAA.pdf" target="_blank" href="<%=r.array.data[0]%>" class="btn btn-dark">
+                          <%if(r.array) { %>
+                          <a download="AAAAAAAAA.pdf" target="_blank" href="<%=r.array.data.data[0]%>" class="btn btn-dark">
                             <span class="text"> <i class="fas fa-eye"></i></span>
                           </a>
+                          <!--
                           <form method="post">
                             <input type="text" name="type" value="DELETE_DOCUMENT" style="display: none;">
                             <input type="text" name="documentId" value="<%=r.key%>" style="display: none;">
                             <input type="text" name="documentName" value="<%=r.data.titulo%>" style="display: none;">
                             <button class="btn btn-danger" style="margin-left: 10px;" type="submit">
                               <i class="fas fa-trash"></i></button>
-                          </form>
-                        <% } else { %>
+                          </form>-->
+                          <% } else { %>
+                          <!--
 <a download="AAAAAAAAA.pdf" target="_blank" href="aaaa" class="btn btn-dark">
                             <span class="text"> <i class="fas fa-plus"></i></span>
-                          </a>
-                        <%}%>
+                          </a>-->
+                          <%}%>
                          
                         </div>
                       </div>
 
                       <div class="col-auto">
                         <i class="fas fa-<%= r.array ? 'camera' : 'exclamation'%> fa-2x text-gray-300"></i>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
+
+                <%})%>
+
+                <% } %>
+
+
+
               </div>
-
-              <%})%>
-
-              <% } %>
-
-
-
-            </div>
-            <h1 class="h3 mb-2 text-gray-800">Mapa
-            </h1>
-            <div class="row gx-3 mb-3">
-              <div class="mapa" id="mapa" style="width: 100%; height: 400px; margin: 10px;">
+              <h1 class="h3 mb-2 text-gray-800">Mapa
+              </h1>
+              <div class="row gx-3 mb-3">
+                <div class="mapa" id="mapa" style="width: 100%; height: 400px; margin: 10px;">
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
+      <%- include("../../partials/footer.ejs") %>
     </div>
-    <%- include("../../partials/footer.ejs") %>
-  </div>
   </div>
   <a class="scroll-to-top rounded" href="#page-top">
     <i class="fas fa-angle-up"></i>
