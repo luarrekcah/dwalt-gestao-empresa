@@ -193,8 +193,8 @@
                         </div>
                         <div class='row' style="margin-left: 0px">
                           <%if(r.array) { %>
-                          <a download="AAAAAAAAA.pdf" target="_blank" href="<%=r.array.data.data[0]%>" class="btn btn-dark">
-                            <span class="text"> <i class="fas fa-eye"></i></span>
+                          <a target="_blank" href="<%=r.array.data.data[0]%>" class="btn btn-dark">
+                            <span class="text"><i class="fas fa-eye"></i></span>
                           </a>
                           <form method="post">
                             <input type="text" name="type" value="DELETE_PHOTO" style="display: none;">
@@ -205,9 +205,9 @@
                               <i class="fas fa-trash"></i></button>
                           </form>
                           <% } else { %>
-                          <!--
-<a download="AAAAAAAAA.pdf" target="_blank" href="aaaa" class="btn btn-dark">
-                            <span class="text"> <i class="fas fa-plus"></i></span>
+                          Sem imagem
+                          <!--<a href="#imagens_obrigatorias" class="btn btn-dark">
+                            <span class="text"><i class="fas fa-plus"></i></span>
                           </a>-->
                           <%}%>
                          
