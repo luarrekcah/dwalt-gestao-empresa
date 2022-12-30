@@ -196,14 +196,14 @@
                           <a download="AAAAAAAAA.pdf" target="_blank" href="<%=r.array.data.data[0]%>" class="btn btn-dark">
                             <span class="text"> <i class="fas fa-eye"></i></span>
                           </a>
-                          <!--
                           <form method="post">
-                            <input type="text" name="type" value="DELETE_DOCUMENT" style="display: none;">
-                            <input type="text" name="documentId" value="<%=r.key%>" style="display: none;">
-                            <input type="text" name="documentName" value="<%=r.data.titulo%>" style="display: none;">
+                            <input type="text" name="type" value="DELETE_PHOTO" style="display: none;">
+                            <input type="text" name="photoId" value="<%=r.key%>" style="display: none;">
+                            <input type="text" name="photoName" value="<%=r.data.titulo%>" style="display: none;">
+                            <input type="text" name="photosQuantity" value="<%=r.array.data.data.length%>" style="display: none;">
                             <button class="btn btn-danger" style="margin-left: 10px;" type="submit">
                               <i class="fas fa-trash"></i></button>
-                          </form>-->
+                          </form>
                           <% } else { %>
                           <!--
 <a download="AAAAAAAAA.pdf" target="_blank" href="aaaa" class="btn btn-dark">

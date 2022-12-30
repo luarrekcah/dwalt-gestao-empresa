@@ -86,13 +86,13 @@ router.get("/visualizar/:id", async (req, res, next) => {
     const photos = await getAllItems({ path: `gestaoempresa/business/${req.user.key}/projects/${req.params.id}/photos` });
     const requiredPhotos = await getAllItems({ path: `gestaoempresa/business/${req.user.key}/projects/${req.params.id}/requiredPhotos` });
     const requiredPhotosConfig = await getAllItems({ path: `gestaoempresa/business/${req.user.key}/config/projectRequiredImages` });
-    
+
     let required = [];
 
     requiredPhotosConfig.forEach(rq => {
-        if(!rq.data.checked) return;
+        if (!rq.data.checked) return;
         const find = requiredPhotos.find(i => i.key === rq.key);
-        if(find) {
+        if (find) {
             required.push({
                 key: rq.key,
                 data: rq.data,
@@ -201,7 +201,7 @@ router.post("/visualizar/:id", async (req, res, next) => {
         case "CREATE_DOCUMENT":
             status = 'criado'
             const data = req.body;
-            const storageRef = ref(storage, `gestaoempresa/${req.user.key}/projects/${req.params.id}/documents/${data.documentName}.pdf`);
+            const storageRef = ref(storage, `gestaoempresa/business/${req.user.key}/projects/${req.params.id}/documents/${data.documentName}.pdf`);
             uploadString(storageRef, data.documentBase64, 'data_url').then((snapshot) => {
                 console.log(snapshot);
                 getDownloadURL(snapshot.ref).then((downloadURL) => {
@@ -227,8 +227,23 @@ router.post("/visualizar/:id", async (req, res, next) => {
             });
             createLogs(req.user.key, "Documento deletado de um projeto.");
             break;
+        case "DELETE_PHOTO":
+            status = 'deletado'
+            const fotos = Number(req.body.photosQuantity);
+            deleteItem({ path: `gestaoempresa/business/${req.user.key}/projects/${req.params.id}/requiredPhotos/${req.body.photoId}` });
+            for (let index = 0; index < fotos; index++) {
+                const photoRef = ref(storage, `gestaoempresa/business/${req.user.key}/projects/${req.params.id}/requiredPhotos/${req.body.photoName.replaceAll(' ', '-')
+                .toLowerCase()}-${index}.jpg`);
+                deleteObject(photoRef).then(() => {
+                    console.log("Deletado")
+                }).catch((error) => {
+                    console.log("Erro", error)
+                });
+                createLogs(req.user.key, "Foto deletada de um projeto.");
+            }
+            break;
     }
-    return res.redirect("/dashboard/projetos/visualizar/" + req.params.id + "?message=" + status + "#documentos");
+    return res.redirect("/dashboard/projetos/visualizar/" + req.params.id + "?message=" + status + "#imagens_obrigatorias");
 });
 
 router.get("/editar/:id", async (req, res, next) => {
