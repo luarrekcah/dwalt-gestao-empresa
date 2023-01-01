@@ -119,6 +119,9 @@ router.get("/visualizar/:id", async (req, res, next) => {
             case "deletado":
                 message = { type: 'success', title: 'Documento deletado!', description: 'Clique em OK para ver as informações atualizadas.' }
                 break;
+            case "missingrequiredphotos":
+                message = { type: 'warning', title: 'Não podemos fechar seu projeto.', description: 'Verificamos que há fotos obrigatórias pendentes para este projeto, adicione todas para finalizar.' }
+                break;
             default:
                 message = null;
                 break;
@@ -233,7 +236,7 @@ router.post("/visualizar/:id", async (req, res, next) => {
             deleteItem({ path: `gestaoempresa/business/${req.user.key}/projects/${req.params.id}/requiredPhotos/${req.body.photoId}` });
             for (let index = 0; index < fotos; index++) {
                 const photoRef = ref(storage, `gestaoempresa/business/${req.user.key}/projects/${req.params.id}/requiredPhotos/${req.body.photoName.replaceAll(' ', '-')
-                .toLowerCase()}-${index}.jpg`);
+                    .toLowerCase()}-${index}.jpg`);
                 deleteObject(photoRef).then(() => {
                     console.log("Deletado")
                 }).catch((error) => {
@@ -262,9 +265,40 @@ router.get("/editar/:id", async (req, res, next) => {
 
 router.post("/editar/:id", async (req, res, next) => {
     if (!authenticationMiddlewareTrueFalse(req, res, next)) return res.redirect("/");
-    updateItem({ path: `gestaoempresa/business/${req.user.key}/projects/${req.params.id}`, params: req.body });
-    createLogs(req.user.key, "Projeto atualizado.");
-    return res.redirect("/dashboard/projetos/visualizar/" + req.params.id + "?message=editado");
+    console.log(req.body);
+    if (req.body.Status === 'finalizado') {
+        const requiredPhotosConfig = await getAllItems({ path: `gestaoempresa/business/${req.user.key}/config/projectRequiredImages` });
+        const requiredPhotos = await getAllItems({ path: `gestaoempresa/business/${req.user.key}/projects/${req.params.id}/requiredPhotos` });
+        let required = [];
+
+        requiredPhotosConfig.forEach(rq => {
+            if (!rq.data.checked) return;
+            const find = requiredPhotos.find(i => i.key === rq.key);
+            if (!find) {
+                required.push({
+                    key: rq.key,
+                    data: rq.data,
+                })
+            } else {
+                return
+            }
+        });
+
+        console.log(required);
+
+        if (required.length !== 0) {
+            return res.redirect("/dashboard/projetos/visualizar/" + req.params.id + "?message=missingRequiredPhotos#imagens_obrigatorias");
+        } else {
+            updateItem({ path: `gestaoempresa/business/${req.user.key}/projects/${req.params.id}`, params: req.body });
+            createLogs(req.user.key, "Projeto atualizado.");
+            return res.redirect("/dashboard/projetos/visualizar/" + req.params.id + "?message=editado");
+        }
+
+    } else {
+        updateItem({ path: `gestaoempresa/business/${req.user.key}/projects/${req.params.id}`, params: req.body });
+        createLogs(req.user.key, "Projeto atualizado.");
+        return res.redirect("/dashboard/projetos/visualizar/" + req.params.id + "?message=editado");
+    }
 });
 
 module.exports = router;
