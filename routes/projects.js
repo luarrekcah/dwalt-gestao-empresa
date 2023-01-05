@@ -1,46 +1,46 @@
 const express = require("express"),
     router = express.Router(),
     moment = require('../services/moment'),
-    
+
     { getDate } = require("../auth/functions/database"),
     { createItem, getAllItems, getItems, getUser, deleteItem, updateItem, createLogs } = require("../database/users");
 const { getStorage, ref, uploadString, deleteObject, getDownloadURL } = require("@firebase/storage")
 
 router.get("/", async (req, res, next) => {
-        const projects = await getAllItems({ path: `gestaoempresa/business/${req.user.key}/projects` });
-        const user = await getUser({ userId: req.user.key });
+    const projects = await getAllItems({ path: `gestaoempresa/business/${req.user.key}/projects` });
+    const user = await getUser({ userId: req.user.key });
 
-        let message;
-        if (req.query.message) {
-            switch (req.query.message.toLowerCase()) {
-                case "registrado":
-                    message = { type: 'success', title: 'Projeto registrado!', description: 'Clique em OK para ver as informações atualizadas.' }
-                    break;
-                case "deletado":
-                    message = { type: 'success', title: 'Projeto deletado!', description: 'Clique em OK para ver as informações atualizadas.' }
-                    break;
-                case "semcliente":
-                    message = { type: 'warning', title: 'Sem cliente!', description: 'Você não selecionou o cliente na tela de registro de projeto, caso não tenha registrado, vá em CLIENTES > GERENCIAR.' }
-                    break;
-                default:
-                    message = null;
-                    break;
-            }
-        } else {
-            message = null;
+    let message;
+    if (req.query.message) {
+        switch (req.query.message.toLowerCase()) {
+            case "registrado":
+                message = { type: 'success', title: 'Projeto registrado!', description: 'Clique em OK para ver as informações atualizadas.' }
+                break;
+            case "deletado":
+                message = { type: 'success', title: 'Projeto deletado!', description: 'Clique em OK para ver as informações atualizadas.' }
+                break;
+            case "semcliente":
+                message = { type: 'warning', title: 'Sem cliente!', description: 'Você não selecionou o cliente na tela de registro de projeto, caso não tenha registrado, vá em CLIENTES > GERENCIAR.' }
+                break;
+            default:
+                message = null;
+                break;
         }
+    } else {
+        message = null;
+    }
 
-        const data = {
-            user,
-            projects,
-            message,
-        };
-        res.render("pages/projects", data);
- 
+    const data = {
+        user,
+        projects,
+        message,
+    };
+    res.render("pages/projects", data);
+
 });
 
 router.post("/", async (req, res, next) => {
-    
+
     if (!req.body.type) return res.redirect("/dashboard?message=wrongtry");
     switch (req.body.type) {
         case "DELETE_PROJECT":
@@ -51,7 +51,7 @@ router.post("/", async (req, res, next) => {
 });
 
 router.get("/adicionar", async (req, res, next) => {
-    
+
     const user = await getUser({ userId: req.user.key })
     const customers = await getAllItems({ path: `gestaoempresa/business/${req.user.key}/customers` });
     const data = {
@@ -63,7 +63,7 @@ router.get("/adicionar", async (req, res, next) => {
 });
 
 router.post("/adicionar", (req, res, next) => {
-    
+
     const project = req.body;
     project.createdAt = getDate(moment);
     console.log(project);
@@ -74,7 +74,7 @@ router.post("/adicionar", (req, res, next) => {
 });
 
 router.get("/visualizar/:id", async (req, res, next) => {
-    
+
     const user = await getUser({ userId: req.user.key })
     const project = await getItems({ path: `gestaoempresa/business/${req.user.key}/projects/${req.params.id}` });
     const growatt = await getItems({ path: `gestaoempresa/business/${req.user.key}/growatt` });
@@ -83,6 +83,7 @@ router.get("/visualizar/:id", async (req, res, next) => {
     const photos = await getAllItems({ path: `gestaoempresa/business/${req.user.key}/projects/${req.params.id}/photos` });
     const requiredPhotos = await getAllItems({ path: `gestaoempresa/business/${req.user.key}/projects/${req.params.id}/requiredPhotos` });
     const requiredPhotosConfig = await getAllItems({ path: `gestaoempresa/business/${req.user.key}/config/projectRequiredImages` });
+    const historic = await getAllItems({ path: `gestaoempresa/business/${req.user.key}/projects/${req.params.id}/historic` });
 
     let required = [];
 
@@ -188,14 +189,15 @@ router.get("/visualizar/:id", async (req, res, next) => {
         labels,
         dataChart,
         overview,
-        required
+        required,
+        historic
     };
     res.render("pages/projects/see", data);
 });
 
 router.post("/visualizar/:id", async (req, res, next) => {
     const storage = getStorage();
-    
+
     let status;
     switch (req.body.type) {
         case "CREATE_DOCUMENT":
@@ -247,7 +249,7 @@ router.post("/visualizar/:id", async (req, res, next) => {
 });
 
 router.get("/editar/:id", async (req, res, next) => {
-    
+
     const customers = await getAllItems({ path: `gestaoempresa/business/${req.user.key}/customers` })
     const user = await getUser({ userId: req.user.key })
     const project = await getItems({ path: `gestaoempresa/business/${req.user.key}/projects/${req.params.id}` });
@@ -261,7 +263,7 @@ router.get("/editar/:id", async (req, res, next) => {
 });
 
 router.post("/editar/:id", async (req, res, next) => {
-    
+
     console.log(req.body);
     if (req.body.Status === 'finalizado') {
         const requiredPhotosConfig = await getAllItems({ path: `gestaoempresa/business/${req.user.key}/config/projectRequiredImages` });

@@ -2,7 +2,6 @@ const express = require("express"),
     router = express.Router(),
     moment = require("moment"),
     { getDate } = require("../auth/functions/database"),
-    
     { createItem, deleteItem, getAllItems, getUser, updateItem, getItems } = require('../database/users');
 
 router.get("/", async (req, res, next) => {
