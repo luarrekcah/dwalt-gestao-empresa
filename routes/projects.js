@@ -7,7 +7,6 @@ const express = require("express"),
 const { getStorage, ref, uploadString, deleteObject, getDownloadURL } = require("@firebase/storage")
 
 router.get("/", async (req, res, next) => {
-    if (authenticationMiddlewareTrueFalse(req, res, next)) {
         const projects = await getAllItems({ path: `gestaoempresa/business/${req.user.key}/projects` });
         const user = await getUser({ userId: req.user.key });
 
@@ -37,13 +36,11 @@ router.get("/", async (req, res, next) => {
             message,
         };
         res.render("pages/projects", data);
-    } else {
-        res.redirect("/");
-    }
+ 
 });
 
 router.post("/", async (req, res, next) => {
-    if (!authenticationMiddlewareTrueFalse(req, res, next)) return res.redirect("/");
+    
     if (!req.body.type) return res.redirect("/dashboard?message=wrongtry");
     switch (req.body.type) {
         case "DELETE_PROJECT":
@@ -54,7 +51,7 @@ router.post("/", async (req, res, next) => {
 });
 
 router.get("/adicionar", async (req, res, next) => {
-    if (!authenticationMiddlewareTrueFalse(req, res, next)) return res.redirect("/");
+    
     const user = await getUser({ userId: req.user.key })
     const customers = await getAllItems({ path: `gestaoempresa/business/${req.user.key}/customers` });
     const data = {
@@ -66,7 +63,7 @@ router.get("/adicionar", async (req, res, next) => {
 });
 
 router.post("/adicionar", (req, res, next) => {
-    if (!authenticationMiddlewareTrueFalse(req, res, next)) return res.redirect("/");
+    
     const project = req.body;
     project.createdAt = getDate(moment);
     console.log(project);
@@ -77,7 +74,7 @@ router.post("/adicionar", (req, res, next) => {
 });
 
 router.get("/visualizar/:id", async (req, res, next) => {
-    if (!authenticationMiddlewareTrueFalse(req, res, next)) return res.redirect("/");
+    
     const user = await getUser({ userId: req.user.key })
     const project = await getItems({ path: `gestaoempresa/business/${req.user.key}/projects/${req.params.id}` });
     const growatt = await getItems({ path: `gestaoempresa/business/${req.user.key}/growatt` });
@@ -198,7 +195,7 @@ router.get("/visualizar/:id", async (req, res, next) => {
 
 router.post("/visualizar/:id", async (req, res, next) => {
     const storage = getStorage();
-    if (!authenticationMiddlewareTrueFalse(req, res, next)) return res.redirect("/");
+    
     let status;
     switch (req.body.type) {
         case "CREATE_DOCUMENT":
@@ -250,7 +247,7 @@ router.post("/visualizar/:id", async (req, res, next) => {
 });
 
 router.get("/editar/:id", async (req, res, next) => {
-    if (!authenticationMiddlewareTrueFalse(req, res, next)) return res.redirect("/");
+    
     const customers = await getAllItems({ path: `gestaoempresa/business/${req.user.key}/customers` })
     const user = await getUser({ userId: req.user.key })
     const project = await getItems({ path: `gestaoempresa/business/${req.user.key}/projects/${req.params.id}` });
@@ -264,7 +261,7 @@ router.get("/editar/:id", async (req, res, next) => {
 });
 
 router.post("/editar/:id", async (req, res, next) => {
-    if (!authenticationMiddlewareTrueFalse(req, res, next)) return res.redirect("/");
+    
     console.log(req.body);
     if (req.body.Status === 'finalizado') {
         const requiredPhotosConfig = await getAllItems({ path: `gestaoempresa/business/${req.user.key}/config/projectRequiredImages` });

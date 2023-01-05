@@ -6,7 +6,7 @@ const express = require("express"),
     { deleteItem, getAllItems, getUser, getItems, createItem, createLogs, updateItem } = require("../database/users");
 
 router.get("/", async (req, res, next) => {
-    if (authenticationMiddlewareTrueFalse(req, res, next)) {
+   
         const customers = await getAllItems({ path: `gestaoempresa/business/${req.user.key}/customers` })
         const user = await getUser({ userId: req.user.key })
         const data = {
@@ -15,9 +15,7 @@ router.get("/", async (req, res, next) => {
             message: null,
         };
         res.render("pages/customers", data);
-    } else {
-        res.redirect("/");
-    }
+ 
 });
 
 router.delete("/", (req, res, next) => {
@@ -27,7 +25,6 @@ router.delete("/", (req, res, next) => {
 });
 
 router.get("/adicionar", async (req, res, next) => {
-    if (authenticationMiddlewareTrueFalse(req, res, next)) {
         const user = await getUser({ userId: req.user.key })
         const config = await getItems({ path: `gestaoempresa/business/${req.user.key}/config` });
         const data = {
@@ -36,13 +33,11 @@ router.get("/adicionar", async (req, res, next) => {
             config,
         };
         res.render("pages/customers/new", data);
-    } else {
-        res.redirect("/");
-    }
+  
 });
 
 router.post("/adicionar", async (req, res, next) => {
-    if (!authenticationMiddlewareTrueFalse(req, res, next)) return res.redirect("/");
+    
     console.log(req.body);
     const customer = req.body;
     customer.createdAt = getDate();
@@ -53,7 +48,7 @@ router.post("/adicionar", async (req, res, next) => {
 
 
 router.get("/visualizar/:id", async (req, res, next) => {
-    if (!authenticationMiddlewareTrueFalse(req, res, next)) return res.redirect("/");
+    
     const user = await getUser({ userId: req.user.key })
     const customer = await getItems({ path: `gestaoempresa/business/${req.user.key}/customers/${req.params.id}` });
     let message = null
@@ -68,7 +63,7 @@ router.get("/visualizar/:id", async (req, res, next) => {
 
 
 router.get("/editar/:id", async (req, res, next) => {
-    if (!authenticationMiddlewareTrueFalse(req, res, next)) return res.redirect("/");
+    
     const user = await getUser({ userId: req.user.key })
     const customer = await getItems({ path: `gestaoempresa/business/${req.user.key}/customers/${req.params.id}` });
     let message = null
@@ -82,7 +77,7 @@ router.get("/editar/:id", async (req, res, next) => {
 });
 
 router.post("/editar/:id", async (req, res, next) => {
-    if (!authenticationMiddlewareTrueFalse(req, res, next)) return res.redirect("/");
+    
     updateItem({ path: `gestaoempresa/business/${req.user.key}/customers/${req.params.id}`, params: req.body });
     createLogs(req.user.key, "Cliente atualizado.");
     return res.redirect("/dashboard/clientes/visualizar/" + req.params.id + "?message=editado");

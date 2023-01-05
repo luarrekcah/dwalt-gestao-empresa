@@ -6,7 +6,6 @@ const express = require("express"),
     { createItem, deleteItem, getAllItems, getUser, updateItem, getItems } = require('../database/users');
 
 router.get("/", async (req, res, next) => {
-    if (authenticationMiddlewareTrueFalse(req, res, next)) {
         const user = await getUser({ userId: req.user.key });
         const projects = await getAllItems({ path: `gestaoempresa/business/${req.user.key}/projects` });
         const staffs = await getAllItems({ path: `gestaoempresa/business/${req.user.key}/staffs` });
@@ -19,13 +18,11 @@ router.get("/", async (req, res, next) => {
             message: null,
         };
         res.render("pages/staffs", data);
-    } else {
-        res.redirect("/");
-    }
+
 });
 
 router.post("/", async (req, res, next) => {
-    if (!authenticationMiddlewareTrueFalse(req, res, next)) return res.redirect("/");
+    
     const { type } = req.body;
     switch (type) {
         case "CREATE_TEAM":

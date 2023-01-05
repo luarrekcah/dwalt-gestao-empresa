@@ -2,24 +2,20 @@ const express = require("express"),
     router = express.Router();
 
 const { getStorage, uploadString, getDownloadURL, ref } = require("@firebase/storage");
-const { authenticationMiddlewareTrueFalse } = require("../auth/functions/middlewares");
+
 const { updateItem, getUser } = require("../database/users");
 
 router.get("/", async (req, res, next) => {
-    if (authenticationMiddlewareTrueFalse(req, res, next)) {
         const user = await getUser({ userId: req.user.key })
         const data = {
             user,
             message: null,
         };
         res.render("pages/profile", data);
-    } else {
-        res.redirect("/");
-    }
+   
 });
 
 router.post("/", (req, res, next) => {
-    if (authenticationMiddlewareTrueFalse(req, res, next)) {
         const storage = getStorage();
         const { logoSrc, ownerName, mainLocation, phone, about, tokenGrowatt } = req.body;
         console.log(req.body);
@@ -61,9 +57,6 @@ router.post("/", (req, res, next) => {
                 });
             });
         }
-    } else {
-        return res.redirect("/");
-    }
 })
 
 

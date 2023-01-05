@@ -68,7 +68,7 @@ const getData = async (res, req) => {
 
 
 router.get("/", async (req, res, next) => {
-    if (!authenticationMiddlewareTrueFalse(req, res, next)) return res.redirect("/");
+    
     const projects = await getAllItems({ path: `gestaoempresa/business/${req.user.key}/projects` }),
         customers = await getAllItems({ path: `gestaoempresa/business/${req.user.key}/customers` }),
         surveys = await getAllItems({ path: `gestaoempresa/business/${req.user.key}/surveys` }),
@@ -117,7 +117,7 @@ router.get("/", async (req, res, next) => {
 });
 
 router.post("/", async (req, res, next) => {
-    if (!authenticationMiddlewareTrueFalse(req, res, next)) return res.redirect("/");
+    
     console.log(req.body);
     switch (req.body.type.toLowerCase()) {
         case 'reload_growatt':
@@ -230,7 +230,7 @@ router.post("/", async (req, res, next) => {
 });
 
 router.get("/chamados", async (req, res, next) => {
-    if (!authenticationMiddlewareTrueFalse(req, res, next)) return res.redirect("/");
+    
     const surveys = await getAllItems({ path: `gestaoempresa/business/${req.user.key}/surveys` })
     const user = await getUser({ userId: req.user.key });
     const data = {
@@ -259,7 +259,7 @@ router.post("/chamados", (req, res, next) => {
 });
 
 router.get("/localizar/equipe", async (req, res, next) => {
-    if (!authenticationMiddlewareTrueFalse(req, res, next)) return res.redirect("/");
+    
     const teams = await getAllItems({ path: `gestaoempresa/business/${req.user.key}/teams` }),
         user = await getUser({ userId: req.user.key })
     const data = {
@@ -271,7 +271,7 @@ router.get("/localizar/equipe", async (req, res, next) => {
 });
 
 router.get("/reclamacoes", async (req, res, next) => {
-    if (!authenticationMiddlewareTrueFalse(req, res, next)) return res.redirect("/");
+    
     const complaints = await getAllItems({ path: `gestaoempresa/business/${req.user.key}/complaints/` });
     const user = await getUser({ userId: req.user.key })
     const data = {

@@ -1,11 +1,11 @@
-const { authenticationMiddlewareTrueFalse } = require("../auth/functions/middlewares");
+
 const { getUser, updateItem, getItems, createItem, getAllItems, deleteItem } = require("../database/users");
 
 const express = require("express"),
     router = express.Router();
 
 router.get("/", async (req, res, next) => {
-    if (!authenticationMiddlewareTrueFalse(req, res, next)) return res.redirect("/");
+    
     const user = await getUser({ userId: req.user.key })
     const config = await getItems({ path: `gestaoempresa/business/${req.user.key}/config` });
     const requiredImages = await getAllItems({ path: `gestaoempresa/business/${req.user.key}/config/projectRequiredImages` });
@@ -33,7 +33,7 @@ router.get("/", async (req, res, next) => {
 });
 
 router.post("/", async (req, res, next) => {
-    if (!authenticationMiddlewareTrueFalse(req, res, next)) return res.redirect("/");
+    
     const data = req.body;
     console.log(data);
 
@@ -91,7 +91,7 @@ router.post("/", async (req, res, next) => {
 });
 
 router.post("/addItem", async (req, res, next) => {
-    if (!authenticationMiddlewareTrueFalse(req, res, next)) return res.redirect("/");
+    
     const data = req.body;
     console.log(data);
     createItem({
@@ -105,7 +105,7 @@ router.post("/addItem", async (req, res, next) => {
 
 
 router.delete("/item", async (req, res, next) => {
-    if (!authenticationMiddlewareTrueFalse(req, res, next)) return res.redirect("/");
+    
     const data = req.body;
     deleteItem({ path: `gestaoempresa/business/${req.user.key}/config/projectRequiredImages/${data.key}` })
     return res.redirect('/dashboard/configuracao');
