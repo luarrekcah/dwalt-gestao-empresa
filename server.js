@@ -4,6 +4,7 @@ const express = require("express"),
   cookieParser = require("cookie-parser"),
   passport = require("passport"),
   session = require("express-session");
+ cors = require('cors'),
 helmet = require("helmet");
 
 const app = express();
@@ -18,6 +19,7 @@ app.set("view engine", "ejs");
 
 //app.use(helmet());
 app.use(logger("dev"));
+app.use(cors());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "/public/")));
 app.use(express.json({ limit: '50mb' }));
