@@ -2,7 +2,7 @@ const { getDate } = require("../auth/functions/database");
 
 const express = require("express"),
     router = express.Router(),
-    { authenticationMiddlewareTrueFalse } = require("../auth/functions/middlewares"),
+    
     { deleteItem, getAllItems, getUser, getItems, createItem, createLogs, updateItem } = require("../database/users");
 
 router.get("/", async (req, res, next) => {

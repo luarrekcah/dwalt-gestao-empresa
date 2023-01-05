@@ -11,8 +11,6 @@ const express = require("express"),
     { getDate } = require("../auth/functions/database"),
     { authenticationMiddlewareTrueFalse } = require("../auth/functions/middlewares"),
     { createItem, getAllItems, updateItem, createLogs } = require("../database/users");
-    
-const { getStorage, uploadString, getDownloadURL, ref } = require("@firebase/storage");
 
 router.get("/", (req, res, next) => {
     if (authenticationMiddlewareTrueFalse(req, res, next)) {

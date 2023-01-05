@@ -1,7 +1,7 @@
 const express = require("express"),
     router = express.Router(),
     moment = require('../services/moment'),
-    { authenticationMiddlewareTrueFalse } = require("../auth/functions/middlewares"),
+    
     { getDate } = require("../auth/functions/database"),
     { createItem, getAllItems, getItems, getUser, deleteItem, updateItem, createLogs } = require("../database/users");
 const { getStorage, ref, uploadString, deleteObject, getDownloadURL } = require("@firebase/storage")
