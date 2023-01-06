@@ -3,7 +3,7 @@ const express = require("express"),
 
 const admin = require('firebase-admin');
 
-const { getAllItems } = require("../../database/users");
+const { getAllItems, getItems } = require("../../database/users");
 
 router.get("/", async (req, res, next) => {
     res.sendStatus(200);
@@ -14,11 +14,19 @@ router.get("/notification", async (req, res, next) => {
 });
 
 router.post("/notification", async (req, res, next) => {
-    const { title, body, key, to } = req.query;
-    if (!title || !body || !key || !to) {
-        return res.sendStatus(406)//.json({ error: 'missing params' });
+    const { title, body, key, to, customer } = req.query;
+   
+    if (!title || !body || !key) return res.sendStatus(406);
+
+    const tokens = [];
+
+    if (customer) {
+        const customerData = await getItems({ path: `gestaoempresa/business/${key}/customers/${customer}` });
+        if (!customerData.token) return res.sendStatus(404);
+     
+        tokens.push(customerData.token);
     } else {
-        const tokens = [];
+        if (!to) return res.sendStatus(406)
 
         if (to === 'staffs') {
             const staffs = await getAllItems({ path: `gestaoempresa/business/${key}/staffs` });
@@ -28,22 +36,20 @@ router.post("/notification", async (req, res, next) => {
                 }
             });
         } else {
-            return res.sendStatus(406)//.json({ error: 'missing params' });
-        }
-
-        if (tokens.length === 0) {
-            return res.sendStatus(404)//.json({ error: 'tokens null' });
-        } else {
-            await admin.messaging().sendMulticast({
-                tokens,
-                notification: {
-                    title,
-                    body,
-                },
-            });
-            return res.sendStatus(201);
+            return res.sendStatus(406);
         }
     }
+
+    if (tokens.length === 0) return res.sendStatus(404)
+
+    await admin.messaging().sendMulticast({
+        tokens,
+        notification: {
+            title,
+            body,
+        },
+    });
+    return res.sendStatus(201);
 });
 
 module.exports = router;
