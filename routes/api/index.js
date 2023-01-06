@@ -14,12 +14,10 @@ router.get("/notification", async (req, res, next) => {
 });
 
 router.post("/notification", async (req, res, next) => {
-    console.log(req.query);
     const { title, body, key, to } = req.query;
     if (!title || !body || !key || !to) {
-        return res.sendStatus(406).json({ error: 'missing params' });
+        return res.sendStatus(406)//.json({ error: 'missing params' });
     } else {
-
         const tokens = [];
 
         if (to === 'staffs') {
@@ -30,11 +28,11 @@ router.post("/notification", async (req, res, next) => {
                 }
             });
         } else {
-            return res.sendStatus(406).json({ error: 'missing params' });
+            return res.sendStatus(406)//.json({ error: 'missing params' });
         }
 
         if (tokens.length === 0) {
-            return res.sendStatus(404).json({ error: 'tokens null' });
+            return res.sendStatus(404)//.json({ error: 'tokens null' });
         } else {
             await admin.messaging().sendMulticast({
                 tokens,
