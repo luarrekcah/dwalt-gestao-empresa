@@ -25,8 +25,6 @@ const checkPendingSurveys = async () => {
       nonEndedSurveys > 1 ? `Há ${nonEndedSurveys} aguardando finalização.` : ""
     }`;
 
-    console.log("Body", body);
-
     if (body === "") return;
 
     const params = new URLSearchParams({

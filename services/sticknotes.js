@@ -19,7 +19,7 @@ const newNotes = async () => {
     const business = await getAllItems({ path: `gestaoempresa/business/` });
     business.forEach(async b => {
         //--> do something with business data
-        if (b.data.config !== undefined && b.data.config.sticknotes.active) { //will be need sticknotes.notifications (true/false)
+        if (b.data.config &&  b.data.config.projectRules && b.data.config.projectRules.StickNotes) { //will be need sticknotes.notifications (true/false)
             // get projects data
             const projects = await getAllItems({ path: `gestaoempresa/business/${b.key}/projects` });
             projects.forEach(async pj => {
@@ -60,6 +60,6 @@ const newNotes = async () => {
 }
 
 
-setInterval(async () => {
+//setInterval(async () => {
     newNotes()
-}, config.sleepCheck * 60 * 60 * 1000 );
+//}, config.sleepCheck * 60 * 60 * 1000 );
