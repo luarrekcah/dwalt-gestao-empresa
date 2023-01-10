@@ -19,47 +19,47 @@
               <div class="card-body">
                 <div class="col-md-6">
                   <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="basicDocs" id="basicDocs" <%-config.projectRules.needsBasicDocs ? 'checked' : '' %>>
+                    <input class="form-check-input" type="checkbox" name="basicDocs" id="basicDocs" <%-config.projectRules && config.projectRules.needsBasicDocs  ? 'checked' : '' %>>
                     <label class="form-check-label" for="basicDocs">
                       Exigir documentos básicos para finalizar projetos
                     </label>
                   </div>
                   <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="basicPhotos" id="basicPhotos" <%-config.projectRules.needsBasicPhotos ? 'checked' : '' %>>
+                    <input class="form-check-input" type="checkbox" name="basicPhotos" id="basicPhotos" <%-config.projectRules && config.projectRules.needsBasicPhotos ? 'checked' : '' %>>
                     <label class="form-check-label" for="basicPhotos">
                       Exigir fotos básicas da composição do projeto para finalizar
                     </label>
                   </div>
                   <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="funADMendProject" id="funADMendProject" <%-config.projectRules.onlyAdmEndProject ? 'checked' : '' %>>
+                    <input class="form-check-input" type="checkbox" name="funADMendProject" id="funADMendProject" <%-config.projectRules && config.projectRules.onlyAdmEndProject ? 'checked' : '' %>>
                     <label class="form-check-label" for="funADMendProject">
                       Apenas um funcionário ADM pode finalizar projeto
                     </label>
                   </div>
 
                   <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="fundADMacceptSurvey" id="fundADMacceptSurvey" <%-config.projectRules.onlyAdmAcceptSurvey ? 'checked' : '' %>>
+                    <input class="form-check-input" type="checkbox" name="fundADMacceptSurvey" id="fundADMacceptSurvey" <%-config.projectRules && config.projectRules.onlyAdmAcceptSurvey ? 'checked' : '' %>>
                     <label class="form-check-label" for="fundADMacceptSurvey">
                       Apenas um funcionário ADM pode aceitar chamados
                     </label>
                   </div>
 
                   <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="sticknotes" id="sticknotes" <%-config.projectRules.StickNotes ? 'checked' : '' %>>
+                    <input class="form-check-input" type="checkbox" name="sticknotes" id="sticknotes" <%-config.projectRules && config.projectRules.StickNotes ? 'checked' : '' %>>
                     <label class="form-check-label" for="sticknotes">
                       Lembretes
                     </label>
                   </div>
 
                   <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="ProjectStatusReason" id="ProjectStatusReason" <%-config.projectRules.needsStatusReason ? 'checked' : '' %>>
+                    <input class="form-check-input" type="checkbox" name="ProjectStatusReason" id="ProjectStatusReason" <%-config.projectRules && config.projectRules.needsStatusReason ? 'checked' : '' %>>
                     <label class="form-check-label" for="ProjectStatusReason">
                       Exigir razão de status
                     </label>
                   </div>
 
                   <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="notifications" id="notifications" <%-config.projectRules.Alerts ? 'checked' : '' %>>
+                    <input class="form-check-input" type="checkbox" name="notifications" id="notifications" <%-config.projectRules && config.projectRules.Alerts ? 'checked' : '' %>>
                     <label class="form-check-label" for="notifications">
                       Enviar notificações de lembretes
                     </label>
@@ -115,14 +115,14 @@
 
 
                   <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="mapWidget" id="mapWidget" <%-config.widgets.projectMaps ? 'checked' : '' %>>
+                    <input class="form-check-input" type="checkbox" name="mapWidget" id="mapWidget" <%-config.widgets && config.widgets.projectMaps ? 'checked' : '' %>>
                   <label class="form-check-label" for="mapWidget">
                     Mapa de projetos
                   </label>
                 </div>
 
                 <div class="form-check">
-                  <input class="form-check-input" type="checkbox" name="growattWidgets" id="growattWidgets" <%-config.widgets.growatt ? 'checked' : '' %>>
+                  <input class="form-check-input" type="checkbox" name="growattWidgets" id="growattWidgets" <%-config.widgets && config.widgets.growatt ? 'checked' : '' %>>
                   <label class="form-check-label" for="growattWidgets">
                     Dados Growatt
                   </label>
@@ -141,11 +141,11 @@
           <div class="card-body">
             <div class="col-md-6">
               <p>Limitar login a horários específicos</p>
-              Das <input type="time" name="hourSpecified" id="hourSpecified" value="<%=config.login.hourSpecified[0]%>"> Até
-              <input type="time" name="hourSpecified" id="hourSpecified" value="<%=config.login.hourSpecified[1]%>">
+              Das <input type="time" name="hourSpecified" id="hourSpecified" value="<%=config.login ? config.login.hourSpecified[0] : ''%>"> Até
+              <input type="time" name="hourSpecified" id="hourSpecified" value="<%=config.login ? config.login.hourSpecified[1] : ''%>">
               <hr>
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" name="loginAlert" id="loginAlert" <%-config.login.loginAlert ? 'checked' : '' %>>
+                <input class="form-check-input" type="checkbox" name="loginAlert" id="loginAlert" <%-config.login && config.login.loginAlert ? 'checked' : '' %>>
                 <label class="form-check-label" for="loginAlert">
                   Enviar alerta de login fora dos horários.
                 </label>
