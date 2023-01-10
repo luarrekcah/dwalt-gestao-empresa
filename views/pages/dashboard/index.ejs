@@ -214,12 +214,12 @@
                               </a>
                               <%} else {%>
                                 <% stickNotes.forEach(i=> { %>
-                                  <a href="<%i.url%>" class="btn btn-<%i.style%>" style="width: 100%">
+                                  <a href="<%=i.data.url%>" class="btn btn-<%=i.data.style%>" style="width: 100%; margin-top: 20px">
                                     <span class="icon text-white-50">
-                                      <i class="fas fa-<%i.icon%>"></i>
+                                      <i class="fas fa-<%=i.icon%>"></i>
                                     </span>
                                     <span class="text">
-                                      <%i.message%>
+                                      <%=i.data.message%>
                                     </span>
                                   </a>
                                   <% }); %>
