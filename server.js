@@ -12,7 +12,6 @@ const app = express();
 require('./database.js');
 require("./auth/local")(passport);
 require('./admin.js');
-require('./services/growatt');
 
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
@@ -42,7 +41,9 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 require("./routes")(app);
+require('./services/growatt');
 require('./services/sticknotes');
+require('./services/notifications');
 
 const listener = app.listen(process.env.PORT || 3000, function () {
   console.log(`[CONNECTION INFO] Porta: ${listener.address().port}`);

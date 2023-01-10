@@ -59,8 +59,7 @@ const newNotes = async () => {
     });
 }
 
-/*
+
 setInterval(async () => {
     newNotes()
-}, config.sleepCheck * 60 * 1000);
-*/
+}, config.sleepCheck * 60 * 60 * 1000 );
