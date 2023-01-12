@@ -40,7 +40,10 @@ const getData = async (dataB) => {
             const data = new Date();
 
             const now = moment(new Date());
-            const date = moment(p.data.month_power.data.lastUpdate);
+            let date = moment("01-01-2000", "MM-DD-YYYY");
+            if(p.data.month_power) {
+              date = moment(p.data.month_power.data.lastUpdate);
+            }
             const duration = moment.duration(now.diff(date));
 
             if (duration.asHours() <= 3.0) {
@@ -71,6 +74,7 @@ const getData = async (dataB) => {
 }
 
 setInterval(async () => {
+    console.log("[TIME VERIFICATION]")
     const business = await getAllItems({ path: `gestaoempresa/business/` });
     business.forEach(b => {
         if (b.data.info.tokenGrowatt) {
@@ -86,7 +90,7 @@ setInterval(async () => {
             }
         }
     });
-}, growattConfig.intervalCheckHours * 60 * 60 * 1000)
+}, growattConfig.intervalCheckHours * 60 * 1000)
 
 setInterval(async () => {
     const business = await getAllItems({ path: `gestaoempresa/business/` });

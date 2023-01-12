@@ -24,7 +24,7 @@ const newNotes = async () => {
             const projects = await getAllItems({ path: `gestaoempresa/business/${b.key}/projects` });
             projects.forEach(async pj => {
                 const docs = await getAllItems({ path: `gestaoempresa/business/${b.key}/projects/${pj.key}/documents` });
-                console.log(`Docs length of business ${b.key} - at project ${pj.key} is ${docs.length}`)
+                //console.log(`Docs length of business ${b.key} - at project ${pj.key} is ${docs.length}`)
                 if (docs.length === 0) {
                     createItem({
                         path: `gestaoempresa/business/${b.key}/sticknotes`, params: {
@@ -49,9 +49,9 @@ const newNotes = async () => {
                     });
                 }
                 //verify all docs
-                docs.forEach(d => {
+               /* docs.forEach(d => {
                     console.log(d.data.documentName);
-                });
+                });*/
             })
         } else {
             console.log(`Empresa ${b.data.info.documents.nome_fantasia} desativou os lembretes.`);
