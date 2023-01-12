@@ -8,8 +8,6 @@ const growattConfig = {
     intervalCheckHours: 2
 };
 
-console.log("[GROWATT] Monitoramento ativo");
-
 // only 10 times by day check
 const getData = async (dataB) => {
     axios.get("https://test.growatt.com/v1/plant/list", {
