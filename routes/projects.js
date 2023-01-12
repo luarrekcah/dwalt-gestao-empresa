@@ -105,7 +105,10 @@ router.get("/visualizar/:id", async (req, res, next) => {
     });
 
     let message;
-    const growattData = growatt.plantList.data.data.plants.find(g => g.name === project.username_growatt);
+    let growattData = [];
+    if(growatt && growatt.plantList) {
+        growattData = growatt.plantList.data.data.plants.find(g => g.name === project.username_growatt);
+    }
     if (req.query.message) {
         switch (req.query.message.toLowerCase()) {
             case "editado":

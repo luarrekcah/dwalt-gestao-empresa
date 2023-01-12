@@ -208,7 +208,13 @@
                               </a>
                               <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink" style="">
                                   <div class="dropdown-header">Ações</div>
-                                  <a class="dropdown-item" href="#">Marcar visto</a>
+                                  <form method="post">
+                                    <input type="text" name="type" value="MARK_READ_STICKNOTES" style="display: none;">
+                                    <button type="submit" class="dropdown-item">
+                                      <i class="fas fa-eye fa-sm text-black-50"></i>
+                                      Marcar visto
+                                    </button>
+                                  </form>
                                   <div class="dropdown-divider"></div>
                                   <a class="dropdown-item" href="#">Ver todos</a>
                                   <div class="dropdown-divider"></div>

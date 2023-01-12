@@ -65,7 +65,7 @@
 
 
               </div>
-              <% if(growattData) { %>
+              <% if(typeof(growattData) === Object) { %>
               <h1 class="h3 mb-2 text-gray-800">Sistema Growatt
               </h1>
               <div class="row gx-3 mb-3">
@@ -109,9 +109,6 @@
                     <canvas id="myAreaChart"></canvas>
                   </div>
                 </div>
-
-
-
               </div>
               <%}%>
 
@@ -175,12 +172,15 @@
                 documentos</b>
             </div>
             <% } %>
-            <h1 class="h3 mb-2 text-gray-800">Imagens obrigatórias
-            </h1>
-            <div class="row gx-3 mb-3" id="imagens_obrigatorias">
+            
+           
 
+              <%if(required.length !== 0) { %>
 
-              <%if(required) { %>
+                <h1 class="h3 mb-2 text-gray-800">Imagens obrigatórias
+                </h1>
+                <div class="row gx-3 mb-3" id="imagens_obrigatorias">
+               
               <%required.forEach(r => { %>
 
               <div class="col-xl-3 col-md-6 mb-4">
@@ -223,12 +223,12 @@
                 </div>
 
                 <%})%>
-
+              </div>
                 <% } %>
 
 
 
-              </div>
+              
               <h1 class="h3 mb-2 text-gray-800">Mapa
               </h1>
               <div class="row gx-3 mb-3">
@@ -236,7 +236,7 @@
                 </div>
               </div>
 
-              <%if(historic) {%>
+              <%if(historic.length !== 0) {%>
               <div class="container">
 
                 <style>
