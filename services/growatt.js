@@ -72,7 +72,6 @@ const getData = async (dataB) => {
 }
 
 setInterval(async () => {
-    console.log("[TIME VERIFICATION]")
     const business = await getAllItems({ path: `gestaoempresa/business/` });
     business.forEach(b => {
         if (b.data.info.tokenGrowatt) {
