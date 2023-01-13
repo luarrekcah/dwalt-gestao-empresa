@@ -75,6 +75,7 @@ router.get("/", async (req, res, next) => {
         staffs = await getAllItems({ path: `gestaoempresa/business/${req.user.key}/staffs` }),
         stickNotes = await getAllItems({ path: `gestaoempresa/business/${req.user.key}/sticknotes` }),
         growatt = await getItems({ path: `gestaoempresa/business/${req.user.key}/growatt` }),
+        config = await getItems({ path: `gestaoempresa/business/${req.user.key}/config` }),
         user = await getUser({ userId: req.user.key });
 
     let message;
@@ -110,7 +111,8 @@ router.get("/", async (req, res, next) => {
         growatt,
         message,
         kwh,
-        stickNotes
+        stickNotes,
+        config
     };
     res.render("pages/dashboard", data);
 });

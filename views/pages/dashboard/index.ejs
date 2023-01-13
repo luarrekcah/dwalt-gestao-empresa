@@ -279,15 +279,20 @@
                         </div>
 
                         <!--card-->
-                        <div class="card shadow mb-4">
-                          <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Mapa dos projetos</h6>
-                          </div>
-                          <div class="card-body">
-                            <div class="mapa" id="mapa" style="width: 100%; height: 400px;">
+                        <%if(config.widgets && config.widgets.projectMaps !== false) { %>
+                          <div class="card shadow mb-4">
+                            <div class="card-header py-3">
+                              <h6 class="m-0 font-weight-bold text-primary">Mapa dos projetos</h6>
+                            </div>
+                            <div class="card-body">
+                              <div class="mapa" id="mapa" style="width: 100%; height: 400px;">
+                              </div>
                             </div>
                           </div>
-                        </div>
+                        <%}%>
+                       
+
+
                       </div>
                       <div class="col-lg-6 mb-4">
 
