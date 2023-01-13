@@ -216,15 +216,13 @@
                                     </button>
                                   </form>
                                   <div class="dropdown-divider"></div>
-                                  <a class="dropdown-item" href="#">Ver todos</a>
-                                  <div class="dropdown-divider"></div>
                                   <a class="dropdown-item" href="/dashboard/configuracao">Configurações</a>
                               </div>
                           </div>
                           </div>
                           <div class="card-body">
 
-                            <% if(stickNotes.length===0) {%>
+                            <% if(stickNotes.length===0 || stickNotes.filter(i => !i.data.read).length === 0) {%>
                               <a href="#" class="btn btn-primary" style="width: 100%">
                                 <span class="icon text-white-50">
                                   <i class="fas fa-info"></i>
@@ -234,6 +232,7 @@
                               <%} else {%>
                                 <% stickNotes.forEach((i, index)=> { %>
                                   <%if(index >= 5) return;%>
+                                  <%if(i.data.read) return;%>
                                   <a href="<%=i.data.url%>" class="btn btn-primary" style="width: 100%; margin-top: 20px">
                                     <span class="icon text-white-50">
                                       <i class="fas fa-<%=i.icon%>"></i>
@@ -243,8 +242,8 @@
                                     </span>
                                   </a>
                                   <% }); %>
-                                  <%if(stickNotes.length > 5) {%>
-                                    <p style="margin-top: 20px;">E mais <%= stickNotes.length %> lembretes.</p>
+                                  <%if(stickNotes.filter(i => i.data.read).length > 5) {%>
+                                    <p style="margin-top: 20px;">E mais <%= stickNotes.filter(i => i.data.read).length %> lembretes.</p>
                                   <%}%>
                                     <% }%>
                           </div>
