@@ -115,7 +115,16 @@ router.post("/assinatura", async (req, res, next) => {
           subscriptionID: resp.data.id,
         },
       });
-      return res.redirect("/dashboard");
+      if(dados.type === 'card') {
+        if(res.data.status === "ACTIVE") {
+          return res.redirect("/dashboard");
+        } else {
+          return res.redirect("/");
+        }
+      } else {
+        return res.redirect("/");
+      }
+      
     })
     .catch((error) => {
       if (error) {
