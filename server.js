@@ -7,6 +7,8 @@ const express = require("express"),
  cors = require('cors'),
 helmet = require("helmet");
 
+require("dotenv").config()
+
 const app = express();
 
 require('./database.js');
@@ -25,7 +27,7 @@ app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 app.use(
   session({
-    secret: "123",
+    secret: process.env.cookieSecret,
     resave: false,
     saveUninitialized: false,
     cookie: {
