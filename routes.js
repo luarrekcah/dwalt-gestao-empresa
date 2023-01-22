@@ -8,6 +8,8 @@ staffsRouter = require("./routes/staffs"),
 configRouter = require("./routes/config"),
 customersRouter = require("./routes/customers");
 
+const webhookPayments = require("./routes/webhook/payments");
+
 const api = require("./routes/api");
 
 const authenticationMiddleware = (req, res, next) => {
@@ -29,6 +31,9 @@ module.exports = (app) => {
     
     //api
     app.use("/api/v1", api);
+
+    //webhooks
+    app.use("/webhook/payments", webhookPayments);
 
     //not found
     //app.use("*", notFoundRouter);

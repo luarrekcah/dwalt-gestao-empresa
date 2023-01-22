@@ -31,7 +31,7 @@ const newNotes = async () => {
         date = moment(b.data.config.sticknotes.lastUse);
       }
       const duration = moment.duration(now.diff(date));
-      if (duration.asHours() >= 6) { //6 hours
+      if (duration.asHours() >= 24) { //6 hours
         // get projects data
         const projects = await getAllItems({
           path: `gestaoempresa/business/${b.key}/projects`,
