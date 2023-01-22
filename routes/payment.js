@@ -1,4 +1,4 @@
-const { updateItem, getUser } = require("../database/users");
+const { updateItem, getUser, getItems } = require("../database/users");
 
 const express = require("express"),
   router = express.Router(),
@@ -43,6 +43,12 @@ router.post("/", async (req, res, next) => {
         subscriptionID: "",
       },
     });
+    updateItem({
+      path: `gestaoempresa/business/${req.user.key}/info/paymentProfile`,
+      params: {
+        cliente
+      },
+    });
     return res.redirect("/pagamento/assinatura");
   });
   return res.redirect("/");
@@ -56,9 +62,14 @@ router.post("/assinatura", async (req, res, next) => {
   console.log(req.body);
 
   const dados = req.body;
-  const card = dados.data;
 
   const user = await getUser({ userId: req.user.key });
+  //const paymentProfile = await getItems({path: `gestaoempresa/business/${userId}/info`})
+  const {paymentProfile} = user
+
+  if (user.data.asaasID === undefined) {
+    return res.sendStatus(200);
+  }
 
   let today = new Date();
   let year = today.getFullYear();
@@ -71,7 +82,7 @@ router.post("/assinatura", async (req, res, next) => {
   let date = year + "-" + month + "-" + day;
 
   let assinatura = {
-    customer: user.data.infos.asaasID,
+    customer: user.data.asaasID,
     value: process.env.valorAssinatura,
     nextDueDate: date,
     cycle: "MONTHLY",
@@ -82,15 +93,39 @@ router.post("/assinatura", async (req, res, next) => {
   switch (dados.type) {
     case "card":
       assinatura.billingType = "CREDIT_CARD";
-      assinatura.creditCard.holderName = card.holderName;
-      assinatura.number = card.number;
-      assinatura.expiryMonth = card.expiryMonth;
-      assinatura.expiryYear = `20${card.expiryYear}`;
-      assinatura.cvv = `20${card.cvv}`;
+      assinatura.creditCard = {
+        holderName: req.body.data.holderName,
+        number: req.body.data.number,
+        expiryMonth: req.body.data.expiryMonth,
+        expiryYear: `20${req.body.data.expiryYear}`,
+        cvv: `20${req.body.data.cvv}`,
+      };
+      assinatura.creditCardHolderInfo = paymentProfile;
       break;
   }
 
-  res.sendStatus(200);
+  asaasAPI.subscriptions
+    .post(assinatura)
+    .then((res) => {
+      console.log("Assinatura adicionada para o Cliente");
+      console.log(res.data);
+      res.sendStatus(200);
+    })
+    .catch((error) => {
+      console.log("Erro no cadastro da assinatura");
+      console.log("Status: ", error.response.status);
+      console.log("StatusText: ", error.response.statusText);
+      console.log("Data: ", error.response.data);
+
+      switch (error.response.data.erros[0].code) {
+        case "invalid_creditCard":
+          res.redirect("/pagamento/assinatura?message=invalid_creditCard");
+          break;
+        default:
+          res.redirect("/pagamento/assinatura?message=error");
+          break;
+      }
+    });
 });
 
 module.exports = router;

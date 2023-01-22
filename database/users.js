@@ -6,6 +6,10 @@ module.exports = {
     createItem: ({ path, params }) => {
         const db = getDatabase();
         if (!path) return { error: 'Sem path' }
+        if(path.includes("undefined")) {
+            console.log(path);
+            return console.warn("Erro, undefined!")
+        }
         push(ref(db, path), params).then(
             console.log("[LOG] Gravação no banco de dados")
         ).catch((error) => {
@@ -15,6 +19,10 @@ module.exports = {
     updateItem: ({ path, params }) => {
         const db = getDatabase();
         if (!path) return { error: 'Sem path' }
+        if(path.includes("undefined")) {
+            console.log(path);
+            return console.warn("Erro, undefined!")
+        }
         update(ref(db, path),
             params
         ).then(
@@ -26,6 +34,10 @@ module.exports = {
     deleteItem: ({ path }) => {
         const db = getDatabase();
         if (!path) return { error: 'Sem path' }
+        if(path.includes("undefined")) {
+            console.log(path);
+            return console.warn("Erro, undefined!")
+        }
         remove(ref(db, path))
             .then(
                 console.log("[LOG] Remoção no banco de dados")
@@ -36,6 +48,10 @@ module.exports = {
     getAllItems: async ({ path }) => {
         const db = getDatabase();
         if (!path) return { error: 'Sem path' }
+        if(path.includes("undefined")) {
+            console.log(path);
+            return console.warn("Erro, undefined!")
+        }
         const snapshot = await get(ref(db, path))
         let alldata = [];
         snapshot.forEach(childSnapshot => {
@@ -48,6 +64,10 @@ module.exports = {
     getItems: async ({ path }) => {
         const db = getDatabase();
         if (!path) return { error: 'Sem path' }
+        if(path.includes("undefined")) {
+            console.log(path);
+            return console.warn("Erro, undefined!")
+        }
         const snapshot = await get(ref(db, path))
         return snapshot.val() || [];
     },

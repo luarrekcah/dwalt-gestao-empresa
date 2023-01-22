@@ -20,7 +20,7 @@ const authenticationMiddleware = (req, res, next) => {
 module.exports = (app) => {
     //routes
     app.use("/", indexRouter);
-    app.use("/pagamento", payRouter);
+    app.use("/pagamento", authenticationMiddleware, payRouter);
     app.use("/conta", authenticationMiddleware, accountRouter);
     app.use("/logs", authenticationMiddleware, logsRouter);
     app.use("/dashboard",  authenticationMiddleware, dashboardRouter);
