@@ -111,7 +111,7 @@ router.post("/assinatura", async (req, res, next) => {
       console.log("Status: ", error.response.status);
       console.log("StatusText: ", error.response.statusText);
       console.log("Data: ", error.response.data);
-      if (errors.response.data) {
+      if (error.response.data) {
         switch (error.response.data.errors[0].code) {
           case "invalid_creditCard":
             res.redirect("/pagamento/assinatura?message=invalid_creditCard");
