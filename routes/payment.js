@@ -116,7 +116,7 @@ router.post("/assinatura", async (req, res, next) => {
         },
       });
       if(dados.type === 'card') {
-        if(res.data.status === "ACTIVE") {
+        if(resp.data.status === "ACTIVE") {
           return res.redirect("/dashboard");
         } else {
           return res.redirect("/");

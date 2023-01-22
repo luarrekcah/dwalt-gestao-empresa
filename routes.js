@@ -1,3 +1,5 @@
+const asaasAPI = require("node-asaas-api");
+
 const indexRouter = require("./routes/index"),
   payRouter = require("./routes/payment"),
   accountRouter = require("./routes/account"),
@@ -11,23 +13,51 @@ const indexRouter = require("./routes/index"),
 const webhookPayments = require("./routes/webhook/payments");
 
 const api = require("./routes/api");
+const { getUser } = require("./database/users");
+
+let params = {
+  environment: asaasAPI.PRODUCTION,
+  apiKey: process.env.asaasApiKey,
+  version: "v3",
+};
+
+asaasAPI.config(params);
 
 const authenticationMiddleware = (req, res, next) => {
   if (req.isAuthenticated()) return next();
   res.redirect("/");
 };
 
+const subscriptionCheckerMiddleware = async (req, res, next) => {
+  if (!req.isAuthenticated()) return res.redirect("/pagamento");
+  const user = await getUser({ userId: req.user.key });
+  if (user.subscriptionID === "" || user.subscriptionID === undefined) return res.redirect("/pagamento");
+  asaasAPI.subscriptions.get(user.subscriptionID).then((response) => {
+    console.log("Obtem uma assinatura");
+    console.log(response.data);
+    return next();
+  });
+};
+
 module.exports = (app) => {
   //routes
   app.use("/", indexRouter);
   app.use("/pagamento", authenticationMiddleware, payRouter);
-  app.use("/conta", authenticationMiddleware, accountRouter);
-  app.use("/logs", authenticationMiddleware, logsRouter);
-  app.use("/dashboard", authenticationMiddleware, dashboardRouter);
-  app.use("/dashboard/projetos", authenticationMiddleware, projectsRouter);
-  app.use("/dashboard/equipe", authenticationMiddleware, staffsRouter);
-  app.use("/dashboard/clientes", authenticationMiddleware, customersRouter);
-  app.use("/dashboard/configuracao", authenticationMiddleware, configRouter);
+  app.use("/conta", subscriptionCheckerMiddleware, accountRouter);
+  app.use("/logs", subscriptionCheckerMiddleware, logsRouter);
+  app.use("/dashboard", subscriptionCheckerMiddleware, dashboardRouter);
+  app.use("/dashboard/projetos", subscriptionCheckerMiddleware, projectsRouter);
+  app.use("/dashboard/equipe", subscriptionCheckerMiddleware, staffsRouter);
+  app.use(
+    "/dashboard/clientes",
+    subscriptionCheckerMiddleware,
+    customersRouter
+  );
+  app.use(
+    "/dashboard/configuracao",
+    subscriptionCheckerMiddleware,
+    configRouter
+  );
 
   //api
   app.use("/api/v1", api);
