@@ -93,7 +93,7 @@ router.post("/assinatura", async (req, res, next) => {
         number: req.body.data.number,
         expiryMonth: req.body.data.expiryMonth,
         expiryYear: `20${req.body.data.expiryYear}`,
-        cvv: `20${req.body.data.cvv}`,
+        ccv: req.body.data.cvv,
       };
       assinatura.creditCardHolderInfo = paymentProfile;
       break;
@@ -104,9 +104,18 @@ router.post("/assinatura", async (req, res, next) => {
     .then((res) => {
       console.log("Assinatura adicionada para o Cliente");
       console.log(res.data);
+      updateItem(
+        {
+          path: `gestaoempresa/business/${req.user.key}/info`,
+          params: {
+            subscriptionID: res.data.id,
+          },
+        }
+      )
       res.sendStatus(200);
     })
     .catch((error) => {
+      if(error.response.status === undefined) return;
       console.log("Erro no cadastro da assinatura");
       console.log("Status: ", error.response.status);
       console.log("StatusText: ", error.response.statusText);
@@ -114,12 +123,14 @@ router.post("/assinatura", async (req, res, next) => {
       if (error.response.data) {
         switch (error.response.data.errors[0].code) {
           case "invalid_creditCard":
-            res.redirect("/pagamento/assinatura?message=invalid_creditCard");
-            break;
+            return res.redirect(
+              "/pagamento/assinatura?message=invalid_creditCard"
+            );
           default:
-            res.redirect("/pagamento/assinatura?message=error");
-            break;
+            return res.redirect("/pagamento/assinatura?message=error");
         }
+      } else {
+        return res.redirect("/pagamento/assinatura?message=error");
       }
     });
 });

@@ -1,40 +1,40 @@
 const indexRouter = require("./routes/index"),
-payRouter = require("./routes/payment"),
-accountRouter = require("./routes/account"),
-logsRouter = require("./routes/logs"),
-dashboardRouter = require("./routes/dashboard"),
-projectsRouter = require("./routes/projects"),
-staffsRouter = require("./routes/staffs"),
-configRouter = require("./routes/config"),
-customersRouter = require("./routes/customers");
+  payRouter = require("./routes/payment"),
+  accountRouter = require("./routes/account"),
+  logsRouter = require("./routes/logs"),
+  dashboardRouter = require("./routes/dashboard"),
+  projectsRouter = require("./routes/projects"),
+  staffsRouter = require("./routes/staffs"),
+  configRouter = require("./routes/config"),
+  customersRouter = require("./routes/customers");
 
 const webhookPayments = require("./routes/webhook/payments");
 
 const api = require("./routes/api");
 
 const authenticationMiddleware = (req, res, next) => {
-    if (req.isAuthenticated()) return next();
-    res.redirect("/");
-  };
+  if (req.isAuthenticated()) return next();
+  res.redirect("/");
+};
 
 module.exports = (app) => {
-    //routes
-    app.use("/", indexRouter);
-    app.use("/pagamento", authenticationMiddleware, payRouter);
-    app.use("/conta", authenticationMiddleware, accountRouter);
-    app.use("/logs", authenticationMiddleware, logsRouter);
-    app.use("/dashboard",  authenticationMiddleware, dashboardRouter);
-    app.use("/dashboard/projetos",  authenticationMiddleware, projectsRouter);
-    app.use("/dashboard/equipe",  authenticationMiddleware, staffsRouter);
-    app.use("/dashboard/clientes",  authenticationMiddleware, customersRouter);
-    app.use("/dashboard/configuracao",  authenticationMiddleware, configRouter);
-    
-    //api
-    app.use("/api/v1", api);
+  //routes
+  app.use("/", indexRouter);
+  app.use("/pagamento", authenticationMiddleware, payRouter);
+  app.use("/conta", authenticationMiddleware, accountRouter);
+  app.use("/logs", authenticationMiddleware, logsRouter);
+  app.use("/dashboard", authenticationMiddleware, dashboardRouter);
+  app.use("/dashboard/projetos", authenticationMiddleware, projectsRouter);
+  app.use("/dashboard/equipe", authenticationMiddleware, staffsRouter);
+  app.use("/dashboard/clientes", authenticationMiddleware, customersRouter);
+  app.use("/dashboard/configuracao", authenticationMiddleware, configRouter);
 
-    //webhooks
-    app.use("/webhook/payments", webhookPayments);
+  //api
+  app.use("/api/v1", api);
 
-    //not found
-    //app.use("*", notFoundRouter);
+  //webhooks
+  app.use("/webhook/payments", webhookPayments);
+
+  //not found
+  //app.use("*", notFoundRouter);
 };
