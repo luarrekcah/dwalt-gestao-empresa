@@ -29,7 +29,7 @@ const authenticationMiddleware = (req, res, next) => {
 };
 
 const subscriptionCheckerMiddleware = async (req, res, next) => {
-  if (!req.isAuthenticated()) return res.redirect("/pagamento");
+  if (!req.isAuthenticated()) return res.redirect("/");
   const user = await getUser({ userId: req.user.key });
   if (user.data.subscriptionID === "" || user.data.subscriptionID === undefined) return res.redirect("/pagamento");
   asaasAPI.subscriptions.get(user.data.subscriptionID).then((response) => {
