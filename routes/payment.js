@@ -59,7 +59,6 @@ router.post("/assinatura", async (req, res, next) => {
   const dados = req.body;
 
   const user = await getUser({ userId: req.user.key });
-  //const paymentProfile = await getItems({path: `gestaoempresa/business/${userId}/info`})
   const { paymentProfile } = user;
 
   if (user.data.asaasID === undefined) {
@@ -97,40 +96,45 @@ router.post("/assinatura", async (req, res, next) => {
       };
       assinatura.creditCardHolderInfo = paymentProfile;
       break;
+    case "boleto":
+      assinatura.billingType = "BOLETO";
+      break;
+    case "pix":
+      assinatura.billingType = "PIX";
+      break;
   }
 
   asaasAPI.subscriptions
     .post(assinatura)
-    .then((res) => {
+    .then((resp) => {
       console.log("Assinatura adicionada para o Cliente");
-      console.log(res.data);
-      updateItem(
-        {
-          path: `gestaoempresa/business/${req.user.key}/info`,
-          params: {
-            subscriptionID: res.data.id,
-          },
-        }
-      )
-      res.sendStatus(200);
+      console.log(resp.data);
+      updateItem({
+        path: `gestaoempresa/business/${req.user.key}/info`,
+        params: {
+          subscriptionID: resp.data.id,
+        },
+      });
+      return res.redirect("/dashboard");
     })
     .catch((error) => {
-      if(error.response.status === undefined) return;
-      console.log("Erro no cadastro da assinatura");
-      console.log("Status: ", error.response.status);
-      console.log("StatusText: ", error.response.statusText);
-      console.log("Data: ", error.response.data);
-      if (error.response.data) {
-        switch (error.response.data.errors[0].code) {
-          case "invalid_creditCard":
-            return res.redirect(
-              "/pagamento/assinatura?message=invalid_creditCard"
-            );
-          default:
-            return res.redirect("/pagamento/assinatura?message=error");
+      if (error) {
+        console.log("Erro no cadastro da assinatura");
+        console.log("Status: ", error.response.status);
+        console.log("StatusText: ", error.response.statusText);
+        console.log("Data: ", error.response.data);
+        if (error.response.data) {
+          switch (error.response.data.errors[0].code) {
+            case "invalid_creditCard":
+              return res.redirect(
+                "/pagamento/assinatura?message=invalid_creditCard"
+              );
+            default:
+              return res.redirect("/pagamento/assinatura?message=error");
+          }
+        } else {
+          return res.redirect("/pagamento/assinatura?message=error");
         }
-      } else {
-        return res.redirect("/pagamento/assinatura?message=error");
       }
     });
 });
