@@ -31,11 +31,16 @@ const authenticationMiddleware = (req, res, next) => {
 const subscriptionCheckerMiddleware = async (req, res, next) => {
   if (!req.isAuthenticated()) return res.redirect("/pagamento");
   const user = await getUser({ userId: req.user.key });
-  if (user.subscriptionID === "" || user.subscriptionID === undefined) return res.redirect("/pagamento");
-  asaasAPI.subscriptions.get(user.subscriptionID).then((response) => {
+  if (user.data.subscriptionID === "" || user.data.subscriptionID === undefined) return res.redirect("/pagamento");
+  asaasAPI.subscriptions.get(user.data.subscriptionID).then((response) => {
     console.log("Obtem uma assinatura");
     console.log(response.data);
-    return next();
+    const okStatuses = ["ACTIVE", "CONFIRMED", "RECEIVED", "RECEIVED_IN_CASH"]
+    if(okStatuses.includes(response.data.status)) {
+      return next();
+    } else {
+      return res.redirect("/?message=inative");
+    }
   });
 };
 
