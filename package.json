@@ -12,7 +12,8 @@
   "homepage": "https://gestao.dlwalt.com",
   "scripts": {
     "start": "node server.js",
-    "test": "jasmine"
+    "test": "jasmine",
+    "dev": "nodemon server.js"
   },
   "engines": {
     "node": "16"
