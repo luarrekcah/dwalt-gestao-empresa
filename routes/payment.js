@@ -24,7 +24,7 @@ router.post("/", async (req, res, next) => {
 
   const user = await getUser({ userId: req.user.key });
 
-  cliente.externalReference = req.user.id;
+  cliente.externalReference = req.user.key;
 
   cliente.company = user.data.documents.nome_fantasia;
 
@@ -41,17 +41,12 @@ router.post("/", async (req, res, next) => {
       params: {
         asaasID: responseAsaas.data.id,
         subscriptionID: "",
-      },
-    });
-    updateItem({
-      path: `gestaoempresa/business/${req.user.key}/info/paymentProfile`,
-      params: {
-        cliente
+        paymentProfile: cliente,
       },
     });
     return res.redirect("/pagamento/assinatura");
   });
-  return res.redirect("/");
+  //return res.redirect("/");
 });
 
 router.get("/assinatura", async (req, res, next) => {
@@ -65,7 +60,7 @@ router.post("/assinatura", async (req, res, next) => {
 
   const user = await getUser({ userId: req.user.key });
   //const paymentProfile = await getItems({path: `gestaoempresa/business/${userId}/info`})
-  const {paymentProfile} = user
+  const { paymentProfile } = user;
 
   if (user.data.asaasID === undefined) {
     return res.sendStatus(200);
@@ -116,14 +111,15 @@ router.post("/assinatura", async (req, res, next) => {
       console.log("Status: ", error.response.status);
       console.log("StatusText: ", error.response.statusText);
       console.log("Data: ", error.response.data);
-
-      switch (error.response.data.erros[0].code) {
-        case "invalid_creditCard":
-          res.redirect("/pagamento/assinatura?message=invalid_creditCard");
-          break;
-        default:
-          res.redirect("/pagamento/assinatura?message=error");
-          break;
+      if (errors.response.data) {
+        switch (error.response.data.errors[0].code) {
+          case "invalid_creditCard":
+            res.redirect("/pagamento/assinatura?message=invalid_creditCard");
+            break;
+          default:
+            res.redirect("/pagamento/assinatura?message=error");
+            break;
+        }
       }
     });
 });
