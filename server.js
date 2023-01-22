@@ -29,7 +29,7 @@ app.use(
   session({
     secret: process.env.cookieSecret,
     resave: false,
-    saveUninitialized: false,
+    saveUninitialized: true,
     cookie: {
       //secure: true,
       //httpOnly: true,
