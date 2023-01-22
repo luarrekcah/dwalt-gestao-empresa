@@ -115,6 +115,8 @@ router.get("/", async (req, res, next) => {
     }),
     user = await getUser({ userId: req.user.key });
 
+    console.log(user);
+
   let message;
 
   if (req.query.message) {

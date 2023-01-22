@@ -1,57 +1,96 @@
-const express = require("express"),
-    router = express.Router();
+const { updateItem, getUser } = require("../database/users");
 
-    require("dotenv").config()
+const express = require("express"),
+  router = express.Router(),
+  asaasAPI = require("node-asaas-api");
+
+require("dotenv").config();
+
+let params = {
+  environment: asaasAPI.PRODUCTION,
+  apiKey: process.env.asaasApiKey,
+  version: "v3",
+};
+
+asaasAPI.config(params);
 
 router.get("/", async (req, res, next) => {
-    res.render("pages/payments");
+  res.render("pages/payments");
 });
 
 router.post("/", async (req, res, next) => {
-    const newCustomerHeaders = new Headers();
-    newCustomerHeaders.append("Content-Type", "application/json");
-    newCustomerHeaders.append("access_token", process.env.asaasApiKey);
+  let cliente = req.body;
+  console.log(cliente);
 
-    const raw = JSON.stringify({
-        "name": "Marcelo Almeida",
-        "email": "marcelo.almeida@gmail.com",
-        "phone": "4738010919",
-        "mobilePhone": "4799376637",
-        "cpfCnpj": "24971563792",
-        "postalCode": "01310-000",
-        "address": "Av. Paulista",
-        "addressNumber": "150",
-        "complement": "Sala 201",
-        "province": "Centro",
-        "externalReference": "12987382",
-        "notificationDisabled": false,
-        "additionalEmails": "marcelo.almeida2@gmail.com,marcelo.almeida3@gmail.com",
-        "municipalInscription": "46683695908",
-        "stateInscription": "646681195275",
-        "observations": "ótimo pagador, nenhum problema até o momento"
+  const user = await getUser({ userId: req.user.key });
+
+  cliente.externalReference = req.user.id;
+
+  cliente.company = user.data.documents.nome_fantasia;
+
+  //format
+  /*cliente.cpfCnpj = cliente.cpfCnpj.replaceAll(".", "").replaceAll("-", "").replaceAll("/", "");
+  cliente.mobilePhone = cliente.mobilePhone.replaceAll("+", "").replaceAll("-", "").replaceAll("(", "").replaceAll(")", "");
+  cliente.phone = cliente.mobilePhone;*/
+
+  asaasAPI.customers.post(cliente).then((responseAsaas) => {
+    console.log("Cliente Cadastrado");
+    console.log(responseAsaas.data);
+    updateItem({
+      path: `gestaoempresa/business/${req.user.key}/info`,
+      params: {
+        asaasID: responseAsaas.data.id,
+        subscriptionID: "",
+      },
     });
-
-    const requestOptions = {
-        method: 'POST',
-        headers: newCustomerHeaders,
-        body: raw,
-        redirect: 'follow'
-    };
-
-    fetch(process.env.asaasDomain + "api/v3/customers", requestOptions)
-        .then(response => response.text())
-        .then(result => console.log(result))
-        .catch(error => console.log('error', error));
+    return res.redirect("/pagamento/assinatura");
+  });
+  return res.redirect("/");
 });
 
 router.get("/assinatura", async (req, res, next) => {
-    res.render("pages/payments/subscription");
+  res.render("pages/payments/subscription");
 });
 
 router.post("/assinatura", async (req, res, next) => {
-    console.log(req.body);
+  console.log(req.body);
 
-    res.sendStatus(200);
+  const dados = req.body;
+  const card = dados.data;
+
+  const user = await getUser({ userId: req.user.key });
+
+  let today = new Date();
+  let year = today.getFullYear();
+  let month = today.getMonth() + 2;
+  let day = today.getDate();
+
+  month = month < 10 ? "0" + month : month;
+  day = day < 10 ? "0" + day : day;
+
+  let date = year + "-" + month + "-" + day;
+
+  let assinatura = {
+    customer: user.data.infos.asaasID,
+    value: process.env.valorAssinatura,
+    nextDueDate: date,
+    cycle: "MONTHLY",
+    description:
+      "Mensalidade do sistema Connect para gestão de projetos fotovoltaicos.",
+  };
+
+  switch (dados.type) {
+    case "card":
+      assinatura.billingType = "CREDIT_CARD";
+      assinatura.creditCard.holderName = card.holderName;
+      assinatura.number = card.number;
+      assinatura.expiryMonth = card.expiryMonth;
+      assinatura.expiryYear = `20${card.expiryYear}`;
+      assinatura.cvv = `20${card.cvv}`;
+      break;
+  }
+
+  res.sendStatus(200);
 });
 
 module.exports = router;

@@ -9,9 +9,9 @@
     <title>D | Walt Connect para Empresas</title>
 
     <link rel="icon" type="image/png" href="/img/icon.png">
-    
+
     <link rel="manifest" href="/manifest.json">
-    
+
     <meta property="og:title" content="Login D | Walt Connect: Empresas" />
     <meta property="og:type" content="website" />
     <meta property="og:description" content="Faça o login para acessar a página integrador" />
@@ -41,34 +41,129 @@
                     <div class="card-body p-0">
                         <div class="row">
                             <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
-                            <div class="col-lg-6">
-                                <div class="p-5">
-                                    <div class="text-center">
-                                        <h1 class="h4 text-gray-900 mb-4">D | Walt Connect: Empresa</h1>
-                                    </div>
-                                    <form class="user" method="POST">
-                                        <div class="form-group">
-                                            <input type="email" class="form-control form-control-user"
-                                                aria-describedby="emailHelp" name="email"
-                                                placeholder="Digite seu e-mail" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <input type="password" class="form-control form-control-user"
-                                                name="password" placeholder="Password"
-                                                pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
-                                                title="Deve conter pelo menos um número e uma letra maiúscula e minúscula e pelo menos 8 ou mais carácteres!"
-                                                required>
-                                        </div>
-                                        <button type="submit" class="btn btn-primary btn-user btn-block">
-                                            Entrar
-                                        </button>
-                                        <hr>
-                                    </form>
-                                    <div class="text-center">
-                                        <a class="small" href="/esqueciasenha">Esqueci a senha</a>
-                                    </div>
-                                    <div class="text-center">
-                                        <a class="small" href="/registro">Criar conta</a>
+                            <div class="col-lg-6 mx-auto">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <div class="bg-white shadow-sm pt-4 pl-2 pr-2 pb-2">
+                                            <!-- Credit card form tabs -->
+                                            <ul role="tablist" class="nav bg-light nav-pills rounded nav-fill mb-3">
+                                                <li class="nav-item"> <a data-toggle="pill" href="#credit-card"
+                                                        class="nav-link active "> <i
+                                                            class="fas fa-credit-card mr-2"></i> Cartão </a> </li>
+                                                <li class="nav-item"> <a data-toggle="pill" href="#boleto"
+                                                        class="nav-link "> <i class="fab fa-paypal mr-2"></i> Boleto
+                                                    </a> </li>
+                                                <li class="nav-item"> <a data-toggle="pill" href="#pix"
+                                                        class="nav-link "> <i class="fa-brands fa-pix mr-2"></i> PIX
+                                                    </a> </li>
+                                            </ul>
+                                        </div> <!-- End -->
+                                        <!-- Credit card form content -->
+                                        <div class="tab-content">
+                                            <!-- credit card info-->
+                                            <div id="credit-card" class="tab-pane fade show active pt-3">
+                                                <form role="form" onsubmit="event.preventDefault()">
+                                                    <div class="form-group">
+
+                                                        <label for="">
+                                                            <h6>Nome no cartão</h6>
+                                                        </label>
+
+                                                        <input type="text" id="holderName" required
+                                                            class="form-control">
+
+                                                        <label for="cardNumber">
+                                                            <h6>Número do cartão</h6>
+                                                        </label>
+                                                        <div class="input-group"> <input type="text" id="cardNumber"
+                                                                placeholder="Número de cartão válido"
+                                                                class="form-control " required>
+                                                            <div class="input-group-append"> <span
+                                                                    class="input-group-text text-muted"> <i
+                                                                        class="fab fa-cc-visa mx-1"></i> <i
+                                                                        class="fab fa-cc-mastercard mx-1"></i> <i
+                                                                        class="fab fa-cc-amex mx-1"></i> </span> </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-sm-8">
+                                                            <div class="form-group"> <label><span class="hidden-xs">
+                                                                        <h6>Validade</h6>
+                                                                    </span></label>
+                                                                <div class="input-group"> <input type="number"
+                                                                        placeholder="MM" id="expiryMonth"
+                                                                        class="form-control" required> <input
+                                                                        type="number" placeholder="AA" id="expiryYear"
+                                                                        class="form-control" required> </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-4">
+                                                            <div class="form-group mb-4"> <label data-toggle="tooltip"
+                                                                    title="Three digit CV code on the back of your card">
+                                                                    <h6>CVV
+                                                                    </h6>
+                                                                </label> <input type="number" id="cvv" required
+                                                                    class="form-control"> </div>
+                                                        </div>
+                                                    </div>
+                                                    <hr>
+                                                    <p class="text-muted"><b>OBS:</b> A cobrança será realizada
+                                                        diretamente no cartão informado ou através dos canais de
+                                                        comunicação. (SMS/WhatsApp/Email)</p>
+                                                    <hr>
+                                                    <p class="text-muted">Por questões de segurança nos reservamos o
+                                                        direito de <b>NÃO</b> salvar os seus dados de pagamento no nosso
+                                                        banco de dados. Sendo armazenados <b>somente</b> no provedor de
+                                                        pagamentos.</p>
+
+                                                    <div class="card-footer"> <button type="button"
+                                                            onclick="makePayment('card')"
+                                                            class="btn btn-primary btn-user btn-block">
+                                                            Confirmar R$44,90 </button>
+                                                </form>
+                                            </div>
+                                        </div> <!-- End -->
+                                        <!-- Paypal info -->
+                                        <div id="boleto" class="tab-pane fade pt-3">
+                                            <h6 class="pb-2">Boleto</h6>
+
+                                            <p class="text-muted">Primeira mensalidade do sistema Connect. Validade após
+                                                31 dias depois do pagamento.</p>
+                                            <hr>
+                                            <p>Valor da mensalidade:</p>
+                                            <div class="row text-center justify-content-center">
+                                                <p>R$</p>
+                                                <h2>44,90</h2>
+                                            </div>
+                                            <hr>
+                                            <p class="text-muted"><b>OBS:</b> A cobrança será realizada através dos
+                                                canais de comunicação. (SMS/WhatsApp/Email)</p>
+
+
+                                            <button type="button" class="btn btn-primary btn-user btn-block">
+                                                Gerar boleto </button>
+                                        </div> <!-- End -->
+                                        <!-- bank transfer info -->
+                                        <div id="pix" class="tab-pane fade pt-3">
+                                            <h6 class="pb-2">Pix</h6>
+
+                                            <p class="text-muted">Primeira mensalidade do sistema Connect. Validade após
+                                                31 dias depois do pagamento.</p>
+                                            <hr>
+                                            <p>Valor da mensalidade:</p>
+                                            <div class="row text-center justify-content-center">
+                                                <p>R$</p>
+                                                <h2>44,90</h2>
+                                            </div>
+
+                                            <hr>
+                                            <p class="text-muted"><b>OBS:</b> A cobrança será realizada através dos
+                                                canais de comunicação. (SMS/WhatsApp/Email)</p>
+
+                                            <button type="button" class="btn btn-primary btn-user btn-block">
+                                                Gerar QR </button>
+                                        </div> <!-- End -->
+                                        <!-- End -->
                                     </div>
                                 </div>
                             </div>
@@ -78,19 +173,45 @@
             </div>
         </div>
     </div>
-    
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
-    <%if(message) {%>
-        <script>
-            swal("<%=message.title%>", "<%=message.description%>", "<%=message.type%>");
-        </script>
-    <%}%>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="/vendor/jquery/jquery.min.js"></script>
     <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
     <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="/js/sb-admin-2.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <script>
+        function makePayment(type) {
+            if (type === "card") {
+                const holderName = document.getElementById("holderName").value,
+                    number = document.getElementById("cardNumber").value,
+                    expiryMonth = document.getElementById("expiryMonth").value,
+                    expiryYear = document.getElementById("expiryYear").value,
+                    cvv = document.getElementById("cvv").value
+
+                if (holderName === '' || number === '' || expiryMonth === '' || expiryYear === '' || cvv === '') return alert("Os dados não podem ficar vazios.");
+
+                if (Number(expiryMonth) > 12 && Number(expiryMonth) <= 0) return alert("O mês de validade não pode ser maior que 12.");
+                if (cvv.length > 3) return alert("CVV só possui 3 números.");
+
+                axios.post('/pagamento/assinatura', {
+                    type: "card",
+                    data: {
+                        holderName,
+                        number,
+                        expiryMonth,
+                        expiryYear,
+                        cvv
+                    }
+                })
+                    .then(function (response) {
+                        console.log(response);
+                    });
+            }
+        }
+    </script>
 </body>
 
 </html>
