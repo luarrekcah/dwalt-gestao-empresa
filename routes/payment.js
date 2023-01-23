@@ -54,7 +54,7 @@ router.post("/", async (req, res, next) => {
 
 router.get("/assinatura", async (req, res, next) => {
   const user = await getUser({ userId: req.user.key });
-  if (user.data.subscriptionID !== "" && user.data.subscriptionID !== undefined)
+  if (user.data.subscriptionID !== "" && user.data.subscriptionID !== undefined && user.data.acessConnect)
     return res.redirect("/dashboard");
   let message;
   if (req.query.message) {
@@ -136,14 +136,9 @@ router.post("/assinatura", async (req, res, next) => {
       path: `gestaoempresa/business/${req.user.key}/info`,
       params: {
         subscriptionID: resp.data.id,
+        acessConnect: false,
       },
     });
-    //nao está redirecionando de vdd
-    if (resp.data.status === "ACTIVE") {
-      return res.redirect("/pagamento/sucesso");
-    } else {
-      return res.redirect("/pagamento/aguarde");
-    }
   } catch (error) {
     console.log("Erro no cadastro da assinatura");
     console.log("Status: ", error.response.status);
