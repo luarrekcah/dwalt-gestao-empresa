@@ -140,9 +140,9 @@ router.post("/assinatura", async (req, res, next) => {
     });
     //nao está redirecionando de vdd
     if (resp.data.status === "ACTIVE") {
-      return res.redirect("/dashboard");
+      return res.redirect("/pagamento/sucesso");
     } else {
-      return res.redirect("/aguarde");
+      return res.redirect("/pagamento/aguarde");
     }
   } catch (error) {
     console.log("Erro no cadastro da assinatura");
