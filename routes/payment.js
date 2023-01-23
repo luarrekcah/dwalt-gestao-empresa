@@ -138,28 +138,24 @@ router.post("/assinatura", async (req, res, next) => {
         subscriptionID: resp.data.id,
       },
     });
-    if (dados.type === "card") {
-      if (resp.data.status === "ACTIVE") {
-        return res.redirect("/dashboard");
-      } else {
-        return res.redirect("/aguarde");
-      }
+    //nao está redirecionando de vdd
+    if (resp.data.status === "ACTIVE") {
+      return res.redirect("/dashboard");
     } else {
-      return res.redirect("/");
+      return res.redirect("/aguarde");
     }
   } catch (error) {
-    if (error) {
-      console.log("Erro no cadastro da assinatura");
-      console.log("Status: ", error.response.status);
-      console.log("StatusText: ", error.response.statusText);
-      console.log("Data: ", error.response.data);
-      if (error.response.data) {
-        if(error.response.data.errors[0].code === 'invalid_creditCard') {
-          return res.redirect("/pagamento/erro?message=invalid_card");
-        } else {
-          return res.redirect("/pagamento/erro?message=erro");
-        }
-      } 
+    console.log("Erro no cadastro da assinatura");
+    console.log("Status: ", error.response.status);
+    console.log("StatusText: ", error.response.statusText);
+    console.log("Data: ", error.response.data);
+    if (error.response.data) {
+      if (error.response.data.errors[0].code === "invalid_creditCard") {
+        //nao está redirecionando de vdd
+        return res.redirect("/pagamento/erro?message=invalid_card");
+      } else {
+        return res.redirect("/pagamento/erro?message=erro");
+      }
     }
   }
 });
@@ -169,7 +165,15 @@ router.get("/sucesso", async (req, res, next) => {
 });
 
 router.get("/erro", async (req, res, next) => {
-  res.render("pages/payments/messages/error");
+  let message = "";
+  if (req.query.message) {
+    switch (req.query.message.toLowerCase()) {
+      case "deleted_subscription":
+        message = "Sua mensalidade foi deletada."
+        break;
+    }
+  } 
+  res.render("pages/payments/messages/error", {message});
 });
 
 router.get("/pagar", async (req, res, next) => {
