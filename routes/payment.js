@@ -1,7 +1,7 @@
 const { updateItem, getUser, getItems } = require("../database/users");
 
 const express = require("express"),
-  router = express.Router(),
+  router = express.Router({ mergeParams: true }),
   asaasAPI = require("node-asaas-api");
 
 require("dotenv").config();
@@ -16,7 +16,8 @@ asaasAPI.config(params);
 
 router.get("/", async (req, res, next) => {
   const user = await getUser({ userId: req.user.key });
-  if(user.data.asaasID !== '' && user.data.asaasID !== undefined) return res.redirect("/pagamento/assinatura");
+  if (user.data.asaasID !== "" && user.data.asaasID !== undefined)
+    return res.redirect("/pagamento/assinatura");
   res.render("pages/payments");
 });
 
@@ -25,8 +26,6 @@ router.post("/", async (req, res, next) => {
   console.log(cliente);
 
   const user = await getUser({ userId: req.user.key });
-
-  if(user.data.asaasID !== '') return res.redirect("/?message=cant_create_new_payment_profile");
 
   cliente.externalReference = req.user.key;
 
@@ -55,8 +54,31 @@ router.post("/", async (req, res, next) => {
 
 router.get("/assinatura", async (req, res, next) => {
   const user = await getUser({ userId: req.user.key });
-  if(user.data.subscriptionID !== '' && user.data.subscriptionID !== undefined) return res.redirect("/dashboard");
-  res.render("pages/payments/subscription");
+  if (user.data.subscriptionID !== "" && user.data.subscriptionID !== undefined)
+    return res.redirect("/dashboard");
+  let message;
+  if (req.query.message) {
+    switch (req.query.message.toLowerCase()) {
+      case "error":
+        message = {
+          type: "error",
+          title: "Ocorreu um erro!",
+          description:
+            "Retorne ao login ou entre em contato com o suporte caso o problema persista.",
+        };
+        break;
+      case "invalid_creditcard":
+        message = {
+          type: "error",
+          title: "Cartão de crédito inválido",
+          description: "Tente outro cartão.",
+        };
+        break;
+    }
+  } else {
+    message = null;
+  }
+  res.render("pages/payments/subscription", message);
 });
 
 router.post("/assinatura", async (req, res, next) => {
@@ -66,10 +88,6 @@ router.post("/assinatura", async (req, res, next) => {
 
   const user = await getUser({ userId: req.user.key });
   const { paymentProfile } = user;
-
-  if (user.data.asaasID === undefined) {
-    return res.sendStatus(200);
-  }
 
   let today = new Date();
   let year = today.getFullYear();
@@ -110,48 +128,40 @@ router.post("/assinatura", async (req, res, next) => {
       break;
   }
 
-  asaasAPI.subscriptions
-    .post(assinatura)
-    .then((resp) => {
-      console.log("Assinatura adicionada para o Cliente");
-      console.log(resp.data);
-      updateItem({
-        path: `gestaoempresa/business/${req.user.key}/info`,
-        params: {
-          subscriptionID: resp.data.id,
-        },
-      });
-      if(dados.type === 'card') {
-        if(resp.data.status === "ACTIVE") {
-          return res.redirect("/dashboard");
-        } else {
-          return res.redirect("/");
-        }
-      } else {
-        return res.redirect("/");
-      }
-      
-    })
-    .catch((error) => {
-      if (error) {
-        console.log("Erro no cadastro da assinatura");
-        console.log("Status: ", error.response.status);
-        console.log("StatusText: ", error.response.statusText);
-        console.log("Data: ", error.response.data);
-        if (error.response.data) {
-          switch (error.response.data.errors[0].code) {
-            case "invalid_creditCard":
-              return res.redirect(
-                "/pagamento/assinatura?message=invalid_creditCard"
-              );
-            default:
-              return res.redirect("/pagamento/assinatura?message=error");
-          }
-        } else {
-          return res.redirect("/pagamento/assinatura?message=error");
-        }
-      }
+  try {
+    const resp = await asaasAPI.subscriptions.post(assinatura);
+    console.log("Assinatura adicionada para o Cliente");
+    console.log(resp.data);
+    updateItem({
+      path: `gestaoempresa/business/${req.user.key}/info`,
+      params: {
+        subscriptionID: resp.data.id,
+      },
     });
+    if (dados.type === "card") {
+      if (resp.data.status === "ACTIVE") {
+        return res.redirect("/dashboard");
+      } else {
+        return res.redirect("/aguarde");
+      }
+    } else {
+      return res.redirect("/");
+    }
+  } catch (error) {
+    if (error) {
+      console.log("Erro no cadastro da assinatura");
+      console.log("Status: ", error.response.status);
+      console.log("StatusText: ", error.response.statusText);
+      console.log("Data: ", error.response.data);
+      if (error.response.data) {
+        if(error.response.data.errors[0].code === 'invalid_creditCard') {
+          return res.redirect("/pagamento/erro?message=invalid_card");
+        } else {
+          return res.redirect("/pagamento/erro?message=erro");
+        }
+      } 
+    }
+  }
 });
 
 router.get("/sucesso", async (req, res, next) => {

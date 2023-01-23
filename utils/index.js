@@ -30,12 +30,14 @@ module.exports = {
 
     const okStatuses = ["ACTIVE", "CONFIRMED", "RECEIVED", "RECEIVED_IN_CASH"];
 
+    console.log(response.data);
+
     if (response.data.deleted) {
-      return { code: false, redirect: `${process.env.domain}?message=deleted_subscription` };
+      return { code: false, redirect: `/pagamento/erro?message=deleted_subscription` };
     } else if (okStatuses.includes(response.data.status)) {
       return { code: true, redirect: "/dashboard" };
     } else {
-      return { code: false, redirect: `${process.env.domain}?message=pending_subscription` };
+      return { code: false, redirect: `/pagamento/erro?message=pending_subscription` };
     }
 
     /*
