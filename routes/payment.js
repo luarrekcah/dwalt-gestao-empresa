@@ -140,7 +140,7 @@ router.post("/assinatura", async (req, res, next) => {
       path: `gestaoempresa/business/${req.user.key}/info`,
       params: {
         subscriptionID: resp.data.id,
-        acessConnect: false,
+        acessConnect: true,
       },
     });
     if (resp.data.status === "ACTIVE") {
