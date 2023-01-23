@@ -26,30 +26,23 @@ module.exports = {
       return { code: false, redirect: "/pagamento/assinatura" };
     }
 
-    const response = await asaasAPI.subscriptions.get(user.data.subscriptionID);
+    if (
+      user.data.acessConnect === false ||
+      user.data.acessConnect === undefined
+    ) {
+      return { code: false, redirect: "/pagamento/erro?message=pending_subscription" };
+    }
 
-    const okStatuses = ["ACTIVE", "CONFIRMED", "RECEIVED", "RECEIVED_IN_CASH"];
+    const response = await asaasAPI.subscriptions.get(user.data.subscriptionID);
 
     console.log(response.data);
 
     if (response.data.deleted) {
       return { code: false, redirect: `/pagamento/erro?message=deleted_subscription` };
-    } else if (okStatuses.includes(response.data.status)) {
+    } else if (user.data.acessConnect) {
       return { code: true, redirect: "/dashboard" };
     } else {
       return { code: false, redirect: `/pagamento/erro?message=pending_subscription` };
     }
-
-    /*
-    if (response.data.deleted || !okStatuses.includes(response.data.status)) {
-      return { code: false, redirect: "/?message=subscription_error" };
-    } else if (
-      !response.data.deleted &&
-      okStatuses.includes(response.data.status)
-    ) {
-      return { code: true, redirect: "/dashboard" };
-    } else {
-      return { code: false, redirect: "/logout" };
-    }*/
   },
 };
