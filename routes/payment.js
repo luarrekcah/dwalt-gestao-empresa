@@ -15,6 +15,8 @@ let params = {
 asaasAPI.config(params);
 
 router.get("/", async (req, res, next) => {
+  const user = await getUser({ userId: req.user.key });
+  if(user.asaasID !== '' && user.asaasID !== undefined) return res.redirect("/pagamento/assinatura");
   res.render("pages/payments");
 });
 
@@ -50,6 +52,8 @@ router.post("/", async (req, res, next) => {
 });
 
 router.get("/assinatura", async (req, res, next) => {
+  const user = await getUser({ userId: req.user.key });
+  if(user.subscriptionID !== '' && user.subscriptionID !== undefined) return res.redirect("/pagamento/pagar");
   res.render("pages/payments/subscription");
 });
 
@@ -154,6 +158,10 @@ router.get("/sucesso", async (req, res, next) => {
 
 router.get("/erro", async (req, res, next) => {
   res.render("pages/payments/messages/error");
+});
+
+router.get("/pagar", async (req, res, next) => {
+  res.render("pages/payments/messages/pay");
 });
 
 module.exports = router;

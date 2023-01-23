@@ -11,24 +11,26 @@ asaasAPI.config(params);
 
 module.exports = {
   subscriptionChecker: async (req) => {
-    if (req.user === undefined) return false;
+    if (req.user === undefined) return { code: false, redirect: "/" };
     const user = await getUser({ userId: req.user.key });
-    const response = await asaasAPI.subscriptions.get(user.data.subscriptionID);
+    if (user.data.asaasID === "" || user.data.asaasID === undefined)
+      return { code: false, redirect: "/pagamento" };
     if (
       user.data.subscriptionID === "" ||
       user.data.subscriptionID === undefined
     )
-      return false;
+      return { code: false, redirect: "/pagamento/assinatura" };
+    const response = await asaasAPI.subscriptions.get(user.data.subscriptionID);
 
     const okStatuses = ["ACTIVE", "CONFIRMED", "RECEIVED", "RECEIVED_IN_CASH"];
 
     if (response.data.deleted || !okStatuses.includes(response.data.status))
-      return false;
+      return { code: false, redirect: "/?message=subscription_error" };
     else if (
       !response.data.deleted &&
       okStatuses.includes(response.data.status)
     )
-      return true;
-    else return false;
+      return { code: true };
+    else return { code: false, redirect: "/?message=subscription_error" };
   },
 };

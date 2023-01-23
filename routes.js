@@ -19,8 +19,10 @@ const authenticationMiddleware = (req, res, next) => {
 };
 
 const authenticationSubsMiddleware = async (req, res, next) => {
-  if (req.isAuthenticated() && await subscriptionChecker(req)) return next();
-  res.redirect("pagamento/erro?message=subscription_error");
+  const sub = await subscriptionChecker(req)
+  console.log(sub);
+  if (req.isAuthenticated() && sub.code) return next();
+  res.redirect(sub.redirect || "/?message=error");
 };
 
 module.exports = (app) => {

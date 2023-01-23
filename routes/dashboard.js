@@ -90,7 +90,6 @@ const getData = async (res, req) => {
 };
 
 router.get("/", async (req, res, next) => {
-  //if(!await subscriptionChecker(req)) return res.redirect("/pagamento/error");
   const projects = await getAllItems({
       path: `gestaoempresa/business/${req.user.key}/projects`,
     }),
