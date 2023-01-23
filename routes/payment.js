@@ -139,6 +139,11 @@ router.post("/assinatura", async (req, res, next) => {
         acessConnect: false,
       },
     });
+    if (resp.data.status === "ACTIVE") {
+      return res.redirect("/pagamento/pagar");
+    } else {
+      return res.redirect("/pagamento/aguarde");
+    }
   } catch (error) {
     console.log("Erro no cadastro da assinatura");
     console.log("Status: ", error.response.status);
@@ -168,6 +173,9 @@ router.get("/erro", async (req, res, next) => {
         break;
         case "invalid_card":
         message = "Cartão inválido, tente outro."
+        break;
+        case "pending_subscription":
+        message = "Pagamento da sua mensalidade está pendente."
         break;
     }
   } 

@@ -39,7 +39,7 @@ module.exports = {
 
     if (response.data.deleted) {
       return { code: false, redirect: `/pagamento/erro?message=deleted_subscription` };
-    } else if (user.data.acessConnect) {
+    } else if (user.data.acessConnect && response.data.status === 'ACTIVE') {
       return { code: true, redirect: "/dashboard" };
     } else {
       return { code: false, redirect: `/pagamento/erro?message=pending_subscription` };
