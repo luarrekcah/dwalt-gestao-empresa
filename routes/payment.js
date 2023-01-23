@@ -91,7 +91,7 @@ router.post("/assinatura", async (req, res, next) => {
 
   let today = new Date();
   let year = today.getFullYear();
-  let month = today.getMonth() + 2;
+  let month = today.getMonth() + 1;//2; -> 2 for give a month free
   let day = today.getDate();
 
   month = month < 10 ? "0" + month : month;
