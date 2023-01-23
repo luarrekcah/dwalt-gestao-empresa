@@ -54,7 +54,11 @@ router.post("/", async (req, res, next) => {
 
 router.get("/assinatura", async (req, res, next) => {
   const user = await getUser({ userId: req.user.key });
-  if (user.data.subscriptionID !== "" && user.data.subscriptionID !== undefined && user.data.acessConnect)
+  if (
+    user.data.subscriptionID !== "" &&
+    user.data.subscriptionID !== undefined &&
+    user.data.acessConnect
+  )
     return res.redirect("/dashboard");
   let message;
   if (req.query.message) {
@@ -91,7 +95,7 @@ router.post("/assinatura", async (req, res, next) => {
 
   let today = new Date();
   let year = today.getFullYear();
-  let month = today.getMonth() + 1;//2; -> 2 for give a month free
+  let month = today.getMonth() + 1; //2; -> 2 for give a month free
   let day = today.getDate();
 
   month = month < 10 ? "0" + month : month;
@@ -169,17 +173,20 @@ router.get("/erro", async (req, res, next) => {
   if (req.query.message) {
     switch (req.query.message.toLowerCase()) {
       case "deleted_subscription":
-        message = "Sua mensalidade foi deletada."
+        message = "Sua mensalidade foi deletada.";
         break;
-        case "invalid_card":
-        message = "Cartão inválido, tente outro."
+      case "invalid_card":
+        message = "Cartão inválido, tente outro.";
         break;
-        case "pending_subscription":
-        message = "Pagamento da sua mensalidade está pendente."
+      case "pending_subscription":
+        message = "Pagamento da sua mensalidade está pendente.";
+        break;
+      case "erro":
+        message = "Verifique seu método de pagamento e tente novamente.";
         break;
     }
-  } 
-  res.render("pages/payments/messages/error", {message});
+  }
+  res.render("pages/payments/messages/error", { message });
 });
 
 router.get("/pagar", async (req, res, next) => {
