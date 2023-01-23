@@ -171,6 +171,9 @@ router.get("/erro", async (req, res, next) => {
       case "deleted_subscription":
         message = "Sua mensalidade foi deletada."
         break;
+        case "invalid_card":
+        message = "Cartão inválido, tente outro."
+        break;
     }
   } 
   res.render("pages/payments/messages/error", {message});

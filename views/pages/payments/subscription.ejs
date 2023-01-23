@@ -140,7 +140,8 @@
                                                 canais de comunicação. (SMS/WhatsApp/Email)</p>
 
 
-                                            <button type="button" class="btn btn-primary btn-user btn-block" onclick="makePayment('boleto')">
+                                            <button type="button" class="btn btn-primary btn-user btn-block"
+                                                onclick="makePayment('boleto')">
                                                 Gerar boleto </button>
                                         </div> <!-- End -->
                                         <!-- bank transfer info -->
@@ -160,7 +161,8 @@
                                             <p class="text-muted"><b>OBS:</b> A cobrança será realizada através dos
                                                 canais de comunicação. (SMS/WhatsApp/Email)</p>
 
-                                            <button type="button" class="btn btn-primary btn-user btn-block"  onclick="makePayment('pix')">
+                                            <button type="button" class="btn btn-primary btn-user btn-block"
+                                                onclick="makePayment('pix')">
                                                 Gerar PIX </button>
                                         </div> <!-- End -->
                                         <!-- End -->
@@ -207,20 +209,20 @@
                     }
                 })
                     .then(function (response) {
-                        console.log(response);
+                        window.location.href = response.request.responseURL
                     });
-            } else if (type === 'boleto') { 
+            } else if (type === 'boleto') {
                 axios.post('/pagamento/assinatura', {
                     type: "boleto",
+                }).then(function (response) {
+                    window.location.href = response.request.responseURL
                 });
-                //encaminhar para uma página falando que o pix foi enviado ao numero/email
-                //assim que pago deve aguardar e tentar fazer login. 
             } else {
                 axios.post('/pagamento/assinatura', {
                     type: "pix",
-                })
-                //encaminhar para uma página falando que o pix foi enviado ao numero/email
-                //assim que pago deve aguardar e tentar fazer login. 
+                }).then(function (response) {
+                    window.location.href = response.request.responseURL
+                });
             }
         }
     </script>
