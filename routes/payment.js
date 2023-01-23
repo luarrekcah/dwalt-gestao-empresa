@@ -148,4 +148,12 @@ router.post("/assinatura", async (req, res, next) => {
     });
 });
 
+router.get("/sucesso", async (req, res, next) => {
+  res.render("pages/payments/messages/success");
+});
+
+router.get("/erro", async (req, res, next) => {
+  res.render("pages/payments/messages/error");
+});
+
 module.exports = router;

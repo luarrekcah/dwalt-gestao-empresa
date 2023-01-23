@@ -10,6 +10,7 @@ const { getDate } = require("../auth/functions/database"),
   moment = require("../services/moment"),
   axios = require("axios"),
   admin = require("firebase-admin");
+const { subscriptionChecker } = require("../utils");
 
 const express = require("express"),
   router = express.Router();
@@ -89,6 +90,7 @@ const getData = async (res, req) => {
 };
 
 router.get("/", async (req, res, next) => {
+  //if(!await subscriptionChecker(req)) return res.redirect("/pagamento/error");
   const projects = await getAllItems({
       path: `gestaoempresa/business/${req.user.key}/projects`,
     }),
@@ -114,8 +116,6 @@ router.get("/", async (req, res, next) => {
       path: `gestaoempresa/business/${req.user.key}/config`,
     }),
     user = await getUser({ userId: req.user.key });
-
-    console.log(user);
 
   let message;
 
