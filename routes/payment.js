@@ -55,7 +55,7 @@ router.post("/", async (req, res, next) => {
 
 router.get("/assinatura", async (req, res, next) => {
   const user = await getUser({ userId: req.user.key });
-  if(user.data.subscriptionID !== '' && user.data.subscriptionID !== undefined) return res.redirect("/pagamento/pagar");
+  if(user.data.subscriptionID !== '' && user.data.subscriptionID !== undefined) return res.redirect("/dashboard");
   res.render("pages/payments/subscription");
 });
 
