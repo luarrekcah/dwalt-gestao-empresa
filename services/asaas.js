@@ -1,5 +1,5 @@
 const axios = require("axios"),
-asaasAPI = require("node-asaas-api");
+  asaasAPI = require("node-asaas-api");
 require("dotenv").config();
 
 let params = {
@@ -11,10 +11,16 @@ let params = {
 asaasAPI.config(params);
 
 module.exports = {
-  getCustomer: async id => {
-    const response = await asaasAPI.customers.get(id).then((res)=>{
-        return res.data
-    })
+  getCustomer: async (id) => {
+    const response = await asaasAPI.customers.get(id).then((res) => {
+      return res.data;
+    });
+    return response;
+  },
+  getSubscription: async (id) => {
+    const response = await asaasAPI.subscriptions.get(id).then((res) => {
+      return res.data;
+    });
     return response;
   },
 };
