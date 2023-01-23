@@ -30,6 +30,15 @@ module.exports = {
 
     const okStatuses = ["ACTIVE", "CONFIRMED", "RECEIVED", "RECEIVED_IN_CASH"];
 
+    if (response.data.deleted) {
+      return { code: false, redirect: `${process.env.domain}?message=deleted_subscription` };
+    } else if (okStatuses.includes(response.data.status)) {
+      return { code: true, redirect: "/dashboard" };
+    } else {
+      return { code: false, redirect: `${process.env.domain}?message=pending_subscription` };
+    }
+
+    /*
     if (response.data.deleted || !okStatuses.includes(response.data.status)) {
       return { code: false, redirect: "/?message=subscription_error" };
     } else if (
@@ -38,7 +47,7 @@ module.exports = {
     ) {
       return { code: true, redirect: "/dashboard" };
     } else {
-      return { code: false, redirect: "/?message=subscription_error" };
-    }
+      return { code: false, redirect: "/logout" };
+    }*/
   },
 };

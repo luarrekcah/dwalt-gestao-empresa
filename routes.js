@@ -22,7 +22,7 @@ const authenticationSubsMiddleware = async (req, res, next) => {
   const sub = await subscriptionChecker(req)
   console.log(sub);
   if (req.isAuthenticated() && sub.code) return next();
-  res.redirect(sub.redirect || "/?message=error");
+  res.redirect(sub.redirect);
 };
 
 module.exports = (app) => {
