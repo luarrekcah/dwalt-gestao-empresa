@@ -16,7 +16,7 @@ asaasAPI.config(params);
 
 router.get("/", async (req, res, next) => {
   const user = await getUser({ userId: req.user.key });
-  if(user.asaasID !== '' && user.asaasID !== undefined) return res.redirect("/pagamento/assinatura");
+  if(user.data.asaasID !== '' && user.data.asaasID !== undefined) return res.redirect("/pagamento/assinatura");
   res.render("pages/payments");
 });
 
@@ -25,6 +25,8 @@ router.post("/", async (req, res, next) => {
   console.log(cliente);
 
   const user = await getUser({ userId: req.user.key });
+
+  if(user.data.asaasID !== '') return res.redirect("/?message=cant_create_new_payment_profile");
 
   cliente.externalReference = req.user.key;
 
@@ -53,7 +55,7 @@ router.post("/", async (req, res, next) => {
 
 router.get("/assinatura", async (req, res, next) => {
   const user = await getUser({ userId: req.user.key });
-  if(user.subscriptionID !== '' && user.subscriptionID !== undefined) return res.redirect("/pagamento/pagar");
+  if(user.data.subscriptionID !== '' && user.data.subscriptionID !== undefined) return res.redirect("/pagamento/pagar");
   res.render("pages/payments/subscription");
 });
 
