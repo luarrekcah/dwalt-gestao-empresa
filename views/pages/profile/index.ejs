@@ -47,7 +47,7 @@
                                                 <hr>
 
                                                 <% if(subs.status==="ACTIVE" ){ %>
-                                                    <button class="btn btn-primary" style="width: 100%;">Antecipar
+                                                    <button class="btn btn-primary" style="width: 100%;" onclick="anteciparAssinatura()">Antecipar
                                                         mensalidade</button>
 
                                                     <p></p>
@@ -187,7 +187,7 @@
                         axios.post('/conta/cancelar_assinatura')
                         .then(function (response) {
                             alert("Então... Isso é um adeus? ToT")
-                            window.location.pathname = "/logout"
+                           // window.location.pathname = "/logout"
                         });
                     }
                 }

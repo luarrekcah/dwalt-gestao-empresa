@@ -21,6 +21,21 @@ router.post("/", async (req, res, next) => {
   const customer = await getCustomer(webhookData.payment.customer);
 
   switch (webhookData.event) {
+    case "PAYMENT_CREATED":
+      //LIBERAR ACESSO AO SISTEMA E MANDAR EMAIL DE CONFIRMAÇÃO
+      sendNotification([customer.email], {
+        title: "PAGAMENTO CRIADO!",
+        message: "Cheque seus dados e realize o pagamento!",
+      });
+      updateItem({
+        path: `gestaoempresa/business/${customer.externalReference}/info`,
+        params: {
+          acessConnect: false,
+          overdue: false,
+        }
+      });
+      //-->
+      break;
     case "PAYMENT_CONFIRMED":
       //LIBERAR ACESSO AO SISTEMA E MANDAR EMAIL DE CONFIRMAÇÃO
       sendNotification([customer.email], {
@@ -30,7 +45,8 @@ router.post("/", async (req, res, next) => {
       updateItem({
         path: `gestaoempresa/business/${customer.externalReference}/info`,
         params: {
-          acessConnect: true
+          acessConnect: true,
+          overdue: false
         }
       });
       //-->
@@ -44,6 +60,17 @@ router.post("/", async (req, res, next) => {
       });
       //MANDAR EMAIL FALANDO QUE O PAGAMENTO FOI RECEBIDO E ASSIM QUE CONFIRMADO SERÁ LIBERADO O ACESSO
       break;
+      case "PAYMENT_OVERDUE":
+        //-->
+        updateItem({
+          path: `gestaoempresa/business/${customer.externalReference}/info`,
+          params: {
+            acessConnect: false,
+            overdue: true,
+          }
+        });
+        //MANDAR EMAIL FALANDO QUE O PAGAMENTO FOI RECEBIDO E ASSIM QUE CONFIRMADO SERÁ LIBERADO O ACESSO
+        break;
   }
 
   res.sendStatus(200);

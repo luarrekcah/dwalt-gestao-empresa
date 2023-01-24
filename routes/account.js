@@ -9,7 +9,7 @@ const {
 } = require("@firebase/storage");
 
 const { updateItem, getUser } = require("../database/users");
-const { getSubscription } = require("../services/asaas");
+const { getSubscription, deleteSubscription } = require("../services/asaas");
 
 router.get("/", async (req, res, next) => {
   const user = await getUser({ userId: req.user.key });
@@ -73,6 +73,23 @@ router.post("/", (req, res, next) => {
       });
     });
   }
+});
+
+router.post("/cancelar_assinatura", async(req, res, next) => {
+  const user = await getUser({ userId: req.user.key });
+  const { subscriptionID } = user.data;
+  if(user.overdue) {
+    res.sendStatus(403);
+  } else {
+    const subs = await getSubscription(subscriptionID);
+    await deleteSubscription(subs.id)
+    res.sendStatus(200);
+  }
+});
+
+router.post("/antecipar_assinatura", (req, res, next) => {
+  console.log(req.body);
+  res.sendStatus(200);
 });
 
 module.exports = router;

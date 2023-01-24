@@ -42,6 +42,10 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
+process.on('unhandledRejection', reason => {
+  throw reason;
+});
+
 require("./routes")(app);
 require('./services/growatt');
 require('./services/sticknotes');
