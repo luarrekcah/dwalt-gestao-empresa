@@ -29,7 +29,7 @@ module.exports = {
   },
   deleteSubscription: async (id) => {
     if (id === undefined) return console.warn("UNDEFINED");
-    const response = await asaasSDK.subscriptions.delete(id).then((res) => {
+    const response = await asaasAPI.subscriptions.delete(id).then((res) => {
       return res.data;
     });
     return response;
