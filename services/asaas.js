@@ -14,11 +14,21 @@ asaasAPI.config(params);
 
 module.exports = {
   getCustomer: async (id) => {
+    console.log("AXIOS GET");
     if (id === undefined) return console.warn("UNDEFINED");
-    const response = await asaasAPI.customers.get(id).then((res) => {
-      return res.data;
-    });
-    return response;
+    const config = {
+      method: "get",
+      url: `${URL}/customers/${id}`,
+      headers: {
+        "Content-Type": "application/json",
+        access_token: process.env.asaasApiKey,
+      },
+    };
+
+    const response = await axios(config);
+    console.log(response);
+
+    return response.data;
   },
   getSubscription: async (id) => {
     if (id === undefined) return console.warn("UNDEFINED");

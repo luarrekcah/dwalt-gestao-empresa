@@ -10,7 +10,6 @@ const { getDate } = require("../auth/functions/database"),
   moment = require("../services/moment"),
   axios = require("axios"),
   admin = require("firebase-admin");
-const { subscriptionChecker } = require("../utils");
 
 const express = require("express"),
   router = express.Router();
