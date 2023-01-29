@@ -52,13 +52,11 @@ router.post("/", async (req, res, next) => {
       //-->
       break;
     case "PAYMENT_RECEIVED":
-      //-->
       sendNotification([customer.email], {
         title: "PAGAMENTO RECEBIDO",
         message:
           "Recebemos sua solicitação de pagamento, assim que confirmado iremos liberar o seu sistema.",
       });
-      //MANDAR EMAIL FALANDO QUE O PAGAMENTO FOI RECEBIDO E ASSIM QUE CONFIRMADO SERÁ LIBERADO O ACESSO
       break;
       case "PAYMENT_OVERDUE":
         //-->
@@ -69,7 +67,11 @@ router.post("/", async (req, res, next) => {
             overdue: true,
           }
         });
-        //MANDAR EMAIL FALANDO QUE O PAGAMENTO FOI RECEBIDO E ASSIM QUE CONFIRMADO SERÁ LIBERADO O ACESSO
+        sendNotification([customer.email], {
+          title: "PAGAMENTO ATRASADO!",
+          message:
+            "Fechamos seu acesso ao sistema devido a dívida. Pague para a liberação!",
+        });
         break;
   }
 
