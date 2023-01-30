@@ -1,16 +1,7 @@
-const axios = require("axios"),
-  asaasAPI = require("node-asaas-api");
+const axios = require("axios");
 require("dotenv").config();
 
-let params = {
-  environment: asaasAPI.PRODUCTION,
-  apiKey: process.env.asaasApiKey,
-  version: "v3",
-};
-
 const URL = "https://www.asaas.com/api/v3"
-
-asaasAPI.config(params);
 
 module.exports = {
   getCustomer: async (id) => {
@@ -32,17 +23,35 @@ module.exports = {
   },
   getSubscription: async (id) => {
     if (id === undefined) return console.warn("UNDEFINED");
-    const response = await asaasAPI.subscriptions.get(id).then((res) => {
-      return res.data;
-    });
-    return response;
+    const config = {
+      method: "get",
+      url: `${URL}/subscriptions/${id}`,
+      headers: {
+        "Content-Type": "application/json",
+        access_token: process.env.asaasApiKey,
+      },
+    };
+
+    const response = await axios(config);
+    console.log(response);
+
+    return response.data;
   },
   deleteSubscription: async (id) => {
     if (id === undefined) return console.warn("UNDEFINED");
-    const response = await asaasAPI.subscriptions.delete(id).then((res) => {
-      return res.data;
-    });
-    return response;
+    const config = {
+      method: "delete",
+      url: `${URL}/subscriptions/${id}`,
+      headers: {
+        "Content-Type": "application/json",
+        access_token: process.env.asaasApiKey,
+      },
+    };
+
+    const response = await axios(config);
+    console.log(response);
+
+    return response.data;
   },
   getPayment: async (id) => {
     if (id === undefined) return console.warn("UNDEFINED");
@@ -67,23 +76,35 @@ module.exports = {
         console.log(error);
       });
   },
-  getQR: async id => {
-    if (id === undefined) return console.warn("UNDEFINED");
+  newCustomer: async (data) => {
     const config = {
       method: "post",
-      url: `${URL}/pix/qrCodes/static`,
+      url: `${URL}/customers`,
       headers: {
         "Content-Type": "application/json",
         access_token: process.env.asaasApiKey,
       },
-      data: JSON.stringify({
-        "addressKey": "contato@dlwalt.com",
-        "description": "Churrasco",
-        "value": 10
-        })
+      data,
     };
 
     const response = await axios(config);
+    console.log(response);
+
+    return response.data;
+  },
+  newSubscription: async (data) => {
+    const config = {
+      method: "post",
+      url: `${URL}/subscriptions`,
+      headers: {
+        "Content-Type": "application/json",
+        access_token: process.env.asaasApiKey,
+      },
+      data,
+    };
+
+    const response = await axios(config);
+    console.log(response);
 
     return response.data;
   }

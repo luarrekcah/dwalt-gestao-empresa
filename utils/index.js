@@ -1,13 +1,9 @@
-const asaasAPI = require("node-asaas-api");
 const { getUser } = require("../database/users");
+require("dotenv").config();
 
-let params = {
-  environment: asaasAPI.PRODUCTION,
-  apiKey: process.env.asaasApiKey,
-  version: "v3",
-};
+const axios = require("axios");
 
-asaasAPI.config(params);
+const URL = "https://www.asaas.com/api/v3"
 
 module.exports = {
   subscriptionChecker: async (req) => {
@@ -33,9 +29,16 @@ module.exports = {
       return { code: false, redirect: "/pagamento/erro?message=pending_subscription" };
     }
 
-    const response = await asaasAPI.subscriptions.get(user.data.subscriptionID);
+    const config = {
+      method: "get",
+      url: `${URL}/subscriptions/${user.data.subscriptionID}`,
+      headers: {
+        "Content-Type": "application/json",
+        access_token: process.env.asaasApiKey,
+      },
+    };
 
-    console.log(response.data);
+    const response = await axios(config);
 
     if (response.data.deleted) {
       return { code: false, redirect: `/pagamento/erro?message=deleted_subscription` };

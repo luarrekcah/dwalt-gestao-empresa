@@ -509,13 +509,6 @@
   "resolved" "https://registry.npmjs.org/asynckit/-/asynckit-0.4.0.tgz"
   "version" "0.4.0"
 
-"axios@^0.20.0":
-  "integrity" "sha512-ANA4rr2BDcmmAQLOKft2fufrtuvlqR+cXNNinUmvfeSNCOF98PZL+7M/v1zIdGo7OLjEA9J2gXJL+j4zGsl0bA=="
-  "resolved" "https://registry.npmjs.org/axios/-/axios-0.20.0.tgz"
-  "version" "0.20.0"
-  dependencies:
-    "follow-redirects" "^1.10.0"
-
 "axios@^1.2.1":
   "integrity" "sha512-bz/J4gS2S3I7mpN/YZfGFTqhXTYzRho8Ay38w2otuuDR322KzFIWm/4W2K6gIwvWaws5n+mnb7D1lN9uD+QH6Q=="
   "resolved" "https://registry.npmjs.org/axios/-/axios-1.2.2.tgz"
@@ -1158,7 +1151,7 @@
   "resolved" "https://registry.npmjs.org/flatted/-/flatted-3.2.7.tgz"
   "version" "3.2.7"
 
-"follow-redirects@^1.10.0", "follow-redirects@^1.15.0":
+"follow-redirects@^1.15.0":
   "integrity" "sha512-VQLG33o04KaQ8uYi2tVNbdrWp1QWxNNea+nmIB4EVM28v0hmP17z7aG1+wAkNzVq4KeXTq3221ye5qTJP91JwA=="
   "resolved" "https://registry.npmjs.org/follow-redirects/-/follow-redirects-1.15.2.tgz"
   "version" "1.15.2"
@@ -1842,13 +1835,6 @@
   "integrity" "sha512-+EUsqGPLsM+j/zdChZjsnX51g4XrHFOIXwfnCVPGlQk/k5giakcKsuxCObBRu6DSm9opw/O6slWbJdghQM4bBg=="
   "resolved" "https://registry.npmjs.org/negotiator/-/negotiator-0.6.3.tgz"
   "version" "0.6.3"
-
-"node-asaas-api@^1.0.17":
-  "integrity" "sha512-1uQogCNG1xT/cmPjTBy/QfAxrIVUqlVXpD8ELOAfn/XWWkWihlh6BhSwUwCARtdw15YndG3UdihZjIrcIDBq4w=="
-  "resolved" "https://registry.npmjs.org/node-asaas-api/-/node-asaas-api-1.0.17.tgz"
-  "version" "1.0.17"
-  dependencies:
-    "axios" "^0.20.0"
 
 "node-fetch@^2.6.1", "node-fetch@^2.6.7", "node-fetch@2.6.7":
   "integrity" "sha512-ZjMPFEfVx5j+y2yF35Kzx5sF7kDzxuDj6ziH4FFbOp87zKDZNx8yExJIb05OGF4Nlt9IHFIMBkRl41VdvcNdbQ=="

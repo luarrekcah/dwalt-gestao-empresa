@@ -1,18 +1,10 @@
 const { updateItem, getUser, getItems } = require("../database/users");
+const { newCustomer, newSubscription } = require("../services/asaas");
 
 const express = require("express"),
-  router = express.Router({ mergeParams: true }),
-  asaasAPI = require("node-asaas-api");
+  router = express.Router({ mergeParams: true });
 
 require("dotenv").config();
-
-let params = {
-  environment: asaasAPI.PRODUCTION,
-  apiKey: process.env.asaasApiKey,
-  version: "v3",
-};
-
-asaasAPI.config(params);
 
 router.get("/", async (req, res, next) => {
   const user = await getUser({ userId: req.user.key });
@@ -36,7 +28,7 @@ router.post("/", async (req, res, next) => {
   cliente.mobilePhone = cliente.mobilePhone.replaceAll("+", "").replaceAll("-", "").replaceAll("(", "").replaceAll(")", "");
   cliente.phone = cliente.mobilePhone;*/
 
-  asaasAPI.customers.post(cliente).then((responseAsaas) => {
+  newCustomer(cliente).then((responseAsaas) => {
     console.log("Cliente Cadastrado");
     console.log(responseAsaas.data);
     updateItem({
@@ -133,7 +125,7 @@ router.post("/assinatura", async (req, res, next) => {
   }
 
   try {
-    const resp = await asaasAPI.subscriptions.post(assinatura);
+    const resp = await newSubscription(assinatura);
     console.log("Assinatura adicionada para o Cliente");
     console.log(resp.data);
     updateItem({
