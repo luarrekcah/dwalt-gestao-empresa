@@ -31,18 +31,12 @@ router.post("/", async (req, res, next) => {
 
   switch (webhookData.event) {
     case "PAYMENT_CREATED":
-      //LIBERAR ACESSO AO SISTEMA E MANDAR EMAIL DE CONFIRMAÇÃO
-      sendNotification([customer.email], {
+      //MANDAR EMAIL DE CONFIRMAÇÃO
+      //isso aq
+      /*sendNotification([customer.email], {
         title: "PAGAMENTO CRIADO!",
         message: "Cheque seus dados e realize o pagamento!",
-      });
-      updateItem({
-        path: `gestaoempresa/business/${customer.externalReference}/info`,
-        params: {
-          acessConnect: false,
-          overdue: false,
-        }
-      });
+      });*/
       //-->
       break;
     case "PAYMENT_CONFIRMED":
