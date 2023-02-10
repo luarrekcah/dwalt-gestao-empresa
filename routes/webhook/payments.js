@@ -10,15 +10,24 @@ router.get("/", async (req, res, next) => {
   res.sendStatus(200);
 });
 
-router.get("/teste", async (req, res, next) => {
-  res.sendStatus(200);
-});
-
 router.post("/", async (req, res, next) => {
   const webhookData = req.body;
+  
+  if(Object.keys(webhookData).length === 0) return res.sendStatus(400);
+  
   console.log(webhookData);
+  
+  let customer;
 
-  const customer = await getCustomer(webhookData.payment.customer);
+  try{
+    customer = await getCustomer(webhookData.payment.customer);
+  } catch (e) {
+    console.log(e);
+  }
+  
+  console.log(customer);
+  
+  if(!customer) return res.sendStatus(400);
 
   switch (webhookData.event) {
     case "PAYMENT_CREATED":
@@ -55,7 +64,14 @@ router.post("/", async (req, res, next) => {
       sendNotification([customer.email], {
         title: "PAGAMENTO RECEBIDO",
         message:
-          "Recebemos sua solicitação de pagamento, assim que confirmado iremos liberar o seu sistema.",
+          "Você já pode utilizar a nossa plataforma a vontade!",
+      });
+      updateItem({
+        path: `gestaoempresa/business/${customer.externalReference}/info`,
+        params: {
+          acessConnect: true,
+          overdue: false
+        }
       });
       break;
       case "PAYMENT_OVERDUE":

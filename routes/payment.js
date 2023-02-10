@@ -30,11 +30,11 @@ router.post("/", async (req, res, next) => {
 
   newCustomer(cliente).then((responseAsaas) => {
     console.log("Cliente Cadastrado");
-    console.log(responseAsaas.data);
+    console.log(responseAsaas);
     updateItem({
       path: `gestaoempresa/business/${req.user.key}/info`,
       params: {
-        asaasID: responseAsaas.data.id,
+        asaasID: responseAsaas.id,
         subscriptionID: "",
         paymentProfile: cliente,
       },
@@ -127,15 +127,15 @@ router.post("/assinatura", async (req, res, next) => {
   try {
     const resp = await newSubscription(assinatura);
     console.log("Assinatura adicionada para o Cliente");
-    console.log(resp.data);
+    console.log(resp);
     updateItem({
       path: `gestaoempresa/business/${req.user.key}/info`,
       params: {
-        subscriptionID: resp.data.id,
+        subscriptionID: resp.id,
         acessConnect: true,
       },
     });
-    if (resp.data.status === "ACTIVE") {
+    if (resp.status === "ACTIVE") {
       return res.redirect("/pagamento/pagar");
     } else {
       return res.redirect("/pagamento/aguarde");
