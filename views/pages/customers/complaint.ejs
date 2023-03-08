@@ -12,7 +12,7 @@
                                
                                 <%- complaints.length === 0 ? '<b>Sem reclamações</b>' : '' %>
                                 <% complaints.forEach(i => { %>
-                                <div class="card border-left-danger shadow h-100 py-2">
+                                <div class="card border-left-danger shadow h-100 py-2" style="margin-bottom: 20px">
                                     <div class="card-body">
                                         <div class="row no-gutters align-items-center">
                                                 <div class="col mr-2">
@@ -30,7 +30,11 @@
                                                         </a>
                                                     </div>
                                                     <p></p>
-                                                    <small>DATA: <%=i.data.createdAt%></small>
+                                                    <small>DATA: <b>
+                                                        <script>
+                                                            document.write(moment("<%=i.data.createdAt%>").fromNow().toUpperCase());
+                                                          </script>
+                                                    </b></small>
                                                 </div>
                                                 <div class="col-auto">
                                                     <i class="fas fa-exclamation fa-2x text-gray-300"></i>
