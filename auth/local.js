@@ -9,14 +9,13 @@ const { sendNotification } = require("../services/nodemailer");
 module.exports = async (passport) => {
   const db = getDatabase();
 
-  const usersRef = ref(db, 'gestaoempresa/business');
+  const usersRef = ref(db, "gestaoempresa/business");
   onValue(usersRef, (snapshot) => {
-
     let users = [];
-    snapshot.forEach(childSnapshot => {
+    snapshot.forEach((childSnapshot) => {
       let key = childSnapshot.key,
         data = childSnapshot.val();
-      users.push({ key, data })
+      users.push({ key, data });
     });
 
     console.log(`[LOG] Usuários atualizados em tempo real: ${users.length}`);
@@ -51,34 +50,48 @@ module.exports = async (passport) => {
           try {
             const user = findUser(email);
             if (!user) return done(null, false);
-            const isValid = bcrypt.compareSync(password, user.data.info.password);
+            const isValid = bcrypt.compareSync(
+              password,
+              user.data.info.password
+            );
             if (!isValid) return done(null, false);
             createLogs(user.key, "Login realizado");
-            const loginLimit = await getItems({ path: `gestaoempresa/business/${user.key}/config/login` });
-            console.log(loginLimit)
-            if (loginLimit !== [] &&  loginLimit.hourSpecified && loginLimit.hourSpecified[0] !== '') {
-              const nowHours = moment().format('LT').split(":")[0];
-              const nowMins = moment().format('LT').split(":")[1];
-              if ((Number(nowHours) >= Number(loginLimit.hourSpecified[0].split(":")[0])
-                && Number(nowHours) <= Number(loginLimit.hourSpecified[1].split(":")[0]))
-                && (Number(nowMins) >= Number(loginLimit.hourSpecified[0].split(":")[1])
-                  && Number(nowMins) <= Number(loginLimit.hourSpecified[1].split(":")[1]))
+            const loginLimit = await getItems({
+              path: `gestaoempresa/business/${user.key}/config/login`,
+            });
+            console.log(loginLimit);
+            if (
+              loginLimit !== [] &&
+              loginLimit.hourSpecified &&
+              loginLimit.hourSpecified[0] !== ""
+            ) {
+              const nowHours = moment().format("LT").split(":")[0];
+              const nowMins = moment().format("LT").split(":")[1];
+              if (
+                Number(nowHours) >=
+                  Number(loginLimit.hourSpecified[0].split(":")[0]) &&
+                Number(nowHours) <=
+                  Number(loginLimit.hourSpecified[1].split(":")[0]) &&
+                Number(nowMins) >=
+                  Number(loginLimit.hourSpecified[0].split(":")[1]) &&
+                Number(nowMins) <=
+                  Number(loginLimit.hourSpecified[1].split(":")[1])
               ) {
-                console.log("LOGIN EM HORARIO PERMITIDO")
+                console.log("LOGIN EM HORARIO PERMITIDO");
                 return done(null, user);
               } else {
-                console.log("LOGIN FORA DE HORARIO PERMITIDO")
+                console.log("LOGIN FORA DE HORARIO PERMITIDO");
                 if (loginLimit.loginAlert) {
-                  sendNotification([user.data.info.email],
-                    {
-                      title: 'Tentativa de login',
-                      message: 'Detectamos um login em horário incomum e barramos ele.'
-                    });
+                  sendNotification([user.data.info.email], {
+                    title: "Tentativa de login",
+                    message:
+                      "Detectamos um login em horário incomum.",
+                  });
                 }
                 return done(null, false);
               }
             } else {
-              console.log("HORARIO DE LOGIN NAO DEFINIDO")
+              console.log("HORARIO DE LOGIN NAO DEFINIDO");
               return done(null, user);
             }
           } catch (err) {

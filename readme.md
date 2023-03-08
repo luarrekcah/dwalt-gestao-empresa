@@ -1,0 +1,2 @@
+- firebase.json (./credentials)
+- Asaas key direct on code

@@ -31,8 +31,7 @@ router.post("/", async (req, res, next) => {
 
   switch (webhookData.event) {
     case "PAYMENT_CREATED":
-      //MANDAR EMAIL DE CONFIRMAÇÃO
-      //isso aq
+      // Nao necessário
       /*sendNotification([customer.email], {
         title: "PAGAMENTO CRIADO!",
         message: "Cheque seus dados e realize o pagamento!",

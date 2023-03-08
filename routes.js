@@ -17,14 +17,17 @@ const authenticationMiddleware = (req, res, next) => {
   if (req.isAuthenticated()) return next();
   res.redirect("/");
 };
-
 const authenticationSubsMiddleware = async (req, res, next) => {
-  const sub = await subscriptionChecker(req)
-  console.log(sub);
-  if (req.isAuthenticated() && sub.code) return next();
-  res.redirect(sub.redirect);
+  try {
+    const sub = await subscriptionChecker(req);
+    console.log(sub);
+    if (req.isAuthenticated() && sub.code) return next();
+    return res.redirect(sub.redirect);
+  } catch (error) {
+    console.error(error);
+    return res.redirect("/");
+  }
 };
-
 module.exports = (app) => {
   //routes
   app.use("/", indexRouter);

@@ -14,6 +14,7 @@ module.exports = {
         "Content-Type": "application/json",
         access_token: process.env.asaasApiKey,
       },
+      timeout: 5000 
     };
 
     const response = await axios(config);
@@ -30,6 +31,7 @@ module.exports = {
         "Content-Type": "application/json",
         access_token: process.env.asaasApiKey,
       },
+      timeout: 5000 
     };
 
     const response = await axios(config);
@@ -46,6 +48,7 @@ module.exports = {
         "Content-Type": "application/json",
         access_token: process.env.asaasApiKey,
       },
+      timeout: 5000 
     };
 
     const response = await axios(config);
@@ -62,6 +65,7 @@ module.exports = {
         "Content-Type": "application/json",
         access_token: process.env.asaasApiKey,
       },
+      timeout: 5000 
     };
 
     /*const response = await axios(config);
@@ -85,6 +89,7 @@ module.exports = {
         access_token: process.env.asaasApiKey,
       },
       data,
+      timeout: 5000 
     };
 
     const response = await axios(config);
@@ -101,6 +106,7 @@ module.exports = {
         access_token: process.env.asaasApiKey,
       },
       data,
+      timeout: 5000 
     };
 
     const response = await axios(config);
