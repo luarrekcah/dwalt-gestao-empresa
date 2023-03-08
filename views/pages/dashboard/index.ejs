@@ -256,22 +256,22 @@
                           </div>
                           <div class="card-body">
                             <h4 class="small font-weight-bold">Projetos pendentes<span class="float-right">
-                                <%=projects.filter(i=> i.data.Status !== 'finalizado').length * 100/ projects.length%>%
+                              <%= Math.round(projects.filter(i => i.data.Status !== 'finalizado').length * 100 / projects.length) %>%
                               </span></h4>
                             <div class="progress mb-4">
                               <div class="progress-bar bg-danger" role="progressbar"
-                                style="width: <%=projects.filter(i => i.data.Status !== 'finalizado').length * 100/ projects.length%>%"
-                                aria-valuenow="<%=projects.filter(i => i.data.Status !== 'finalizado').length * 100/ projects.length%>"
+                                style="width: <%= Math.round(projects.filter(i => i.data.Status !== 'finalizado').length * 100 / projects.length) %>%"
+                                aria-valuenow="<%= Math.round(projects.filter(i => i.data.Status !== 'finalizado').length * 100 / projects.length) %>"
                                 aria-valuemin="0" aria-valuemax="100"></div>
                             </div>
                             <h4 class="small font-weight-bold">Projetos finalizados <span class="float-right">
-                                <%=projects.filter(i=> i.data.Status === "finalizado").length * 100/ projects.length%>%
+                              <%= Math.round(projects.filter(i => i.data.Status === 'finalizado').length * 100 / projects.length) %>%
                               </span></h4>
                             <div class="progress mb-4">
                               <div class="progress-bar bg-info" role="progressbar"
-                                style="width: <%=projects.filter(i => i.data.Status === " finalizado").length * 100/
-                                projects.length%>%" aria-valuenow="<%=projects.filter(i=> i.data.Status ===
-                                  "finalizado").length * 100/ projects.length%>" aria-valuemin="0" aria-valuemax="100">
+                              style="width: <%= Math.round(projects.filter(i => i.data.Status === 'finalizado').length * 100 / projects.length) %>%"
+                              aria-valuenow="<%= Math.round(projects.filter(i => i.data.Status === 'finalizado').length * 100 / projects.length) %>"
+                              aria-valuemin="0" aria-valuemax="100">
                               </div>
                             </div>
                           </div>
