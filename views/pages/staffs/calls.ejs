@@ -10,6 +10,12 @@
                 <h1 class="h3 mb-2 text-gray-800">Chamados de cliente</h1>
                 <p class="mb-4">Chamados são solicitações de clientes, pode ser tanto para vistoria
                   quanto algum defeito ou emergência.</p>
+                  <a href="#" data-toggle="modal" data-target="#CreateSurvey" style="width: 100%" class="btn btn-info">
+                    <span class="icon text-white-50">
+                      <i class="fas fa-plus"></i>
+                    </span>
+                    <span class="text">Criar chamado</span>
+                  </a>
                 <%- surveys.length===0? '<b>Sem chamados</b>' : '' %>
                   <% surveys.forEach(i=> { %>
                     <% if(i.data.finished) return; %>
@@ -102,6 +108,7 @@
       <i class="fas fa-angle-up"></i>
     </a>
     <%- include("../components/modal/logout.ejs") %>
+    <%- include("./components/modal/createsurvey.ejs") %>
       <script src="/vendor/jquery/jquery.min.js"></script>
       <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
       <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>

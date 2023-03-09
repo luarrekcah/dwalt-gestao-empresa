@@ -10,7 +10,7 @@ const growattConfig = {
 
 // only 10 times by day check
 const getData = async (dataB) => {
-    axios.get("https://test.growatt.com/v1/plant/list", {
+    axios.get("https://openapi.growatt.com/v1/plant/list", {
         headers: { token: dataB.data.info.tokenGrowatt },
     })
         .then(response => {
@@ -46,7 +46,7 @@ const getData = async (dataB) => {
 
             if (duration.asHours() <= 3.0) {
                 setTimeout(() => {
-                    axios.get("https://test.growatt.com/v1/plant/energy",
+                    axios.get("https://openapi.growatt.com/v1/plant/energy",
                         {
                             headers: { token: dataB.data.info.tokenGrowatt },
                             params: {
@@ -102,7 +102,7 @@ setInterval(async () => {
             if(plant === undefined) return;
             console.log(plant);
             setTimeout(() => {
-                axios.get("https://test.growatt.com/v1/plant/data", { headers: { token: b.data.info.tokenGrowatt }, params: { plant_id: plant.plant_id } })
+                axios.get("https://openapi.growatt.com/v1/plant/data", { headers: { token: b.data.info.tokenGrowatt }, params: { plant_id: plant.plant_id } })
                     .then(response => {
                         const data = response.data
                         if (data.error_code !== 0) return;

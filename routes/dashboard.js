@@ -23,7 +23,7 @@ const getData = async (res, req) => {
   });
 
   axios
-    .get("https://test.growatt.com/v1/plant/list", {
+    .get("https://openapi.growatt.com/v1/plant/list", {
       headers: { token: req.body.token },
     })
     .then((response) => {
@@ -307,10 +307,14 @@ router.get("/chamados", async (req, res, next) => {
   const surveys = await getAllItems({
     path: `gestaoempresa/business/${req.user.key}/surveys`,
   });
+  const projects = await getAllItems({
+    path: `gestaoempresa/business/${req.user.key}/projects`,
+  });
   const user = await getUser({ userId: req.user.key });
   const data = {
     user,
     surveys,
+    projects,
     message: null,
   };
   res.render("pages/staffs/calls", data);

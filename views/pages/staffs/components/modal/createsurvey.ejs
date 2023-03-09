@@ -1,0 +1,149 @@
+<div
+  class="modal fade"
+  id="CreateSurvey"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="teamModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="teamModalLabel">Novo chamado</h5>
+        <button
+          class="close"
+          type="button"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body" style="padding: 40px">
+        <select
+          id="selectTipoChamado"
+          class="form-control"
+          style="margin-bottom: 20px"
+          required
+        >
+          <option selected>Selecione o tipo de chamado</option>
+          <option value="preventivo">Preventivo</option>
+          <option value="corretivo">Corretivo</option>
+        </select>
+
+        <div style="display: none" id="preventivo">
+          <form method="post">
+            <input name="type" value="preventivo" style="display: none" />
+            <select name="projectID" class="form-control">
+              <% projects.forEach(p => { %>
+              <option value="<%=p.key%>"><%=p.data.apelidoProjeto %></option>
+              <% }); %>
+            </select>
+            <button
+              style="margin-top: 20px; width: 100%"
+              class="btn btn-primary"
+              type="submit"
+            >
+              Solicitar
+            </button>
+          </form>
+        </div>
+        <div style="display: none" id="corretivo">
+          <form method="post" id="form">
+            <input name="type" value="corretivo" style="display: none" />
+            <select
+              name="projectID"
+              class="form-control"
+              style="margin-bottom: 20px"
+            >
+              <% projects.forEach(p => { %>
+              <option value="<%=p.key%>"><%=p.data.apelidoProjeto %></option>
+              <% }); %>
+            </select>
+            <div class="mb-3">
+              <label class="small mb-1" for="sobrechamado"
+                >Sobre o chamado</label
+              >
+              <input
+                name="sobrechamado"
+                class="form-control"
+                placeholder="Cliente informou que esta havendo aquecimento nos cabos."
+                id="sobrechamado"
+                type="text"
+                required
+              />
+            </div>
+            <div class="mb-3">
+              <label class="small mb-1" for="pics">Fotos</label>
+              <input
+                type="file"
+                class="form-control"
+                name="pics"
+                id="pics"
+                accept="image/png, image/gif, image/jpeg"
+                multiple
+              />
+            </div>
+            <button
+              style="margin-top: 20px; width: 100%"
+              class="btn btn-primary"
+              type="submit"
+            >
+              Solicitar
+            </button>
+          </form>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" type="button" data-dismiss="modal">
+          Cancelar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const selectTipoChamado = document.getElementById("selectTipoChamado");
+  const preventivoDiv = document.getElementById("preventivo");
+  const corretivoDiv = document.getElementById("corretivo");
+  const form = document.getElementById("form");
+
+  selectTipoChamado.addEventListener("change", function () {
+    if (selectTipoChamado.value === "preventivo") {
+      preventivoDiv.style.display = "block";
+      corretivoDiv.style.display = "none";
+    } else if (selectTipoChamado.value === "corretivo") {
+      preventivoDiv.style.display = "none";
+      corretivoDiv.style.display = "block";
+    } else {
+      preventivoDiv.style.display = "none";
+      corretivoDiv.style.display = "none";
+    }
+  });
+ /* form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const formData = new FormData(form);
+    const pics = formData.getAll("pics[]");
+    const base64pics = await Promise.all(
+      pics.map(async (pic) => {
+        const fileReader = new FileReader();
+        fileReader.readAsDataURL(pic);
+        return new Promise((resolve, reject) => {
+          fileReader.onload = () => resolve(fileReader.result);
+          fileReader.onerror = (error) => reject(error);
+        });
+      })
+    );
+    formData.delete("pics[]");
+    base64pics.forEach((pic) => {
+      formData.append("pics[]", pic);
+    });
+    const response = await fetch(form.action, {
+      method: "POST",
+      body: formData,
+    });
+    const data = await response.json();
+    console.log(data);
+  });*/
+</script>
