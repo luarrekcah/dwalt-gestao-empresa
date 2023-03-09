@@ -75,7 +75,7 @@ setInterval(async () => {
     const business = await getAllItems({ path: `gestaoempresa/business/` });
     business.forEach(b => {
         if (b.data.info.tokenGrowatt) {
-            if (b.data.growatt.token) {
+            if (b.data.growatt && b.data.growatt.token) {
                 const now = moment(new Date());
                 const date = moment(b.data.growatt.token.lastUse);
                 const duration = moment.duration(now.diff(date));

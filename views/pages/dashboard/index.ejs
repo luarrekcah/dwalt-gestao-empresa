@@ -26,7 +26,7 @@
                           class="fas fa-download fa-sm text-white-50"></i> Adicionar TOKEN Growatt</a>
                       <%}%>
                 </div>
-                <% if(user.data.tokenGrowatt) { %>
+                <% if(user.data.tokenGrowatt && growatt.token) { %>
                   <div class="d-sm-flex align-items-center justify-content-between mb-4">
                     <p>
                       Última vez que os dados da Growatt foram atualizados:
@@ -59,7 +59,7 @@
                         </div>
                       </div>
 
-                      <% if(user.data.tokenGrowatt) { %>
+                      <% if(user.data.tokenGrowatt && growatt.plantList) { %>
                         <div class="col-xl-3 col-md-6 mb-4">
                           <div class="card border-left-success shadow h-100 py-2">
                             <div class="card-body">

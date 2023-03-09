@@ -178,11 +178,16 @@ router.post("/", async (req, res, next) => {
       const growattData = await getItems({
         path: `gestaoempresa/business/${req.user.key}/growatt`,
       });
-      if (growattData === []) {
+      if (!growattData && growattData === [] && growattData.token === undefined) {
         getData(res, req);
       } else {
         const now = moment(new Date());
-        const date = moment(growattData.token.lastUse);
+        let date;
+        if(growattData.token) {
+          date = moment(growattData.token.lastUse)
+        } else {
+          date = '2020-01-01T23:00:00.956Z'
+        }
         const duration = moment.duration(now.diff(date));
         if (duration.asHours() <= 2.5) {
           return res.redirect("/dashboard?message=waitMore");
