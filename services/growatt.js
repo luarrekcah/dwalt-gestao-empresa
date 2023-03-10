@@ -5,7 +5,7 @@ const { getAllItems, updateItem, getItems } = require("../database/users")
 
 const growattConfig = {
     minimumTime: 2.5,
-    intervalCheckHours: 2
+    intervalCheckMinutes: 10
 };
 
 // only 10 times by day check
@@ -87,7 +87,7 @@ setInterval(async () => {
             }
         }
     });
-}, growattConfig.intervalCheckHours * 60 * 1000)
+}, growattConfig.intervalCheckMinutes * 60 * 1000)
 
 setInterval(async () => {
     const business = await getAllItems({ path: `gestaoempresa/business/` });
@@ -114,4 +114,4 @@ setInterval(async () => {
             }, 5 * 60 * 1000)
         })
     });
-}, 6 * 60 * 1000)
+}, 6 * 60 * 1000) // 6 minutes
