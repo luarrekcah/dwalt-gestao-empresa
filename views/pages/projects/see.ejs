@@ -72,15 +72,25 @@
 
                 <div class="col-md-3">
                   <b><i class="fas fa-wifi"></i> Status do Sistema</b>
-                  <p>
-                    <%= growattData.status%>
-                  </p>
+                <br>
+                    <% if (growattData.status === 0) { %>
+                      <b>0 (reporte esse projeto para o suporte)</b>
+                    <% } else if (growattData.status === 1) { %>
+                      <b style="color: green">Online</b>
+                    <% } else if (growattData.status === 2) { %>
+                      <b>2 (reporte esse projeto para o suporte)</b>
+                    <% } else if (growattData.status === 3) { %>
+                      <b>3 (reporte esse projeto para o suporte)</b>
+                    <% } else if (growattData.status === 4) { %>
+                      <b>Off-line</b> 
+                    <% } %>
+                  
                 </div>
 
                 <div class="col-md-3">
                   <b><i class="fas fa-bolt"></i> Geração atual</b>
                   <p>
-                    <%= growattData.current_power%>
+                    <%= growattData.current_power%> 
                   </p>
                 </div>
 
@@ -117,7 +127,7 @@
               <% if(project.photos) { %>
               <div class="slider">
                 <% photos.forEach(item=> { %>
-                <div><img style="height: 100%; width: 100%;" src="<%=item.data.base64%>"></div>
+                <div><img style="height: 100%; width: 100%;" src="<%=item.data.url%>"></div>
                 <% }) %>
               </div>
               <% } else { %>

@@ -266,9 +266,9 @@ router.get("/editar/:id", async (req, res, next) => {
 });
 
 router.post("/editar/:id", async (req, res, next) => {
-
+    const projectStatus = await getItems({path: `gestaoempresa/business/${req.user.key}/projects/${req.params.id}/Status`})
     console.log(req.body);
-    if (req.body.Status === 'finalizado') {
+    if (req.body.Status === 'finalizado' && projectStatus !== 'finalizado') {
         const requiredPhotosConfig = await getAllItems({ path: `gestaoempresa/business/${req.user.key}/config/projectRequiredImages` });
         const requiredPhotos = await getAllItems({ path: `gestaoempresa/business/${req.user.key}/projects/${req.params.id}/requiredPhotos` });
         let required = [];
