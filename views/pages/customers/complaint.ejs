@@ -9,14 +9,18 @@
                             <div class="container-fluid">
                                 <h1 class="h3 mb-2 text-gray-800">Reclamações de cliente</h1>
                                 <p class="mb-4">Aqui você pode responder a reclamações de seus clientes</p>
-                               
-                                <%- complaints.length === 0 ? '<b>Sem reclamações</b>' : '' %>
+                                <p>Reclamações totais: <b><%=complaints.length%> </b>
+                                    | Respondidas: <b><%=complaints.filter(i => i.data.businessReply).length%> </b>
+                                    | Pendentes: <b><%=complaints.filter(i => !i.data.businessReply).length%> </b>
+                                </p>
+                                <%- complaints.filter(i => !i.data.businessReply).length === 0 ? '<b>Sem reclamações restantes para responder</b>' : '' %>
                                 <% complaints.forEach(i => { %>
-                                <div class="card border-left-danger shadow h-100 py-2" style="margin-bottom: 20px">
+                                <% if(i.data.businessReply) return; %>
+                                <div class="card border-left-<%=i.data.businessReply ? 'sucess' : 'danger'%> shadow h-100 py-2" style="margin-bottom: 20px">
                                     <div class="card-body">
                                         <div class="row no-gutters align-items-center">
                                                 <div class="col mr-2">
-                                                    <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
+                                                    <div class="text-xs font-weight-bold text-<%=i.data.businessReply ? 'sucess' : 'danger'%> text-uppercase mb-1">
                                                         Reclamação</div>
                                                     <div class="h5 mb-0 font-weight-bold text-gray-800">
                                                         <p><%=i.data.title%></p>
@@ -28,11 +32,17 @@
                                                             </span>
                                                             <span class="text">Mais informações</span>
                                                         </a>
+                                                        <a href="#" onclick="replyComplaint('<%=i.key%>')" class="btn btn-secondary btn-icon-split">
+                                                            <span class="icon text-white-50">
+                                                                <i class="fas fa-exclamation"></i>
+                                                            </span>
+                                                            <span class="text">Responder</span>
+                                                        </a>
                                                     </div>
                                                     <p></p>
-                                                    <small>DATA: <b>
+                                                    <small>Enviado <b>
                                                         <script>
-                                                            document.write(moment("<%=i.data.createdAt%>").fromNow().toUpperCase());
+                                                            document.write(moment("<%=i.data.createdAt%>").fromNow());
                                                           </script>
                                                     </b></small>
                                                 </div>
@@ -56,6 +66,27 @@
             <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
             <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
             <script src="/js/sb-admin-2.min.js"></script>
+            <script>
+                function replyComplaint(id) {
+  const message = prompt("Digite a mensagem de resposta:");
+
+  const confirmSend = confirm("Tem certeza que deseja enviar a mensagem?");
+
+  if (confirmSend) {
+    axios
+      .post("/dashboard/reclamacoes", {
+        type: "reply",
+        data: {
+          message,
+          id,
+        },
+      })
+      .then(function (response) {
+        window.location.href = response.request.responseURL;
+      });
+  }
+}
+            </script>
     </body>
 
     </html>
