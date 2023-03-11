@@ -81,6 +81,47 @@
             </div>
           </div>
           <!---->
+          <%if (survey.rating) {%>
+            <div class="card shadow mb-4">
+                <div class="card-body">
+                  <h1 class="h3 mb-2 text-gray-800">Avaliação do cliente</b>
+                  </h1>
+                  <div class="row gx-3 mb-3">
+                    <div class="col-md-3">
+                      <b>Data de Avaliação:</b>
+                      <%-!survey.rating.reviewedAt ? 
+                      '<p style="color: red;"><b>Não fornecido</b></p>'
+                       : "<p>" + survey.rating.reviewedAt + "</p>" %>
+                     </div>
+                    <div class="col-md-3">
+                        <b>Atendimento:</b>
+                        <%-!survey.rating.atendimento ? 
+                        '<p style="color: red;"><b>Não fornecido</b></p>'
+                         : "<p>" + survey.rating.atendimento + "</p>" %>
+                    </div>
+                    <div class="col-md-3">
+                      <b>Resolução:</b>
+                      <%-!survey.rating.resolucao ? 
+                      '<p style="color: red;"><b>Não fornecido</b></p>'
+                       : "<p>" + survey.rating.resolucao + "</p>" %>
+                     </div>
+                     <div class="col-md-3">
+                      <b>Velocidade:</b>
+                      <%-!survey.rating.velocidade ? 
+                      '<p style="color: red;"><b>Não fornecido</b></p>'
+                       : "<p>" + survey.rating.velocidade + "</p>" %>
+                     </div>
+                     <div class="col-md-3">
+                      <b>Sugestão:</b>
+                      <%-!survey.rating.sugestao ? 
+                      '<p style="color: red;"><b>Não fornecido</b></p>'
+                       : "<p>" + survey.rating.sugestao + "</p>" %>
+                     </div>
+                  </div>
+                </div>
+              </div>
+          <% } %>
+          <!---->
           <%if(survey.type === 'corretivo') {%>
             <div class="card shadow mb-4">
                 <div class="card-body">
