@@ -176,6 +176,7 @@
                         document.getElementById("labelEnd").innerText = document.getElementById("logoPreview").value
                         document.getElementById("compbase64").value = reader.result
                     }, false);
+                    
                     if (file) {
                         reader.readAsDataURL(file);
                     }
@@ -187,7 +188,7 @@
                         axios.post('/conta/cancelar_assinatura')
                         .then(function (response) {
                             alert("Então... Isso é um adeus? ToT")
-                           // window.location.pathname = "/logout"
+                           window.location.pathname = "/logout"
                         });
                     }
                 }
@@ -197,7 +198,7 @@
                     if (q) {
                         axios.post('/conta/antecipar_assinatura')
                         .then(function (response) {
-                            alert("Um momento...")
+                            alert("Em breve...")
                         });
                     }
                 }

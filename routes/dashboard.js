@@ -6,6 +6,7 @@ const { getDate } = require("../auth/functions/database"),
     getUser,
     getItems,
     createLogs,
+    createItem,
   } = require("../database/users"),
   moment = require("../services/moment"),
   axios = require("axios"),
@@ -178,15 +179,19 @@ router.post("/", async (req, res, next) => {
       const growattData = await getItems({
         path: `gestaoempresa/business/${req.user.key}/growatt`,
       });
-      if (!growattData && growattData === [] && growattData.token === undefined) {
+      if (
+        !growattData &&
+        growattData === [] &&
+        growattData.token === undefined
+      ) {
         getData(res, req);
       } else {
         const now = moment(new Date());
         let date;
-        if(growattData.token) {
-          date = moment(growattData.token.lastUse)
+        if (growattData.token) {
+          date = moment(growattData.token.lastUse);
         } else {
-          date = '2020-01-01T23:00:00.956Z'
+          date = "2020-01-01T23:00:00.956Z";
         }
         const duration = moment.duration(now.diff(date));
         if (duration.asHours() <= 2.5) {
@@ -327,16 +332,53 @@ router.get("/chamados", async (req, res, next) => {
 
 router.post("/chamados", (req, res, next) => {
   console.log(req.body);
-  switch (req.body.type) {
+  const data = req.body;
+  switch (data.type) {
     case "concludeCall":
       updateItem({
-        path: `gestaoempresa/business/${req.user.key}/surveys/${req.body.surveyId}`,
+        path: `gestaoempresa/business/${req.user.key}/surveys/${data.surveyId}`,
         params: {
           finished: true,
           status: "Solicitação finalizada",
         },
       });
       createLogs(req.user.key, "Chamado finalizado");
+      break;
+    case "preventivo":
+      createItem({
+        path: `gestaoempresa/business/${req.user.key}/surveys`,
+        params: {
+          type: "preventivo",
+          finished: false,
+          accepted: false,
+          createdAt: getDate(),
+          owner: "",
+          projectId: data.projectID,
+          status: "Solicitada",
+          title: "Chamado Preventivo",
+          text: "Chamado PREVENTIVO solicitado para esse projeto.",
+        },
+      });
+      createLogs(req.user.key, `Chamado preventivo para ${data.projectID}`);
+      break;
+    case "corretivo":
+      /*createItem({
+        path: `gestaoempresa/business/${req.user.key}/surveys`,
+        params: {
+          type: "corretivo",
+          finished: false,
+          accepted: false,
+          createdAt: getDate(),
+          owner: "",
+          projectId: data.projectID,
+          status: "Solicitada",
+          title: "Chamado Corretivo",
+          text: "Chamado corretivo solicitado para esse projeto.",
+          // authorPhotos: data.pics,
+          authorObs: data.sobrechamado,
+        },
+      });
+      createLogs(req.user.key, `Chamado corretivo para ${data.projectID}`);*/
       break;
   }
 
