@@ -1,3 +1,4 @@
+const { getStorage, ref, uploadString, getDownloadURL } = require("@firebase/storage");
 const { getDate } = require("../auth/functions/database"),
   { sendNotification } = require("../services/nodemailer"),
   {
@@ -7,6 +8,7 @@ const { getDate } = require("../auth/functions/database"),
     getItems,
     createLogs,
     createItem,
+    uploadFile,
   } = require("../database/users"),
   moment = require("../services/moment"),
   axios = require("axios"),
@@ -330,8 +332,9 @@ router.get("/chamados", async (req, res, next) => {
   res.render("pages/staffs/calls", data);
 });
 
-router.post("/chamados", (req, res, next) => {
+router.post("/chamados", async (req, res, next) => {
   console.log(req.body);
+  const storage = getStorage();
   const data = req.body;
   switch (data.type) {
     case "concludeCall":
@@ -362,23 +365,40 @@ router.post("/chamados", (req, res, next) => {
       createLogs(req.user.key, `Chamado preventivo para ${data.projectID}`);
       break;
     case "corretivo":
-      /*createItem({
-        path: `gestaoempresa/business/${req.user.key}/surveys`,
-        params: {
-          type: "corretivo",
-          finished: false,
-          accepted: false,
-          createdAt: getDate(),
-          owner: "",
-          projectId: data.projectID,
-          status: "Solicitada",
-          title: "Chamado Corretivo",
-          text: "Chamado corretivo solicitado para esse projeto.",
-          // authorPhotos: data.pics,
-          authorObs: data.sobrechamado,
-        },
+      const pictures = JSON.parse(data.pics64);
+      let urls = [];
+      const storageRef = ref(
+        storage,
+        `gestaoempresa/business/${req.user.key}/surveys/photos/${data.projectID}-${new Date()}`
+      );
+      const promises = pictures.map(pic => {
+        return uploadString(storageRef, pic, "data_url").then((snapshot) => {
+          return getDownloadURL(snapshot.ref);
+        });
       });
-      createLogs(req.user.key, `Chamado corretivo para ${data.projectID}`);*/
+      
+      Promise.all(promises).then(downloadURLs => {
+        urls = downloadURLs;
+        createItem({
+          path: `gestaoempresa/business/${req.user.key}/surveys`,
+          params: {
+            type: "corretivo",
+            finished: false,
+            accepted: false,
+            createdAt: getDate(),
+            owner: "",
+            projectId: data.projectID,
+            status: "Solicitada",
+            title: "Chamado Corretivo",
+            text: "Chamado corretivo solicitado para esse projeto.",
+            authorPhotos: urls,
+            authorObs: data.sobrechamado,
+          },
+        });
+        createLogs(req.user.key, `Chamado corretivo para ${data.projectID}`);
+      });
+      
+      
       break;
   }
 
