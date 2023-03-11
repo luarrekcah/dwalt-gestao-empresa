@@ -38,6 +38,10 @@ router.post("/", async (req, res, next) => {
   console.log(req.body);
   const storage = getStorage();
   const data = req.body;
+
+  const cID = await getItems({path: `gestaoempresa/business/${req.user.key}/projects/${data.projectID}/customerID`});
+  const cpf = await getItems({path: `gestaoempresa/business/${req.user.key}/customers/${cID}/cpf`})
+  
   switch (data.type) {
     case "concludeCall":
       updateItem({
@@ -50,14 +54,14 @@ router.post("/", async (req, res, next) => {
       createLogs(req.user.key, "Chamado finalizado");
       break;
     case "preventivo":
-      createItem({
+     createItem({
         path: `gestaoempresa/business/${req.user.key}/surveys`,
         params: {
           type: "preventivo",
           finished: false,
           accepted: false,
           createdAt: getDate(),
-          owner: "",
+          owner: cpf,
           projectId: data.projectID,
           status: "Solicitada",
           title: "Chamado Preventivo",
@@ -67,6 +71,7 @@ router.post("/", async (req, res, next) => {
       createLogs(req.user.key, `Chamado preventivo para ${data.projectID}`);
       break;
     case "corretivo":
+      
       const pictures = JSON.parse(data.pics64);
       let urls = [];
       const storageRef = ref(
@@ -90,7 +95,7 @@ router.post("/", async (req, res, next) => {
             finished: false,
             accepted: false,
             createdAt: getDate(),
-            owner: "",
+            owner: cpf,
             projectId: data.projectID,
             status: "Solicitada",
             title: "Chamado Corretivo",
