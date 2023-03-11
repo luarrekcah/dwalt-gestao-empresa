@@ -7,7 +7,8 @@ const indexRouter = require("./routes/index"),
   staffsRouter = require("./routes/staffs"),
   configRouter = require("./routes/config"),
   customersRouter = require("./routes/customers"),
-  surveysRouter = require("./routes/surveys");
+  surveysRouter = require("./routes/surveys"),
+  notFoundRouter = require("./routes/notfound");
 
 const webhookPayments = require("./routes/webhook/payments");
 
@@ -50,5 +51,5 @@ module.exports = (app) => {
   app.use("/webhook/payments", webhookPayments);
 
   //not found
-  //app.use("*", notFoundRouter);
+  app.use("*", notFoundRouter);
 };
