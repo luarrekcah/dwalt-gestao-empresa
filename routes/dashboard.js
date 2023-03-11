@@ -18,6 +18,7 @@ const { getDate } = require("../auth/functions/database"),
   moment = require("../services/moment"),
   axios = require("axios"),
   admin = require("firebase-admin");
+const { createNotification } = require("../utils");
 
 const express = require("express"),
   router = express.Router();
@@ -353,14 +354,30 @@ router.post("/reclamacoes", async (req, res, next) => {
 
   switch (data.type) {
     case "reply":
+      const complaint = await getItems({ 
+        path: `gestaoempresa/business/${req.user.key}/complaints/${data.data.id}`
+      });
       updateItem({
-        path: `gestaoempresa/business/${req.user.key}/complaints/${data.id}`,
+        path: `gestaoempresa/business/${req.user.key}/complaints/${data.data.id}`,
         params: {
-          businessReply: data.message,
+          businessReply: data.data.message,
+          replyedAt: getDate(),
         },
       });
-      // sendNotification(["email"], { title: "Resposta da Reclamação", message });
-      break;
+      if(complaint.ownerId) {
+        try {
+          createNotification(
+            'Resposta de reclamação',
+            `Sua empresa acabou de responder sua reclamação.`,
+            req.user.key,
+            'customer',
+            complaint.ownerId
+          );
+        } catch (error) {
+          console.log(error);
+        }
+      }
+      return res.redirect("/dashboard/reclamacoes");
   }
 });
 

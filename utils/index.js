@@ -48,4 +48,23 @@ module.exports = {
       return { code: false, redirect: `/pagamento/erro?message=pending_subscription` };
     }
   },
+  createNotification: (title, body, key, to, customer = '') => {
+    if (!title || !body || !key || !to) {
+      return console.warn('Missing params');
+    } else {
+      const params = new URLSearchParams({
+        title,
+        body,
+        key,
+        to,
+        customer,
+      }).toString();
+  
+      axios
+        .post(`https://localhost:3000/api/v1/notification?${params}`)
+        .then(r => {
+          console.log(r.data);
+        });
+    }
+  }
 };
