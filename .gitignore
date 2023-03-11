@@ -2,3 +2,5 @@ template
 node_modules
 .env
 credentials/firebase.json
+package-lock.json
+yarn.lock
