@@ -53,11 +53,13 @@
                                                 placeholder="Digite seu e-mail" required>
                                         </div>
                                         <div class="form-group">
-                                            <input type="password" class="form-control form-control-user"
-                                                name="password" placeholder="Password"
-                                                pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
-                                                title="Deve conter pelo menos um número e uma letra maiúscula e minúscula e pelo menos 8 ou mais carácteres!"
-                                                required>
+                                                <input type="password" class="form-control form-control-user" name="password" placeholder="Password"
+                                                  pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                                                  title="Deve conter pelo menos um número e uma letra maiúscula e minúscula e pelo menos 8 ou mais carácteres!"
+                                                  required>
+                                                  <button style="border: none; background-color: #fff; position: absolute; right: 70px; top: 180px; color: #80818d;" type="button" id="togglePassword">
+                                                    <i class="fa fa-eye"></i>
+                                                  </button>
                                         </div>
                                         <button type="submit" class="btn btn-primary btn-user btn-block">
                                             Entrar
@@ -91,6 +93,18 @@
     <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="/js/sb-admin-2.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script>
+        const togglePassword = document.querySelector('#togglePassword');
+        const passwordInput = document.querySelector('input[name="password"]');
+      
+        togglePassword.addEventListener('click', function() {
+          const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+          passwordInput.setAttribute('type', type);
+          this.querySelector('i').classList.toggle('fa-eye');
+          this.querySelector('i').classList.toggle('fa-eye-slash');
+        });
+      </script>
+      
 </body>
 
 </html>

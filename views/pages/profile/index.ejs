@@ -125,12 +125,13 @@
                                                             value="<%=user.data.email%>" disabled>
                                                     </div>
                                                     <div class="mb-3">
-                                                        <label class="small mb-1" for="inputEmailAddress">TOKEN
-                                                            GROWATT</label>
-                                                        <input class="form-control" name="tokenGrowatt" type="password"
-                                                            placeholder="Coloque seu token da Growatt"
-                                                            value="<%=user.data.tokenGrowatt%>">
-                                                    </div>
+                                                        <label class="small mb-1" for="inputEmailAddress">TOKEN GROWATT</label>
+                                                        <div class="input-group">
+                                                          <input class="form-control" name="tokenGrowatt" type="password" placeholder="Coloque seu token da Growatt" value="<%=user.data.tokenGrowatt%>">
+                                                          <button type="button" class="btn btn-outline-secondary input-group-text" id="togglePassword"><i class="fa fa-eye"></i></button>
+                                                        </div>
+                                                      </div>
+                                                      
                                                     <div class="mb-3">
                                                         <label class="small mb-1">Sobre a empresa</label>
                                                         <input class="form-control" name="about" type="text"
@@ -207,6 +208,19 @@
             <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
             <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
             <script src="/js/sb-admin-2.min.js"></script>
+            <script>
+                const togglePassword = document.querySelector('#togglePassword');
+                const password = document.querySelector('input[name="tokenGrowatt"]');
+              
+                togglePassword.addEventListener('click', function (e) {
+                  // toggle the type attribute
+                  const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+                  password.setAttribute('type', type);
+                  // toggle the eye icon
+                  this.querySelector('i').classList.toggle('fa-eye');
+                  this.querySelector('i').classList.toggle('fa-eye-slash');
+                });
+              </script>              
     </body>
 
     </html>
