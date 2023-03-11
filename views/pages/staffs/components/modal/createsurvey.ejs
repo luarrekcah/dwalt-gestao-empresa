@@ -73,6 +73,12 @@
                 required
               />
             </div>
+
+            <div id="picturesPreview" style="display: flex;
+            flex-wrap: nowrap; 
+            overflow-x: scroll;">
+              
+            </div>
             <div class="mb-3">
               <label class="small mb-1" for="pics">Fotos</label>
               <input
@@ -81,9 +87,15 @@
                 name="pics"
                 id="pics"
                 accept="image/png, image/gif, image/jpeg"
+                onchange="picsToBase64()"
                 multiple
               />
-              <input type="text" name="pics64" id="pics64" />
+              <input
+                type="text"
+                name="pics64"
+                id="pics64"
+                style="display: none"
+              />
             </div>
             <button
               style="margin-top: 20px; width: 100%"
@@ -128,13 +140,14 @@
     if (files.length === 0) return;
 
     let picsArray = [];
-    if (document.getElementById("pics64").value !== "") {
+    
+    /*if (document.getElementById("pics64").value !== "") {
       try {
         picsArray = JSON.parse(document.getElementById("pics64").value);
       } catch (error) {
         console.error("Erro ao analisar string JSON:", error);
       }
-    }
+    }*/
 
     for (let index = 0; index < files.length; index++) {
       const file = files[index];
@@ -149,5 +162,23 @@
     }
 
     document.getElementById("pics64").value = JSON.stringify(picsArray);
+
+    // preview images
+
+    const picturesPreview = document.getElementById("picturesPreview");
+    picturesPreview.innerHTML = "";
+
+    picsArray.forEach((pic) => {
+      const div = document.createElement("div");
+      const img = document.createElement("img");
+      img.src = pic;
+      img.style.width = "100%";
+      img.style.height = "auto";
+      img.style.maxHeight = "200px";
+      img.style.objectFit = "cover";
+      img.style.margin = "0 5px";
+      div.appendChild(img);
+      picturesPreview.appendChild(div);
+    });
   }
 </script>
