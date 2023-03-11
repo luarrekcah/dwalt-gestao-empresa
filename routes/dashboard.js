@@ -346,20 +346,20 @@ router.get("/reclamacoes", async (req, res, next) => {
   res.render("pages/customers/complaint", data);
 });
 
-
 router.post("/reclamacoes", async (req, res, next) => {
   const data = req.body;
 
   console.log(data);
 
   switch (data.type) {
-    case 'reply':
+    case "reply":
       updateItem({
         path: `gestaoempresa/business/${req.user.key}/complaints/${data.id}`,
         params: {
           businessReply: data.message,
-        }
+        },
       });
+      // sendNotification(["email"], { title: "Resposta da Reclamação", message });
       break;
   }
 });
