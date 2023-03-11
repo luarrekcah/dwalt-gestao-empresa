@@ -6,7 +6,8 @@ const indexRouter = require("./routes/index"),
   projectsRouter = require("./routes/projects"),
   staffsRouter = require("./routes/staffs"),
   configRouter = require("./routes/config"),
-  customersRouter = require("./routes/customers");
+  customersRouter = require("./routes/customers"),
+  surveysRouter = require("./routes/surveys");
 
 const webhookPayments = require("./routes/webhook/payments");
 
@@ -29,6 +30,7 @@ const authenticationSubsMiddleware = async (req, res, next) => {
   }
 };
 module.exports = (app) => {
+
   //routes
   app.use("/", indexRouter);
   app.use("/pagamento", authenticationMiddleware, payRouter);
@@ -39,6 +41,7 @@ module.exports = (app) => {
   app.use("/dashboard/equipe", authenticationSubsMiddleware, staffsRouter);
   app.use("/dashboard/clientes", authenticationSubsMiddleware, customersRouter);
   app.use("/dashboard/configuracao", authenticationSubsMiddleware, configRouter);
+  app.use("/dashboard/chamados", authenticationSubsMiddleware, surveysRouter);
 
   //api
   app.use("/api/v1", api);

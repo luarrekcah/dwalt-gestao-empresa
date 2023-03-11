@@ -7,16 +7,17 @@
           <div id="content">
             <%- include("../../partials/topbar.ejs") %>
               <div class="container-fluid">
-                <h1 class="h3 mb-2 text-gray-800">Chamados de cliente</h1>
-                <p class="mb-4">Chamados são solicitações de clientes, pode ser tanto para vistoria
+                <h1 class="h3 mb-2 text-gray-800"><b>Chamados</b></h1>
+                <p class="mb-4">Chamados são solicitações de clientes ou da empresa, pode ser tanto para vistoria
                   quanto algum defeito ou emergência.</p>
-                  <a href="#" data-toggle="modal" data-target="#CreateSurvey" style="width: 100%" class="btn btn-info">
+                  <a href="#" data-toggle="modal" data-target="#CreateSurvey" style="width: 100%;" class="btn btn-info">
                     <span class="icon text-white-50">
                       <i class="fas fa-plus"></i>
                     </span>
                     <span class="text">Criar chamado</span>
                   </a>
-                <%- surveys.length===0? '<b>Sem chamados</b>' : '' %>
+                <h1 class="h3 mb-2 text-gray-800" style="padding-top: 20px">Chamados em aberto</h1>
+                <%- surveys.filter(i => !i.data.finished).length === 0? '<b>Sem chamados abertos no momento</b>' : '' %>
                   <% surveys.forEach(i=> { %>
                     <% if(i.data.finished) return; %>
                       <div class="card border-left-<%=!i.data.accepted ? 'danger' : 'primary'%> shadow h-100 py-2">
@@ -34,11 +35,15 @@
                                 <small>
                                   <%= i.data.text %>
                                 </small>
-                              
                                     <br><br>
-
-
                                     <form method="post">
+                                      <a href="/dashboard/chamados/visualizar/<%=i.key%>"
+                                        class="btn btn-secondary btn-icon-split">
+                                        <span class="icon text-white-50">
+                                          <i class="fas fa-exclamation"></i>
+                                        </span>
+                                        <span class="text">Dados do chamado</span>
+                                      </a>
                                       <a href="/dashboard/projetos/visualizar/<%=i.data.projectId%>"
                                         class="btn btn-info btn-icon-split">
                                         <span class="icon text-white-50">
@@ -66,8 +71,7 @@
                         </div>
                       </div>
                       <% })%>
-                        <h1 class="h3 mb-2 text-gray-800" style="padding-top: 20px">Chamados de cliente
-                          finalizados</h1>
+                        <h1 class="h3 mb-2 text-gray-800" style="padding-top: 20px">Chamados finalizados</h1>
                         <% surveys.forEach(i=> { %>
                           <% if(!i.data.finished) return; %>
                             <div style="margin-top: 20px" class="card border-left-success shadow h-100 py-2">
@@ -78,10 +82,20 @@
                                       Chamado finalizado
                                     </div>
                                     <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                      <p>
+                                        <%= i.data.title %>
+                                      </p>
                                       <small>
                                         <%= i.data.text %>
                                       </small>
                                       <br><br>
+                                      <a href="/dashboard/chamados/visualizar/<%=i.key%>"
+                                        class="btn btn-secondary btn-icon-split">
+                                        <span class="icon text-white-50">
+                                          <i class="fas fa-exclamation"></i>
+                                        </span>
+                                        <span class="text">Dados do chamado</span>
+                                      </a>
                                       <a href="/dashboard/projetos/visualizar/<%=i.data.projectId%>"
                                         class="btn btn-info btn-icon-split">
                                         <span class="icon text-white-50">

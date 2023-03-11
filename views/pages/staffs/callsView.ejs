@@ -1,0 +1,120 @@
+<%- include("../../partials/head.ejs") %>
+
+<body id="page-top">
+  <div id="wrapper">
+    <%- include("../../partials/sidebar.ejs") %>
+    <div id="content-wrapper" class="d-flex flex-column">
+      <div id="content">
+        <%- include("../../partials/topbar.ejs") %>
+        <div class="container-fluid">
+          <h1 class="h3 mb-2 text-gray-800">Propriedades de chamado
+          </h1>
+          <p class="mb-4">Visualização dos dados da solicitação</p>
+          <div class="card shadow mb-4">
+            <div class="card-body">
+              <h1 class="h3 mb-2 text-gray-800">Chamado <b><%=survey.type%></b>
+              </h1>
+              <div class="row gx-3 mb-3">
+                <div class="col-md-3">
+                    <b>Status:</b>
+                    <p><%=survey.status%></p>
+                </div>
+                <div class="col-md-3">
+                    <b>Chamado aceito?</b>
+                    <%-!survey.accepted ? '<p style="color: red;"><b>Não</b></p>' : '<p style="color: green;"><b>Sim</b></p>'%>
+                </div>
+                <div class="col-md-3">
+                    <b>Chamado finalizado?</b>
+                    <%-!survey.finished ? '<p style="color: red;"><b>Não</b></p>' : '<p style="color: green;"><b>Sim</b></p>'%>
+                </div>
+                <div class="col-md-3">
+                    <b>Solicitado:</b>
+                    <p> <script>
+                        document.write(moment("<%=survey.createdAt%>").fromNow());
+                      </script></p>
+                </div>
+                <div class="col-md-3">
+                    <b>Título:</b>
+                    <p><%=survey.title%></p>
+                </div>
+                <div class="col-md-3">
+                    <b>Descrição:</b>
+                    <p><%=survey.text%></p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!---->
+          <div class="card shadow mb-4">
+            <div class="card-body">
+              <h1 class="h3 mb-2 text-gray-800">Equipe</b>
+              </h1>
+              <div class="row gx-3 mb-3">
+                <div class="col-md-3">
+                    <b>Relatório:</b>
+                    <%-!survey.obs ? '<p style="color: red;"><b>Não fornecido</b></p>' : "<p>" + survey.obs + "</p>" %>
+                </div>
+
+                <div class="col-md-3">
+                    <b>Imagens do local:</b>
+                    <%- photos.length === 0 ? '<p style="color: red;"><b>Não fornecido</b></p>' : ''%>
+                    <% photos.forEach((i, index) => {%>
+                        <p><a target="_blank" href="<%=i.data.url%>">(<%=index%>) - CLIQUE PARA ABRIR</a></p>
+                    <% }) %>
+                </div>
+                <div class="col-md-3">
+                    <b>Funcionário que finalizou:</b>
+                    <% if(staffEnded) { %>
+                        <p>
+                            <img src="<%= staffEnded.foto %>" style="width: 100%; border-radius: 100%;" alt="" srcset="">
+                        </p>
+                        <p>Nome: <b><%= staffEnded.nome +  staffEnded.sobrenome%></b></p>
+                        <p>E-mail: <b><a href="mailto:<%= staffEnded.email%>"><%= staffEnded.email%></a></b></p>
+                    <% } else if(!staffEnded && survey.finished) { %>
+                        <p style="color: green;"><b>Finalizado pela empresa</b></p>
+                        <% } else { %>
+                            <p style="color: red;"><b>Não finalizado</b></p>
+                       <% } %>
+                    
+                </div>
+              </div>
+            </div>
+          </div>
+          <!---->
+          <%if(survey.type === 'corretivo') {%>
+            <div class="card shadow mb-4">
+                <div class="card-body">
+                  <h1 class="h3 mb-2 text-gray-800">Empresa</b>
+                  </h1>
+                  <div class="row gx-3 mb-3">
+                    <div class="col-md-3">
+                        <b>Observação fornecida:</b>
+                        <p><%=survey.authorObs%></p>
+                    </div>
+                    <div class="col-md-3">
+                        <b>Imagens fornecidas:</b>
+                        <% survey.authorPhotos.forEach((i, index) => {%>
+                            <p><a target="_blank" href="<%=i%>">(<%=index%>) - CLIQUE PARA ABRIR</a></p>
+                        <% }) %>
+                    </div>
+                  </div>
+                </div>
+              </div>
+          <%}%>
+        </div>
+      </div>
+      <%- include("../../partials/footer.ejs") %>
+    </div>
+  </div>
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+  <%- include("../components/modal/logout.ejs") %>
+  <script src="/vendor/jquery/jquery.min.js"></script>
+  <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+  <script src="/vendor/slick-master/slick/slick.js"></script>
+  <script src="/js/sb-admin-2.min.js"></script>
+</body>
+
+</html>
