@@ -59,7 +59,7 @@
                     <b>Imagens do local:</b>
                     <%- photos.length === 0 ? '<p style="color: red;"><b>Não fornecido</b></p>' : ''%>
                     <% photos.forEach((i, index) => {%>
-                        <p><a target="_blank" href="<%=i.data.url%>">(<%=index%>) - CLIQUE PARA ABRIR</a></p>
+                        <p><a target="_blank" href="<%=i.data.url%>">(<%=index +1%>) - CLIQUE PARA ABRIR</a></p>
                     <% }) %>
                 </div>
                 <div class="col-md-3">
@@ -94,7 +94,7 @@
                     <div class="col-md-3">
                         <b>Imagens fornecidas:</b>
                         <% survey.authorPhotos.forEach((i, index) => {%>
-                            <p><a target="_blank" href="<%=i%>">(<%=index%>) - CLIQUE PARA ABRIR</a></p>
+                            <p><a target="_blank" href="<%=i%>">(<%=index+1%>) - CLIQUE PARA ABRIR</a></p>
                         <% }) %>
                     </div>
                   </div>
