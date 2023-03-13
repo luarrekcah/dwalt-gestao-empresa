@@ -183,7 +183,7 @@
                                     <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
                                       Reclamações</div>
                                     <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                      <%=complaints.length%>
+                                      <%=complaints.filter(i => !i.data.businessReply).length%>
                                     </div>
                                   </div>
                                   <div class="col-auto">
