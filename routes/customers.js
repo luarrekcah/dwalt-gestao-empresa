@@ -37,12 +37,11 @@ router.get("/adicionar", async (req, res, next) => {
 });
 
 router.post("/adicionar", async (req, res, next) => {
-    
-    console.log(req.body);
     const customer = req.body;
     customer.createdAt = getDate();
+    console.log(customer);
     createItem({ path: `gestaoempresa/business/${customer.business}/customers`, params: customer });
-    createLogs(req.user.key, `Cliente ${customer.nomeComp} registrado.`);
+    createLogs(req.user.key, `Cliente ${customer.nomeComp || customer.nomeFantasia} registrado.`);
     return res.redirect("/dashboard/clientes?message=registrado");
 });
 

@@ -37,7 +37,7 @@
                   <thead>
                     <tr>
                       <th>Nome</th>
-                      <th>CPF</th>
+                      <th>CPF/CNPJ</th>
                       <th>E-mail</th>
                       <th>Editar/Ver</th>
                       <th>Apagar</th>
@@ -45,12 +45,13 @@
                   </thead>
                   <tbody>
                     <% customers.forEach(item=> { %>
+
                     <tr>
                       <td>
-                        <%=item.data.nomeComp%>
+                        <%=item.data.nomeComp || item.data.nomeFantasia %>
                       </td>
                       <td>
-                        <%=item.data.cpf%>
+                        <%=item.data.cpf || item.data.cnpj%>
                       </td>
                       <td>
                         <%=item.data.email%>

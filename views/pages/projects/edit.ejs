@@ -21,7 +21,7 @@
               <select class="form-control" name='customerID' id="customerID" required>
                 <option>Nenhum selecionado</option>
                 <% customers.forEach(c => { %>
-                <option value="<%=c.key%>" <%- project.customerID === c.key ? 'selected' : '' %>><%=c.data.nomeComp%> - (<%=c.data.cpf%>)</option>
+                <option value="<%=c.key%>" <%- project.customerID === c.key ? 'selected' : '' %>><%=c.data.nomeComp || c.data.nomeFantasia%> - (<%=c.data.cpf || c.data.cnpj%>)</option>
                 <% }) %>
               </select>
             </div>
