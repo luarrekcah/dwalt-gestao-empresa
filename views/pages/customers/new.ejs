@@ -32,7 +32,7 @@
                         <label class="small mb-1" for="cpf">CPF <b style="color: red">*</b></label>
                         <input name="cpf" onblur="userAlreadyExists()" class="form-control" id="cpf" type="text"
                           placeholder="000.000.000-00" required>
-                          <b style="color: red" id="warnCpf"></b>
+                        <b style="color: red" id="warnCpf"></b>
                       </div>
 
                       <div class="col-md-6">
@@ -182,7 +182,7 @@
                         <label class="small mb-1" for="cnpj">CNPJ <b style="color: red">*</b></label>
                         <input name="cnpj" onblur="getCnpj()" class="form-control" id="cnpj" type="text"
                           placeholder="00.000.000/0000-00" required>
-                          <b style="color: red" id="warnCnpj"></b>
+                        <b style="color: red" id="warnCnpj"></b>
                       </div>
                       <div class="col-md-6">
                         <label class="small mb-1" for="nomeFantasia">Nome Fantasia <b style="color: red">*</b></label>
@@ -376,19 +376,19 @@
 
               if (data.error) {
                 if (choose === 'cpf') {
-                  document.getElementById('submitCpf').removeAttribute('disabled');
-                  document.getElementById('warnCpf').innerText = '';
-                } else {
-                  document.getElementById('submitCnpj').removeAttribute('disabled');
-                  document.getElementById('warnCnpj').innerText = '';
-                }
-              } else {
-                if (choose === 'cpf') {
                   document.getElementById('warnCpf').innerText = 'Esse cliente já existe!';
                   document.getElementById('submitCpf').setAttribute('disabled', '');
                 } else {
                   document.getElementById('warnCnpj').innerText = 'Esse cliente já existe!';
                   document.getElementById('submitCnpj').setAttribute('disabled', '');
+                }
+              } else {
+                if (choose === 'cpf') {
+                  document.getElementById('submitCpf').removeAttribute('disabled');
+                  document.getElementById('warnCpf').innerText = '';
+                } else {
+                  document.getElementById('submitCnpj').removeAttribute('disabled');
+                  document.getElementById('warnCnpj').innerText = '';
                 }
               }
             })

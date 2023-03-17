@@ -98,11 +98,11 @@ router.get("/checkExist/:cpf_cnpj", async (req, res, next) => {
       }
     });
     if (finded) return res.json({
-      error: false,
+      error: true,
       message: 'user found'
     });
     else return res.json({
-      error: true,
+      error: false,
       message: 'user not found'
     });
   });
