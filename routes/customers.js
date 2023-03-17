@@ -80,6 +80,32 @@ router.post("/editar/:id", async (req, res, next) => {
     updateItem({ path: `gestaoempresa/business/${req.user.key}/customers/${req.params.id}`, params: req.body });
     createLogs(req.user.key, "Cliente atualizado.");
     return res.redirect("/dashboard/clientes/visualizar/" + req.params.id + "?message=editado");
-})
+});
+
+router.get("/checkExist/:cpf_cnpj", async (req, res, next) => {
+    let { cpf_cnpj } = req.params;
+    cpf_cnpj = cpf_cnpj.replace(/\D/g, "");
+    const customers = await getAllItems({
+      path: `gestaoempresa/business/${req.user.key}/customers`,
+    });
+    const finded = customers.find((i) => {
+      if (i.data.cpf && i.data.cpf.replace(/\D/g, "") === cpf_cnpj) {
+        return i;
+      } else if (i.data.cnpj && i.data.cnpj.replace(/\D/g, "") === cpf_cnpj) {
+        return i;
+      } else {
+        return;
+      }
+    });
+    if (finded) return res.json({
+      error: false,
+      message: 'user found'
+    });
+    else return res.json({
+      error: true,
+      message: 'user not found'
+    });
+  });
+
 
 module.exports = router;
