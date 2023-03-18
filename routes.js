@@ -8,7 +8,8 @@ const indexRouter = require("./routes/index"),
   configRouter = require("./routes/config"),
   customersRouter = require("./routes/customers"),
   surveysRouter = require("./routes/surveys"),
-  notFoundRouter = require("./routes/notfound");
+  notFoundRouter = require("./routes/notfound"),
+  invertersRouter = require("./routes/inverters");
 
 const webhookPayments = require("./routes/webhook/payments");
 
@@ -30,8 +31,8 @@ const authenticationSubsMiddleware = async (req, res, next) => {
     return res.redirect("/");
   }
 };
-module.exports = (app) => {
 
+module.exports = (app) => {
   //routes
   app.use("/", indexRouter);
   app.use("/pagamento", authenticationMiddleware, payRouter);
@@ -43,7 +44,8 @@ module.exports = (app) => {
   app.use("/dashboard/clientes", authenticationSubsMiddleware, customersRouter);
   app.use("/dashboard/configuracao", authenticationSubsMiddleware, configRouter);
   app.use("/dashboard/chamados", authenticationSubsMiddleware, surveysRouter);
-
+  app.use("/dashboard/inversores", authenticationSubsMiddleware, invertersRouter);
+  
   //api
   app.use("/api/v1", api);
 

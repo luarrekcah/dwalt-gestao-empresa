@@ -1,205 +1,245 @@
 <%- include("../../partials/head.ejs") %>
 
-<body id="page-top">
-  <div id="wrapper">
-    <%- include("../../partials/sidebar.ejs") %>
-    <div id="content-wrapper" class="d-flex flex-column">
-      <div id="content">
-        <%- include("../../partials/topbar.ejs") %>
-        <div class="container-fluid">
-          <h1 class="h3 mb-2 text-gray-800">Novo projeto</h1>
-          <p class="mb-4">Adicione projetos, gerencie-os pelos apps Cliente, Equipe e o site
-            atual. Seu cliente e sua Equipe
-            pode contribuir para a inserção dos dados.
-            Adicione mais dados adicionais em formato de imagem utilizando os apps. Todos da sua
-            equipe terão acesso aos projetos.
-          </p>
-          <form method="POST">
-            <!-- Form Group (username)-->
-            <b class="mb-4">Selecione o cliente</b>
-            <div class="mb-3">
-              <select class="form-control" name='customerID' id="customerID" required>
-                <option selected>Nenhum selecionado</option>
-                <% customers.forEach(c => { %>
-                <option value="<%=c.key%>"><%=c.data.nomeComp || c.data.nomeFantasia%> - (<%=c.data.cpf || c.data.cnpj%>)</option>
-                <% }) %>
-              </select>
-            </div>
-            <b class="mb-4">Dados Básicos</b>
-            <!-- Form Row-->
-            <div class="row gx-3 mb-3">
-              <!-- Form Group (first name)-->
-              <div class="col-md-6">
-                <label class="small mb-1" for="cod">Código do Produto</label>
-                <input name="cod" class="form-control" id="cod" type="text" placeholder="00000-00">
+  <body id="page-top">
+    <div id="wrapper">
+      <%- include("../../partials/sidebar.ejs") %>
+        <div id="content-wrapper" class="d-flex flex-column">
+          <div id="content">
+            <%- include("../../partials/topbar.ejs") %>
+              <div class="container-fluid">
+                <h1 class="h3 mb-2 text-gray-800">Novo projeto</h1>
+                <p class="mb-4">Adicione projetos, gerencie-os pelos apps Cliente, Equipe e o site
+                  atual. Seu cliente e sua Equipe
+                  pode contribuir para a inserção dos dados.
+                  Adicione mais dados adicionais em formato de imagem utilizando os apps. Todos da sua
+                  equipe terão acesso aos projetos.
+                </p>
+                <form method="POST">
+                  <!-- Form Group (username)-->
+                  <b class="mb-4">Selecione o cliente <b
+                    style="color: red">*</b></b>
+                  <div class="mb-3">
+                    <select class="form-control" name='customerID' id="customerID" required>
+                      <option selected>Nenhum selecionado</option>
+                      <% customers.forEach(c=> { %>
+                        <option value="<%=c.key%>">
+                          <%=c.data.nomeComp || c.data.nomeFantasia%> - (<%=c.data.cpf || c.data.cnpj%>)
+                        </option>
+                        <% }) %>
+                    </select>
+                  </div>
+
+                  <b class="mb-4">Selecione o inversor <b
+                    style="color: red">*</b></b>
+                  <div class="mb-3">
+                    <select name="inverterType" class="form-control" required>
+                      <option selected>Nenhum selecionado</option>
+                      <option value="growatt">Growatt</option>
+                      <option value="deye">Deye</option>
+                      <option value="fronius">Fronius</option>
+                      <option value="phb">Phb</option>
+                      <option value="refusol">Refusol</option>
+                      <option value="outro">Outro - Não Listado</option>
+                    </select>
+                  </div>
+
+                  <b class="mb-4">Dados Básicos</b>
+                  <!-- Form Row-->
+                  <div class="row gx-3 mb-3">
+                    <!-- Form Group (first name)-->
+                    <div class="col-md-6">
+                      <label class="small mb-1" for="cod">Código do Produto</label>
+                      <input name="cod" class="form-control" id="cod" type="text" placeholder="00000-00">
+                    </div>
+
+                    <div class="col-md-6">
+                      <label class="small mb-1" for="username_growatt">Nome da planta no sistema da Growatt
+                        (opcional)</label>
+                      <input name="username_growatt" class="form-control" id="username_growatt" type="text"
+                        placeholder="Nome da planta.">
+                    </div>
+
+
+                  </div>
+
+                  <div class="mb-3">
+                    <label class="small mb-1" for="endCompleto">Endereço da Unidade Consumidora <b
+                        style="color: red">*</b></label>
+                    <input name="endCompleto" class="form-control" id="endCompleto" type="text"
+                      placeholder="Rua, bairro, número, complemento - Cidade / Estado - CEP" value="" required>
+                  </div>
+
+                  <b class="mb-4">Dados para visualização (todos os apps)</b>
+
+                  <div class="row gx-3 mb-3">
+                    <!-- Form Group (first name)-->
+                    <div class="col-md-6">
+                      <label class="small mb-1" for="apelidoProjeto">Identificação do
+                        Projeto <b style="color: red">*</b></label>
+                      <input name="apelidoProjeto" class="form-control" id="apelidoProjeto" type="text"
+                        placeholder="Apelido do projeto" required>
+                    </div>
+                    <div class="col-md-6">
+                      <label class="small mb-1" for="category">Categoria <b style="color: red">*</b></label>
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="category" id="flexRadioDefault1"
+                          value="residencial" checked>
+                        <label class="form-check-label" for="flexRadioDefault1">
+                          Residencial
+                        </label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="category" id="flexRadioDefault2"
+                          value="comercial">
+                        <label class="form-check-label" for="flexRadioDefault2">
+                          Comercial
+                        </label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="category" id="flexRadioDefault2"
+                          value="usina">
+                        <label class="form-check-label" for="flexRadioDefault2">
+                          Usina
+                        </label>
+                      </div>
+                    </div>
+                    <!-- Form Group (last name)-->
+                    <div class="col-md-6">
+                      <label class="small mb-1" for="kwp">kWp do Projeto <b style="color: red">*</b></label>
+                      <input name="kwp" class="form-control" id="kwp" type="text" value="0,00" required>
+                    </div>
+
+
+                    <div class="col-md-6">
+                      <label class="small mb-1" for="Status">Status <b style="color: red">*</b></label>
+
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="Status" id="flexRadioDefault1"
+                          value="dadosEntregue" checked>
+                        <label class="form-check-label" for="flexRadioDefault1">
+                          Dados entregues
+                        </label>
+                      </div>
+
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="Status" id="flexRadioDefault1"
+                          value="protocolado">
+                        <label class="form-check-label" for="flexRadioDefault1">
+                          Projeto Protocolado
+                        </label>
+                      </div>
+
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="Status" id="flexRadioDefault1"
+                          value="aprovado">
+                        <label class="form-check-label" for="flexRadioDefault1">
+                          Projeto aprovado
+                        </label>
+                      </div>
+
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="Status" id="flexRadioDefault1"
+                          value="equipamentoEntregue">
+                        <label class="form-check-label" for="flexRadioDefault1">
+                          Equipamentos entregue
+                        </label>
+                      </div>
+
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="Status" id="flexRadioDefault1"
+                          value="concluido">
+                        <label class="form-check-label" for="flexRadioDefault1">
+                          Instalação concluída
+                        </label>
+                      </div>
+
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="Status" id="flexRadioDefault1"
+                          value="vistoriaSolicitada">
+                        <label class="form-check-label" for="flexRadioDefault1">
+                          Vistoria solicitada
+                        </label>
+                      </div>
+
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="Status" id="flexRadioDefault1"
+                          value="vistoriaAprovada">
+                        <label class="form-check-label" for="flexRadioDefault1">
+                          Vistoria Aprovada
+                        </label>
+                      </div>
+
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="Status" id="flexRadioDefault1"
+                          value="finalizado">
+                        <label class="form-check-label" for="flexRadioDefault1">
+                          Finalizado
+                        </label>
+                      </div>
+                    </div>
+
+                    <div class="col-md-6">
+                      <label class="small mb-1" for="RStatus">Razão do Status</label>
+                      <input name="RStatus" class="form-control" id="RStatus" type="text"
+                        placeholder="Estamos aguardando X documentação.">
+                    </div>
+                    <div class="col-md-6">
+                      <label class="small mb-1" for="coords">Coordenadas da unidade
+                        consumidora <b style="color: red">*</b></label>
+                      <input name="coords" class="form-control" id="coords" type="text"
+                        placeholder="-9.373395, -52.814905" required>
+                    </div>
+                    <div class="col-md-6">
+                      <label class="small mb-1" for="statusRastreio">Status de rastreio dos equipamentos<b
+                          style="color: red">*</b></label>
+                      <input name="statusRastreio" class="form-control" id="statusRastreio" type="text"
+                        value="Rastreio indisponível no momento" required>
+                    </div>
+                  </div>
+                  <div class="row gx-3 mb-3" style="display: none;">
+                    <div class="col-md-6">
+                      <input name="business" class="form-control" type="text" value="<%=user.key%>" required
+                        autocomplete="off" />
+                    </div>
+                  </div>
+                  <!-- Save changes button-->
+                  <button class="btn btn-primary" style="width: 100%;" type="submit">Registrar
+                    Projeto</button>
+                </form>
               </div>
-
-              <div class="col-md-6">
-                <label class="small mb-1" for="username_growatt">Nome da planta no sistema da Growatt (opcional)</label>
-                <input name="username_growatt" class="form-control" id="username_growatt" type="text" placeholder="Nome da planta.">
-              </div>
-
-
-            </div>
-
-            <div class="mb-3">
-              <label class="small mb-1" for="endCompleto">Endereço da Unidade Consumidora <b style="color: red">*</b></label>
-              <input name="endCompleto" class="form-control" id="endCompleto" type="text" placeholder="Rua, bairro, número, complemento - Cidade / Estado - CEP" value="" required>
-            </div>
-
-            <b class="mb-4">Dados para visualização (todos os apps)</b>
-
-            <div class="row gx-3 mb-3">
-              <!-- Form Group (first name)-->
-              <div class="col-md-6">
-                <label class="small mb-1" for="apelidoProjeto">Identificação do
-                  Projeto <b style="color: red">*</b></label>
-                <input name="apelidoProjeto" class="form-control" id="apelidoProjeto" type="text" placeholder="Apelido do projeto" required>
-              </div>
-              <div class="col-md-6">
-                <label class="small mb-1" for="category">Categoria <b style="color: red">*</b></label>
-                <div class="form-check">
-                  <input class="form-check-input" type="radio" name="category" id="flexRadioDefault1" value="residencial" checked>
-                  <label class="form-check-label" for="flexRadioDefault1">
-                    Residencial
-                  </label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="radio" name="category" id="flexRadioDefault2" value="comercial">
-                  <label class="form-check-label" for="flexRadioDefault2">
-                    Comercial
-                  </label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="radio" name="category" id="flexRadioDefault2" value="usina">
-                  <label class="form-check-label" for="flexRadioDefault2">
-                    Usina
-                  </label>
-                </div>
-              </div>
-              <!-- Form Group (last name)-->
-              <div class="col-md-6">
-                <label class="small mb-1" for="kwp">kWp do Projeto <b style="color: red">*</b></label>
-                <input name="kwp" class="form-control" id="kwp" type="text" value="0,00" required>
-              </div>
-
-
-              <div class="col-md-6">
-                <label class="small mb-1" for="Status">Status <b style="color: red">*</b></label>
-
-                <div class="form-check">
-                  <input class="form-check-input" type="radio" name="Status" id="flexRadioDefault1" value="dadosEntregue" checked>
-                  <label class="form-check-label" for="flexRadioDefault1">
-                    Dados entregues
-                  </label>
-                </div>
-
-                <div class="form-check">
-                  <input class="form-check-input" type="radio" name="Status" id="flexRadioDefault1" value="protocolado">
-                  <label class="form-check-label" for="flexRadioDefault1">
-                    Projeto Protocolado
-                  </label>
-                </div>
-
-                <div class="form-check">
-                  <input class="form-check-input" type="radio" name="Status" id="flexRadioDefault1" value="aprovado">
-                  <label class="form-check-label" for="flexRadioDefault1">
-                    Projeto aprovado
-                  </label>
-                </div>
-
-                <div class="form-check">
-                  <input class="form-check-input" type="radio" name="Status" id="flexRadioDefault1" value="equipamentoEntregue">
-                  <label class="form-check-label" for="flexRadioDefault1">
-                    Equipamentos entregue
-                  </label>
-                </div>
-
-                <div class="form-check">
-                  <input class="form-check-input" type="radio" name="Status" id="flexRadioDefault1" value="concluido">
-                  <label class="form-check-label" for="flexRadioDefault1">
-                    Instalação concluída
-                  </label>
-                </div>
-
-                <div class="form-check">
-                  <input class="form-check-input" type="radio" name="Status" id="flexRadioDefault1" value="vistoriaSolicitada">
-                  <label class="form-check-label" for="flexRadioDefault1">
-                    Vistoria solicitada
-                  </label>
-                </div>
-
-                <div class="form-check">
-                  <input class="form-check-input" type="radio" name="Status" id="flexRadioDefault1" value="vistoriaAprovada">
-                  <label class="form-check-label" for="flexRadioDefault1">
-                    Vistoria Aprovada
-                  </label>
-                </div>
-
-                <div class="form-check">
-                  <input class="form-check-input" type="radio" name="Status" id="flexRadioDefault1" value="finalizado">
-                  <label class="form-check-label" for="flexRadioDefault1">
-                    Finalizado
-                  </label>
-                </div>
-              </div>
-
-              <div class="col-md-6">
-                <label class="small mb-1" for="RStatus">Razão do Status</label>
-                <input name="RStatus" class="form-control" id="RStatus" type="text" placeholder="Estamos aguardando X documentação.">
-              </div>
-              <div class="col-md-6">
-                <label class="small mb-1" for="coords">Coordenadas da unidade
-                  consumidora <b style="color: red">*</b></label>
-                <input name="coords" class="form-control" id="coords" type="text" placeholder="-9.373395, -52.814905" required>
-              </div>
-              <div class="col-md-6">
-                <label class="small mb-1" for="statusRastreio">Status de rastreio dos equipamentos<b style="color: red">*</b></label>
-                <input name="statusRastreio" class="form-control" id="statusRastreio" type="text" value="Rastreio indisponível no momento" required>
-              </div>
-            </div>
-            <div class="row gx-3 mb-3" style="display: none;">
-              <div class="col-md-6">
-                <input name="business" class="form-control" type="text" value="<%=user.key%>" required autocomplete="off" />
-              </div>
-            </div>
-            <!-- Save changes button-->
-            <button class="btn btn-primary" style="width: 100%;" type="submit">Registrar
-              Projeto</button>
-          </form>
+          </div>
+          <%- include("../../partials/footer.ejs") %>
         </div>
-      </div>
-      <%- include("../../partials/footer.ejs") %>
     </div>
-  </div>
-  <a class="scroll-to-top rounded" href="#page-top">
-    <i class="fas fa-angle-up"></i>
-  </a>
-  <%- include("../components/modal/logout.ejs") %>
-  <script src="/vendor/jquery/jquery.min.js"></script>
-  <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
-  <script src="/js/sb-admin-2.min.js"></script>
+    <a class="scroll-to-top rounded" href="#page-top">
+      <i class="fas fa-angle-up"></i>
+    </a>
+    <%- include("../components/modal/logout.ejs") %>
+      <script src="/vendor/jquery/jquery.min.js"></script>
+      <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+      <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+      <script src="/js/sb-admin-2.min.js"></script>
 
-  
-  
-  <script type='text/javascript' src="https://rawgit.com/RobinHerbots/jquery.inputmask/3.x/dist/jquery.inputmask.bundle.js"></script>
-  <script>
-    $(document).ready(function() {
-      $(":input").inputmask();
 
-      $("#kwp").inputmask({
-        greedy: false,
-        radixPoint: ",",
-        groupSeparator: ",",
-        alias: "numeric",
-        autoGroup: true,
-        digits: 2,
-        digitsOptional: false,
-        clearMaskOnLostFocus: false
-      })
-    })
-  </script>
-</body>
 
-</html>
+      <script type='text/javascript'
+        src="https://rawgit.com/RobinHerbots/jquery.inputmask/3.x/dist/jquery.inputmask.bundle.js"></script>
+      <script>
+        $(document).ready(function () {
+          $(":input").inputmask();
+
+          $("#kwp").inputmask({
+            greedy: false,
+            radixPoint: ",",
+            groupSeparator: ",",
+            alias: "numeric",
+            autoGroup: true,
+            digits: 2,
+            digitsOptional: false,
+            clearMaskOnLostFocus: false
+          })
+        })
+      </script>
+  </body>
+
+  </html>
