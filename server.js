@@ -5,11 +5,17 @@ const express = require("express"),
   passport = require("passport"),
   session = require("express-session");
  cors = require('cors'),
-helmet = require("helmet");
+helmet = require("helmet"),
+RateLimit = require('express-rate-limit');
 
 require("dotenv").config()
 
 const app = express();
+
+const limiter = RateLimit({
+  windowMs: 10 * 60 * 1000, // 10 minutos
+  max: 100 // Limite máximo de solicitações em 10 minutos
+});
 
 require('./database.js');
 require("./auth/local")(passport);
@@ -19,6 +25,7 @@ app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
 //app.use(helmet());
+app.use(limiter);
 app.use(logger("dev"));
 app.use(cors());
 app.use(cookieParser());
