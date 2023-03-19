@@ -241,7 +241,7 @@ router.get("/resetarsenha", async (req, res, next) => {
   const { token } = req.query;
   let data = {};
 
-  if (!token || token.length < 100) {
+  if (typeof token !== 'string' || !token || token.length < 100) {
     return res.redirect("/");
   }
   jwt.verify(token, process.env.forgotpassword, async (err, decoded) => {
