@@ -210,7 +210,7 @@ router.post("/esqueciasenha", async (req, res, next) => {
       {
         id: foundBusiness.key,
       },
-      "forgotpassword",
+      process.env.forgotpassword,
       { expiresIn: "1h" }
     );
 
@@ -244,7 +244,7 @@ router.get("/resetarsenha", async (req, res, next) => {
   if (!token || token.length < 100) {
     return res.redirect("/");
   }
-  jwt.verify(token, "forgotpassword", async (err, decoded) => {
+  jwt.verify(token, process.env.forgotpassword, async (err, decoded) => {
     if (err) {
       console.log(err);
       data.message = {
