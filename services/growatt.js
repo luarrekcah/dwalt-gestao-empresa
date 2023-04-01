@@ -131,10 +131,15 @@ setInterval(async () => {
       )
         return;
       const username = p.data.username_growatt;
-      if (growatt.plantList === undefined) return;
-      const plant = growatt.plantList.data.data.plants.find(
+      if (growatt.plantList === undefined || growatt.plantList.data) return;
+      let plant;
+      try {
+        plant = growatt.plantList.data.data.plants.find(
         (plant) => plant.name === username
       );
+      } catch (error) {
+        return console.log(error);
+      }
       if (plant === undefined) return;
       console.log(plant);
       setTimeout(() => {
