@@ -151,7 +151,7 @@ setInterval(async () => {
           })
           .then((response) => {
             const data = response.data;
-            if (data.error_code !== 0) return;
+            if (data.error_code !== 0 || data.data.count === 0) return;
             updateItem({
               path: `gestaoempresa/business/${b.key}/projects/${p.key}/overview`,
               params: { data },
