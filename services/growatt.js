@@ -131,7 +131,7 @@ setInterval(async () => {
       )
         return;
       const username = p.data.username_growatt;
-      if (growatt.plantList === undefined || growatt.plantList.data) return;
+      if (growatt.plantList === undefined || growatt.plantList.data.data.count === 0) return;
       let plant;
       try {
         plant = growatt.plantList.data.data.plants.find(
