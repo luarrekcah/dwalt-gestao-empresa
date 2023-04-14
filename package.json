@@ -13,7 +13,7 @@
   "scripts": {
     "start": "node server.js",
     "test": "jasmine",
-    "dev": "nodemon server.js"
+    "dev": "cross-env DEV=true nodemon server.js"
   },
   "engines": {
     "node": "16.14.2"
@@ -43,6 +43,7 @@
     "path": "^0.12.7"
   },
   "devDependencies": {
+    "cross-env": "^7.0.3",
     "eslint": "^8.27.0",
     "jasmine": "^4.5.0"
   }

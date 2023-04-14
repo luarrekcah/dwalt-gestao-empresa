@@ -24,6 +24,9 @@ const authenticationSubsMiddleware = async (req, res, next) => {
   try {
     const sub = await subscriptionChecker(req);
     console.log(sub);
+    if(process.env.DEV) {
+      return next();
+    }
     if (req.isAuthenticated() && sub.code) return next();
     return res.redirect(sub.redirect);
   } catch (error) {
