@@ -21,6 +21,7 @@ const authenticationMiddleware = (req, res, next) => {
   res.redirect("/");
 };
 const authenticationSubsMiddleware = async (req, res, next) => {
+  if(req.user === undefined || req.user.key === undefined) return res.redirect("/");
   try {
     const sub = await subscriptionChecker(req);
     console.log(sub);

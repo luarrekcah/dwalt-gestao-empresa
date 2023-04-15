@@ -1,36 +1,38 @@
 <%- include("../../partials/head.ejs") %>
 
-<body id="page-top">
-  <div id="wrapper">
-    <%- include("../../partials/sidebar.ejs") %>
-    <div id="content-wrapper" class="d-flex flex-column">
-      <div id="content">
-        <%- include("../../partials/topbar.ejs") %>
-        <div class="container-fluid">
-          <h1 class="h3 mb-2 text-gray-800">Preferências do sistema</h1>
-          <p class="mb-4">Configurar padrões de projetos e mais.</p>
+  <body id="page-top">
+    <div id="wrapper">
+      <%- include("../../partials/sidebar.ejs") %>
+        <div id="content-wrapper" class="d-flex flex-column">
+          <div id="content">
+            <%- include("../../partials/topbar.ejs") %>
+              <div class="container-fluid">
+                <h1 class="h3 mb-2 text-gray-800">Preferências do sistema</h1>
+                <p class="mb-4">Configurar padrões de projetos e mais.</p>
 
-          <form method="post">
-            <!--card-->
-            <div class="card shadow mb-4">
-              <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Regras de projetos</h6>
-              </div>
-              <div class="card-body">
-                <div class="col-md-6">
-                  <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="basicDocs" id="basicDocs" <%-config.projectRules && config.projectRules.needsBasicDocs  ? 'checked' : '' %>>
-                    <label class="form-check-label" for="basicDocs">
-                      Exigir documentos básicos para finalizar projetos
-                    </label>
-                  </div>
-                  <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="basicPhotos" id="basicPhotos" <%-config.projectRules && config.projectRules.needsBasicPhotos ? 'checked' : '' %>>
-                    <label class="form-check-label" for="basicPhotos">
-                      Exigir fotos básicas da composição do projeto para finalizar
-                    </label>
-                  </div>
-                  <!--<div class="form-check">
+                <form method="post">
+                  <!--card-->
+                  <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                      <h6 class="m-0 font-weight-bold text-primary">Regras de projetos</h6>
+                    </div>
+                    <div class="card-body">
+                      <div class="col-md-6">
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" name="basicDocs" id="basicDocs"
+                            <%-config.projectRules && config.projectRules.needsBasicDocs ? 'checked' : '' %>>
+                          <label class="form-check-label" for="basicDocs">
+                            Exigir documentos básicos para finalizar projetos
+                          </label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" name="basicPhotos" id="basicPhotos"
+                            <%-config.projectRules && config.projectRules.needsBasicPhotos ? 'checked' : '' %>>
+                          <label class="form-check-label" for="basicPhotos">
+                            Exigir fotos básicas da composição do projeto para finalizar
+                          </label>
+                        </div>
+                        <!--<div class="form-check">
                     <input class="form-check-input" type="checkbox" name="funADMendProject" id="funADMendProject" <%-config.projectRules && config.projectRules.onlyAdmEndProject ? 'checked' : '' %>>
                     <label class="form-check-label" for="funADMendProject">
                       Apenas um funcionário ADM pode finalizar projeto
@@ -42,173 +44,193 @@
                     <label class="form-check-label" for="fundADMacceptSurvey">
                       Apenas um funcionário ADM pode aceitar chamados
                     </label>
-                  </div>-->
+                  </div>
 
                   <div class="form-check">
                     <input class="form-check-input" type="checkbox" name="sticknotes" id="sticknotes" <%-config.projectRules && config.projectRules.StickNotes ? 'checked' : '' %>>
                     <label class="form-check-label" for="sticknotes">
                       Lembretes
                     </label>
+                  </div>-->
+
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" name="ProjectStatusReason"
+                            id="ProjectStatusReason" <%-config.projectRules && config.projectRules.needsStatusReason
+                            ? 'checked' : '' %>>
+                          <label class="form-check-label" for="ProjectStatusReason">
+                            Exigir razão de status
+                          </label>
+                        </div>
+
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" name="notifications" id="notifications"
+                            <%-config.projectRules && config.projectRules.Alerts ? 'checked' : '' %>>
+                          <label class="form-check-label" for="notifications">
+                            Enviar notificações de lembretes
+                          </label>
+                        </div>
+                        <hr>
+                        <div style="display: flex; flex-direction: row;">
+                          <label for="docMinimum" style="flex: 1;">Número de documentos mínimos para anexar no
+                            projeto:</label>
+                          <input type="number" name="docMinimum" id="docMinimum" style="flex: 1; max-width: 50px;"
+                            value="<%=config.projectRules && config.projectRules.docMinimum ?config.projectRules.docMinimum : 6%>">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!--CARD -->
+
+                  <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                      <h6 class="m-0 font-weight-bold text-primary">Imagens obrigatórias de projetos</h6>
+                      <p>Para adicionar uma imagem obrigatória, digite dentro da caixa de texto e clique em +</p>
+                      <p> <small>Para ativar e desativar um requerimento obrigatório, selecione/desmarque a caixinha e
+                          clique em "Salvar"</small></p>
+
+
+
+                      <label class="small mb-1" for="content">Identificação da Imagem<b style="color: red">*</b></label>
+                      <div class="row">
+
+                        <div class="col-md-6">
+                          <input name="content" class="form-control" id="contentRequired" type="text">
+                        </div>
+                        <button class="btn btn-primary" onclick="addItem()" type="submit"><span
+                            class="fas fa-plus"></span></button>
+                      </div>
+
+                    </div>
+                    <div class="card-body">
+                      <div class="col-md-6">
+                        <% if(requiredImages) {%>
+                          <%requiredImages.forEach(r=> {%>
+                            <div class="form-check">
+                              <input class="form-check-input" type="checkbox" name="<%=r.key%>" id="item"
+                                <%-r.data.checked ? 'checked' : '' %>>
+                              <label class="form-check-label" for="item">
+                                <%=r.data.titulo%>
+                              </label>
+                              <button class="btn" onclick="deleteItem('<%=r.key%>')"><span
+                                  class="fas fa-trash"></span></button>
+                            </div>
+                            <% })%>
+                              <%}%>
+                      </div>
+                    </div>
                   </div>
 
-                  <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="ProjectStatusReason" id="ProjectStatusReason" <%-config.projectRules && config.projectRules.needsStatusReason ? 'checked' : '' %>>
-                    <label class="form-check-label" for="ProjectStatusReason">
-                      Exigir razão de status
-                    </label>
+                  <!--card-->
+                  <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                      <h6 class="m-0 font-weight-bold text-primary">Widgets na tela inicial</h6>
+                    </div>
+                    <div class="card-body">
+                      <div class="col-md-6">
+
+
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" name="mapWidget" id="mapWidget"
+                            <%-config.widgets && config.widgets.projectMaps ? 'checked' : '' %>>
+                          <label class="form-check-label" for="mapWidget">
+                            Mapa de projetos
+                          </label>
+                        </div>
+
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" name="growattWidgets" id="growattWidgets"
+                            <%-config.widgets && config.widgets.growatt ? 'checked' : '' %>>
+                          <label class="form-check-label" for="growattWidgets">
+                            Dados Growatt
+                          </label>
+                        </div>
+
+
+                      </div>
+                    </div>
                   </div>
-
-                  <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="notifications" id="notifications" <%-config.projectRules && config.projectRules.Alerts ? 'checked' : '' %>>
-                    <label class="form-check-label" for="notifications">
-                      Enviar notificações de lembretes
-                    </label>
+                  <!--CARD -->
+                  <!--card-->
+                  <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                      <h6 class="m-0 font-weight-bold text-primary">Login</h6>
+                    </div>
+                    <div class="card-body">
+                      <div class="col-md-6">
+                        <p>Limitar login a horários específicos</p>
+                        Das <input type="time" name="hourSpecified" id="hourSpecified"
+                          value="<%=config.login ? config.login.hourSpecified[0] : ''%>"> Até
+                        <input type="time" name="hourSpecified" id="hourSpecified"
+                          value="<%=config.login ? config.login.hourSpecified[1] : ''%>">
+                        <hr>
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" name="loginAlert" id="loginAlert"
+                            <%-config.login && config.login.loginAlert ? 'checked' : '' %>>
+                          <label class="form-check-label" for="loginAlert">
+                            Enviar alerta de login fora dos horários.
+                          </label>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-
-                </div>
-              </div>
-            </div>
-            <!--CARD -->
-
-            <div class="card shadow mb-4">
-              <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Imagens obrigatórias de projetos</h6>
-                <p>Para adicionar uma imagem obrigatória, digite dentro da caixa de texto e clique em +</p>
-                <p> <small>Para ativar e desativar um requerimento obrigatório, selecione/desmarque a caixinha e clique em "Salvar"</small></p>
-
-
-
-                <label class="small mb-1" for="content">Identificação da Imagem<b style="color: red">*</b></label>
-                <div class="row">
-
-                  <div class="col-md-6">
-                    <input name="content" class="form-control" id="contentRequired" type="text">
+                  <!--CARD -->
+                  <!--card-->
+                  <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                      <h6 class="m-0 font-weight-bold text-primary">Usuários</h6>
+                    </div>
+                    <div class="card-body">
+                      <div class="col-md-6">
+                        <label class="small mb-1" for="passCommon">Senha padrão dos usuários<b
+                            style="color: red">*</b></label>
+                        <input name="passCommon" class="form-control" id="passCommon" type="text"
+                          value="<%=config.users === undefined ? '' : config.users.passCommon%>" required>
+                      </div>
+                    </div>
                   </div>
-                  <button class="btn btn-primary" onclick="addItem()" type="submit"><span class="fas fa-plus"></span></button>
-                </div>
-
+                  <!--CARD -->
+                  <input name="type" class="form-control" value="saveData" type="text" style="display: none">
+                  <button class="btn btn-primary" style="width: 100%;" type="submit">Salvar Configurações</button>
+                </form>
               </div>
-              <div class="card-body">
-                <div class="col-md-6">
-                  <% if(requiredImages) {%>
-                  <%requiredImages.forEach(r => {%>
-                  <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="<%=r.key%>" id="item" <%-r.data.checked ? 'checked' : ''%>>
-                    <label class="form-check-label" for="item">
-                      <%=r.data.titulo%>
-                    </label>
-                    <button class="btn" onclick="deleteItem('<%=r.key%>')"><span class="fas fa-trash"></span></button>
-                  </div>
-                  <% })%>
-                  <%}%>
-                </div>
-              </div>
-            </div>
-
-            <!--card-->
-            <div class="card shadow mb-4">
-              <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Widgets na tela inicial</h6>
-              </div>
-              <div class="card-body">
-                <div class="col-md-6">
-
-
-                  <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="mapWidget" id="mapWidget" <%-config.widgets && config.widgets.projectMaps ? 'checked' : '' %>>
-                  <label class="form-check-label" for="mapWidget">
-                    Mapa de projetos
-                  </label>
-                </div>
-
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" name="growattWidgets" id="growattWidgets" <%-config.widgets && config.widgets.growatt ? 'checked' : '' %>>
-                  <label class="form-check-label" for="growattWidgets">
-                    Dados Growatt
-                  </label>
-                </div>
-
-
-              </div>
-            </div>
+          </div>
+          <%- include("../../partials/footer.ejs") %>
         </div>
-        <!--CARD -->
-        <!--card-->
-        <div class="card shadow mb-4">
-          <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Login</h6>
-          </div>
-          <div class="card-body">
-            <div class="col-md-6">
-              <p>Limitar login a horários específicos</p>
-              Das <input type="time" name="hourSpecified" id="hourSpecified" value="<%=config.login ? config.login.hourSpecified[0] : ''%>"> Até
-              <input type="time" name="hourSpecified" id="hourSpecified" value="<%=config.login ? config.login.hourSpecified[1] : ''%>">
-              <hr>
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" name="loginAlert" id="loginAlert" <%-config.login && config.login.loginAlert ? 'checked' : '' %>>
-                <label class="form-check-label" for="loginAlert">
-                  Enviar alerta de login fora dos horários.
-                </label>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!--CARD -->
-        <!--card-->
-        <div class="card shadow mb-4">
-          <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Usuários</h6>
-          </div>
-          <div class="card-body">
-            <div class="col-md-6">
-              <label class="small mb-1" for="passCommon">Senha padrão dos usuários<b style="color: red">*</b></label>
-              <input name="passCommon" class="form-control" id="passCommon" type="text" value="<%=config.users === undefined ? '' : config.users.passCommon%>" required>
-            </div>
-          </div>
-        </div>
-        <!--CARD -->
-        <input name="type" class="form-control" value="saveData" type="text" style="display: none">
-        <button class="btn btn-primary" style="width: 100%;" type="submit">Salvar Configurações</button>
-        </form>
-      </div>
     </div>
-    <%- include("../../partials/footer.ejs") %>
-  </div>
-  </div>
-  <a class="scroll-to-top rounded" href="#page-top">
-    <i class="fas fa-angle-up"></i>
-  </a>
-  <%- include("../components/modal/logout.ejs") %>
-  <script src="/vendor/jquery/jquery.min.js"></script>
-  <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
-  <script src="/js/sb-admin-2.min.js"></script>
-  <script>
-    function addItem() {
-      const value = document.getElementById("contentRequired").value
-      if (value === '') {
-        alert("A identificação da imagem não pode ficar vazia.")
-        return;
-      } else {
-        axios.post("/dashboard/configuracao/addItem", {
-          content: value
-        });
-      }
-    }
-
-    function deleteItem(key) {
-      if (!key === '') {
-        alert("Sem chave.")
-        return;
-      } else {
-        axios.delete("/dashboard/configuracao/item", {
-          data: {
-            key
+    <a class="scroll-to-top rounded" href="#page-top">
+      <i class="fas fa-angle-up"></i>
+    </a>
+    <%- include("../components/modal/logout.ejs") %>
+      <script src="/vendor/jquery/jquery.min.js"></script>
+      <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+      <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+      <script src="/js/sb-admin-2.min.js"></script>
+      <script>
+        function addItem() {
+          const value = document.getElementById("contentRequired").value
+          if (value === '') {
+            alert("A identificação da imagem não pode ficar vazia.")
+            return;
+          } else {
+            axios.post("/dashboard/configuracao/addItem", {
+              content: value
+            });
           }
-        });
-      }
-    }
-  </script>
-</body>
+        }
 
-</html>
+        function deleteItem(key) {
+          if (!key === '') {
+            alert("Sem chave.")
+            return;
+          } else {
+            axios.delete("/dashboard/configuracao/item", {
+              data: {
+                key
+              }
+            });
+          }
+        }
+      </script>
+  </body>
+
+  </html>

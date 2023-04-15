@@ -1,0 +1,111 @@
+<%- include("../../partials/head.ejs") %>
+
+  <body id="page-top">
+    <div id="wrapper">
+      <%- include("../../partials/sidebar.ejs") %>
+        <div id="content-wrapper" class="d-flex flex-column">
+          <div id="content">
+            <%- include("../../partials/topbar.ejs") %>
+              <div class="container-fluid">
+                <h1 class="h3 mb-2 text-gray-800">Projetos com pendência
+                </h1>
+                <p class="mb-4">Projetos com arquivos pendentes e fotos aparecerão aqui.</p>
+                <div class="card shadow mb-4">
+                  <div class="card-body">
+                    <h1 class="h3 mb-2 text-gray-800">Resumo
+                    </h1>
+                    <div class="table-responsive">
+                      <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                          <tr>
+                            <th>Identificação</th>
+                            <th>N° Docs em falta</th>
+                            <th>N° Fotos em falta</th>
+                            <th>Botões</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <% if(pendingProjects !==undefined) { %>
+                            <% if(pendingProjects.length===0) {%>
+                              <h1>Parabéns! Sua empresa não tem projetos com pendências.</h1>
+                              <%} else { %>
+                                <% pendingProjects.forEach((item, i)=> { %>
+                                  <tr>
+                                    <td>
+                                      <%= item.title %>
+                                    </td>
+                                    <% if(item.documents.left <= 0) { %>
+                                      <td><b style="color: green">OK</b></td>
+                                      <% } else { %>
+                                        <td>Faltam <b style="color: red">
+                                            <%= item.documents.left %>
+                                          </b> documentos para <b style="color: green">
+                                            <%= item.documents.total %>
+                                          </b> registrados</td>
+                                        <% } %>
+
+                                          <% if(item.pictures.left===0) { %>
+                                            <td><b style="color: green">OK</b></td>
+                                            <% } else { %>
+                                              <td>
+                                                <b style="color: red">
+                                                  <%= item.pictures.left %>
+                                                </b>
+                                                de
+                                                <b style="color: green">
+                                                  <%= item.pictures.total %>
+                                                </b> pendentes
+                                              </td>
+                                              <% } %>
+
+
+                                                <td>
+                                                  <a href="visualizar/<%= item.key %>" class="btn btn-info btn-circle">
+                                                    <i class="fas fa-info-circle"></i>
+                                                  </a>
+                                                </td>
+                                  </tr>
+                                  <% }); %>
+                                    <% }%>
+
+                                      <% } %>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+          </div>
+          <%- include("../../partials/footer.ejs") %>
+        </div>
+    </div>
+    <a class="scroll-to-top rounded" href="#page-top">
+      <i class="fas fa-angle-up"></i>
+    </a>
+    <%- include("../components/modal/logout.ejs") %>
+      <script src="/vendor/chart.js/Chart.min.js"></script>
+      <script src="/vendor/jquery/jquery.min.js"></script>
+      <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+      <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+      <script src="/vendor/slick-master/slick/slick.js"></script>
+      <script src="/js/sb-admin-2.min.js"></script>
+      <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"
+        integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ=="
+        crossorigin=""></script>
+
+
+      <script type="text/javascript" src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+      <script type="text/javascript" src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap4.min.js"></script>
+
+      <script>
+        $(document).ready(function () {
+          $('#dataTable').DataTable({
+            language: {
+              url: 'https://cdn.datatables.net/plug-ins/1.13.1/i18n/pt-BR.json'
+            }
+          });
+        });
+      </script>
+  </body>
+
+  </html>

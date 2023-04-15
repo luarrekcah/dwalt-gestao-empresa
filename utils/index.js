@@ -23,8 +23,8 @@ module.exports = {
     }
 
     if (
-      user.data.acessConnect === false ||
-      user.data.acessConnect === undefined
+      (user.data.acessConnect === false ||
+      user.data.acessConnect === undefined) && !process.env.DEV
     ) {
       return { code: false, redirect: "/pagamento/erro?message=pending_subscription" };
     }
@@ -39,6 +39,10 @@ module.exports = {
     };
 
     const response = await axios(config);
+
+    if(process.env.DEV) {
+      return { code: true, redirect: "/dashboard" };
+    }
 
     if (response.data.deleted) {
       return { code: false, redirect: `/pagamento/erro?message=deleted_subscription` };
