@@ -183,7 +183,7 @@
                                     <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
                                       Reclamações</div>
                                     <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                      <%=complaints.filter(i => !i.data.businessReply).length%>
+                                      <%=complaints.filter(i=> !i.data.businessReply).length%>
                                     </div>
                                   </div>
                                   <div class="col-auto">
@@ -198,57 +198,6 @@
 
                     <div class="row">
                       <div class="col-lg-6 mb-4">
-
-                        <div class="card shadow mb-4">
-                          <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                            <h6 class="m-0 font-weight-bold text-primary">Lembretes</h6>
-                            <div class="dropdown no-arrow">
-                              <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                  <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                              </a>
-                              <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink" style="">
-                                  <div class="dropdown-header">Ações</div>
-                                  <form method="post">
-                                    <input type="text" name="type" value="MARK_READ_STICKNOTES" style="display: none;">
-                                    <button type="submit" class="dropdown-item">
-                                      <i class="fas fa-eye fa-sm text-black-50"></i>
-                                      Marcar visto
-                                    </button>
-                                  </form>
-                                  <div class="dropdown-divider"></div>
-                                  <a class="dropdown-item" href="/dashboard/configuracao">Configurações</a>
-                              </div>
-                          </div>
-                          </div>
-                          <div class="card-body">
-
-                            <% if(stickNotes.length===0 || stickNotes.filter(i => !i.data.read).length === 0) {%>
-                              <a href="#" class="btn btn-primary" style="width: 100%">
-                                <span class="icon text-white-50">
-                                  <i class="fas fa-info"></i>
-                                </span>
-                                <span class="text">Sem lembretes</span>
-                              </a>
-                              <%} else {%>
-                                <% stickNotes.forEach((i, index)=> { %>
-                                  <%if(index >= 5) return;%>
-                                  <%if(i.data.read) return;%>
-                                  <a href="<%=i.data.url%>" class="btn btn-primary" style="width: 100%; margin-top: 20px">
-                                    <span class="icon text-white-50">
-                                      <i class="fas fa-<%=i.icon%>"></i>
-                                    </span>
-                                    <span class="text">
-                                      <%=i.data.message%>
-                                    </span>
-                                  </a>
-                                  <% }); %>
-                                  <%if(stickNotes.filter(i => i.data.read).length > 5) {%>
-                                    <p style="margin-top: 20px;">E mais <%= stickNotes.filter(i => i.data.read).length %> lembretes.</p>
-                                  <%}%>
-                                    <% }%>
-                          </div>
-                        </div>
-
                         <!-- Project Card -->
                         <div class="card shadow mb-4">
                           <div class="card-header py-3">
@@ -256,7 +205,8 @@
                           </div>
                           <div class="card-body">
                             <h4 class="small font-weight-bold">Projetos pendentes<span class="float-right">
-                              <%= Math.round(projects.filter(i => i.data.Status !== 'finalizado').length * 100 / projects.length) %>%
+                                <%= Math.round(projects.filter(i=> i.data.Status !== 'finalizado').length * 100 /
+                                  projects.length) %>%
                               </span></h4>
                             <div class="progress mb-4">
                               <div class="progress-bar bg-danger" role="progressbar"
@@ -265,20 +215,21 @@
                                 aria-valuemin="0" aria-valuemax="100"></div>
                             </div>
                             <h4 class="small font-weight-bold">Projetos finalizados <span class="float-right">
-                              <%= Math.round(projects.filter(i => i.data.Status === 'finalizado').length * 100 / projects.length) %>%
+                                <%= Math.round(projects.filter(i=> i.data.Status === 'finalizado').length * 100 /
+                                  projects.length) %>%
                               </span></h4>
                             <div class="progress mb-4">
                               <div class="progress-bar bg-info" role="progressbar"
-                              style="width: <%= Math.round(projects.filter(i => i.data.Status === 'finalizado').length * 100 / projects.length) %>%"
-                              aria-valuenow="<%= Math.round(projects.filter(i => i.data.Status === 'finalizado').length * 100 / projects.length) %>"
-                              aria-valuemin="0" aria-valuemax="100">
+                                style="width: <%= Math.round(projects.filter(i => i.data.Status === 'finalizado').length * 100 / projects.length) %>%"
+                                aria-valuenow="<%= Math.round(projects.filter(i => i.data.Status === 'finalizado').length * 100 / projects.length) %>"
+                                aria-valuemin="0" aria-valuemax="100">
                               </div>
                             </div>
                           </div>
                         </div>
 
                         <!--card-->
-                        <%if(config.widgets && config.widgets.projectMaps !== false) { %>
+                        <%if(config.widgets && config.widgets.projectMaps !==false) { %>
                           <div class="card shadow mb-4">
                             <div class="card-header py-3">
                               <h6 class="m-0 font-weight-bold text-primary">Mapa dos projetos</h6>
@@ -288,8 +239,8 @@
                               </div>
                             </div>
                           </div>
-                        <%}%>
-                       
+                          <%}%>
+
 
 
                       </div>
@@ -308,7 +259,8 @@
                               uma qualidade sem igual para fornecer elementos e gestão de qualidade
                               para sua empresa. Baixe nossos aplicativos e sempre realize os registros
                               necessários para ter uma boa experiência com o serviço.</p>
-                            <a target="_blank" rel="noopener noreferrer" rel="nofollow" href="https://www.dlwalt.com/">D | Walt
+                            <a target="_blank" rel="noopener noreferrer" rel="nofollow" href="https://www.dlwalt.com/">D
+                              | Walt
                               site raíz &rarr;</a>
                           </div>
                         </div>
