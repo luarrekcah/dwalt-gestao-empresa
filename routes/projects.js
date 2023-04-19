@@ -18,6 +18,7 @@ const {
   deleteObject,
   getDownloadURL,
 } = require("@firebase/storage");
+const { createNotification } = require("../utils");
 
 router.get("/", async (req, res, next) => {
   const projects = await getAllItems({
@@ -367,6 +368,9 @@ router.post("/editar/:id", async (req, res, next) => {
   const projectStatus = await getItems({
     path: `gestaoempresa/business/${req.user.key}/projects/${req.params.id}/Status`,
   });
+  const project = await getItems({
+    path: `gestaoempresa/business/${req.user.key}/projects/${req.params.id}`,
+  });
   console.log(req.body);
   if (req.body.Status === "finalizado" && projectStatus !== "finalizado") {
     const requiredPhotosConfig = await getAllItems({
@@ -399,6 +403,15 @@ router.post("/editar/:id", async (req, res, next) => {
           "?message=missingRequiredPhotos#imagens_obrigatorias"
       );
     } else {
+      if (project.statusRastreio !== req.body.statusRastreio) {
+        createNotification(
+          "Rastreio atualizado",
+          `O status de rastreio do projeto ${project.apelidoProjeto} foi atualizado, acesse o app e confira!`,
+          req.user.key,
+          "customer",
+          project.customerID
+        );
+      }
       updateItem({
         path: `gestaoempresa/business/${req.user.key}/projects/${req.params.id}`,
         params: req.body,
@@ -409,6 +422,15 @@ router.post("/editar/:id", async (req, res, next) => {
       );
     }
   } else {
+    if (project.statusRastreio !== req.body.statusRastreio) {
+      createNotification(
+        "Rastreio atualizado",
+        `O status de rastreio do projeto ${project.apelidoProjeto} foi atualizado, acesse o app e confira!`,
+        req.user.key,
+        "customer",
+        project.customerID
+      );
+    }
     updateItem({
       path: `gestaoempresa/business/${req.user.key}/projects/${req.params.id}`,
       params: req.body,
@@ -445,7 +467,10 @@ router.get("/pendentes", async (req, res, next) => {
         path: `gestaoempresa/business/${req.user.key}/projects/${pj.key}/requiredPhotos`,
       });
 
-      if (!(business.config.projectRules.docMinimum - docs.length <= 0) || (businessRequiredPhotosLength.length - requiredPhotos.length) !== 0) {
+      if (
+        !(business.config.projectRules.docMinimum - docs.length <= 0) ||
+        businessRequiredPhotosLength.length - requiredPhotos.length !== 0
+      ) {
         pendingProjects.push({
           key: pj.key,
           title: pj.data.apelidoProjeto,
@@ -454,9 +479,7 @@ router.get("/pendentes", async (req, res, next) => {
             total: business.config.projectRules.docMinimum,
           },
           pictures: {
-            left:
-              businessRequiredPhotosLength.length -
-              requiredPhotos.length,
+            left: businessRequiredPhotosLength.length - requiredPhotos.length,
             total: businessRequiredPhotosLength.length,
           },
         });
