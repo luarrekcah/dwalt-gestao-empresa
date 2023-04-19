@@ -154,7 +154,7 @@ router.post("/registro", async (req, res) => {
     },
   };
   const checkUnique = () => {
-    return allUsers.find((item) => item.data.info.email === user.email);
+    return allUsers.find((item) => item.data.info.email === user.info.email || item.data.info.documents.cnpj === user.info.cnpj);
   };
   if (checkUnique()) return res.redirect("/?fail=true&message=userexists");
   createItem({ path: "gestaoempresa/business", params: user });
