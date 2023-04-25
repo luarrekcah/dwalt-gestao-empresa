@@ -5,7 +5,7 @@
         <div id="content-wrapper" class="d-flex flex-column">
           <div id="content">
             <%- include("../../partials/topbar.ejs") %>
-              <% if(customer.type==='pf' ) { %>
+              <% if(customer.type==='pf' || customer.cpf) { %>
                 <div class="container-fluid">
                   <h1 class="h3 mb-2 text-gray-800">Propriedades de <%= customer.nomeComp %>
                   </h1>

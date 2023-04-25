@@ -350,8 +350,6 @@ router.get("/reclamacoes", async (req, res, next) => {
 router.post("/reclamacoes", async (req, res, next) => {
   const data = req.body;
 
-  console.log(data);
-
   switch (data.type) {
     case "reply":
       const complaint = await getItems({ 

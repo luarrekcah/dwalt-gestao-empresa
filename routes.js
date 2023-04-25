@@ -4,6 +4,7 @@ const indexRouter = require("./routes/index"),
   logsRouter = require("./routes/logs"),
   dashboardRouter = require("./routes/dashboard"),
   projectsRouter = require("./routes/projects"),
+  projoutsRouter = require("./routes/projoutsource"),
   staffsRouter = require("./routes/staffs"),
   configRouter = require("./routes/config"),
   customersRouter = require("./routes/customers"),
@@ -44,8 +45,9 @@ module.exports = (app) => {
   app.use("/logs", authenticationSubsMiddleware, logsRouter);
   app.use("/dashboard", authenticationSubsMiddleware, dashboardRouter);
   app.use("/dashboard/projetos", authenticationSubsMiddleware, projectsRouter);
+  app.use("/dashboard/projetos/terceirizar", authenticationSubsMiddleware, projoutsRouter);
   app.use("/dashboard/equipe", authenticationSubsMiddleware, staffsRouter);
-  app.use("/dashboard/clientes", authenticationSubsMiddleware, customersRouter);
+  app.use("/dashboard/clientes", authenticationSubsMiddleware, customersRouter); 
   app.use("/dashboard/configuracao", authenticationSubsMiddleware, configRouter);
   app.use("/dashboard/chamados", authenticationSubsMiddleware, surveysRouter);
   app.use("/dashboard/inversores", authenticationSubsMiddleware, invertersRouter);

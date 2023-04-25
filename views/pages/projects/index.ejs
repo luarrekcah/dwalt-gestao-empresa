@@ -49,7 +49,7 @@
                   </thead>
                   <tbody>
                     <% if(projects !== undefined) { %>
-                    <% projects.forEach((item, i) => { %>
+                    <% projects.reverse().forEach((item, i) => { %>
                     <tr>
                       <td><%= item.data.apelidoProjeto %></td>
                       <td>

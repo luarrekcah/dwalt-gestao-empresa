@@ -1,0 +1,167 @@
+<%- include("../../partials/head.ejs") %>
+    <link href="https://cdn.jsdelivr.net/npm/smartwizard@6/dist/css/smart_wizard_all.min.css" rel="stylesheet"
+        type="text/css" />
+
+    <body id="page-top">
+        <div id="wrapper">
+            <%- include("../../partials/sidebar.ejs") %>
+                <div id="content-wrapper" class="d-flex flex-column">
+                    <div id="content">
+                        <%- include("../../partials/topbar.ejs") %>
+                            <div class="container-fluid">
+                                <h1 class="h3 mb-2 text-gray-800">Nova Solicitação</h1>
+                                <p class="mb-4">
+                                    Preencha os dados abaixo, verifique os documentos e faça o envio.
+                                </p>
+
+                                <div class="card shadow mb-4" style="padding: 40px">
+
+                                    <div id="smartwizard">
+
+                                        <ul class="nav">
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="#passo-1">
+                                                    <span class="num">1</span>
+                                                    Escolha o projeto
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="#passo-2">
+                                                    <span class="num">2</span>
+                                                    Envio dos documentos
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="#passo-3">
+                                                    <span class="num">3</span>
+                                                    Finalização
+                                                </a>
+                                            </li>
+
+                                        </ul>
+
+                                        <div class="tab-content">
+                                            <div id="passo-1" class="tab-pane" role="tabpanel"
+                                                aria-labelledby="passo-1">
+
+                                                <b class="mb-4">Selecione o projeto <b style="color: red">*</b></b>
+                                                <div class="mb-3">
+                                                    <select class="form-control" name='projectID' id="projectID"
+                                                        required>
+                                                        <option selected>Nenhum selecionado</option>
+                                                        <% projects.forEach(pj=> { %>
+                                                            <option value="<%=pj.key%>">
+                                                                <%=pj.data.apelidoProjeto%>
+                                                            </option>
+                                                            <% }) %>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div id="passo-2" class="tab-pane" role="tabpanel"
+                                                aria-labelledby="passo-2">
+                                                <input type="file" class="custom-file-input" id="fileInput" required
+                                                    multiple>
+                                                <label class="custom-file-label" id="labelEnd"
+                                                    data-browse="Procurar arquivo">Fotos ou documentos menores que
+                                                    50mb</label>
+                                                <h5>Sua solicitação deve conter os principais documentos para
+                                                    homologação do
+                                                    sistema, como:</h5>
+
+                                                <ul>
+                                                    <li>CNPJ ou RG/CNH frente e verso</li>
+                                                    <li>Fatura de energia da unidade geradora</li>
+                                                    <li>Faturas de energia das unidades consumidoras (em caso de
+                                                        geração compartilhada)</li>
+                                                    <li>Informações do KIT FOTOVOLTAICO (proposta, informações
+                                                        do
+                                                        fornecedor, manuais, panfletos e outros)</li>
+                                                    <li>Foto do padrão de entrada</li>
+                                                    <li>Foto fachada da residência</li>
+                                                    <li>Espessura do fio de saída do padrão de entrada</li>
+                                                    <li>Arquivo de texto com coordenadas</li>
+                                                </ul>
+
+                                                <small>Se seu cliente já tem algum desses documentos anexados
+                                                    no registro próprio, não será necessário adicionar novamente.
+                                                </small>
+                                            </div>
+                                            <div id="passo-3" class="tab-pane" role="tabpanel"
+                                                aria-labelledby="passo-3">
+                                                <p>
+                                                    Sua solicitação será enviada para <b>D | WALT ENGENHARIA</b> e
+                                                    analisada.
+                                                    Na ausência de algum documento, você receberá um alerta no
+                                                    e-mail do
+                                                    cadrastro e poderá consultar também na área principal de
+                                                    solicitações.
+                                                </p>
+                                                <p>
+                                                    A empresa será responsável por entrar em contato com sua equipe
+                                                    para
+                                                    proceder com excelência no desenvolvimento do projeto elétrico.
+                                                </p>
+                                                <p>
+                                                    A taxa de serviço será informada também pelo canal privado de
+                                                    comunicação com
+                                                    a empresa, como <b>Whatsapp</b> por exemplo.
+                                                </p>
+
+                                                <button class="btn btn-primary" id="confirmProjout">Confirmar envio de
+                                                    solicitação</button>
+                                            </div>
+                                        </div>
+
+                                        <div class="progress">
+                                            <div class="progress-bar" role="progressbar" style="width: 0%"
+                                                aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                    <%- include("../../partials/footer.ejs") %>
+                </div>
+        </div>
+        <a class="scroll-to-top rounded" href="#page-top">
+            <i class="fas fa-angle-up"></i>
+        </a>
+        <%- include("../components/modal/logout.ejs") %>
+            <script src="/vendor/jquery/jquery.min.js"></script>
+            <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+            <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+            <script src="/js/sb-admin-2.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/smartwizard@6/dist/js/jquery.smartWizard.min.js"
+                type="text/javascript"></script>
+            <script>
+                $(function () {
+                    $('#smartwizard').smartWizard(
+                        {
+                            theme: 'dots',
+                            justified: true,
+                            lang: {
+                                next: 'Próximo',
+                                previous: 'Anterior'
+                            },
+
+                            transition: {
+                                animation: 'slideHorizontal'
+                            },
+
+                        }
+                    );
+                });
+            </script>
+            <script>
+                document.getElementById("confirmProjout").addEventListener('click', () => {
+                    axios.post("/dashboard/projetos/terceirizar/novo", {
+                        teste: 'teste'
+                    }).then(r => {
+                        console.log(r.data);
+                    })
+                })
+
+            </script>
+    </body>
+
+    </html>

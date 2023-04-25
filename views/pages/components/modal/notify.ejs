@@ -116,8 +116,8 @@
 
     axios.post("/dashboard", data)
       .then((response) => {
-        location.href = response.request.responseURL
         formNotify.reset();
+        location.href = response.request.responseURL
       })
       .catch((error) => {
         console.log(error);
