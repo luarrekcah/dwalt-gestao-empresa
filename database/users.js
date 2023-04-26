@@ -1,4 +1,4 @@
-const { getDatabase, ref, push, update, remove, get } = require('@firebase/database');
+const { getDatabase, ref, push, update, remove, get, set } = require('@firebase/database');
 const { getStorage } = require('@firebase/storage');
 const moment = require("../services/moment");
 require('../database');

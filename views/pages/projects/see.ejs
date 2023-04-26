@@ -1,572 +1,594 @@
 <%- include("../../partials/head.ejs") %>
 
-<body id="page-top">
-  <div id="wrapper">
-    <%- include("../../partials/sidebar.ejs") %>
-    <div id="content-wrapper" class="d-flex flex-column">
-      <div id="content">
-        <%- include("../../partials/topbar.ejs") %>
-        <div class="container-fluid">
-          <h1 class="h3 mb-2 text-gray-800">Propriedades de <%= project.apelidoProjeto %>
-          </h1>
-          <p class="mb-4">Visualização de dados, para editar retorne a página principal de
-            projetos.</p>
-          <div class="card shadow mb-4">
-            <div class="card-body">
-              <h1 class="h3 mb-2 text-gray-800">Resumo
-              </h1>
-              <div class="row gx-3 mb-3">
-                <div class="col-md-3">
-                  <b> <i class="fas fa-info-circle"></i> Status</b>
-                  <p>
-                    <%=project.Status%> - <%-project.RStatus === '' ? '<b style="color: red;">Não provido</b>' : `${project.RStatus}` %>
-                  </p>
-                </div>
-                <div class="col-md-3">
-                  <b> <i class="fas fa-truck"></i> Status de Rastreio</b>
-                  <p>
-                    <%-project.statusRastreio === '' || project.statusRastreio === undefined ? '<b style="color: red;">Não provido</b>' : `${project.statusRastreio}` %>
-                  </p>
-                </div>
-                <div class="col-md-3">
-                  <b><i class="fas fa-bolt"></i> kWp</b>
-                  <p>
-                    <%-project.kwp === '' ? '<b style="color: red;">Não provido</b>' : `${project.kwp}` %>
-                  </p>
+  <body id="page-top">
+    <div id="wrapper">
+      <%- include("../../partials/sidebar.ejs") %>
+        <div id="content-wrapper" class="d-flex flex-column">
+          <div id="content">
+            <%- include("../../partials/topbar.ejs") %>
+              <div class="container-fluid">
+                <h1 class="h3 mb-2 text-gray-800">Propriedades de <%= project.apelidoProjeto %>
+                </h1>
+                <p class="mb-4">Visualização de dados, para editar retorne a página principal de
+                  projetos.</p>
+                <div class="card shadow mb-4">
+                  <div class="card-body">
+                    <h1 class="h3 mb-2 text-gray-800">Resumo
+                    </h1>
+                    <div class="row gx-3 mb-3">
+                      <div class="col-md-3">
+                        <b> <i class="fas fa-info-circle"></i> Status</b>
+                        <p>
+                          <%=project.Status%> - <%-project.RStatus==='' ? '<b style="color: red;">Não provido</b>' :
+                              `${project.RStatus}` %>
+                        </p>
+                      </div>
+                      <div class="col-md-3">
+                        <b> <i class="fas fa-truck"></i> Status de Rastreio</b>
+                        <p>
+                          <%-project.statusRastreio==='' || project.statusRastreio===undefined
+                            ? '<b style="color: red;">Não provido</b>' : `${project.statusRastreio}` %>
+                        </p>
+                      </div>
+                      <div class="col-md-3">
+                        <b><i class="fas fa-bolt"></i> kWp</b>
+                        <p>
+                          <%-project.kwp==='' ? '<b style="color: red;">Não provido</b>' : `${project.kwp}` %>
+                        </p>
 
-                </div>
-                <div class="col-md-3">
-                  <b><i class="fas fa-map"></i> Coordenadas</b>
-                  <p>
-                    <%=project.coords%>
-                  </p>
-                </div>
-                <div class="col-md-3">
-                  <b><i class="fas fa-square"></i> Código do Gerador</b>
-                  <p>
-                    <%-project.cod === '' ? '<b style="color: red;">Não provido</b>' : `${project.cod}` %>
-                  </p>
-                </div>
-                <div class="col-md-3">
-                  <b><i class="fas fa-solar-panel"></i> Usuário Growatt</b>
-                  <p>
-                    <%-project.username_growatt === '' ? '<b style="color: red;">Não provido</b>' : `${project.username_growatt}` %>
-                  </p>
-                </div>
-                <div class="col-md-3">
-                  <b><i class="fas fa-user"></i> Cliente</b>
-                  <p>
+                      </div>
+                      <div class="col-md-3">
+                        <b><i class="fas fa-map"></i> Coordenadas</b>
+                        <p>
+                          <%=project.coords%>
+                        </p>
+                      </div>
+                      <div class="col-md-3">
+                        <b><i class="fas fa-square"></i> Código do Gerador</b>
+                        <p>
+                          <%-project.cod==='' ? '<b style="color: red;">Não provido</b>' : `${project.cod}` %>
+                        </p>
+                      </div>
+                      <div class="col-md-3">
+                        <b><i class="fas fa-solar-panel"></i> Usuário Growatt</b>
+                        <p>
+                          <%-project.username_growatt==='' ? '<b style="color: red;">Não provido</b>' :
+                            `${project.username_growatt}` %>
+                        </p>
+                      </div>
+                      <div class="col-md-3">
+                        <b><i class="fas fa-user"></i> Cliente</b>
+                        <p>
 
-                    <a href="/dashboard/clientes/visualizar/<%= project.customerID %>">
-                      <i class="fas fa-eye"></i> Ver dados
-                    </a>
-                  </p>
-                </div>
-
-
-              </div>
-              <% if(growattData && growattData.status) { %>
-              <h1 class="h3 mb-2 text-gray-800">Sistema Growatt
-              </h1>
-              <div class="row gx-3 mb-3">
-
-                <div class="col-md-3">
-                  <b><i class="fas fa-wifi"></i> Status do Sistema</b>
-                <br>
-                    <% if (growattData.status === 0) { %>
-                      <b>0 (reporte esse projeto para o suporte)</b>
-                    <% } else if (growattData.status === 1) { %>
-                      <b style="color: green">Online</b>
-                    <% } else if (growattData.status === 2) { %>
-                      <b>2 (reporte esse projeto para o suporte)</b>
-                    <% } else if (growattData.status === 3) { %>
-                      <b>3 (reporte esse projeto para o suporte)</b>
-                    <% } else if (growattData.status === 4) { %>
-                      <b>Off-line</b> 
-                    <% } %>
-                  
-                </div>
-
-                <% if(project.overview) { %>
-                  <div class="col-md-3">
-                    <b><i class="fas fa-bolt"></i> Geração atual</b>
-                    <p>
-                      <%= project.overview.data.data.current_power%> 
-                    </p>
-                  </div>
-  
-                  <div class="col-md-3">
-                    <b><i class="fas fa-bolt"></i> Geração hoje</b>
-                    <p>
-                      <%= project.overview.data.data.today_energy%> kW
-                    </p>
-                  </div>
-  
-                  <div class="col-md-3">
-                    <b><i class="fas fa-bolt"></i> Geração mensal</b>
-                    <p>
-                      <%= project.overview.data.data.monthly_energy%> kW
-                    </p>
-                  </div>
-                <% }%>
-                <div class="col-md-3">
-                  <b><i class="fas fa-bolt"></i> Geração total</b>
-                  <p>
-                    <%= growattData.total_energy%> kW
-                  </p>
-                </div>
-                <div class="col-md-3">
-                  <b><i class="fas fa-calendar"></i> Data de registro</b>
-                  <p>
-                    <%= growattData.create_date%>
-                  </p>
-                </div>
-              </div>
-              <div class="row gx-3 mb-3">
-                <div class="card-header py-3">
-                  <h6 class="m-0 font-weight-bold text-primary">Histórico de geração</h6>
-                </div>
-                <div class="card-body">
-                  <div class="chart-area">
-                    <canvas id="myAreaChart"></canvas>
-                  </div>
-                </div>
-              </div>
-              <%}%>
-              <h1 class="h3 mb-2 text-gray-800">Imagens
-              </h1>
-              <% if(project.photos) { %>
-              <div class="slider">
-                <% photos.forEach(item=> { %>
-                <div><img style="height: 100%; width: 100%;" src="<%=item.data.url%>"></div>
-                <% }) %>
-              </div>
-              <% } else { %>
-              <b> <i class="fas fa-info-circle"></i> Projeto não possui fotos</b>
-              <% } %>
-              <h1 class="h3 mb-2 text-gray-800">Documentos <a href="#" data-toggle="modal" data-target="#addDocument" style="height: 25px; width: 25px;" class="btn btn-info btn-circle">
-                  <i class="fas fa-plus"></i>
-                </a>
-              </h1>
-              <div class="row gx-3 mb-3" id="documentos">
-                <% if(documents.length !==0) { %>
-                <% documents.forEach(i=> { %>
-                <div class="col-xl-3 col-md-6 mb-4">
-                  <div class="card border-left-primary shadow h-100 py-2">
-                    <div class="card-body">
-                      <div class="row no-gutters align-items-center">
-                        <div class="col mr-2">
-                          <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                            <%=i.data.documentName%>
-                          </div>
-                          <div class='row' style="margin-left: 0px">
-                            <a download="<%=i.data.documentName%>.pdf" target="_blank" rel="noopener noreferrer" href="<%=i.data.documentURL%>" class="btn btn-dark">
-                              <span class="text"> <i class="fas fa-eye"></i></span>
-                            </a>
-                            <form method="post">
-                              <input type="text" name="type" value="DELETE_DOCUMENT" style="display: none;">
-                              <input type="text" name="documentId" value="<%=i.key%>" style="display: none;">
-                              <input type="text" name="documentName" value="<%=i.data.documentName%>" style="display: none;">
-                              <button class="btn btn-danger" style="margin-left: 10px;" type="submit">
-                                <i class="fas fa-trash"></i></button>
-                            </form>
-                          </div>
-                        </div>
-
-                        <div class="col-auto">
-                          <i class="fas fa-file fa-2x text-gray-300"></i>
-                        </div>
+                          <a href="/dashboard/clientes/visualizar/<%= project.customerID %>">
+                            <i class="fas fa-eye"></i> Ver dados
+                          </a>
+                        </p>
                       </div>
 
-                      <small>
-                        <script>
-                          document.write(moment("<%=i.data.createdAt%>").format("L LT"));
-                        </script>
-                      </small>
+
                     </div>
-                  </div>
-                </div>
-                <% }) %>
-              </div>
-              <%} else {%>
-              <b> <i class="fas fa-info-circle"></i> Sem
-                documentos</b>
-            </div>
-            <% } %>
-            
-           
+                    <% if(growattData && growattData.status) { %>
+                      <h1 class="h3 mb-2 text-gray-800">Sistema Growatt
+                      </h1>
+                      <div class="row gx-3 mb-3">
 
-              <%if(required.length !== 0) { %>
+                        <div class="col-md-3">
+                          <b><i class="fas fa-wifi"></i> Status do Sistema</b>
+                          <br>
+                          <% if (growattData.status===0) { %>
+                            <b>0 (reporte esse projeto para o suporte)</b>
+                            <% } else if (growattData.status===1) { %>
+                              <b style="color: green">Online</b>
+                              <% } else if (growattData.status===2) { %>
+                                <b>2 (reporte esse projeto para o suporte)</b>
+                                <% } else if (growattData.status===3) { %>
+                                  <b>3 (reporte esse projeto para o suporte)</b>
+                                  <% } else if (growattData.status===4) { %>
+                                    <b>Off-line</b>
+                                    <% } %>
 
-                <h1 class="h3 mb-2 text-gray-800">Imagens obrigatórias
-                </h1>
-                <div class="row gx-3 mb-3" id="imagens_obrigatorias">
-               
-              <%required.forEach(r => { %>
-
-              <div class="col-xl-3 col-md-6 mb-4">
-                <div class="card border-left-<%= r.array ? 'primary' : 'danger'%> shadow h-100 py-2">
-                  <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                      <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-<%= r.array ? 'primary' : 'danger'%> text-uppercase mb-1">
-                          <%=r.data.titulo%>
                         </div>
-                        <div class='row' style="margin-left: 0px">
-                          <%if(r.array) { %>
-                          <a target="_blank" rel="noopener noreferrer" href="<%=r.array.data.data[0]%>" class="btn btn-dark">
-                            <span class="text"><i class="fas fa-eye"></i></span>
-                          </a>
-                          <form method="post">
-                            <input type="text" name="type" value="DELETE_PHOTO" style="display: none;">
-                            <input type="text" name="photoId" value="<%=r.key%>" style="display: none;">
-                            <input type="text" name="photoName" value="<%=r.data.titulo%>" style="display: none;">
-                            <input type="text" name="photosQuantity" value="<%=r.array.data.data.length%>" style="display: none;">
-                            <button class="btn btn-danger" style="margin-left: 10px;" type="submit">
-                              <i class="fas fa-trash"></i></button>
-                          </form>
+
+                        <% if(project.overview) { %>
+                          <div class="col-md-3">
+                            <b><i class="fas fa-bolt"></i> Geração atual</b>
+                            <p>
+                              <%= project.overview.data.data.current_power%>
+                            </p>
+                          </div>
+
+                          <div class="col-md-3">
+                            <b><i class="fas fa-bolt"></i> Geração hoje</b>
+                            <p>
+                              <%= project.overview.data.data.today_energy%> kW
+                            </p>
+                          </div>
+
+                          <div class="col-md-3">
+                            <b><i class="fas fa-bolt"></i> Geração mensal</b>
+                            <p>
+                              <%= project.overview.data.data.monthly_energy%> kW
+                            </p>
+                          </div>
+                          <% }%>
+                            <div class="col-md-3">
+                              <b><i class="fas fa-bolt"></i> Geração total</b>
+                              <p>
+                                <%= growattData.total_energy%> kW
+                              </p>
+                            </div>
+                            <div class="col-md-3">
+                              <b><i class="fas fa-calendar"></i> Data de registro</b>
+                              <p>
+                                <%= growattData.create_date%>
+                              </p>
+                            </div>
+                      </div>
+                      <div class="row gx-3 mb-3">
+                        <div class="card-header py-3">
+                          <h6 class="m-0 font-weight-bold text-primary">Histórico de geração</h6>
+                        </div>
+                        <div class="card-body">
+                          <div class="chart-area">
+                            <canvas id="myAreaChart"></canvas>
+                          </div>
+                        </div>
+                      </div>
+                      <%}%>
+                        <h1 class="h3 mb-2 text-gray-800">Imagens
+                        </h1>
+                        <% if(project.photos) { %>
+                          <div class="slider">
+                            <% photos.forEach(item=> { %>
+                              <div><img style="height: 100%; width: 100%;" src="<%=item.data.url%>"></div>
+                              <% }) %>
+                          </div>
                           <% } else { %>
-                          Sem imagem
-                          <!--<a href="#imagens_obrigatorias" class="btn btn-dark">
+                            <b> <i class="fas fa-info-circle"></i> Projeto não possui fotos</b>
+                            <% } %>
+                              <h1 class="h3 mb-2 text-gray-800">Documentos <a href="#" data-toggle="modal"
+                                  data-target="#addDocument" style="height: 25px; width: 25px;"
+                                  class="btn btn-info btn-circle">
+                                  <i class="fas fa-plus"></i>
+                                </a>
+                              </h1>
+                              <div class="row gx-3 mb-3" id="documentos">
+                                <% if(documents.length !==0) { %>
+                                  <% documents.forEach(i=> { %>
+                                    <div class="col-xl-3 col-md-6 mb-4">
+                                      <div class="card border-left-primary shadow h-100 py-2">
+                                        <div class="card-body">
+                                          <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                              <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                <%=i.data.documentName%>
+                                              </div>
+                                              <div class='row' style="margin-left: 0px">
+                                                <a download="<%=i.data.documentName%>.pdf" target="_blank"
+                                                  rel="noopener noreferrer" href="<%=i.data.documentURL%>"
+                                                  class="btn btn-dark">
+                                                  <span class="text"> <i class="fas fa-eye"></i></span>
+                                                </a>
+                                                <form method="post">
+                                                  <input type="text" name="type" value="DELETE_DOCUMENT"
+                                                    style="display: none;">
+                                                  <input type="text" name="documentId" value="<%=i.key%>"
+                                                    style="display: none;">
+                                                  <input type="text" name="documentName"
+                                                    value="<%=i.data.documentName%>" style="display: none;">
+                                                  <button class="btn btn-danger" style="margin-left: 10px;"
+                                                    type="submit">
+                                                    <i class="fas fa-trash"></i></button>
+                                                </form>
+                                              </div>
+                                            </div>
+
+                                            <div class="col-auto">
+                                              <i class="fas fa-file fa-2x text-gray-300"></i>
+                                            </div>
+                                          </div>
+
+                                          <small>
+                                            <script>
+                                              document.write(moment("<%=i.data.createdAt%>").format("L LT"));
+                                            </script>
+                                          </small>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <% }) %>
+                              </div>
+                              <%} else {%>
+
+                  </div>
+                  <b> <i class="fas fa-info-circle"></i> Sem
+                    documentos</b>
+                  <% } %>
+
+
+
+                    <%if(required.length !==0) { %>
+
+                      <h1 class="h3 mb-2 text-gray-800">Imagens obrigatórias
+                      </h1>
+                      <div class="row gx-3 mb-3" id="imagens_obrigatorias">
+
+                        <%required.forEach(r=> { %>
+
+                          <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-<%= r.array ? 'primary' : 'danger'%> shadow h-100 py-2">
+                              <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                  <div class="col mr-2">
+                                    <div
+                                      class="text-xs font-weight-bold text-<%= r.array ? 'primary' : 'danger'%> text-uppercase mb-1">
+                                      <%=r.data.titulo%>
+                                    </div>
+                                    <div class='row' style="margin-left: 0px">
+                                      <%if(r.array) { %>
+                                        <a target="_blank" rel="noopener noreferrer" href="<%=r.array.data.data[0]%>"
+                                          class="btn btn-dark">
+                                          <span class="text"><i class="fas fa-eye"></i></span>
+                                        </a>
+                                        <form method="post">
+                                          <input type="text" name="type" value="DELETE_PHOTO" style="display: none;">
+                                          <input type="text" name="photoId" value="<%=r.key%>" style="display: none;">
+                                          <input type="text" name="photoName" value="<%=r.data.titulo%>"
+                                            style="display: none;">
+                                          <input type="text" name="photosQuantity" value="<%=r.array.data.data.length%>"
+                                            style="display: none;">
+                                          <button class="btn btn-danger" style="margin-left: 10px;" type="submit">
+                                            <i class="fas fa-trash"></i></button>
+                                        </form>
+                                        <% } else { %>
+                                          Sem imagem
+                                          <!--<a href="#imagens_obrigatorias" class="btn btn-dark">
                             <span class="text"><i class="fas fa-plus"></i></span>
                           </a>-->
+                                          <%}%>
+
+                                    </div>
+                                  </div>
+
+                                  <div class="col-auto">
+                                    <i class="fas fa-<%= r.array ? 'camera' : 'exclamation'%> fa-2x text-gray-300"></i>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          <%})%>
+                      </div>
+                      <% } %>
+
+
+
+
+                        <h1 class="h3 mb-2 text-gray-800">Mapa
+                        </h1>
+                        <div class="row gx-3 mb-3">
+                          <div class="mapa" id="mapa" style="width: 100%; height: 400px; margin: 10px;">
+                          </div>
+                        </div>
+
+                        <%if(historic.length !==0) {%>
+                          <div class="container">
+
+                            <style>
+                              .timeline {
+                                border-left: 3px solid #727cf5;
+                                border-bottom-right-radius: 4px;
+                                border-top-right-radius: 4px;
+                                background: rgba(114, 124, 245, 0.09);
+                                margin: 0 auto;
+                                letter-spacing: 0.2px;
+                                position: relative;
+                                line-height: 1.4em;
+                                font-size: 1.03em;
+                                padding: 50px;
+                                list-style: none;
+                                text-align: left;
+                                max-width: 40%;
+                              }
+
+                              @media (max-width: 767px) {
+                                .timeline {
+                                  max-width: 98%;
+                                  padding: 25px;
+                                }
+                              }
+
+                              .timeline h1 {
+                                font-weight: 300;
+                                font-size: 1.4em;
+                              }
+
+                              .timeline h2,
+                              .timeline h3 {
+                                font-weight: 600;
+                                font-size: 1rem;
+                                margin-bottom: 10px;
+                              }
+
+                              .timeline .event {
+                                border-bottom: 1px dashed #e8ebf1;
+                                padding-bottom: 25px;
+                                margin-bottom: 25px;
+                                position: relative;
+                              }
+
+                              @media (max-width: 767px) {
+                                .timeline .event {
+                                  padding-top: 30px;
+                                }
+                              }
+
+                              .timeline .event:last-of-type {
+                                padding-bottom: 0;
+                                margin-bottom: 0;
+                                border: none;
+                              }
+
+                              .timeline .event:before,
+                              .timeline .event:after {
+                                position: absolute;
+                                display: block;
+                                top: 0;
+                              }
+
+                              .timeline .event:before {
+                                left: -207px;
+                                content: attr(data-date);
+                                text-align: right;
+                                font-weight: 100;
+                                font-size: 0.9em;
+                                min-width: 120px;
+                              }
+
+                              @media (max-width: 767px) {
+                                .timeline .event:before {
+                                  left: 0px;
+                                  text-align: left;
+                                }
+                              }
+
+                              .timeline .event:after {
+                                -webkit-box-shadow: 0 0 0 3px #727cf5;
+                                box-shadow: 0 0 0 3px #727cf5;
+                                left: -55.8px;
+                                background: #fff;
+                                border-radius: 50%;
+                                height: 9px;
+                                width: 9px;
+                                content: "";
+                                top: 5px;
+                              }
+
+                              @media (max-width: 767px) {
+                                .timeline .event:after {
+                                  left: -31.8px;
+                                }
+                              }
+
+                              .rtl .timeline {
+                                border-left: 0;
+                                text-align: right;
+                                border-bottom-right-radius: 0;
+                                border-top-right-radius: 0;
+                                border-bottom-left-radius: 4px;
+                                border-top-left-radius: 4px;
+                                border-right: 3px solid #727cf5;
+                              }
+
+                              .rtl .timeline .event::before {
+                                left: 0;
+                                right: -170px;
+                              }
+
+                              .rtl .timeline .event::after {
+                                left: 0;
+                                right: -55.8px;
+                              }
+                            </style>
+                            <div class="row">
+                              <div class="col-md-12">
+                                <div class="card">
+                                  <div class="card-body">
+                                    <h6 class="card-title">Histórico</h6>
+                                    <div id="content">
+                                      <ul class="timeline">
+                                        <%historic.forEach(i=> { %>
+                                          <li class="event" data-date="<%=i.data.time.content%>">
+                                            <h3>
+                                              <%=i.data.title.content%>
+                                            </h3>
+                                            <p>
+                                              <%=i.data.description.content%>
+                                            </p>
+                                          </li>
+                                          <%}) %>
+                                      </ul>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                           <%}%>
-                         
-                        </div>
-                      </div>
-
-                      <div class="col-auto">
-                        <i class="fas fa-<%= r.array ? 'camera' : 'exclamation'%> fa-2x text-gray-300"></i>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <%})%>
-              </div>
-                <% } %>
-
-
-
-              
-              <h1 class="h3 mb-2 text-gray-800">Mapa
-              </h1>
-              <div class="row gx-3 mb-3">
-                <div class="mapa" id="mapa" style="width: 100%; height: 400px; margin: 10px;">
                 </div>
               </div>
-
-              <%if(historic.length !== 0) {%>
-              <div class="container">
-
-                <style>
-                  .timeline {
-                    border-left: 3px solid #727cf5;
-                    border-bottom-right-radius: 4px;
-                    border-top-right-radius: 4px;
-                    background: rgba(114, 124, 245, 0.09);
-                    margin: 0 auto;
-                    letter-spacing: 0.2px;
-                    position: relative;
-                    line-height: 1.4em;
-                    font-size: 1.03em;
-                    padding: 50px;
-                    list-style: none;
-                    text-align: left;
-                    max-width: 40%;
-                  }
-
-                  @media (max-width: 767px) {
-                    .timeline {
-                      max-width: 98%;
-                      padding: 25px;
-                    }
-                  }
-
-                  .timeline h1 {
-                    font-weight: 300;
-                    font-size: 1.4em;
-                  }
-
-                  .timeline h2,
-                  .timeline h3 {
-                    font-weight: 600;
-                    font-size: 1rem;
-                    margin-bottom: 10px;
-                  }
-
-                  .timeline .event {
-                    border-bottom: 1px dashed #e8ebf1;
-                    padding-bottom: 25px;
-                    margin-bottom: 25px;
-                    position: relative;
-                  }
-
-                  @media (max-width: 767px) {
-                    .timeline .event {
-                      padding-top: 30px;
-                    }
-                  }
-
-                  .timeline .event:last-of-type {
-                    padding-bottom: 0;
-                    margin-bottom: 0;
-                    border: none;
-                  }
-
-                  .timeline .event:before,
-                  .timeline .event:after {
-                    position: absolute;
-                    display: block;
-                    top: 0;
-                  }
-
-                  .timeline .event:before {
-                    left: -207px;
-                    content: attr(data-date);
-                    text-align: right;
-                    font-weight: 100;
-                    font-size: 0.9em;
-                    min-width: 120px;
-                  }
-
-                  @media (max-width: 767px) {
-                    .timeline .event:before {
-                      left: 0px;
-                      text-align: left;
-                    }
-                  }
-
-                  .timeline .event:after {
-                    -webkit-box-shadow: 0 0 0 3px #727cf5;
-                    box-shadow: 0 0 0 3px #727cf5;
-                    left: -55.8px;
-                    background: #fff;
-                    border-radius: 50%;
-                    height: 9px;
-                    width: 9px;
-                    content: "";
-                    top: 5px;
-                  }
-
-                  @media (max-width: 767px) {
-                    .timeline .event:after {
-                      left: -31.8px;
-                    }
-                  }
-
-                  .rtl .timeline {
-                    border-left: 0;
-                    text-align: right;
-                    border-bottom-right-radius: 0;
-                    border-top-right-radius: 0;
-                    border-bottom-left-radius: 4px;
-                    border-top-left-radius: 4px;
-                    border-right: 3px solid #727cf5;
-                  }
-
-                  .rtl .timeline .event::before {
-                    left: 0;
-                    right: -170px;
-                  }
-
-                  .rtl .timeline .event::after {
-                    left: 0;
-                    right: -55.8px;
-                  }
-                </style>
-                <div class="row">
-                  <div class="col-md-12">
-                    <div class="card">
-                      <div class="card-body">
-                        <h6 class="card-title">Histórico</h6>
-                        <div id="content">
-                          <ul class="timeline">
-                            <%historic.forEach(i => { %>
-                            <li class="event" data-date="<%=i.data.time.content%>">
-                              <h3><%=i.data.title.content%></h3>
-                              <p><%=i.data.description.content%></p>
-                            </li>
-                            <%}) %>
-                          </ul>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <%}%>
-            </div>
           </div>
         </div>
-      </div>
-      <%- include("../../partials/footer.ejs") %>
-            </div>
-          </div>
-          <a class="scroll-to-top rounded" href="#page-top">
-            <i class="fas fa-angle-up"></i>
-          </a>
-          <%- include("../components/modal/logout.ejs") %>
-          <%- include("./components/modal/newDocument.ejs") %>
-          <script src="/vendor/chart.js/Chart.min.js"></script>
-          <script src="/vendor/jquery/jquery.min.js"></script>
-          <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-          <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
-          <script src="/vendor/slick-master/slick/slick.js"></script>
-          <script src="/js/sb-admin-2.min.js"></script>
-          <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js" integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ==" crossorigin=""></script>
-          <script>
-            $(document).ready(function() {
-              $('.slider').slick({
-                infinite: true,
-                slidesToShow: 4,
-                slidesToScroll: 4,
-                speed: 300,
-                adaptiveHeight: true,
-                autoplay: true,
-                autoplaySpeed: 2000,
-              });
+        <%- include("../../partials/footer.ejs") %>
+    </div>
+    </div>
+    <a class="scroll-to-top rounded" href="#page-top">
+      <i class="fas fa-angle-up"></i>
+    </a>
+    <%- include("../components/modal/logout.ejs") %>
+      <%- include("./components/modal/newDocument.ejs") %>
+        <script src="/vendor/chart.js/Chart.min.js"></script>
+        <script src="/vendor/jquery/jquery.min.js"></script>
+        <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+        <script src="/vendor/slick-master/slick/slick.js"></script>
+        <script src="/js/sb-admin-2.min.js"></script>
+        <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"
+          integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ=="
+          crossorigin=""></script>
+        <script>
+          $(document).ready(function () {
+            $('.slider').slick({
+              infinite: true,
+              slidesToShow: 4,
+              slidesToScroll: 4,
+              speed: 300,
+              adaptiveHeight: true,
+              autoplay: true,
+              autoplaySpeed: 2000,
             });
+          });
 
-            let map = L.map('mapa').setView([<%=project.coords.split(",")[0] %>, <%=project.coords.split(",")[1] %>], 15);
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-              attribution: '© OpenStreetMap contributors'
-            }).addTo(map);
-            let LeafIcon = L.Icon.extend({
-              options: {
-                iconSize: [60, 60],
-              }
-            });
-            let systemIcon = new LeafIcon({
-              iconUrl: 'https://static.wixstatic.com/media/2f7194_fa185c61f22e43f193b873822dec1beb~mv2.png/v1/fill/w_426,h_410,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/Placa-Painel-Solar.png'
-            });
-
-            L.marker([<%=project.coords.split(",")[0] %>, <%=project.coords.split(",")[1] %>], {
-              icon: systemIcon
-            }).bindPopup('<%=project.apelidoProjeto%>').addTo(map);
-          </script>
-          <script>
-            // Set new default font family and font color to mimic Bootstrap's default styling
-            Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
-            Chart.defaults.global.defaultFontColor = '#858796';
-
-            function number_format(number, decimals, dec_point, thousands_sep) {
-              // *     example: number_format(1234.56, 2, ',', ' ');
-              // *     return: '1 234,56'
-              number = (number + '').replace(',', '').replace(' ', '');
-              var n = !isFinite(+number) ? 0 : +number,
-                prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
-                sep = (typeof thousands_sep === 'undefined') ? ',' : thousands_sep,
-                dec = (typeof dec_point === 'undefined') ? '.' : dec_point,
-                s = '',
-                toFixedFix = function(n, prec) {
-                  var k = Math.pow(10, prec);
-                  return '' + Math.round(n * k) / k;
-                };
-              // Fix for IE parseFloat(0.55).toFixed(0) = 0;
-              s = (prec ? toFixedFix(n, prec) : '' + Math.round(n)).split('.');
-              if (s[0].length > 3) {
-                s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep);
-              }
-              if ((s[1] || '').length < prec) {
-                s[1] = s[1] || '';
-                s[1] += new Array(prec - s[1].length + 1).join('0');
-              }
-              return s.join(dec);
+          let map = L.map('mapa').setView([<%=project.coords.split(",")[0] %>, <%=project.coords.split(",")[1] %>], 15);
+          L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+          }).addTo(map);
+          let LeafIcon = L.Icon.extend({
+            options: {
+              iconSize: [60, 60],
             }
+          });
+          let systemIcon = new LeafIcon({
+            iconUrl: 'https://static.wixstatic.com/media/2f7194_fa185c61f22e43f193b873822dec1beb~mv2.png/v1/fill/w_426,h_410,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/Placa-Painel-Solar.png'
+          });
 
-            // Area Chart Example
-            var ctx = document.getElementById("myAreaChart");
-            var myLineChart = new Chart(ctx, {
-              type: 'line',
-              data: {
-                labels: <%- labels %>,
-                datasets: [{
-                  label: "kWh",
-                  lineTension: 0.3,
-                  backgroundColor: "rgba(78, 115, 223, 0.05)",
-                  borderColor: "rgba(78, 115, 223, 1)",
-                  pointRadius: 3,
-                  pointBackgroundColor: "rgba(78, 115, 223, 1)",
-                  pointBorderColor: "rgba(78, 115, 223, 1)",
-                  pointHoverRadius: 3,
-                  pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
-                  pointHoverBorderColor: "rgba(78, 115, 223, 1)",
-                  pointHitRadius: 10,
-                  pointBorderWidth: 2,
-                  data: <%-dataChart%>,
+          L.marker([<%=project.coords.split(",")[0] %>, <%=project.coords.split(",")[1] %>], {
+            icon: systemIcon
+          }).bindPopup('<%=project.apelidoProjeto%>').addTo(map);
+        </script>
+        <script>
+          // Set new default font family and font color to mimic Bootstrap's default styling
+          Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
+          Chart.defaults.global.defaultFontColor = '#858796';
+
+          function number_format(number, decimals, dec_point, thousands_sep) {
+            // *     example: number_format(1234.56, 2, ',', ' ');
+            // *     return: '1 234,56'
+            number = (number + '').replace(',', '').replace(' ', '');
+            var n = !isFinite(+number) ? 0 : +number,
+              prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
+              sep = (typeof thousands_sep === 'undefined') ? ',' : thousands_sep,
+              dec = (typeof dec_point === 'undefined') ? '.' : dec_point,
+              s = '',
+              toFixedFix = function (n, prec) {
+                var k = Math.pow(10, prec);
+                return '' + Math.round(n * k) / k;
+              };
+            // Fix for IE parseFloat(0.55).toFixed(0) = 0;
+            s = (prec ? toFixedFix(n, prec) : '' + Math.round(n)).split('.');
+            if (s[0].length > 3) {
+              s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep);
+            }
+            if ((s[1] || '').length < prec) {
+              s[1] = s[1] || '';
+              s[1] += new Array(prec - s[1].length + 1).join('0');
+            }
+            return s.join(dec);
+          }
+
+          // Area Chart Example
+          var ctx = document.getElementById("myAreaChart");
+          var myLineChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+              labels: <% - labels %>,
+              datasets: [{
+                label: "kWh",
+                lineTension: 0.3,
+                backgroundColor: "rgba(78, 115, 223, 0.05)",
+                borderColor: "rgba(78, 115, 223, 1)",
+                pointRadius: 3,
+                pointBackgroundColor: "rgba(78, 115, 223, 1)",
+                pointBorderColor: "rgba(78, 115, 223, 1)",
+                pointHoverRadius: 3,
+                pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
+                pointHoverBorderColor: "rgba(78, 115, 223, 1)",
+                pointHitRadius: 10,
+                pointBorderWidth: 2,
+                data: <% -dataChart %>,
+              }],
+            },
+            options: {
+              maintainAspectRatio: false,
+              layout: {
+                padding: {
+                  left: 10,
+                  right: 25,
+                  top: 25,
+                  bottom: 0
+                }
+              },
+              scales: {
+                xAxes: [{
+                  time: {
+                    unit: 'date'
+                  },
+                  gridLines: {
+                    display: false,
+                    drawBorder: false
+                  },
+                  ticks: {
+                    maxTicksLimit: 7
+                  }
+                }],
+                yAxes: [{
+                  ticks: {
+                    maxTicksLimit: 5,
+                    padding: 10,
+                    // Include a dollar sign in the ticks
+                    callback: function (value, index, values) {
+                      return number_format(value) + "kWh";
+                    }
+                  },
+                  gridLines: {
+                    color: "rgb(234, 236, 244)",
+                    zeroLineColor: "rgb(234, 236, 244)",
+                    drawBorder: false,
+                    borderDash: [2],
+                    zeroLineBorderDash: [2]
+                  }
                 }],
               },
-              options: {
-                maintainAspectRatio: false,
-                layout: {
-                  padding: {
-                    left: 10,
-                    right: 25,
-                    top: 25,
-                    bottom: 0
-                  }
-                },
-                scales: {
-                  xAxes: [{
-                    time: {
-                      unit: 'date'
-                    },
-                    gridLines: {
-                      display: false,
-                      drawBorder: false
-                    },
-                    ticks: {
-                      maxTicksLimit: 7
-                    }
-                  }],
-                  yAxes: [{
-                    ticks: {
-                      maxTicksLimit: 5,
-                      padding: 10,
-                      // Include a dollar sign in the ticks
-                      callback: function(value, index, values) {
-                        return number_format(value) + "kWh";
-                      }
-                    },
-                    gridLines: {
-                      color: "rgb(234, 236, 244)",
-                      zeroLineColor: "rgb(234, 236, 244)",
-                      drawBorder: false,
-                      borderDash: [2],
-                      zeroLineBorderDash: [2]
-                    }
-                  }],
-                },
-                legend: {
-                  display: false
-                },
-                tooltips: {
-                  backgroundColor: "rgb(255,255,255)",
-                  bodyFontColor: "#858796",
-                  titleMarginBottom: 10,
-                  titleFontColor: '#6e707e',
-                  titleFontSize: 14,
-                  borderColor: '#dddfeb',
-                  borderWidth: 1,
-                  xPadding: 15,
-                  yPadding: 15,
-                  displayColors: false,
-                  intersect: false,
-                  mode: 'index',
-                  caretPadding: 10,
-                  callbacks: {
-                    label: function(tooltipItem, chart) {
-                      var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
-                      return number_format(tooltipItem.yLabel) + " kWh"
-                    }
+              legend: {
+                display: false
+              },
+              tooltips: {
+                backgroundColor: "rgb(255,255,255)",
+                bodyFontColor: "#858796",
+                titleMarginBottom: 10,
+                titleFontColor: '#6e707e',
+                titleFontSize: 14,
+                borderColor: '#dddfeb',
+                borderWidth: 1,
+                xPadding: 15,
+                yPadding: 15,
+                displayColors: false,
+                intersect: false,
+                mode: 'index',
+                caretPadding: 10,
+                callbacks: {
+                  label: function (tooltipItem, chart) {
+                    var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
+                    return number_format(tooltipItem.yLabel) + " kWh"
                   }
                 }
               }
-            });
-          </script>
+            }
+          });
+        </script>
 
-</body>
+  </body>
 
-</html>
+  </html>
