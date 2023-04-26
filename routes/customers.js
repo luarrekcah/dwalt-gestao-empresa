@@ -71,10 +71,11 @@ router.post("/adicionar", async (req, res, next) => {
 
 router.get("/visualizar/:id", async (req, res, next) => {
   const user = await getUser({ userId: req.user.key });
-  
-  const photos = await getItems({
-    path: `gestaoempresa/business/${req.user.key}/customers/${req.params.id}/photos`,
-  });
+
+  const photos =
+    (await getAllItems({
+      path: `gestaoempresa/business/${req.user.key}/customers/${req.params.id}/photos`,
+    })) || [];
   const customer = await getItems({
     path: `gestaoempresa/business/${req.user.key}/customers/${req.params.id}`,
   });
@@ -98,24 +99,34 @@ router.post("/visualizar/:id", async (req, res, next) => {
       for (const image of receivedData) {
         const path = `gestaoempresa/business/${req.user.key}/customers/${
           req.params.id
-        }/${new Date().getDate()}.jpg`;
+        }/photos/${new Date().getTime()}.jpg`;
         const storageRef = ref(storage, path);
-        uploadString(storageRef, image, "data_url").then((snapshot) => {
-          getDownloadURL(snapshot.ref).then((downloadURL) => {
-            createItem({
-              path: `gestaoempresa/business/${req.user.key}/customers/${req.params.id}/photos`,
-              params: {
-                path,
-                url: downloadURL,
-              },
+        try {
+          uploadString(storageRef, image, "data_url").then((snapshot) => {
+            console.log(snapshot);
+            getDownloadURL(snapshot.ref).then((downloadURL) => {
+              console.log(downloadURL);
+              console.log(
+                `gestaoempresa/business/${req.user.key}/customers/${req.params.id}/photos`
+              );
+              createItem({
+                path: `gestaoempresa/business/${req.user.key}/customers/${req.params.id}/photos`,
+                params: {
+                  path,
+                  url: downloadURL,
+                },
+              });
             });
           });
-        });
+        } catch (error) {
+          console.log(error);
+        }
       }
       createLogs(req.user.key, "Imagens adicionadas para um cliente.");
-      res.redirect(`/dashboard/clientes/visualizar/${req.params.id}`);
       break;
   }
+
+  return res.redirect(`/dashboard/clientes/visualizar/${req.params.id}`);
 });
 
 router.get("/editar/:id", async (req, res, next) => {
