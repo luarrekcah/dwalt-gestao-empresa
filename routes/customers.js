@@ -81,6 +81,8 @@ router.get("/visualizar/:id", async (req, res, next) => {
   });
   let message = null;
 
+  console.log(photos);
+
   const data = {
     user,
     customer,
