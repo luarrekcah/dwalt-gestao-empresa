@@ -1,34 +1,117 @@
+const { getStorage, ref, uploadString, getDownloadURL } = require("@firebase/storage");
+const { getAllItems, getUser, createItem } = require("../database/users");
 
-const { getAllItems, getUser } = require("../database/users");
+const moment = require("../services/moment");
 
 const express = require("express"),
-    router = express.Router();
+  router = express.Router();
 
 router.get("/", async (req, res, next) => {
-    const projsout = await getAllItems({ path: `gestaoempresa/business/${req.user.key}/projoutsource` }),
-    user = await getUser({ userId: req.user.key })
-    const data = {
-        user,
-        projsout,
-        message: null,
-    }
-    res.render("pages/projouts", data);
+  const projsout = await getAllItems({
+      path: `gestaoempresa/projouts/${req.user.key}`,
+    }),
+    user = await getUser({ userId: req.user.key });
+  const data = {
+    user,
+    projsout,
+    message: null,
+  };
+  res.render("pages/projouts", data);
 });
 
 router.get("/novo", async (req, res, next) => {
-    const projects = await getAllItems({ path: `gestaoempresa/business/${req.user.key}/projects` });
-    const user = await getUser({ userId: req.user.key })
-    const data = {
-        user,
-        message: null,
-        projects
-    }
-    res.render("pages/projouts/new", data);
+  const projects = await getAllItems({
+    path: `gestaoempresa/business/${req.user.key}/projects`,
+  });
+  const user = await getUser({ userId: req.user.key });
+  const data = {
+    user,
+    message: null,
+    projects,
+  };
+  res.render("pages/projouts/new", data);
 });
 
 router.post("/novo", async (req, res, next) => {
-   console.log(req.body);
-   res.sendStatus(200);
+  const storage = getStorage();
+  const body = req.body;
+  console.log(body);
+
+  const projouts = await getAllItems({
+    path: `gestaoempresa/projouts/${req.user.key}`,
+  });
+
+  const find = projouts.find((pj) => pj.data.projectId === body.data.projectId);
+
+  if (find) {
+    return res.redirect("/dashboard/projetos/terceirizar?message=exists");
+  } else {
+    let filesPaths = {};
+    for (let index = 0; index < body.data.docs.length; index++) {
+      const file = body.data.docs[index];
+      let fileType;
+      switch (file.type) {
+        case "image/jpeg":
+          fileType = "jpg";
+          break;
+        case "image/png":
+          fileType = "png";
+          break;
+        case "application/pdf":
+          fileType = "pdf";
+          break;
+        case "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
+          fileType = "docx";
+          break;
+        case "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet":
+          fileType = "xlsx";
+          break;
+        case "application/vnd.openxmlformats-officedocument.presentationml.presentation":
+          fileType = "pptx";
+          break;
+        default:
+          fileType = file.type.split("/")[1];
+          break;
+      }
+      const path = `gestaoempresa/projouts/${
+        req.user.key
+      }/files/${new Date().getTime()}-${index}.${fileType}`;
+
+      const storageRef = ref(storage, path);
+
+      try {
+        uploadString(storageRef, file.base64, "data_url").then((snapshot) => {
+          console.log(snapshot);
+          getDownloadURL(snapshot.ref).then((downloadURL) => {
+            console.log(downloadURL);
+            filesPaths[JSON.stringify(new Date().getTime())] = {
+              path,
+              downloadURL,
+            };
+          });
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    createItem({
+      path: `gestaoempresa/projouts/${req.user.key}`,
+      params: {
+        projectId: body.data.projectId,
+        filesPaths, // Nao esta enviando, provavelmente pq nao há um promisse
+        ownerID: req.user.key,
+        status: 'solicited',
+        createdAt: moment().format(),
+        obs: '',
+        paymentStatus: 'pending'
+      },
+    });
+
+    // Send notify to d walt
+
+    return res.redirect("/dashboard/projetos/terceirizar?message=ok");
+  }
 });
 
 module.exports = router;

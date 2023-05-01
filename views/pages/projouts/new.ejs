@@ -59,8 +59,8 @@
                                             </div>
                                             <div id="passo-2" class="tab-pane" role="tabpanel"
                                                 aria-labelledby="passo-2">
-                                                <input type="file" class="custom-file-input" id="fileInput" required
-                                                    multiple>
+                                                <input type="file" class="custom-file-input" id="fileInput"
+                                                    onchange="convertToBase64();" required multiple>
                                                 <label class="custom-file-label" id="labelEnd"
                                                     data-browse="Procurar arquivo">Fotos ou documentos menores que
                                                     50mb</label>
@@ -153,11 +153,38 @@
                 });
             </script>
             <script>
+                let storageToJson = [];
+
+                function convertToBase64() {
+                    const files = document.getElementById("fileInput").files;
+                    const storeBase64 = document.getElementById('documentBase64');
+
+                    for (let file of files) {
+                        console.log(file);
+                        let fileReader = new FileReader();
+
+                        fileReader.onload = function (fileLoadedEvent) {
+                            const fileData = {
+                                base64: fileLoadedEvent.target.result,
+                                type: file.type
+                            };
+                            storageToJson.push(fileData);
+                            storeBase64.value = JSON.stringify(storageToJson);
+                        };
+
+                        fileReader.readAsDataURL(file);
+                    }
+                }
                 document.getElementById("confirmProjout").addEventListener('click', () => {
+                    const data = {
+                        projectId: document.getElementById("projectID").value,
+                        docs: storageToJson
+                    }
                     axios.post("/dashboard/projetos/terceirizar/novo", {
-                        teste: 'teste'
+                        data
                     }).then(r => {
                         console.log(r.data);
+                        window.location.href = r.request.responseURL
                     })
                 })
 

@@ -117,7 +117,7 @@ router.post("/visualizar/:id", async (req, res, next) => {
                   path,
                   url: downloadURL,
                 },
-              });
+              }); 
             });
           });
         } catch (error) {
