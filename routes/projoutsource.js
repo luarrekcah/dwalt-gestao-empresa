@@ -46,7 +46,7 @@ router.post("/novo", async (req, res, next) => {
   if (find) {
     return res.redirect("/dashboard/projetos/terceirizar?message=exists");
   } else {
-    let filesPaths = {};
+    let promises = [];
     for (let index = 0; index < body.data.docs.length; index++) {
       const file = body.data.docs[index];
       let fileType;
@@ -80,37 +80,44 @@ router.post("/novo", async (req, res, next) => {
       const storageRef = ref(storage, path);
 
       try {
-        uploadString(storageRef, file.base64, "data_url").then((snapshot) => {
+        const promise = uploadString(storageRef, file.base64, "data_url").then((snapshot) => {
           console.log(snapshot);
-          getDownloadURL(snapshot.ref).then((downloadURL) => {
+          return getDownloadURL(snapshot.ref).then((downloadURL) => {
             console.log(downloadURL);
-            filesPaths[JSON.stringify(new Date().getTime())] = {
+            return {
+              timestamp: new Date().getTime(),
               path,
               downloadURL,
             };
           });
         });
+        promises.push(promise);
       } catch (error) {
         console.log(error);
       }
     }
 
-    createItem({
-      path: `gestaoempresa/projouts/${req.user.key}`,
-      params: {
-        projectId: body.data.projectId,
-        filesPaths, // Nao esta enviando, provavelmente pq nao há um promisse
-        ownerID: req.user.key,
-        status: 'solicited',
-        createdAt: moment().format(),
-        obs: '',
-        paymentStatus: 'pending'
-      },
-    });
-
-    // Send notify to d walt
-
-    return res.redirect("/dashboard/projetos/terceirizar?message=ok");
+    Promise.all(promises).then((filesPaths) => {
+        createItem({
+          path: `gestaoempresa/projouts/${req.user.key}`,
+          params: {
+            projectId: body.data.projectId,
+            filesPaths,
+            ownerID: req.user.key,
+            status: 'solicited',
+            createdAt: moment().format(),
+            obs: '',
+            paymentStatus: 'pending'
+          },
+        });
+      
+        // Send notify to d walt
+      
+        return res.redirect("/dashboard/projetos/terceirizar?message=ok");
+      }).catch((error) => {
+        console.log(error);
+        return res.redirect("/dashboard/projetos/terceirizar?message=error");
+      });
   }
 });
 
