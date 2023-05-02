@@ -81,9 +81,7 @@ router.post("/novo", async (req, res, next) => {
 
       try {
         const promise = uploadString(storageRef, file.base64, "data_url").then((snapshot) => {
-          console.log(snapshot);
           return getDownloadURL(snapshot.ref).then((downloadURL) => {
-            console.log(downloadURL);
             return {
               timestamp: new Date().getTime(),
               path,
