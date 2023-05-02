@@ -176,9 +176,11 @@
                     }
                 }
                 document.getElementById("confirmProjout").addEventListener('click', () => {
+                    const projectSelect = document.getElementById("projectID")
                     const data = {
-                        projectId: document.getElementById("projectID").value,
-                        docs: storageToJson
+                        projectId: projectSelect.value,
+                        docs: storageToJson,
+                        projectName: projectSelect.options[projectSelect.selectedIndex].textContent.trim()
                     }
                     axios.post("/dashboard/projetos/terceirizar/novo", {
                         data

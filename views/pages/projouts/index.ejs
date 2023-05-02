@@ -1,99 +1,124 @@
 <%- include("../../partials/head.ejs") %>
 
-<body id="page-top">
-  <div id="wrapper">
-    <%- include("../../partials/sidebar.ejs") %>
-    <div id="content-wrapper" class="d-flex flex-column">
-      <div id="content">
-        <%- include("../../partials/topbar.ejs") %>
-        <div class="container-fluid">
-          <h1 class="h3 mb-2 text-gray-800">Terceirizados</h1>
-          <p class="mb-4">
-            Não tem engenheiro(a) para seus projetos elétricos? Que tal terceirizar
-            essa parte? Nessa janela, você pode acompanhar seus projetos solicitados e ver 
-            os documentos, andamentos e ter mais informações!
-          </p>
+  <body id="page-top">
+    <div id="wrapper">
+      <%- include("../../partials/sidebar.ejs") %>
+        <div id="content-wrapper" class="d-flex flex-column">
+          <div id="content">
+            <%- include("../../partials/topbar.ejs") %>
+              <div class="container-fluid">
+                <h1 class="h3 mb-2 text-gray-800">Terceirizados</h1>
+                <p class="mb-4">
+                  Não tem engenheiro(a) para seus projetos elétricos? Que tal terceirizar
+                  essa parte? Nessa janela, você pode acompanhar seus projetos solicitados e ver
+                  os documentos, andamentos e ter mais informações!
+                </p>
 
-          <div class="card shadow mb-4">
-            <div class="card-header py-3">
-              <h6 class="m-0 font-weight-bold text-primary">Solicitações para D | Walt</h6>
-              <br>
-              <a href="/dashboard/projetos/terceirizar/novo" style="width: 100%" class="btn btn-info">
-                <span class="icon text-white-50">
-                  <i class="fas fa-plus"></i>
-                </span>
-                <span class="text">Nova Solicitação</span>
-              </a>
-            </div>
+                <div class="card shadow mb-4">
+                  <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Solicitações para D | Walt</h6>
+                    <br>
+                    <a href="/dashboard/projetos/terceirizar/novo" style="width: 100%" class="btn btn-info">
+                      <span class="icon text-white-50">
+                        <i class="fas fa-plus"></i>
+                      </span>
+                      <span class="text">Nova Solicitação</span>
+                    </a>
+                  </div>
 
 
-            <div class="card-body">
-              <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                  <thead>
-                    <tr>
-                      <th>Projeto</th>
-                      <th>Solicitado</th>
-                      <th>Status</th>
-                      <th>Observação</th>
-                      <th>Taxa</th>
-                      <th>Botões</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>Joao da silva</td>
-                      <td>22/02/2023</td>
-                      <td>STATUS</td>
-                      <td>Aguarde 3 dias úteis</td>
-                      <td>NÃO PAGO</td>
-                      <td>
-                        <a href="projetos/terceirizar/ver/-NOohXAdbyYVA74LrcbU" class="btn btn-primary btn-circle">
-                            <i class="fas fa-edit"></i>
-                          </a>
-                          <a href="projetos/terceirizar/ver/-NOohXAdbyYVA74LrcbU" class="btn btn-primary btn-circle">
-                            <i class="fas fa-eye"></i>
-                          </a>
-                          <a href="projetos/terceirizar/ver/-NOohXAdbyYVA74LrcbU" class="btn btn-danger btn-circle">
-                            <i class="fas fa-trash"></i>
-                          </a>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
+                  <div class="card-body">
+                    <div class="table-responsive">
+                      <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                          <tr>
+                            <th>Projeto</th>
+                            <th>Solicitado</th>
+                            <th>Status</th>
+                            <th>Observação</th>
+                            <th>Taxa</th>
+                            <th>Botões</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <%projouts.forEach(pj=> {%>
+                            <tr>
+                              <td>
+                                <%=pj.data.project.name%>
+                              </td>
+                              <td>
+                                <script>
+                                  document.write(moment("<%=pj.data.createdAt%>").format("L LT"));
+                                </script>
+                              </td>
+                              <td>
+                                <%=pj.data.status%>
+                              </td>
+                              <td>
+                                <%=pj.data.obs==='' ? 'Nenhuma Observação' : pj.data.obs%>
+                              </td>
+                              <td>
+                                <%=pj.data.paymentStatus==='pending' ? 'Pendente' : 'Pago' %>
+                              </td>
+                              <td>
+                                <a href="terceirizar/visualizar/<%=pj.key%>" class="btn btn-primary btn-circle">
+                                  <i class="fas fa-eye"></i>
+                                </a>
+                                <button onclick="deleteProjout('<%=pj.key%>')" class="btn btn-danger btn-circle">
+                                  <i class="fas fa-trash"></i>
+                                </button>
+                              </td>
+                            </tr>
+                            <%})%>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+
+                </div>
+
+
               </div>
-            </div>
-            
           </div>
-
-          
+          <%- include("../../partials/footer.ejs") %>
         </div>
-      </div>
-      <%- include("../../partials/footer.ejs") %>
     </div>
-  </div>
-  <a class="scroll-to-top rounded" href="#page-top">
-    <i class="fas fa-angle-up"></i>
-  </a>
-  <%- include("../components/modal/logout.ejs") %>
-  <script src="/vendor/jquery/jquery.min.js"></script>
-  <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
-  <script src="/js/sb-admin-2.min.js"></script>
+    <a class="scroll-to-top rounded" href="#page-top">
+      <i class="fas fa-angle-up"></i>
+    </a>
+    <%- include("../components/modal/logout.ejs") %>
+      <script src="/vendor/jquery/jquery.min.js"></script>
+      <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+      <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+      <script src="/js/sb-admin-2.min.js"></script>
 
 
-    <script type="text/javascript" src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap4.min.js"></script>
+      <script type="text/javascript" src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+      <script type="text/javascript" src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap4.min.js"></script>
 
-    <script>
-      $(document).ready(function() {
-        $('#dataTable').DataTable({
-          language: {
-            url: 'https://cdn.datatables.net/plug-ins/1.13.1/i18n/pt-BR.json'
-          }
+      <script>
+        $(document).ready(function () {
+          $('#dataTable').DataTable({
+            language: {
+              url: 'https://cdn.datatables.net/plug-ins/1.13.1/i18n/pt-BR.json'
+            }
+          });
         });
-      });
-    </script>
-</body>
+      </script>
+      <script>
+        function deleteProjout(id) {
+          const confirmMessage = confirm("Deseja realmente apagar essa solicitação?")
+          if (confirmMessage) {
+            axios.delete("/dashboard/projetos/terceirizar", {
+              data: {
+                id
+              }
+            }).then(r => {
+              window.location.href = "/dashboard/projetos/terceirizar?message=deleted"
+            })
+          }
+        }
+      </script>
+  </body>
 
-</html>
+  </html>
