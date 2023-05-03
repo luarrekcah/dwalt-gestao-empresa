@@ -1,5 +1,17 @@
-const { getStorage, ref, uploadString, getDownloadURL, deleteObject } = require("@firebase/storage");
-const { getAllItems, getUser, createItem, deleteItem, getItems } = require("../database/users");
+const {
+  getStorage,
+  ref,
+  uploadString,
+  getDownloadURL,
+  deleteObject,
+} = require("@firebase/storage");
+const {
+  getAllItems,
+  getUser,
+  createItem,
+  deleteItem,
+  getItems,
+} = require("../database/users");
 
 const moment = require("../services/moment");
 
@@ -11,7 +23,7 @@ router.get("/", async (req, res, next) => {
       path: `gestaoempresa/projouts/${req.user.key}`,
     }),
     user = await getUser({ userId: req.user.key });
-    let message;
+  let message;
   if (req.query.message) {
     switch (req.query.message.toLowerCase()) {
       case "error":
@@ -25,23 +37,25 @@ router.get("/", async (req, res, next) => {
         message = {
           type: "info",
           title: "Esse projeto já foi enviado e ainda não foi finalizado!",
-          description: "Entre em contato com a empresa, você não pode solicitar o mesmo novamente!",
+          description:
+            "Entre em contato com a empresa, você não pode solicitar o mesmo novamente!",
         };
         break;
-        case "ok":
-          message = {
-            type: "success",
-            title: "Solicitação enviada!",
-            description: "Aguarde resposta da empresa, você receberá mensagens no seu e-mail ou Whatsapp para prosseguir com a solicitação",
-          };
-          break;
-          case "deleted":
-            message = {
-              type: "success",
-              title: "Solicitação deletada!",
-              description: "Clique em OK para prosseguir.",
-            };
-            break;
+      case "ok":
+        message = {
+          type: "success",
+          title: "Solicitação enviada!",
+          description:
+            "Aguarde resposta da empresa, você receberá mensagens no seu e-mail ou Whatsapp para prosseguir com a solicitação",
+        };
+        break;
+      case "deleted":
+        message = {
+          type: "success",
+          title: "Solicitação deletada!",
+          description: "Clique em OK para prosseguir.",
+        };
+        break;
       default:
         message = null;
         break;
@@ -57,19 +71,22 @@ router.get("/", async (req, res, next) => {
   res.render("pages/projouts", data);
 });
 
-
 router.delete("/", async (req, res, next) => {
   const storage = getStorage();
   const deleteProjoutId = req.body.id;
-  const filesPaths = getItems({path: `gestaoempresa/projouts/${req.user.key}/${deleteProjoutId}/filesPaths`})
+  const filesPaths = getItems({
+    path: `gestaoempresa/projouts/${req.user.key}/${deleteProjoutId}/filesPaths`,
+  });
   for (let index = 0; index < filesPaths.length; index++) {
     const file = filesPaths[index];
     const desertRef = ref(storage, file.path);
     await deleteObject(desertRef);
   }
-  deleteItem({path: `gestaoempresa/projouts/${req.user.key}/${deleteProjoutId}`})
+  deleteItem({
+    path: `gestaoempresa/projouts/${req.user.key}/${deleteProjoutId}`,
+  });
   return res.sendStatus(200);
-})
+});
 
 router.get("/novo", async (req, res, next) => {
   const projects = await getAllItems({
@@ -87,14 +104,16 @@ router.get("/novo", async (req, res, next) => {
 router.post("/novo", async (req, res, next) => {
   const storage = getStorage();
   const body = req.body;
-  
+
   const user = await getUser({ userId: req.user.key });
 
   const projouts = await getAllItems({
     path: `gestaoempresa/projouts/${req.user.key}`,
   });
 
-  const find = projouts.find((pj) => pj.data.project.id === body.data.projectId);
+  const find = projouts.find(
+    (pj) => pj.data.project.id === body.data.projectId
+  );
 
   if (find) {
     return res.redirect("/dashboard/projetos/terceirizar?message=exists");
@@ -133,52 +152,75 @@ router.post("/novo", async (req, res, next) => {
       const storageRef = ref(storage, path);
 
       try {
-        const promise = uploadString(storageRef, file.base64, "data_url").then((snapshot) => {
-          return getDownloadURL(snapshot.ref).then((downloadURL) => {
-            return {
-              timestamp: new Date().getTime(),
-              path,
-              downloadURL,
-            };
-          });
-        });
+        const promise = uploadString(storageRef, file.base64, "data_url").then(
+          (snapshot) => {
+            return getDownloadURL(snapshot.ref).then((downloadURL) => {
+              return {
+                timestamp: new Date().getTime(),
+                path,
+                downloadURL,
+              };
+            });
+          }
+        );
         promises.push(promise);
       } catch (error) {
         console.log(error);
       }
     }
 
-    Promise.all(promises).then((filesPaths) => {
+    Promise.all(promises)
+      .then((filesPaths) => {
         createItem({
           path: `gestaoempresa/projouts/${req.user.key}`,
           params: {
             project: {
-                id: body.data.projectId,
-                name: body.data.projectName
+              id: body.data.projectId,
+              name: body.data.projectName,
             },
             owner: {
-                id: req.user.key,
-                name: user.data.documents.nome_fantasia,
-                logo: user.data.profile.logo,
-                email: user.data.email
+              id: req.user.key,
+              name: user.data.documents.nome_fantasia,
+              logo: user.data.profile.logo,
+              email: user.data.email,
             },
             filesPaths,
-            status: 'solicited',
+            status: "solicited",
             createdAt: moment().format(),
-            obs: '',
-            paymentStatus: 'pending',
+            obs: "",
+            paymentStatus: "pending",
             finished: false,
+            onRevision: false,
           },
         });
-      
+
         // Send notify to d walt
-      
+
         return res.redirect("/dashboard/projetos/terceirizar?message=ok");
-      }).catch((error) => {
+      })
+      .catch((error) => {
         console.log(error);
         return res.redirect("/dashboard/projetos/terceirizar?message=error");
       });
   }
+});
+
+router.get("/visualizar/:id", async (req, res, next) => {
+  const { id } = req.params;
+
+  const projoutInfo = await getItems({
+    path: `gestaoempresa/projouts/${req.user.key}/${id}`,
+  });
+
+  projoutInfo.key = id;
+
+  const user = await getUser({ userId: req.user.key });
+  const data = {
+    user,
+    message: null,
+    projoutInfo,
+  };
+  res.render("pages/projouts/view", data);
 });
 
 module.exports = router;
