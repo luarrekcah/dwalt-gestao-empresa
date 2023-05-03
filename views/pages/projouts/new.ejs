@@ -162,6 +162,7 @@
                     for (let file of files) {
                         console.log(file);
                         let fileReader = new FileReader();
+                        document.getElementById("labelEnd").innerHTML = "Carregando documento(s)..."
 
                         fileReader.onload = function (fileLoadedEvent) {
                             const fileData = {
@@ -169,6 +170,8 @@
                                 type: file.type
                             };
                             storageToJson.push(fileData);
+                            document.getElementById("labelEnd").innerHTML = 
+                            `${storageToJson.length} documento(s) adicionado(s)`
                             storeBase64.value = JSON.stringify(storageToJson);
                         };
 
