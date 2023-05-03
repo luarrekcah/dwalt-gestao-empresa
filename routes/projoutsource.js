@@ -1,5 +1,5 @@
-const { getStorage, ref, uploadString, getDownloadURL } = require("@firebase/storage");
-const { getAllItems, getUser, createItem, deleteItem } = require("../database/users");
+const { getStorage, ref, uploadString, getDownloadURL, deleteObject } = require("@firebase/storage");
+const { getAllItems, getUser, createItem, deleteItem, getItems } = require("../database/users");
 
 const moment = require("../services/moment");
 
@@ -59,7 +59,14 @@ router.get("/", async (req, res, next) => {
 
 
 router.delete("/", async (req, res, next) => {
+  const storage = getStorage();
   const deleteProjoutId = req.body.id;
+  const filesPaths = getItems({path: `gestaoempresa/projouts/${req.user.key}/${deleteProjoutId}/filesPaths`})
+  for (let index = 0; index < filesPaths.length; index++) {
+    const file = filesPaths[index];
+    const desertRef = ref(storage, file.path);
+    await deleteObject(desertRef);
+  }
   deleteItem({path: `gestaoempresa/projouts/${req.user.key}/${deleteProjoutId}`})
   return res.sendStatus(200);
 })
