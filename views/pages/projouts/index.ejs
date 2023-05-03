@@ -52,13 +52,17 @@
                                 </script>
                               </td>
                               <td>
-                                <%=pj.data.status%>
+                                <% if(pj.data.status==='solicited' ) { %>
+                                  <span class="badge badge-secondary">Aguardando</span>
+                                  <% } %>
                               </td>
                               <td>
                                 <%=pj.data.obs==='' ? 'Nenhuma Observação' : pj.data.obs%>
                               </td>
                               <td>
-                                <%=pj.data.paymentStatus==='pending' ? 'Pendente' : 'Pago' %>
+                                <% if(pj.data.paymentStatus==='pending' ) { %>
+                                  <span class="badge badge-danger">Pendente</span>
+                                  <% } %>
                               </td>
                               <td>
                                 <a href="terceirizar/visualizar/<%=pj.key%>" class="btn btn-primary btn-circle">

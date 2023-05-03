@@ -190,7 +190,7 @@ router.post("/novo", async (req, res, next) => {
             obs: "",
             paymentStatus: "pending",
             finished: false,
-            onRevision: false,
+            onRevision: true,
           },
         });
 
