@@ -23,7 +23,8 @@ router.get("/", async (req, res, next) => {
         message: null,
         overview,
         currentPage: res.locals.currentPage,
-        subscriptionValue
+        subscriptionValue,
+        allBusiness: bLength
     }
     res.render("pages/panel", data);
 });
