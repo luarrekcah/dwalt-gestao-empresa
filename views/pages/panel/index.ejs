@@ -102,12 +102,64 @@
                                                         Connect</h6>
                                                 </div>
                                                 <div class="card-body">
+                                                    <div id="normal">
+                                                        <p>Valor atual da mensalidade: <b id="valueSubs">R$ <%= subscriptionValue %></b>
+                                                        </p>
+                                                        <button onclick="showEditValue()" class="btn btn-primary">
+                                                            Editar valor
+                                                            <i class="far fa-edit"></i>
+                                                        </button>
+                                                    </div>
+                                                    <div id="onEdit" style="display:none">
+                                                        <p>Valor atual da mensalidade:</p>
+                                                        <div class="mb-3">
+                                                            <input class="form-control" id="newValue" type="text">
+                                                        </div>
+                                                        <button onclick="cancelEdit()" class="btn btn-secondary">
+                                                            Cancelar
+                                                            <i class="far fa-x"></i>
+                                                        </button>
+                                                        <button onclick="confirmEdit()" class="btn btn-primary">
+                                                            Atualizar
+                                                            <i class="fas fa-paper-plane"></i>
+                                                        </button>
+                                                    </div>
 
-                                                    <p>Valor atual da mensalidade: <b>R$ 199,99</b></p>
-                                                    <button class="btn btn-primary"> Editar valor
-                                                        <i class="far fa-edit"></i>
-                                                    </button>
                                                     <p style="margin-left: 800px"></p>
+
+                                                    <script>
+                                                        const editView = document.getElementById("onEdit");
+                                                        const normal = document.getElementById("normal");
+
+                                                        function showEditValue() {
+                                                            editView.style.display = 'block';
+                                                            normal.style.display = 'none';
+                                                        }
+                                                        function confirmEdit() {
+                                                            const newValue = document.getElementById("newValue").value;
+                                                            normal.style.display = 'block';
+                                                            editView.style.display = 'none';
+                                                            document.getElementById('valueSubs').innerText = `R$ ${newValue}`
+
+                                                            axios.post('/api/v1/updateSubscriptionValue', {
+                                                                newValue,
+                                                                key: '<%=user.key%>'
+                                                            }).then(r => {
+                                                                console.log(r);
+                                                                if(r.status === 200) {
+                                                                    swal("Assinatura", "Atualização do valor de assinatura bem sucedido para R$" + newValue, "success");
+                                                                } else {
+                                                                    swal("Erro", "Ocorreu um erro durante a atualização da assinatura.", "error");
+                                                                }
+                                                               
+                                                            })
+                                                        }
+
+                                                        function cancelEdit() {
+                                                            normal.style.display = 'block';
+                                                            editView.style.display = 'none';
+                                                        }
+                                                    </script>
                                                 </div>
                                             </div>
 
@@ -211,6 +263,11 @@
         <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
         <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
         <script src="/js/sb-admin-2.min.js"></script>
+
+
+        <script type='text/javascript'
+            src="https://rawgit.com/RobinHerbots/jquery.inputmask/3.x/dist/jquery.inputmask.bundle.js"></script>
+
         <%if(message) {%>
             <script>
                 swal("<%=message.title%>", "<%=message.description%>", "<%=message.type%>");
@@ -220,6 +277,16 @@
                 <script>
                     $(function () {
                         $('[data-toggle="tooltip"]').tooltip()
+                    })
+                </script>
+                <script>
+                    $(document).ready(function () {
+                        $("#newValue").inputmask({
+                            mask: '999.99',
+                            placeholder: '$',
+                            showMaskOnHover: false,
+                            showMaskOnFocus: false,
+                        })
                     })
                 </script>
 

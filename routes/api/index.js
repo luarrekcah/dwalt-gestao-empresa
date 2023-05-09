@@ -6,7 +6,7 @@ const express = require("express"),
 
 const admin = require("firebase-admin");
 
-const { getAllItems, getItems } = require("../../database/users");
+const { getAllItems, getItems, updateItem } = require("../../database/users");
 
 router.get("/", async (req, res, next) => {
   res.sendStatus(200);
@@ -72,5 +72,24 @@ router.get("/cnpj/:cnpj", async (req, res, next) => {
       res.status(500).json({ message: error.message });
     });
 });
+
+
+router.post("/updateSubscriptionValue", async (req, res, next) => {
+  console.log(req.body);
+  const business = await getItems({path: `gestaoempresa/business/${req.body.key}`})
+
+  if(business.info.email !== 'contato@dlwalt.com') {
+    return res.sendStatus(403)
+  }
+
+  updateItem({
+    path: 'gestaoempresa/config',
+    params: {
+      subscriptionValue: Number(req.body.newValue)
+    }
+  })
+
+  return res.sendStatus(200);
+})
 
 module.exports = router;

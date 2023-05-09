@@ -80,6 +80,12 @@ router.get("/assinatura", async (req, res, next) => {
 router.post("/assinatura", async (req, res, next) => {
   console.log(req.body);
 
+  const subscriptionValue = await getItems({path: 'gestaoempresa/config/subscriptionValue'})
+
+  if(subscriptionValue === '' || typeof subscriptionValue !== 'number') {
+    return res.redirect("/pagamento/erro?message=erro");
+  }
+
   const dados = req.body;
 
   const user = await getUser({ userId: req.user.key });
@@ -97,7 +103,7 @@ router.post("/assinatura", async (req, res, next) => {
 
   let assinatura = {
     customer: user.data.asaasID,
-    value: process.env.valorAssinatura,
+    value: subscriptionValue,
     nextDueDate: date,
     cycle: "MONTHLY",
     description:

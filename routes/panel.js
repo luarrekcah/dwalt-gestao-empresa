@@ -1,4 +1,4 @@
-const { getAllItems, getUser } = require("../database/users");
+const { getAllItems, getUser, getItems } = require("../database/users");
 
 const express = require("express"),
     router = express.Router();
@@ -6,7 +6,8 @@ const express = require("express"),
 router.get("/", async (req, res, next) => {
     const projouts = await getAllItems({ path: `gestaoempresa/projouts` })
     user = await getUser({ userId: req.user.key }),
-    bLength = await getAllItems({ path: `gestaoempresa/business` })
+    bLength = await getAllItems({ path: `gestaoempresa/business` }),
+    subscriptionValue = await getItems({path: 'gestaoempresa/config/subscriptionValue'})
 
     if(user.data.email !== 'contato@dlwalt.com') {
         return res.redirect("/dashboard")
@@ -21,7 +22,8 @@ router.get("/", async (req, res, next) => {
         projouts,
         message: null,
         overview,
-        currentPage: res.locals.currentPage
+        currentPage: res.locals.currentPage,
+        subscriptionValue
     }
     res.render("pages/panel", data);
 });
