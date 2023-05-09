@@ -30,6 +30,7 @@ router.get("/", async (req, res, next) => {
     surveys,
     projects,
     message: null,
+    currentPage: res.locals.currentPage
   };
   res.render("pages/staffs/calls", data);
 });
@@ -133,6 +134,7 @@ router.get("/visualizar/:id", async (req, res, next) => {
       photos,
       staffEnded,
       message: null,
+      currentPage: res.locals.currentPage
     };
     res.render("pages/staffs/callsView", data);
   });

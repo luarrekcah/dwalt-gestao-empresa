@@ -6,16 +6,23 @@
     <div class="sidebar-brand-text mx-3">Connect <sup>Empresas</sup></div>
   </a>
   <hr class="sidebar-divider my-0">
-  <li class="nav-item active">
+  <li class="nav-item <%= currentPage === 'dashboard' ? 'active' : '' %>">
     <a class="nav-link" href="/dashboard">
       <i class="fas fa-fw fa-tachometer-alt"></i>
       <span>Dashboard</span></a>
   </li>
+  <%if(user.data.email === 'contato@dlwalt.com') { %>
+    <li class="nav-item <%= currentPage === 'dlwalt' ? 'active' : '' %>">
+      <a class="nav-link" href="/dlwalt">
+        <i class="fas fa-cogs"></i>
+        <span>Painel D | WALT</span></a>
+    </li>
+  <% } %>
   <hr class="sidebar-divider">
   <div class="sidebar-heading">
     Interface
   </div>
-  <li class="nav-item">
+  <li class="nav-item <%= currentPage.includes('projetos') ? 'active' : '' %>">
     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseProjects" aria-expanded="true"
       aria-controls="collapseProjects">
       <i class="fas fa-fw fa-solar-panel"></i>
@@ -30,7 +37,7 @@
       </div>
     </div>
   </li>
-  <li class="nav-item">
+  <li class="nav-item <%=  currentPage.includes('chamados') ||  currentPage.includes('equipe') ? 'active' : '' %>" >
     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseStaffs" aria-expanded="true"
       aria-controls="collapseStaffs">
       <i class="fas fa-fw fa-user-shield"></i>
@@ -46,7 +53,7 @@
     </div>
   </li>
 
-  <li class="nav-item">
+  <li class="nav-item <%=  currentPage.includes('clientes') ||  currentPage.includes('reclamacoes') ? 'active' : '' %>">
     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseCustomers" aria-expanded="true"
       aria-controls="collapseCustomers">
       <i class="fas fa-fw fa-users"></i>
@@ -77,7 +84,7 @@
       </div>
     </div>
   </li>
-  <li class="nav-item">
+  <li class="nav-item  <%= currentPage.includes('inversores') ? 'active' : '' %>">
     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseInverters" aria-expanded="true"
       aria-controls="collapseInverters">
       <i class="fas fa-fw fa-square"></i>
@@ -94,7 +101,7 @@
       </div>
     </div>
   </li>
-  <li class="nav-item">
+  <li class="nav-item  <%= currentPage.includes('configuracao') ? 'active' : '' %>">
     <a class="nav-link" href="/dashboard/configuracao">
       <i class="fas fa-fw fa-cog"></i>
       <span>Preferências </a>

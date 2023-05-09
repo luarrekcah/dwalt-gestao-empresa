@@ -10,7 +10,8 @@ const indexRouter = require("./routes/index"),
   customersRouter = require("./routes/customers"),
   surveysRouter = require("./routes/surveys"),
   notFoundRouter = require("./routes/notfound"),
-  invertersRouter = require("./routes/inverters");
+  invertersRouter = require("./routes/inverters"),
+  panelRouter = require("./routes/panel");
 
 const webhookPayments = require("./routes/webhook/payments");
 
@@ -44,6 +45,7 @@ module.exports = (app) => {
   app.use("/conta", authenticationSubsMiddleware, accountRouter);
   app.use("/logs", authenticationSubsMiddleware, logsRouter);
   app.use("/dashboard", authenticationSubsMiddleware, dashboardRouter);
+  app.use("/dlwalt", authenticationSubsMiddleware, panelRouter);
   app.use("/dashboard/projetos", authenticationSubsMiddleware, projectsRouter);
   app.use("/dashboard/projetos/terceirizar", authenticationSubsMiddleware, projoutsRouter);
   app.use("/dashboard/equipe", authenticationSubsMiddleware, staffsRouter);

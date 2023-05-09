@@ -1,0 +1,66 @@
+<div class="modal fade" id="newFiles" tabindex="-1" role="dialog" aria-labelledby="FilesLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="FilesLabel">Adicionar documento a solicitação</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body" style="padding: 40px;">
+                <form method="post">
+                    <div class="mb-3">
+
+                        <input type="text" name="type" value="ADD_FILE" style="display: none;">
+                        <input id="inputFile" multiple type="file" onchange="convertToBase64();"
+                            style="margin-top: 20px" />
+                        <input type="text" name="documentBase64" id="documentBase64" value="[]" style="display: none;">
+                    </div>
+                    <button class="btn btn-primary" style="width: 100%;" id="sendFiles" type="submit">Adicionar Imagens</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    let storageToJson = [];
+
+    function convertToBase64() {
+        const files = document.getElementById("inputFile").files;
+        const storeBase64 = document.getElementById('documentBase64');
+
+        for (let file of files) {
+            console.log(file);
+            let fileReader = new FileReader();
+
+            fileReader.onload = function (fileLoadedEvent) {
+                const fileData = {
+                    base64: fileLoadedEvent.target.result,
+                    type: file.type
+                };
+                storageToJson.push(fileData);
+                storeBase64.value = JSON.stringify(storageToJson);
+            };
+
+            fileReader.readAsDataURL(file);
+        }
+    }
+    document.getElementById("sendFiles").addEventListener('click', () => {
+        console.log(storageToJson);
+        const data = {
+            docs: storageToJson,
+        }
+        axios.post("/dashboard/projetos/terceirizar/visualizar/<%=projoutInfo.key%>", {
+            data
+        }).then(r => {
+            console.log(r.data);
+            window.location.href = r.request.responseURL
+        })
+    })
+
+</script>

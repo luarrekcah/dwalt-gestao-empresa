@@ -91,7 +91,7 @@
                                 <div class="card shadow mb-4">
                                     <div class="card-body">
                                         <h1 class="h3 mb-2 text-gray-800">Arquivos <a href="#" data-toggle="modal"
-                                                data-target="#addPhoto" style="height: 25px; width: 25px;"
+                                                data-target="#newFiles" style="height: 25px; width: 25px;"
                                                 class="btn btn-info btn-circle">
                                                 <i class="fas fa-plus"></i>
                                             </a>
@@ -132,7 +132,7 @@
                                                         <div class="bg-light rounded py-2 px-3 mb-2">
                                                             <p class="text-small mb-0 text-muted">Olá! Seja bem vindo ao
                                                                 canal de comunicação, se precisar de algo, acrescentar
-                                                                algo ou tirar alguma dúvida, é só enviar mensagem aqui 
+                                                                algo ou tirar alguma dúvida, é só enviar mensagem aqui
                                                                 ou entrar em contato com nosso WhatsApp!
                                                             </p>
                                                         </div>
@@ -162,9 +162,10 @@
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="input-group mb-3">
-                                                    <input type="text" class="form-control"
+                                                    <input type="text" id="messageContent" class="form-control"
                                                         placeholder="Digite sua mensagem">
-                                                    <button class="btn btn-primary" type="button">Enviar</button>
+                                                    <button class="btn btn-primary" id="sendMessage"
+                                                        type="button">Enviar</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -190,12 +191,39 @@
         <a class="scroll-to-top rounded" href="#page-top">
             <i class="fas fa-angle-up"></i>
         </a>
+        <%- include("./components/modals/newFiles.ejs") %>
         <%- include("../components/modal/logout.ejs") %>
             <script src="/vendor/jquery/jquery.min.js"></script>
             <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
             <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
             <script src="/vendor/slick-master/slick/slick.js"></script>
             <script src="/js/sb-admin-2.min.js"></script>
+            <script src="https://cdn.socket.io/4.6.1/socket.io.min.js"></script>
+            <script>
+                const socket = io();
+
+                const companyId = "<%= user.key %>";
+
+                socket.emit("connectBusiness", { companyId });
+
+                document.getElementById("sendMessage").addEventListener("click", () => {
+                    console.log('send message')
+                    try {
+                        socket.emit('message', {
+                            from: '<%= user.key %>',
+                            atTime: new Date().getTime(),
+                            content: document.getElementById('messageContent').value,
+                            type: 'text'
+                        })
+                    } catch (error) {
+                        console.log(error);
+                    }
+                });
+
+                socket.on('message', (data) => {
+                    console.log(`Nova mensagem de ${data.from}: ${data.content}`);
+                });
+            </script>
     </body>
 
     </html>

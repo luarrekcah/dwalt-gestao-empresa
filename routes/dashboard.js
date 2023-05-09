@@ -176,6 +176,7 @@ router.get("/", async (req, res, next) => {
     kwh,
     stickNotes,
     config,
+    currentPage: res.locals.currentPage
   };
   res.render("pages/dashboard", data);
 });

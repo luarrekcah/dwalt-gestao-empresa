@@ -15,6 +15,7 @@ router.get("/", async (req, res, next) => {
             staffs,
             teams,
             message: null,
+            currentPage: res.locals.currentPage
         };
         res.render("pages/staffs", data);
 

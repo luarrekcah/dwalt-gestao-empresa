@@ -11,6 +11,7 @@ const {
   createItem,
   deleteItem,
   getItems,
+  updateItem,
 } = require("../database/users");
 
 const moment = require("../services/moment");
@@ -67,6 +68,7 @@ router.get("/", async (req, res, next) => {
     user,
     projouts,
     message,
+    currentPage: res.locals.currentPage
   };
   res.render("pages/projouts", data);
 });
@@ -97,6 +99,7 @@ router.get("/novo", async (req, res, next) => {
     user,
     message: null,
     projects,
+    currentPage: res.locals.currentPage
   };
   res.render("pages/projouts/new", data);
 });
@@ -142,6 +145,7 @@ router.post("/novo", async (req, res, next) => {
           fileType = "pptx";
           break;
         default:
+          console.log(file);
           fileType = file.type.split("/")[1];
           break;
       }
@@ -219,8 +223,90 @@ router.get("/visualizar/:id", async (req, res, next) => {
     user,
     message: null,
     projoutInfo,
+    currentPage: res.locals.currentPage
   };
   res.render("pages/projouts/view", data);
+});
+
+router.post("/visualizar/:id", async (req, res, next) => {
+  const storage = getStorage();
+  console.log(req.body.documentBase64);
+  const key = req.params.id;
+  const { type } = req.body;
+
+  const pjotFiles = await getItems({
+    path: `gestaoempresa/projouts/${req.user.key}/${key}/filesPaths`,
+  });
+
+  const arrayDocs = req.body.documentBase64
+
+  switch (type) {
+    case "ADD_FILE":
+      let promises = [];
+      for (let index = 0; index < arrayDocs.length; index++) {
+        const file = arrayDocs[index];
+        let fileType;
+        switch (file.type) {
+          case "image/jpeg":
+            fileType = "jpg";
+            break;
+          case "image/png":
+            fileType = "png";
+            break;
+          case "application/pdf":
+            fileType = "pdf";
+            break;
+          case "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
+            fileType = "docx";
+            break;
+          case "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet":
+            fileType = "xlsx";
+            break;
+          case "application/vnd.openxmlformats-officedocument.presentationml.presentation":
+            fileType = "pptx";
+            break;
+          default:
+            fileType = file.type.split("/")[1];
+            break;
+        }
+        const path = `gestaoempresa/projouts/${
+          req.user.key
+        }/files/${new Date().getTime()}-${index}.${fileType}`;
+
+        const storageRef = ref(storage, path);
+
+        try {
+          const promise = uploadString(
+            storageRef,
+            file.base64,
+            "data_url"
+          ).then((snapshot) => {
+            return getDownloadURL(snapshot.ref).then((downloadURL) => {
+              return {
+                timestamp: new Date().getTime(),
+                path,
+                downloadURL,
+              };
+            });
+          });
+          promises.push(promise);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+
+      Promise.all(promises).then((filesPaths) => {
+        updateItem({
+          path: `gestaoempresa/projouts/${req.user.key}/${key}/filesPaths`,
+          params: [...pjotFiles, ...filesPaths],
+        });
+      });
+      return res.redirect(
+        `/dashboard/projetos/terceirizar/visualizar/${req.params.id}?message=filesok`
+      );
+  }
+
+  
 });
 
 module.exports = router;

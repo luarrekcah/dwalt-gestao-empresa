@@ -63,6 +63,7 @@ router.get("/", async (req, res, next) => {
     user,
     projects,
     message,
+    currentPage: res.locals.currentPage
   };
   res.render("pages/projects", data);
 });
@@ -88,6 +89,7 @@ router.get("/adicionar", async (req, res, next) => {
     user,
     message: null,
     customers,
+    currentPage: res.locals.currentPage
   };
   res.render("pages/projects/new", data);
 });
@@ -261,6 +263,7 @@ router.get("/visualizar/:id", async (req, res, next) => {
     overview,
     required,
     historic,
+    currentPage: res.locals.currentPage
   };
   res.render("pages/projects/see", data);
 });
@@ -360,6 +363,7 @@ router.get("/editar/:id", async (req, res, next) => {
     project,
     message: null,
     customers,
+    currentPage: res.locals.currentPage
   };
   res.render("pages/projects/edit", data);
 });
@@ -491,6 +495,7 @@ router.get("/pendentes", async (req, res, next) => {
     user,
     message: null,
     pendingProjects,
+    currentPage: res.locals.currentPage
   };
   res.render("pages/projects/pending", data);
 });

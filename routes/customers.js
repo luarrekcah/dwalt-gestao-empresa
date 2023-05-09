@@ -29,6 +29,7 @@ router.get("/", async (req, res, next) => {
     user,
     customers,
     message: null,
+    currentPage: res.locals.currentPage
   };
   res.render("pages/customers", data);
 });

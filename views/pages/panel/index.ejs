@@ -1,0 +1,228 @@
+<%- include("../../partials/head.ejs") %>
+
+    <body id="page-top">
+        <div id="wrapper">
+            <%- include("../../partials/sidebar.ejs") %>
+                <div id="content-wrapper" class="d-flex flex-column">
+                    <div id="content">
+                        <%- include("../../partials/topbar.ejs") %>
+                            <div class="container-fluid">
+                                <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                                    <h1 class="h3 mb-0 text-gray-800">Painel Administração</h1>
+                                </div>
+
+                                <div class="row">
+
+                                    <div class="col-xl-3 col-md-6 mb-4">
+                                        <div class="card border-left-primary shadow h-100 py-2">
+                                            <div class="card-body">
+                                                <div class="row no-gutters align-items-center">
+                                                    <div class="col mr-2">
+                                                        <div
+                                                            class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                            Terceirizados total</div>
+                                                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                                            <%= projouts.length %>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-auto">
+                                                        <i class="fas fa-info fa-2x text-gray-300"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xl-3 col-md-6 mb-4">
+                                        <div class="card border-left-danger shadow h-100 py-2">
+                                            <div class="card-body">
+                                                <div class="row no-gutters align-items-center">
+                                                    <div class="col mr-2">
+                                                        <div
+                                                            class="text-xs font-weight-bold text-danger text-uppercase mb-1">
+                                                            Terceirizados pendentes</div>
+                                                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                                            <%= projouts.filter(pj=> pj.data.onRevision).length %>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-auto">
+                                                        <i class="fas fa-exclamation fa-2x text-gray-300"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xl-3 col-md-6 mb-4">
+                                        <div class="card border-left-success shadow h-100 py-2">
+                                            <div class="card-body">
+                                                <div class="row no-gutters align-items-center">
+                                                    <div class="col mr-2">
+                                                        <div
+                                                            class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                                            Terceirizados Finalizados</div>
+                                                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                                            <%= projouts.filter(pj=> pj.data.ended).length %>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-auto">
+                                                        <i class="fas fa-info fa-2x text-gray-300"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-xl-3 col-md-6 mb-4">
+                                        <div class="card border-left-primary shadow h-100 py-2">
+                                            <div class="card-body">
+                                                <div class="row no-gutters align-items-center">
+                                                    <div class="col mr-2">
+                                                        <div
+                                                            class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                            Empresas registradas</div>
+                                                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                                            <%= overview.businessLength %>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-auto">
+                                                        <i class="fas fa-info fa-2x text-gray-300"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-lg-6 mb-4">
+                                            <div class="card shadow mb-4">
+                                                <div class="card-header py-3">
+                                                    <h6 class="m-0 font-weight-bold text-primary">Configurações do
+                                                        Connect</h6>
+                                                </div>
+                                                <div class="card-body">
+
+                                                    <p>Valor atual da mensalidade: <b>R$ 199,99</b></p>
+                                                    <button class="btn btn-primary"> Editar valor
+                                                        <i class="far fa-edit"></i>
+                                                    </button>
+                                                    <p style="margin-left: 800px"></p>
+                                                </div>
+                                            </div>
+
+                                            <div class="card shadow mb-4">
+                                                <div class="card-header py-3">
+                                                    <h6 class="m-0 font-weight-bold text-primary">Empresas registradas
+                                                    </h6>
+                                                </div>
+                                                <div class="card-body">
+
+                                                    <div class="table-responsive">
+                                                        <table class="table table-bordered" id="dataTable" width="100%"
+                                                            cellspacing="0">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Identificação</th>
+                                                                    <th>E-mail</th>
+                                                                    <th>Pagamento</th>
+                                                                    <th>Botões</th>
+
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+
+                                                                <tr>
+                                                                    <td>D walt engenharia</td>
+                                                                    <td>contato@dlwalt.com</td>
+                                                                    <td>
+                                                                        <div class="text-center"
+                                                                            style="background-color: green; border-radius: 40px; "
+                                                                            data-toggle="tooltip" title="Em dia">
+                                                                            <p style="font-size: 20px"><i
+                                                                                    class="far fa-check-circle"
+                                                                                    style="color: #ffffff;"></i></p>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td>
+                                                                        <button class="btn btn-primary">
+                                                                            <i class="fas fa-eye"></i>
+                                                                        </button>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                    <small>Visualização rápida e detalhada das empresas registradas no
+                                                        Connect</small>
+                                                </div>
+                                            </div>
+
+                                            <div class="card shadow mb-4">
+                                                <div class="card-header py-3">
+                                                    <h6 class="m-0 font-weight-bold text-primary">Avisos ao
+                                                        administrador do Connect</h6>
+                                                </div>
+                                                <div class="card-body">
+                                                    <div class="text-center">
+                                                        <img class="img-fluid px-3 px-sm-4 mt-3 mb-4"
+                                                            style="width: 25rem;" src="img/undraw_posting_photo.svg"
+                                                            alt="...">
+                                                    </div>
+                                                    <p>Gestão de pagamentos do Connect deve ser realizada no banco
+                                                        <b>ASAAS</b>, bem como alterações de valores
+                                                        de clientes já registrados e outras alterações de dados. O
+                                                        sistema
+                                                        tem integração ao banco e se for solicitado, poderá conter essa
+                                                        gestão
+                                                        integrada.
+                                                    </p>
+                                                    <a target="_blank" rel="noopener noreferrer" rel="nofollow"
+                                                        href="https://wa.me/+556892402096/">Suporte</a>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <!--ANOTER SIDE-->
+                                        <div class="col-lg-6 mb-4">
+                                            <div class="card shadow mb-4">
+                                                <div class="card-header py-3">
+                                                    <h6 class="m-0 font-weight-bold text-primary">Projetos terceirizados
+                                                    </h6>
+                                                </div>
+                                                <div class="card-body">
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                    </div>
+                    <%- include("../../partials/footer.ejs") %>
+                </div>
+        </div>
+        <a class="scroll-to-top rounded" href="#page-top">
+            <i class="fas fa-angle-up"></i>
+        </a>
+        <script src="/vendor/jquery/jquery.min.js"></script>
+        <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+        <script src="/js/sb-admin-2.min.js"></script>
+        <%if(message) {%>
+            <script>
+                swal("<%=message.title%>", "<%=message.description%>", "<%=message.type%>");
+            </script>
+            <%}%>
+
+                <script>
+                    $(function () {
+                        $('[data-toggle="tooltip"]').tooltip()
+                    })
+                </script>
+
+    </body>
+
+    </html>
