@@ -84,7 +84,7 @@ router.get("/", (req, res, next) => {
 router.post(
   "/",
   async (req, res, next) => {
-    if (process.env.DEV) return next();
+   // if (process.env.DEV) return next();
     const users = await getAllItems({ path: `gestaoempresa/business` });
     const user = users.find((item) => item.data.info.email === req.body.email);
     if (!user) return next();
@@ -97,12 +97,12 @@ router.post(
     const userAgentString = req.headers["user-agent"];
     const agent = useragent.parse(userAgentString);
     const browser = agent.toAgent();
-
+    const ip = req.headers['cf-connecting-ip'] || req.socket.remoteAddress 
     if (isValid) {
       sendEmail(req.body.email, {
         title: "Login Realizado",
         message: `<p>Nos preocupamos com a segurança da sua conta e seus dados. Dados do login:</p>
-        <p>IP: ${req.ip}</p>
+        <p>IP: ${ip}</p>
         <p>HORÁRIO: ${new Date()}</p>
         <p>NAVEGADOR: ${browser}</p>
         <p>Não foi você? <a href="https://connect.dlwalt.com/esqueciasenha">troque sua senha<a></p>
@@ -112,7 +112,7 @@ router.post(
       sendEmail(req.body.email, {
         title: "Tentativa de login",
         message: `<p>Nos preocupamos com a segurança da sua conta e seus dados. Dados do login:</p>
-        <p>IP: ${req.ip}</p>
+        <p>IP: ${ip}</p>
         <p>HORÁRIO: ${new Date()}</p>
         <p>NAVEGADOR: ${browser}</p>
         <p>Não foi você? <a href="https://connect.dlwalt.com/esqueciasenha">troque sua senha<a></p>
