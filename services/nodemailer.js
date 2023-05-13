@@ -42,5 +42,21 @@ module.exports = {
         console.log('[EMAIL] Sent ' + info.response);
       }
     });
+  },
+  sendEmail: (email, message) => {
+    const mailOptions = {
+      from: 'contato@dlwalt.com',
+      to: email,
+      subject: `${message.title} - D Walt Connect: Empresa`,
+      html: `${message.message}`
+    };
+
+    transporter.sendMail(mailOptions, function(error, info){
+      if (error) {
+        console.log(error);
+      } else {
+        console.log('[EMAIL] Sent ' + info.response);
+      }
+    });
   }
 };

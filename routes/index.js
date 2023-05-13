@@ -1,4 +1,7 @@
-const { sendForgotPasswordEmail } = require("../services/nodemailer");
+const {
+  sendForgotPasswordEmail,
+  sendEmail,
+} = require("../services/nodemailer");
 
 const express = require("express"),
   router = express.Router(),
@@ -6,6 +9,7 @@ const express = require("express"),
   xml = fs.readFileSync(__dirname + "/../public/sitemap.xml"),
   bcrypt = require("bcryptjs"),
   passport = require("passport"),
+  useragent = require("useragent"),
   moment = require("moment"),
   jwt = require("jsonwebtoken"),
   { getDate } = require("../auth/functions/database"),
@@ -79,6 +83,43 @@ router.get("/", (req, res, next) => {
 
 router.post(
   "/",
+  async (req, res, next) => {
+    const users = await getAllItems({ path: `gestaoempresa/business` });
+    const user = users.find((item) => item.data.info.email === req.body.email);
+    if (!user) return next();
+    
+    const isValid = bcrypt.compareSync(
+      req.body.password,
+      user.data.info.password
+    );
+
+    const userAgentString = req.headers["user-agent"];
+    const agent = useragent.parse(userAgentString);
+    const browser = agent.toAgent();
+
+    if (isValid) {
+      sendEmail(req.body.email, {
+        title: "Login Realizado",
+        message: `<p>Nos preocupamos com a segurança da sua conta e seus dados. Dados do login:</p>
+        <p>IP: ${req.ip}</p>
+        <p>HORÁRIO: ${new Date()}</p>
+        <p>NAVEGADOR: ${browser}</p>
+        <p>Não foi você? <a href="https://connect.dlwalt.com/esqueciasenha">troque sua senha<a></p>
+        `,
+      });
+    } else {
+      sendEmail(req.body.email, {
+        title: "Tentativa de login",
+        message: `<p>Nos preocupamos com a segurança da sua conta e seus dados. Dados do login:</p>
+        <p>IP: ${req.ip}</p>
+        <p>HORÁRIO: ${new Date()}</p>
+        <p>NAVEGADOR: ${browser}</p>
+        <p>Não foi você? <a href="https://connect.dlwalt.com/esqueciasenha">troque sua senha<a></p>
+        `,
+      });
+    }
+    next();
+  },
   passport.authenticate("local", {
     successRedirect: "/dashboard",
     failureRedirect: "?message=credentialserror",
@@ -154,7 +195,11 @@ router.post("/registro", async (req, res) => {
     },
   };
   const checkUnique = () => {
-    return allUsers.find((item) => item.data.info.email === user.info.email || item.data.info.documents.cnpj === user.info.cnpj);
+    return allUsers.find(
+      (item) =>
+        item.data.info.email === user.info.email ||
+        item.data.info.documents.cnpj === user.info.cnpj
+    );
   };
   if (checkUnique()) return res.redirect("/?fail=true&message=userexists");
   createItem({ path: "gestaoempresa/business", params: user });
@@ -241,7 +286,7 @@ router.get("/resetarsenha", async (req, res, next) => {
   const { token } = req.query;
   let data = {};
 
-  if (typeof token !== 'string' || !token || token.length < 100) {
+  if (typeof token !== "string" || !token || token.length < 100) {
     return res.redirect("/");
   }
   jwt.verify(token, process.env.forgotpassword, async (err, decoded) => {
