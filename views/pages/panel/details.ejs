@@ -67,7 +67,7 @@
                                                         </button>
                                                         <%}%>
                                                 </b>
-                                                <p>
+                                                <p id="payStatus">
                                                     <%if(projoutInfo.paymentStatus==='pending' ) {%>
                                                         <span class="badge badge-danger">Pendente</span>
                                                         <%} else {%>
@@ -195,12 +195,13 @@
                             key: '<%=projoutInfo.key%>'
                         }).then(r => {
                             console.log(r);
+                            document.getElementById("payStatus").innerHTML = '<span class="badge badge-success">Pago</span>';
                             if (r.status === 200) {
                                 swal("Atualização", "Atualização do status de pagamento foi bem sucedido.", "success");
-                                axios.post('/api/v1/updateProjout/editPayment', {
+                                axios.post('/api/v1/updateProjout/updateHistoric', {
                                     key: '<%=projoutInfo.key%>',
                                     content: "Status de pagamento alterado para PAGO"
-                                })
+                                });
                             } else {
                                 swal("Erro", "Ocorreu um erro.", "error");
                             }

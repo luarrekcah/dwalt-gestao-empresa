@@ -104,7 +104,7 @@ router.post("/updateProjout/:type", async (req, res, next) => {
         },
       });
       return res.send(200);
-    case "editPayment":
+    case "confirmPayment":
       updateItem({
         path: `gestaoempresa/projouts/${req.body.key}`,
         params: {
