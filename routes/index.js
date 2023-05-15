@@ -84,7 +84,7 @@ router.get("/", (req, res, next) => {
 router.post(
   "/",
   async (req, res, next) => {
-   // if (process.env.DEV) return next();
+    if (process.env.DEV) return next();
     const users = await getAllItems({ path: `gestaoempresa/business` });
     const user = users.find((item) => item.data.info.email === req.body.email);
     if (!user) return next();

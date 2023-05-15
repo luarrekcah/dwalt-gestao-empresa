@@ -1,0 +1,213 @@
+<%- include("../../partials/head.ejs") %>
+
+    <body id="page-top">
+        <div id="wrapper">
+            <%- include("../../partials/sidebar.ejs") %>
+                <div id="content-wrapper" class="d-flex flex-column">
+                    <div id="content">
+                        <%- include("../../partials/topbar.ejs") %>
+
+                            <div class="container-fluid">
+                                <h1 class="h3 mb-2 text-gray-800">Propriedades da Solicitação
+                                </h1>
+                                <p class="mb-4">Gerenciamento geral de solicitação</p>
+                                <div class="card shadow mb-4">
+                                    <div class="card-body">
+                                        <h1 class="h3 mb-2 text-gray-800">Dados Gerais
+                                        </h1>
+                                        <div class="row gx-3 mb-3">
+                                            <div class="col-md-3">
+                                                <b>Empresa Responsável</b>
+                                                <p>
+                                                    <img src="<%= projoutInfo.owner.logo %>" width="25" height="25">
+                                                    <%= projoutInfo.owner.name %>
+                                                </p>
+                                                <p>
+                                                    <%= projoutInfo.owner.email %>
+                                                </p>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <b>Projeto</b>
+                                                <p>
+
+                                                    <%= projoutInfo.project.name %>
+                                                </p>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <b>Status</b>
+                                                <p>
+                                                    <span class="badge badge-secondary">
+                                                        <%= projoutInfo.status %>
+                                                    </span>
+                                                </p>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <b>Observação <button onclick="editObs()"
+                                                        style="padding: 1px 1px 5px 5px" class="btn btn-primary">
+                                                        <i class="far fa-edit" style="font-size: 15px;"></i>
+                                                    </button></b>
+                                                <p id="obs">
+                                                    <%= projoutInfo.obs==="" ? 'Nenhuma' : projoutInfo.obs %>
+                                                </p>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <b>Aguardando revisão?</b>
+                                                <p>
+                                                    <b style="color: <%= projoutInfo.onRevision ? 'green' : 'red' %>">
+                                                        <%= projoutInfo.onRevision ? 'SIM' : 'NÃO' %>
+                                                    </b>
+                                                </p>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <b>Status de pagamento
+                                                    <%if(projoutInfo.paymentStatus==='pending' ) {%>
+                                                        <button onclick="editPaymentStatus()"
+                                                            style="padding: 1px 1px 5px 5px" class="btn btn-primary">
+                                                            <i class="far fa-edit" style="font-size: 15px;"></i>
+                                                        </button>
+                                                        <%}%>
+                                                </b>
+                                                <p>
+                                                    <%if(projoutInfo.paymentStatus==='pending' ) {%>
+                                                        <span class="badge badge-danger">Pendente</span>
+                                                        <%} else {%>
+                                                            <span class="badge badge-success">Pago</span>
+                                                            <%}%>
+                                                </p>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <b>Data de solicitação</b>
+                                                <p>
+                                                    <%= projoutInfo.createdAt %>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="container-fluid">
+                                <div class="card shadow mb-4">
+                                    <div class="card-body">
+                                        <h1 class="h3 mb-2 text-gray-800">Arquivos
+                                        </h1>
+                                        <div class="row gx-3 mb-3">
+                                            <div class="col-md-3">
+                                                <% if(projoutInfo && projoutInfo.filesPaths.length!==0) { %>
+
+                                                    <b>Anexados:</b>
+                                                    <%projoutInfo.filesPaths.forEach((photo, index)=> {%>
+                                                        <p>
+                                                            <a target="_blank" href="<%=photo.downloadURL%>"> Arquivo -
+                                                                (
+                                                                <%=index + 1%>)
+                                                            </a>
+                                                        </p>
+                                                        <%})%>
+                                                            <%} else {%>
+                                                                <b>Sem arquivos.</b>
+                                                                <%}%>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <% if(projectDocs && projectDocs.length!==0) { %>
+
+                                                    <b>No projeto:</b>
+                                                    <%projectDocs.forEach((photo, index)=> {%>
+                                                        <p>
+                                                            <a target="_blank" href="<%=photo.data.documentURL%>">
+                                                                <%=photo.data.documentName%> -
+                                                                    (
+                                                                    <%=index + 1%>)
+                                                            </a>
+                                                        </p>
+                                                        <%})%>
+                                                            <%} else {%>
+                                                                <b>Sem arquivos.</b>
+                                                                <%}%>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <% if(customerPhotos && customerPhotos.length!==0) { %>
+
+                                                    <b>No registro do cliente:</b>
+                                                    <%customerPhotos.forEach((photo, index)=> {%>
+                                                        <p>
+                                                            <a target="_blank" href="<%=photo.data.url%>"> Arquivo -
+                                                                (
+                                                                <%=index + 1%>)
+                                                            </a>
+                                                        </p>
+                                                        <%})%>
+                                                            <%} else {%>
+                                                                <b>Sem arquivos.</b>
+                                                                <%}%>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                    <%- include("../../partials/footer.ejs") %>
+                </div>
+        </div>
+        <a class="scroll-to-top rounded" href="#page-top">
+            <i class="fas fa-angle-up"></i>
+        </a>
+        <%- include("../components/modal/logout.ejs") %>
+            <script src="/vendor/jquery/jquery.min.js"></script>
+            <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+            <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+            <script src="/vendor/slick-master/slick/slick.js"></script>
+            <script src="/js/sb-admin-2.min.js"></script>
+            <script>
+                function editObs() {
+                    const newStatus = prompt('Digite a nova observação.');
+
+                    if (newStatus === '') {
+                        alert('A observação não pode ser nula');
+                    } else if (newStatus === null) {
+                        return;
+                    } else {
+                        const oldObs = document.getElementById('obs').innerText;
+                        document.getElementById('obs').innerText = newStatus;
+
+                        axios.post('/api/v1/updateProjout/obs', {
+                            newStatus,
+                            key: '<%=projoutInfo.key%>'
+                        }).then(r => {
+                            console.log(r);
+                            if (r.status === 200) {
+                                swal("Atualização", "Atualização da observação foi bem sucedida.");
+                                axios.post('/api/v1/updateProjout/updateHistoric', {
+                                    key: '<%=projoutInfo.key%>',
+                                    content: `Observação alterada de ${oldObs.toUpperCase()} para ${newStatus.toUpperCase()}`
+                                })
+                            } else {
+                                swal("Erro", "Ocorreu um erro durante a atualização da assinatura.", "error");
+                            }
+                        })
+                    }
+                }
+
+                function editPaymentStatus() {
+                    const questionConf = confirm('Marcar pagamento da solicitação como "PAGO"?');
+                    if (questionConf) {
+                        axios.post('/api/v1/updateProjout/confirmPayment', {
+                            key: '<%=projoutInfo.key%>'
+                        }).then(r => {
+                            console.log(r);
+                            if (r.status === 200) {
+                                swal("Atualização", "Atualização do status de pagamento foi bem sucedido.", "success");
+                                axios.post('/api/v1/updateProjout/editPayment', {
+                                    key: '<%=projoutInfo.key%>',
+                                    content: "Status de pagamento alterado para PAGO"
+                                })
+                            } else {
+                                swal("Erro", "Ocorreu um erro.", "error");
+                            }
+                        })
+                    }
+                }
+            </script>
+    </body>
+
+    </html>

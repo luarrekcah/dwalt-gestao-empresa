@@ -80,6 +80,9 @@ module.exports = {
         return { key: userId, data }
     },
     createLogs: (userId, message) => {
+        if(process.env.DEV) {
+            message += ' [DEV]'
+        }
         const db = getDatabase();
         push(ref(db, `gestaoempresa/business/${userId}/logs`), { message, createdAt: moment().format() }).then(
             console.log("[LOG] Gravação LOGS no banco de dados")

@@ -27,56 +27,62 @@
                   </div>
 
 
+                 
+
                   <div class="card-body">
-                    <div class="table-responsive">
-                      <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                        <thead>
-                          <tr>
-                            <th>Projeto</th>
-                            <th>Solicitado</th>
-                            <th>Status</th>
-                            <th>Observação</th>
-                            <th>Taxa</th>
-                            <th>Botões</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <%projouts.forEach(pj=> {%>
+                    <% if(projouts) {%>
+                      <div class="table-responsive">
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                          <thead>
                             <tr>
-                              <td>
-                                <%=pj.data.project.name%>
-                              </td>
-                              <td>
-                                <script>
-                                  document.write(moment("<%=pj.data.createdAt%>").format("L LT"));
-                                </script>
-                              </td>
-                              <td>
-                                <% if(pj.data.status==='solicited' ) { %>
-                                  <span class="badge badge-secondary">Aguardando</span>
-                                  <% } %>
-                              </td>
-                              <td>
-                                <%=pj.data.obs==='' ? 'Nenhuma Observação' : pj.data.obs%>
-                              </td>
-                              <td>
-                                <% if(pj.data.paymentStatus==='pending' ) { %>
-                                  <span class="badge badge-danger">Pendente</span>
-                                  <% } %>
-                              </td>
-                              <td>
-                                <a href="terceirizar/visualizar/<%=pj.key%>" class="btn btn-primary btn-circle">
-                                  <i class="fas fa-eye"></i>
-                                </a>
-                                <button onclick="deleteProjout('<%=pj.key%>')" class="btn btn-danger btn-circle">
-                                  <i class="fas fa-trash"></i>
-                                </button>
-                              </td>
+                              <th>Projeto</th>
+                              <th>Solicitado</th>
+                              <th>Status</th>
+                              <th>Observação</th>
+                              <th>Taxa</th>
+                              <th>Botões</th>
                             </tr>
-                            <%})%>
-                        </tbody>
-                      </table>
-                    </div>
+                          </thead>
+                          <tbody>
+                            <%projouts.forEach(pj=> {%>
+                              <tr>
+                                <td>
+                                  <%=pj.data.project.name%>
+                                </td>
+                                <td>
+                                  <script>
+                                    document.write(moment("<%=pj.data.createdAt%>").format("L LT"));
+                                  </script>
+                                </td>
+                                <td>
+                                  <% if(pj.data.status==='solicited' ) { %>
+                                    <span class="badge badge-secondary">Aguardando</span>
+                                    <% } %>
+                                </td>
+                                <td>
+                                  <%=pj.data.obs==='' ? 'Nenhuma Observação' : pj.data.obs%>
+                                </td>
+                                <td>
+                                  <% if(pj.data.paymentStatus==='pending' ) { %>
+                                    <span class="badge badge-danger">Pendente</span>
+                                    <% } %>
+                                </td>
+                                <td>
+                                  <a href="terceirizar/visualizar/<%=pj.key%>" class="btn btn-primary btn-circle">
+                                    <i class="fas fa-eye"></i>
+                                  </a>
+                                  <button onclick="deleteProjout('<%=pj.key%>')" class="btn btn-danger btn-circle">
+                                    <i class="fas fa-trash"></i>
+                                  </button>
+                                </td>
+                              </tr>
+                              <%})%>
+                          </tbody>
+                        </table>
+                      </div>
+                    <% } else { %>
+                      <h6>Nenhum projeto terceirizado. Clique em "Nova Solicitação".</h6>
+                    <% } %>
                   </div>
 
                 </div>

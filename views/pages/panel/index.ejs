@@ -9,10 +9,11 @@
                             <div class="container-fluid">
                                 <div class="d-sm-flex align-items-center justify-content-between mb-4">
                                     <h1 class="h3 mb-0 text-gray-800">Painel Administração</h1>
-                                    <button type="submit" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+                                    <button type="submit"
+                                        class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
                                         <i class="fas fa-bell"></i>
                                         Nova notificação para empresas (desenvolvimento)
-                                      </button>
+                                    </button>
                                 </div>
 
                                 <div class="row">
@@ -106,7 +107,8 @@
                                                 </div>
                                                 <div class="card-body">
                                                     <div id="normal">
-                                                        <p>Valor atual da mensalidade: <b id="valueSubs">R$ <%= subscriptionValue %></b>
+                                                        <p>Valor atual da mensalidade: <b id="valueSubs">R$ <%=
+                                                                    subscriptionValue %></b>
                                                         </p>
                                                         <button onclick="showEditValue()" class="btn btn-primary">
                                                             Editar valor
@@ -149,12 +151,12 @@
                                                                 key: '<%=user.key%>'
                                                             }).then(r => {
                                                                 console.log(r);
-                                                                if(r.status === 200) {
+                                                                if (r.status === 200) {
                                                                     swal("Assinatura", "Atualização do valor de assinatura bem sucedido para R$" + newValue, "success");
                                                                 } else {
                                                                     swal("Erro", "Ocorreu um erro durante a atualização da assinatura.", "error");
                                                                 }
-                                                               
+
                                                             })
                                                         }
 
@@ -186,38 +188,47 @@
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
-                                                                <%allBusiness.forEach(b => {%>
+                                                                <%allBusiness.forEach(b=> {%>
                                                                     <tr>
-                                                                        <td><%=b.data.info.documents.nome_fantasia%></td>
-                                                                        <td><%=b.data.info.email%></td>
+                                                                        <td>
+                                                                            <%=b.data.info.documents.nome_fantasia%>
+                                                                        </td>
+                                                                        <td>
+                                                                            <%=b.data.info.email%>
+                                                                        </td>
                                                                         <td>
                                                                             <% if(b.data.info.acessConnect) {%>
                                                                                 <div class="text-center"
-                                                                                style="background-color: green; border-radius: 40px; "
-                                                                                data-toggle="tooltip" title="Em dia">
-                                                                                <p style="font-size: 20px"><i
-                                                                                        class="far fa-check-circle"
-                                                                                        style="color: #ffffff;"></i></p>
-                                                                            </div>
-                                                                            <%} else {%>
-                                                                                <div class="text-center"
-                                                                                style="background-color: red; border-radius: 40px; "
-                                                                                data-toggle="tooltip" title="Vencido">
-                                                                                <p style="font-size: 20px"><i
-                                                                                        class="fas fa-exclamation-circle"
-                                                                                        style="color: #ffffff;"></i></p>
-                                                                            </div>
-                                                                            <%}%>
-                                                                            
+                                                                                    style="background-color: green; border-radius: 40px; "
+                                                                                    data-toggle="tooltip"
+                                                                                    title="Em dia">
+                                                                                    <p style="font-size: 20px"><i
+                                                                                            class="far fa-check-circle"
+                                                                                            style="color: #ffffff;"></i>
+                                                                                    </p>
+                                                                                </div>
+                                                                                <%} else {%>
+                                                                                    <div class="text-center"
+                                                                                        style="background-color: red; border-radius: 40px; "
+                                                                                        data-toggle="tooltip"
+                                                                                        title="Vencido">
+                                                                                        <p style="font-size: 20px"><i
+                                                                                                class="fas fa-exclamation-circle"
+                                                                                                style="color: #ffffff;"></i>
+                                                                                        </p>
+                                                                                    </div>
+                                                                                    <%}%>
+
                                                                         </td>
                                                                         <td>
-                                                                            <a href="/dlwalt/empresa/<%=b.key%>" class="btn btn-primary">
+                                                                            <a href="/dlwalt/empresa/<%=b.key%>"
+                                                                                class="btn btn-primary">
                                                                                 <i class="fas fa-eye"></i>
                                                                             </a>
                                                                         </td>
                                                                     </tr>
-                                                                <%})%>
-                                                               
+                                                                    <%})%>
+
                                                             </tbody>
                                                         </table>
                                                     </div>
@@ -259,7 +270,45 @@
                                                     </h6>
                                                 </div>
                                                 <div class="card-body">
-                                                    Em desenvolvimento
+                                                    <div class="table-responsive">
+                                                        <table class="table table-bordered" id="dataTable" width="100%"
+                                                            cellspacing="0">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Identificação</th>
+                                                                    <th>Status</th>
+                                                                    <th>Obs</th>
+                                                                    <th>Criação</th>
+                                                                    <th>Ações</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <% projouts.forEach(pj=> { %>
+                                                                    <tr>
+                                                                        <td>
+                                                                            <%= pj.data.project.name %>
+                                                                        </td>
+                                                                        <td>
+                                                                            <span class="badge badge-secondary"><%= pj.data.status %></span>
+                                                                        </td>
+                                                                        <td>
+                                                                            <%= pj.data.obs === '' ? 'Nenhuma observação' : pj.data.obs %>
+                                                                        </td>
+                                                                        <td>
+                                                                            <script>
+                                                                                document.write(moment("<%=pj.data.createdAt%>").fromNow());
+                                                                            </script>
+                                                                        </td>
+                                                                        <td>
+                                                                            <a href="dlwalt/visualizar/<%= pj.key %>" class="btn btn-info btn-circle">
+                                                                                <i class="fas fa-plus"></i>
+                                                                              </a>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <% }); %>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
                                                 </div>
                                             </div>
 

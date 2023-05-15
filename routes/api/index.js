@@ -73,23 +73,46 @@ router.get("/cnpj/:cnpj", async (req, res, next) => {
     });
 });
 
-
 router.post("/updateSubscriptionValue", async (req, res, next) => {
   console.log(req.body);
-  const business = await getItems({path: `gestaoempresa/business/${req.body.key}`})
+  const business = await getItems({
+    path: `gestaoempresa/business/${req.body.key}`,
+  });
 
-  if(business.info.email !== 'contato@dlwalt.com') {
-    return res.sendStatus(403)
+  if (business.info.email !== "contato@dlwalt.com") {
+    return res.sendStatus(403);
   }
 
   updateItem({
-    path: 'gestaoempresa/config',
+    path: "gestaoempresa/config",
     params: {
-      subscriptionValue: Number(req.body.newValue)
-    }
-  })
+      subscriptionValue: Number(req.body.newValue),
+    },
+  });
 
   return res.sendStatus(200);
-})
+});
+
+router.post("/updateProjout/:type", async (req, res, next) => {
+  console.log(req.body);
+  switch (req.params.type) {
+    case "obs":
+      updateItem({
+        path: `gestaoempresa/projouts/${req.body.key}`,
+        params: {
+          obs: req.body.newStatus,
+        },
+      });
+      return res.send(200);
+    case "editPayment":
+      updateItem({
+        path: `gestaoempresa/projouts/${req.body.key}`,
+        params: {
+          paymentStatus: "payd",
+        },
+      });
+      return res.send(200);
+  }
+});
 
 module.exports = router;

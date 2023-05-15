@@ -66,9 +66,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use(function(req, res, next) {
-  // obtém o nome da rota atual e armazena na variável "currentPage"
   res.locals.currentPage = req.originalUrl.replace(/\//g, '');
-   console.log(res.locals.currentPage);
   next();
 });
 
