@@ -242,6 +242,18 @@ router.get("/visualizar/:id", async (req, res, next) => {
     path: `gestaoempresa/projouts/${id}`,
   });
 
+  
+  const messages = await getAllItems({
+    path: `gestaoempresa/projouts/${id}/messages`,
+  });
+
+  
+  
+  const historic = await getAllItems({
+    path: `gestaoempresa/projouts/${id}/historic`,
+  });
+
+
   projoutInfo.key = id;
 
   const user = await getUser({ userId: req.user.key });
@@ -249,6 +261,8 @@ router.get("/visualizar/:id", async (req, res, next) => {
     user,
     message: null,
     projoutInfo,
+    messages,
+    historic,
     currentPage: res.locals.currentPage,
   };
   res.render("pages/projouts/view", data);

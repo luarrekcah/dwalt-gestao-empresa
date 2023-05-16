@@ -41,6 +41,10 @@ router.get("/visualizar/:id", async (req, res, next) => {
 
     projoutInfo.key = req.params.id;
 
+    const messages = await getAllItems({
+      path: `gestaoempresa/projouts/${req.params.id}/messages`,
+    })
+
   const projectInfo = await getItems({
     path: `gestaoempresa/business/${projoutInfo.owner.id}/projects/${projoutInfo.project.id}`,
   });
@@ -56,6 +60,7 @@ router.get("/visualizar/:id", async (req, res, next) => {
     projoutInfo,
     projectDocs,
     customerPhotos,
+    messages,
     message: null,
   };
 

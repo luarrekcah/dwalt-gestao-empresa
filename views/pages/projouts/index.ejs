@@ -27,7 +27,7 @@
                   </div>
 
 
-                 
+
 
                   <div class="card-body">
                     <% if(projouts) {%>
@@ -65,7 +65,9 @@
                                 <td>
                                   <% if(pj.data.paymentStatus==='pending' ) { %>
                                     <span class="badge badge-danger">Pendente</span>
-                                    <% } %>
+                                    <% } else { %>
+                                      <span class="badge badge-success">Pago</span>
+                                      <% } %>
                                 </td>
                                 <td>
                                   <a href="terceirizar/visualizar/<%=pj.key%>" class="btn btn-primary btn-circle">
@@ -80,9 +82,9 @@
                           </tbody>
                         </table>
                       </div>
-                    <% } else { %>
-                      <h6>Nenhum projeto terceirizado. Clique em "Nova Solicitação".</h6>
-                    <% } %>
+                      <% } else { %>
+                        <h6>Nenhum projeto terceirizado. Clique em "Nova Solicitação".</h6>
+                        <% } %>
                   </div>
 
                 </div>

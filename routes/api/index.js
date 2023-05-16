@@ -6,7 +6,9 @@ const express = require("express"),
 
 const admin = require("firebase-admin");
 
-const { getAllItems, getItems, updateItem } = require("../../database/users");
+const { getAllItems, getItems, updateItem, createItem } = require("../../database/users");
+
+const moment = require('moment');
 
 router.get("/", async (req, res, next) => {
   res.sendStatus(200);
@@ -93,6 +95,18 @@ router.post("/updateSubscriptionValue", async (req, res, next) => {
   return res.sendStatus(200);
 });
 
+
+router.post("/getProjout/:type", async (req, res, next) => {
+  console.log(req.body);
+  switch (req.params.type) {
+    case "messages": 
+    const data = await getAllItems({
+      path: `gestaoempresa/projouts/${req.body.key}/messages`,
+    });
+    return res.json(data);
+  }
+})
+
 router.post("/updateProjout/:type", async (req, res, next) => {
   console.log(req.body);
   switch (req.params.type) {
@@ -103,7 +117,7 @@ router.post("/updateProjout/:type", async (req, res, next) => {
           obs: req.body.newStatus,
         },
       });
-      return res.send(200);
+      return res.sendStatus(200);
     case "confirmPayment":
       updateItem({
         path: `gestaoempresa/projouts/${req.body.key}`,
@@ -111,7 +125,24 @@ router.post("/updateProjout/:type", async (req, res, next) => {
           paymentStatus: "payd",
         },
       });
-      return res.send(200);
+      return res.sendStatus(200);
+      case "updateHistoric":
+        createItem({
+          path: `gestaoempresa/projouts/${req.body.key}/historic`,
+          params: {
+            content: req.body.content,
+            createdAt: moment().format()
+          },
+        });
+        return res.sendStatus(200);
+        case "newMessage":
+          createItem({
+            path: `gestaoempresa/projouts/${req.body.key}/messages`,
+            params: {
+              message: req.body.message,
+            },
+          });
+          return res.sendStatus(200);
   }
 });
 

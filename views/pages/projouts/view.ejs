@@ -31,7 +31,9 @@
                                                 <p>
                                                     <% if(projoutInfo.paymentStatus==='pending' ) { %>
                                                         <span class="badge badge-danger">Pendente</span>
-                                                        <% } %>
+                                                        <% } else {%>
+                                                            <span class="badge badge-success">Pago</span>
+                                                            <% } %>
                                                 </p>
                                             </div>
 
@@ -119,52 +121,99 @@
                                 <div class="card shadow mb-4">
                                     <div class="card-body">
                                         <h1 class="h3 mb-2 text-gray-800">Comunicação</h1>
-                                        <div class="row gx-3 mb-3" style="height: 400px; overflow-y: scroll;">
-                                            <div class="col-md-12">
+                                        <div class="row gx-3 mb-3" id="scroll"
+                                            style="height: 400px; overflow-y: scroll;">
+                                            <div class="col-md-12" id="messagesDiv">
 
-                                                <!--NOT FROM ME-->
-                                                <div class="d-flex align-items-start mb-4">
-                                                    <div class="flex-shrink-0">
-                                                        <img src="https://cdn.discordapp.com/attachments/893220475663187968/1093602395415650314/316481495_1643357396086827_3975979139853710989_n.png"
-                                                            width="50" alt="user avatar" class="rounded-circle">
-                                                    </div>
-                                                    <div class="flex-grow-1 ms-3">
-                                                        <div class="bg-light rounded py-2 px-3 mb-2">
-                                                            <p class="text-small mb-0 text-muted">Olá! Seja bem vindo ao
-                                                                canal de comunicação, se precisar de algo, acrescentar
-                                                                algo ou tirar alguma dúvida, é só enviar mensagem aqui
-                                                                ou entrar em contato com nosso WhatsApp!
-                                                            </p>
-                                                        </div>
-                                                        <p class="small text-muted">2m atrás</p>
-                                                    </div>
-                                                </div>
-                                                <!--NOT FROM ME-->
+                                                <% if(messages && messages.length !==0) {%>
 
-                                                <!--FROM ME-->
-                                                <div class="d-flex align-items-end justify-content-end mb-4">
-                                                    <div class="flex-grow-1 me-3">
-                                                        <div class="bg-primary rounded py-2 px-3 mb-2">
-                                                            <p class="text-small mb-0 text-white">Tudo bem, estamos
-                                                                procurando aqui.</p>
-                                                        </div>
-                                                        <p class="small text-muted text-end">1m atrás</p>
-                                                    </div>
-                                                    <div class="flex-shrink-0">
-                                                        <img src="<%=user.data.profile.logo %>" alt="user avatar"
-                                                            width="50" class="rounded-circle">
-                                                    </div>
-                                                </div>
-                                                <!--FROM ME-->
+                                                    <% messages.forEach(msg=> {%>
+
+                                                        <%if(msg.data.message.from !==user.key) {%>
+
+                                                            <div class="d-flex align-items-start mb-4">
+                                                                <div class="flex-shrink-0">
+                                                                    <img src="<%=msg.data.message.icon%>" width="50"
+                                                                        alt="user avatar" class="rounded-circle">
+                                                                </div>
+                                                                <div class="flex-grow-1 ms-3">
+                                                                    <div class="bg-light rounded py-2 px-3 mb-2">
+                                                                        <p class="text-small mb-0 text-muted">
+                                                                            <%=msg.data.message.content%>
+                                                                        </p>
+                                                                    </div>
+                                                                    <p class="small text-muted">
+
+
+                                                                        <script>
+                                                                            document.write(moment("<%=msg.data.message.atTime%>").format("L LT"));
+                                                                        </script>
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+
+                                                            <%} else {%>
+                                                                <!--FROM ME-->
+                                                                <div
+                                                                    class="d-flex align-items-end justify-content-end mb-4">
+                                                                    <div class="flex-grow-1 me-3">
+                                                                        <div class="bg-primary rounded py-2 px-3 mb-2">
+                                                                            <p class="text-small mb-0 text-white">
+                                                                                <%=msg.data.message.content%>
+                                                                            </p>
+                                                                        </div>
+                                                                        <p class="small text-muted text-end">
+                                                                            <script>
+                                                                                document.write(moment("<%=msg.data.message.atTime%>").format("L LT"));
+                                                                            </script>
+                                                                        </p>
+                                                                    </div>
+                                                                    <div class="flex-shrink-0">
+                                                                        <img src="<%=msg.data.message.icon%>"
+                                                                            alt="user avatar" width="50"
+                                                                            class="rounded-circle">
+                                                                    </div>
+                                                                </div>
+                                                                <!--FROM ME-->
+                                                                <%}%>
+                                                                    <%})%>
+                                                                        <% } else {%>
+
+                                                                            <div class="d-flex align-items-start mb-4">
+                                                                                <div class="flex-shrink-0">
+                                                                                    <img src="https://cdn.discordapp.com/attachments/893220475663187968/1093602395415650314/316481495_1643357396086827_3975979139853710989_n.png"
+                                                                                        width="50" alt="user avatar"
+                                                                                        class="rounded-circle">
+                                                                                </div>
+                                                                                <div class="flex-grow-1 ms-3">
+                                                                                    <div
+                                                                                        class="bg-light rounded py-2 px-3 mb-2">
+                                                                                        <p
+                                                                                            class="text-small mb-0 text-muted">
+                                                                                            Olá! Seja bem vindo ao
+                                                                                            canal de comunicação, se
+                                                                                            precisar de algo,
+                                                                                            acrescentar
+                                                                                            algo ou tirar alguma dúvida,
+                                                                                            é só enviar mensagem aqui
+                                                                                            ou entrar em contato com
+                                                                                            nosso WhatsApp!
+                                                                                        </p>
+                                                                                    </div>
+                                                                                    <p class="small text-muted">1m atrás
+                                                                                    </p>
+                                                                                </div>
+                                                                            </div>
+                                                                            <% }%>
                                             </div>
                                         </div>
-
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="input-group mb-3">
                                                     <input type="text" id="messageContent" class="form-control"
                                                         placeholder="Digite sua mensagem">
                                                     <button class="btn btn-primary" id="sendMessage"
+                                                        onclick="sendMessage('<%= user.key %>', '<%= user.data.profile.logo %>', '<%=projoutInfo.key%>')"
                                                         type="button">Enviar</button>
                                                 </div>
                                             </div>
@@ -192,38 +241,18 @@
             <i class="fas fa-angle-up"></i>
         </a>
         <%- include("./components/modals/newFiles.ejs") %>
-        <%- include("../components/modal/logout.ejs") %>
-            <script src="/vendor/jquery/jquery.min.js"></script>
-            <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-            <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
-            <script src="/vendor/slick-master/slick/slick.js"></script>
-            <script src="/js/sb-admin-2.min.js"></script>
-            <script src="https://cdn.socket.io/4.6.1/socket.io.min.js"></script>
-            <script>
-                const socket = io();
-
-                const companyId = "<%= user.key %>";
-
-                socket.emit("connectBusiness", { companyId });
-
-                document.getElementById("sendMessage").addEventListener("click", () => {
-                    console.log('send message')
-                    try {
-                        socket.emit('message', {
-                            from: '<%= user.key %>',
-                            atTime: new Date().getTime(),
-                            content: document.getElementById('messageContent').value,
-                            type: 'text'
-                        })
-                    } catch (error) {
-                        console.log(error);
-                    }
-                });
-
-                socket.on('message', (data) => {
-                    console.log(`Nova mensagem de ${data.from}: ${data.content}`);
-                });
-            </script>
+            <%- include("../components/modal/logout.ejs") %>
+                <script src="/vendor/jquery/jquery.min.js"></script>
+                <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+                <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+                <script src="/vendor/slick-master/slick/slick.js"></script>
+                <script src="/js/sb-admin-2.min.js"></script>
+                <script src="/js/chat.js"></script>
+                <script>
+                    setInterval(() => {
+                        updateAllChat('<%=projoutInfo.key%>', '<%=user.key%>')
+                    }, 1000 * 30)
+                </script>
     </body>
 
     </html>
