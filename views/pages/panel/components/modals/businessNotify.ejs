@@ -1,0 +1,167 @@
+<div class="modal fade" id="businessNotify" tabindex="-1" role="dialog" aria-labelledby="businessNotifyLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="businessNotify">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="businessNotifyLabel">Notificação para empresas</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body" style="padding: 40px;">
+                <div class="modal-body">
+                    <form method="POST" id="bsNotify">
+                        <div class="mb-3">
+                            <p>Mensagem (curta)</p>
+                            <input name="notifyMessage" class="form-control" id="messageBsNotify" type="text">
+                        </div>
+
+                        <div class="mb-3">
+                            <p>Estilo (fundo do ícone)</p>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="style" id="style-primary"
+                                    value="primary" checked="">
+                                <label class="form-check-label" for="style-primary">
+                                    <button class="btn btn-primary"></button>
+                                </label>
+                            </div>
+
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="style" id="style-secondary"
+                                    value="secondary" checked="">
+                                <label class="form-check-label" for="style-secondary">
+                                    <button class="btn btn-secondary"></button>
+                                </label>
+                            </div>
+
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="style" id="style-info" value="info"
+                                    checked="">
+                                <label class="form-check-label" for="style-info">
+                                    <button class="btn btn-info"></button>
+                                </label>
+                            </div>
+
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="style" id="style-success"
+                                    value="success" checked="">
+                                <label class="form-check-label" for="style-success">
+                                    <button class="btn btn-success"></button>
+                                </label>
+                            </div>
+
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="style" id="style-warning"
+                                    value="warning" checked="">
+                                <label class="form-check-label" for="style-warning">
+                                    <button class="btn btn-warning"></button>
+                                </label>
+                            </div>
+
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="style" id="style-danger"
+                                    value="danger" checked="">
+                                <label class="form-check-label" for="style-danger">
+                                    <button class="btn btn-danger"></button>
+                                </label>
+                            </div>
+
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="style" id="style-dark" value="dark"
+                                    checked="">
+                                <label class="form-check-label" for="style-dark">
+                                    <button class="btn btn-dark"></button>
+                                </label>
+                            </div>
+                            <!-- Adicione o restante das opções de estilo aqui -->
+
+                            <div class="mb-3">
+                                <label for="icon-select" class="form-label">Selecione um ícone:</label>
+                                <select id="icon-select" name="icon" class="form-select">
+                                    <option value="">Selecione um ícone</option>
+                                    <option value="fas fa-check-circle">Check</option>
+                                    <option value="fas fa-exclamation-triangle">Aviso</option>
+                                    <option value="fas fa-info-circle">Informação</option>
+                                    <option value="fas fa-envelope">Envelope</option>
+                                    <option value="fas fa-phone">Celular</option>
+                                    <option value="fas fa-heart">Coração</option>
+                                    <option value="fas fa-star">Estrela</option>
+                                    <option value="fas fa-user">Usuário</option>
+                                    <option value="fas fa-thumbs-up">Like</option>
+                                    <option value="fas fa-thumbs-down">Deslike</option>
+                                    <option value="fas fa-cloud">Nuvem</option>
+                                    <option value="fas fa-cog">Engrenagem</option>
+                                    <option value="fas fa-search">Lupa</option>
+                                    <option value="fas fa-trash">Lixo</option>
+                                    <option value="fas fa-paper-plane">Avião de Papel</option>
+                                </select>
+                            </div>
+
+                            <p>Prévia da notificação:</p>
+                            <div id="icon-preview" style="border-color: #000;
+                        border-style: dashed;
+                        border-width: 1px;
+                        padding: 40px;">
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="mr-3" id="iconPreview">
+                                        <div class="icon-circle bg-primary">
+                                            <i class="fas fa-file-alt text-white"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="small text-gray-500" id="datePreview">12 de dezembro de 2021</div>
+                                        <span class="font-weight-bold" id="messagePreview">Essa é uma prévia da
+                                            notificação.</span>
+                                    </div>
+                                </a>
+                            </div>
+
+                            <input type="text" name="type" value="SEND_BNOTIFY" style="display: none;">
+                            <button class="btn btn-primary" style="width: 100%; margin-top: 20px" type="submit">Enviar
+                                notificações</button>
+                    </form>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    const message = document.getElementById('messageBsNotify');
+    const selectIcon = document.getElementById('icon-select');
+
+
+    function getCurrentDate() {
+        const now = new Date();
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        return now.toLocaleDateString('pt-BR', options);
+    }
+
+    function onChangeNotifyData() {
+        const selectedIcon = selectIcon.value;
+        const selectedStyle = document.querySelector('input[name="style"]:checked').value;
+
+        document.getElementById('messagePreview').innerText = message.value
+
+        document.getElementById('iconPreview').innerHTML = `<div class="icon-circle bg-${selectedStyle}">
+                                    <i class="${selectedIcon} text-white"></i>
+                                </div>`
+
+        document.getElementById('datePreview').innerText = getCurrentDate()
+
+    }
+
+    selectIcon.addEventListener('change', () => {
+        onChangeNotifyData()
+    });
+
+    message.addEventListener('change', () => {
+        onChangeNotifyData()
+    });
+
+</script>

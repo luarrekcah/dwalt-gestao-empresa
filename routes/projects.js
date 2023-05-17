@@ -26,6 +26,10 @@ router.get("/", async (req, res, next) => {
   });
   const user = await getUser({ userId: req.user.key });
 
+  const  notifications = await getAllItems({
+    path: `gestaoempresa/business/${req.user.key}/notifications`,
+  })
+
   let message;
   if (req.query.message) {
     switch (req.query.message.toLowerCase()) {
@@ -63,7 +67,8 @@ router.get("/", async (req, res, next) => {
     user,
     projects,
     message,
-    currentPage: res.locals.currentPage
+    currentPage: res.locals.currentPage,
+    notifications
   };
   res.render("pages/projects", data);
 });
@@ -85,11 +90,15 @@ router.get("/adicionar", async (req, res, next) => {
   const customers = await getAllItems({
     path: `gestaoempresa/business/${req.user.key}/customers`,
   });
+  const  notifications = await getAllItems({
+    path: `gestaoempresa/business/${req.user.key}/notifications`,
+  })
   const data = {
     user,
     message: null,
     customers,
-    currentPage: res.locals.currentPage
+    currentPage: res.locals.currentPage,
+    notifications
   };
   res.render("pages/projects/new", data);
 });
@@ -134,6 +143,10 @@ router.get("/visualizar/:id", async (req, res, next) => {
   const historic = await getAllItems({
     path: `gestaoempresa/business/${req.user.key}/projects/${req.params.id}/historic`,
   });
+
+  const  notifications = await getAllItems({
+    path: `gestaoempresa/business/${req.user.key}/notifications`,
+  })
 
   let required = [];
 
@@ -263,7 +276,8 @@ router.get("/visualizar/:id", async (req, res, next) => {
     overview,
     required,
     historic,
-    currentPage: res.locals.currentPage
+    currentPage: res.locals.currentPage,
+    notifications
   };
   res.render("pages/projects/see", data);
 });
@@ -358,12 +372,16 @@ router.get("/editar/:id", async (req, res, next) => {
   const project = await getItems({
     path: `gestaoempresa/business/${req.user.key}/projects/${req.params.id}`,
   });
+  const  notifications = await getAllItems({
+    path: `gestaoempresa/business/${req.user.key}/notifications`,
+  })
   const data = {
     user,
     project,
     message: null,
     customers,
-    currentPage: res.locals.currentPage
+    currentPage: res.locals.currentPage,
+    notifications
   };
   res.render("pages/projects/edit", data);
 });

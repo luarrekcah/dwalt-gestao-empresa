@@ -9,13 +9,17 @@ router.get("/", async (req, res, next) => {
         const projects = await getAllItems({ path: `gestaoempresa/business/${req.user.key}/projects` });
         const staffs = await getAllItems({ path: `gestaoempresa/business/${req.user.key}/staffs` });
         const teams = await getAllItems({ path: `gestaoempresa/business/${req.user.key}/teams` });
+        const  notifications = await getAllItems({
+            path: `gestaoempresa/business/${req.user.key}/notifications`,
+          })
         const data = {
             user,
             projects,
             staffs,
             teams,
             message: null,
-            currentPage: res.locals.currentPage
+            currentPage: res.locals.currentPage,
+            notifications
         };
         res.render("pages/staffs", data);
 

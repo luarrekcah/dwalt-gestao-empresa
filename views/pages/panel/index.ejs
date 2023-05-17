@@ -9,11 +9,12 @@
                             <div class="container-fluid">
                                 <div class="d-sm-flex align-items-center justify-content-between mb-4">
                                     <h1 class="h3 mb-0 text-gray-800">Painel Administração</h1>
-                                    <button type="submit"
+                                    <a href="#" data-toggle="modal"
+                                    data-target="#businessNotify"
                                         class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
                                         <i class="fas fa-bell"></i>
-                                        Nova notificação para empresas (desenvolvimento)
-                                    </button>
+                                        Nova notificação para empresas
+                                    </a>
                                 </div>
 
                                 <div class="row">
@@ -321,6 +322,7 @@
                     <%- include("../../partials/footer.ejs") %>
                 </div>
         </div>
+        <%- include("./components/modals/businessNotify.ejs") %>
         <a class="scroll-to-top rounded" href="#page-top">
             <i class="fas fa-angle-up"></i>
         </a>

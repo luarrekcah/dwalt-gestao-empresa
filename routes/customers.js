@@ -25,11 +25,15 @@ router.get("/", async (req, res, next) => {
     path: `gestaoempresa/business/${req.user.key}/customers`,
   });
   const user = await getUser({ userId: req.user.key });
+  const notifications = await getAllItems({
+    path: `gestaoempresa/business/${req.user.key}/notifications`,
+  });
   const data = {
     user,
     customers,
     message: null,
-    currentPage: res.locals.currentPage
+    currentPage: res.locals.currentPage,
+    notifications,
   };
   res.render("pages/customers", data);
 });
@@ -47,10 +51,14 @@ router.get("/adicionar", async (req, res, next) => {
   const config = await getItems({
     path: `gestaoempresa/business/${req.user.key}/config`,
   });
+  const notifications = await getAllItems({
+    path: `gestaoempresa/business/${req.user.key}/notifications`,
+  });
   const data = {
     user,
     message: null,
     config,
+    notifications,
   };
   res.render("pages/customers/new", data);
 });
@@ -72,7 +80,9 @@ router.post("/adicionar", async (req, res, next) => {
 
 router.get("/visualizar/:id", async (req, res, next) => {
   const user = await getUser({ userId: req.user.key });
-
+  const notifications = await getAllItems({
+    path: `gestaoempresa/business/${req.user.key}/notifications`,
+  });
   const photos =
     (await getAllItems({
       path: `gestaoempresa/business/${req.user.key}/customers/${req.params.id}/photos`,
@@ -89,6 +99,7 @@ router.get("/visualizar/:id", async (req, res, next) => {
     customer,
     message,
     photos,
+    notifications,
   };
   res.render("pages/customers/see", data);
 });
@@ -118,7 +129,7 @@ router.post("/visualizar/:id", async (req, res, next) => {
                   path,
                   url: downloadURL,
                 },
-              }); 
+              });
             });
           });
         } catch (error) {
@@ -138,11 +149,15 @@ router.get("/editar/:id", async (req, res, next) => {
     path: `gestaoempresa/business/${req.user.key}/customers/${req.params.id}`,
   });
   let message = null;
+  const notifications = await getAllItems({
+    path: `gestaoempresa/business/${req.user.key}/notifications`,
+  });
 
   const data = {
     user,
     customer,
     message,
+    notifications,
   };
   res.render("pages/customers/edit", data);
 });

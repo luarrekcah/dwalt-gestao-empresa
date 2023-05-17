@@ -27,6 +27,9 @@ router.get("/", async (req, res, next) => {
     user = await getUser({ userId: req.user.key });
 
   let projouts = await pjouts.filter((i) => i.data.owner.id === req.user.key);
+  const notifications = await getAllItems({
+    path: `gestaoempresa/business/${req.user.key}/notifications`,
+  });
 
   let message;
   if (req.query.message) {
@@ -73,6 +76,7 @@ router.get("/", async (req, res, next) => {
     projouts,
     message,
     currentPage: res.locals.currentPage,
+    notifications,
   };
   res.render("pages/projouts", data);
 });
@@ -99,11 +103,15 @@ router.get("/novo", async (req, res, next) => {
     path: `gestaoempresa/business/${req.user.key}/projects`,
   });
   const user = await getUser({ userId: req.user.key });
+  const notifications = await getAllItems({
+    path: `gestaoempresa/business/${req.user.key}/notifications`,
+  });
   const data = {
     user,
     message: null,
     projects,
     currentPage: res.locals.currentPage,
+    notifications,
   };
   res.render("pages/projouts/new", data);
 });
@@ -118,21 +126,20 @@ router.post("/novo", async (req, res, next) => {
     path: `gestaoempresa/projouts`,
   });
 
-  const projouts = await pjouts.find((i) => i.data.owner.id === req.user.key) || [];
+  const projouts =
+    (await pjouts.find((i) => i.data.owner.id === req.user.key)) || [];
 
-  if(projouts || projouts.length === 0) {
-
+  if (projouts || projouts.length === 0) {
     let find;
 
     try {
       find = await projouts.find(
-      (pj) => pj.data.project.id === body.data.projectId
-    );
+        (pj) => pj.data.project.id === body.data.projectId
+      );
     } catch (error) {
       console.log(error);
     }
-     
-  
+
     if (find !== undefined && find && projouts.length !== 0) {
       return res.redirect("/dashboard/projetos/terceirizar?message=exists");
     } else {
@@ -167,27 +174,29 @@ router.post("/novo", async (req, res, next) => {
         const path = `gestaoempresa/projouts/${
           req.user.key
         }/files/${new Date().getTime()}-${index}.${fileType}`;
-  
+
         const storageRef = ref(storage, path);
-  
+
         try {
-          const promise = uploadString(storageRef, file.base64, "data_url").then(
-            (snapshot) => {
-              return getDownloadURL(snapshot.ref).then((downloadURL) => {
-                return {
-                  timestamp: new Date().getTime(),
-                  path,
-                  downloadURL,
-                };
-              });
-            }
-          );
+          const promise = uploadString(
+            storageRef,
+            file.base64,
+            "data_url"
+          ).then((snapshot) => {
+            return getDownloadURL(snapshot.ref).then((downloadURL) => {
+              return {
+                timestamp: new Date().getTime(),
+                path,
+                downloadURL,
+              };
+            });
+          });
           promises.push(promise);
         } catch (error) {
           console.log(error);
         }
       }
-  
+
       Promise.all(promises)
         .then((filesPaths) => {
           createItem({
@@ -212,7 +221,7 @@ router.post("/novo", async (req, res, next) => {
               onRevision: true,
             },
           });
-  
+
           // Send notify to d walt
           sendEmail("contato@dlwalt.com", {
             title: "Novo Projeto Elétrico",
@@ -223,7 +232,7 @@ router.post("/novo", async (req, res, next) => {
             <p>Contato: ${user.data.email}</p>
             `,
           });
-  
+
           return res.redirect("/dashboard/projetos/terceirizar?message=ok");
         })
         .catch((error) => {
@@ -232,27 +241,26 @@ router.post("/novo", async (req, res, next) => {
         });
     }
   }
-
 });
 
 router.get("/visualizar/:id", async (req, res, next) => {
   const { id } = req.params;
 
+  const notifications = await getAllItems({
+    path: `gestaoempresa/business/${req.user.key}/notifications`,
+  });
+
   const projoutInfo = await getItems({
     path: `gestaoempresa/projouts/${id}`,
   });
 
-  
   const messages = await getAllItems({
     path: `gestaoempresa/projouts/${id}/messages`,
   });
 
-  
-  
   const historic = await getAllItems({
     path: `gestaoempresa/projouts/${id}/historic`,
   });
-
 
   projoutInfo.key = id;
 
@@ -264,6 +272,7 @@ router.get("/visualizar/:id", async (req, res, next) => {
     messages,
     historic,
     currentPage: res.locals.currentPage,
+    notifications,
   };
   res.render("pages/projouts/view", data);
 });

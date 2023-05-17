@@ -18,6 +18,9 @@ router.get("/", async (req, res, next) => {
   const requiredImages = await getAllItems({
     path: `gestaoempresa/business/${req.user.key}/config/projectRequiredImages`,
   });
+  const  notifications = await getAllItems({
+    path: `gestaoempresa/business/${req.user.key}/notifications`,
+  })
   let message;
   if (req.query.message) {
     switch (req.query.message.toLowerCase()) {
@@ -46,6 +49,7 @@ router.get("/", async (req, res, next) => {
     message,
     config,
     requiredImages,
+    notifications
   };
   res.render("pages/config", data);
 });

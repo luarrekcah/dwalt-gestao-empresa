@@ -122,6 +122,9 @@ router.get("/", async (req, res, next) => {
     config = await getItems({
       path: `gestaoempresa/business/${req.user.key}/config`,
     }),
+    notifications = await getAllItems({
+      path: `gestaoempresa/business/${req.user.key}/notifications`,
+    }),
     user = await getUser({ userId: req.user.key });
 
   let message;
@@ -158,7 +161,11 @@ router.get("/", async (req, res, next) => {
   }
 
   let kwh = 0;
-  if (growatt.plantList && growatt.plantList.data.data.count !== 0 && growatt.plantList.data.data.plants !== undefined) {
+  if (
+    growatt.plantList &&
+    growatt.plantList.data.data.count !== 0 &&
+    growatt.plantList.data.data.plants !== undefined
+  ) {
     growatt.plantList.data.data.plants.forEach(
       (i) => (kwh = parseInt(i.total_energy) + kwh)
     );
@@ -176,7 +183,8 @@ router.get("/", async (req, res, next) => {
     kwh,
     stickNotes,
     config,
-    currentPage: res.locals.currentPage
+    currentPage: res.locals.currentPage,
+    notifications,
   };
   res.render("pages/dashboard", data);
 });
@@ -327,10 +335,16 @@ router.get("/localizar/equipe", async (req, res, next) => {
       path: `gestaoempresa/business/${req.user.key}/teams`,
     }),
     user = await getUser({ userId: req.user.key });
+
+  const notifications = await getAllItems({
+    path: `gestaoempresa/business/${req.user.key}/notifications`,
+  });
+
   const data = {
     user,
     teams,
     message: null,
+    notifications,
   };
   res.render("pages/staffs/track", data);
 });
@@ -353,8 +367,8 @@ router.post("/reclamacoes", async (req, res, next) => {
 
   switch (data.type) {
     case "reply":
-      const complaint = await getItems({ 
-        path: `gestaoempresa/business/${req.user.key}/complaints/${data.data.id}`
+      const complaint = await getItems({
+        path: `gestaoempresa/business/${req.user.key}/complaints/${data.data.id}`,
       });
       updateItem({
         path: `gestaoempresa/business/${req.user.key}/complaints/${data.data.id}`,
@@ -363,13 +377,13 @@ router.post("/reclamacoes", async (req, res, next) => {
           replyedAt: getDate(),
         },
       });
-      if(complaint.ownerId) {
+      if (complaint.ownerId) {
         try {
           createNotification(
-            'Resposta de reclamação',
+            "Resposta de reclamação",
             `Sua empresa acabou de responder sua reclamação.`,
             req.user.key,
-            'customer',
+            "customer",
             complaint.ownerId
           );
         } catch (error) {

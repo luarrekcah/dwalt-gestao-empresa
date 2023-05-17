@@ -1,4 +1,5 @@
 const { getAllItems, getUser, getItems } = require("../database/users");
+const { businessNotify } = require("../utils");
 
 const express = require("express"),
   router = express.Router();
@@ -10,6 +11,10 @@ router.get("/", async (req, res, next) => {
     (subscriptionValue = await getItems({
       path: "gestaoempresa/config/subscriptionValue",
     }));
+
+    const  notifications = await getAllItems({
+      path: `gestaoempresa/business/${req.user.key}/notifications`,
+    })
 
   if (user.data.email !== "contato@dlwalt.com") {
     return res.redirect("/dashboard");
@@ -29,8 +34,24 @@ router.get("/", async (req, res, next) => {
     currentPage: res.locals.currentPage,
     subscriptionValue,
     allBusiness: bLength,
+    notifications
   };
   res.render("pages/panel", data);
+});
+
+router.post("/", async (req, res, next) => {
+  console.log(req.body);
+  const data = req.body;
+  switch (data.type) {
+    case "SEND_BNOTIFY":
+      try {
+        businessNotify(data.notifyMessage, data.icon, data.style, "all");
+        return res.redirect('/dlwalt');
+      } catch (error) {
+        console.log(error);
+      }
+      break;
+  }
 });
 
 router.get("/visualizar/:id", async (req, res, next) => {
@@ -39,11 +60,15 @@ router.get("/visualizar/:id", async (req, res, next) => {
     }),
     user = await getUser({ userId: req.user.key });
 
-    projoutInfo.key = req.params.id;
-
-    const messages = await getAllItems({
-      path: `gestaoempresa/projouts/${req.params.id}/messages`,
+    const  notifications = await getAllItems({
+      path: `gestaoempresa/business/${req.user.key}/notifications`,
     })
+
+  projoutInfo.key = req.params.id;
+
+  const messages = await getAllItems({
+    path: `gestaoempresa/projouts/${req.params.id}/messages`,
+  });
 
   const projectInfo = await getItems({
     path: `gestaoempresa/business/${projoutInfo.owner.id}/projects/${projoutInfo.project.id}`,
@@ -62,6 +87,7 @@ router.get("/visualizar/:id", async (req, res, next) => {
     customerPhotos,
     messages,
     message: null,
+    notifications
   };
 
   res.render("pages/panel/details", data);

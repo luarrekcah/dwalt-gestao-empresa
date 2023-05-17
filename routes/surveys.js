@@ -24,13 +24,17 @@ router.get("/", async (req, res, next) => {
   const projects = await getAllItems({
     path: `gestaoempresa/business/${req.user.key}/projects`,
   });
+  const  notifications = await getAllItems({
+    path: `gestaoempresa/business/${req.user.key}/notifications`,
+  })
   const user = await getUser({ userId: req.user.key });
   const data = {
     user,
     surveys,
     projects,
     message: null,
-    currentPage: res.locals.currentPage
+    currentPage: res.locals.currentPage,
+    notifications
   };
   res.render("pages/staffs/calls", data);
 });
@@ -125,6 +129,9 @@ router.get("/visualizar/:id", async (req, res, next) => {
     const staffEnded = await getItems({
       path: `gestaoempresa/business/${req.user.key}/staffs/${survey.staffEnded}`,
     });
+    const  notifications = await getAllItems({
+      path: `gestaoempresa/business/${req.user.key}/notifications`,
+    })
     console.log(photos);
     console.log(survey);
     const user = await getUser({ userId: req.user.key });
@@ -134,7 +141,8 @@ router.get("/visualizar/:id", async (req, res, next) => {
       photos,
       staffEnded,
       message: null,
-      currentPage: res.locals.currentPage
+      currentPage: res.locals.currentPage,
+      notifications
     };
     res.render("pages/staffs/callsView", data);
   });
