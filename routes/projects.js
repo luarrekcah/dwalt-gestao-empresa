@@ -471,6 +471,10 @@ router.get("/pendentes", async (req, res, next) => {
     path: `gestaoempresa/business/${req.user.key}`,
   });
 
+  const  notifications = await getAllItems({
+    path: `gestaoempresa/business/${req.user.key}/notifications`,
+  })
+
   const businessRequiredPhotosLength = await getAllItems({
     path: `gestaoempresa/business/${req.user.key}/config/projectRequiredImages`,
   });
@@ -513,7 +517,8 @@ router.get("/pendentes", async (req, res, next) => {
     user,
     message: null,
     pendingProjects,
-    currentPage: res.locals.currentPage
+    currentPage: res.locals.currentPage,
+    notifications
   };
   res.render("pages/projects/pending", data);
 });
