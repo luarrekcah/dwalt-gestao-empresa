@@ -46,7 +46,9 @@ router.post("/", async (req, res, next) => {
 
   const cID = await getItems({path: `gestaoempresa/business/${req.user.key}/projects/${data.projectID}/customerID`});
   const cpf = await getItems({path: `gestaoempresa/business/${req.user.key}/customers/${cID}/cpf`})
-  
+  const projectData = await getItems({path: `gestaoempresa/business/${req.user.key}/projects/${data.projectID}`});
+  const customerData = await getItems({path: `gestaoempresa/business/${req.user.key}/customers/${cID}`})
+
   switch (data.type) {
     case "concludeCall":
       updateItem({
@@ -66,8 +68,14 @@ router.post("/", async (req, res, next) => {
           finished: false,
           accepted: false,
           createdAt: getDate(),
-          owner: cpf,
-          projectId: data.projectID,
+          project: {
+            id: data.projectID,
+            name: projectData.apelidoProjeto
+          },
+          customer: {
+            name: customerData.nomeComp ? customerData.nomeComp : customerData.nomefantasia,
+            document: customerData.cpf ? customerData.cpf : customerData.cnpj
+          },
           status: "Solicitada",
           title: "Chamado Preventivo",
           text: "Chamado PREVENTIVO solicitado para esse projeto.",
@@ -100,8 +108,14 @@ router.post("/", async (req, res, next) => {
             finished: false,
             accepted: false,
             createdAt: getDate(),
-            owner: cpf,
-            projectId: data.projectID,
+            project: {
+              id: data.projectID,
+              name: projectData.apelidoProjeto
+            },
+            customer: {
+              name: customerData.nomeComp ? customerData.nomeComp : customerData.nomefantasia,
+              document: customerData.cpf ? customerData.cpf : customerData.cnpj
+            },
             status: "Solicitada",
             title: "Chamado Corretivo",
             text: "Chamado corretivo solicitado para esse projeto.",

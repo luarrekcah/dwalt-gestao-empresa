@@ -10,17 +10,18 @@
                 <h1 class="h3 mb-2 text-gray-800"><b>Chamados</b></h1>
                 <p class="mb-4">Chamados são solicitações de clientes ou da empresa, pode ser tanto para vistoria
                   quanto algum defeito ou emergência.</p>
-                  <a href="#" data-toggle="modal" data-target="#CreateSurvey" style="width: 100%;" class="btn btn-info">
-                    <span class="icon text-white-50">
-                      <i class="fas fa-plus"></i>
-                    </span>
-                    <span class="text">Criar chamado</span>
-                  </a>
+                <a href="#" data-toggle="modal" data-target="#CreateSurvey" style="width: 100%;" class="btn btn-info">
+                  <span class="icon text-white-50">
+                    <i class="fas fa-plus"></i>
+                  </span>
+                  <span class="text">Criar chamado</span>
+                </a>
                 <h1 class="h3 mb-2 text-gray-800" style="padding-top: 20px">Chamados em aberto</h1>
-                <%- surveys.filter(i => !i.data.finished).length === 0? '<b>Sem chamados abertos no momento</b>' : '' %>
+                <%- surveys.filter(i=> !i.data.finished).length === 0? '<b>Sem chamados abertos no momento</b>' : '' %>
                   <% surveys.forEach(i=> { %>
                     <% if(i.data.finished) return; %>
-                      <div class="card border-left-<%=!i.data.accepted ? 'danger' : 'primary'%> shadow h-100 py-2">
+                      <div style="margin-top: 20px"
+                        class="card border-left-<%=!i.data.accepted ? 'danger' : 'primary'%> shadow h-100 py-2">
                         <div class="card-body">
                           <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
@@ -35,6 +36,20 @@
                                 <small>
                                   <%= i.data.text %>
                                 </small>
+                                <% if(i.data.customer) {%>
+                                  <div style="padding: 20px;
+                                  background-color: #d7d7d7;
+                                  border-radius: 20px;
+                                  margin-top: 30px;">
+                                    <p>DADOS DO CLIENTE:</p>
+                                    <p style="font-size: 17px">Nome: <%=i.data.customer.name %>
+                                    </p>
+                                    <p style="font-size: 17px">Documento: <%=i.data.customer.document %>
+                                    </p>
+                                    <p style="font-size: 17px">Projeto: <%=i.data.project.name %>
+                                    </p>
+                                  </div>
+                                  <%}%>
                                     <br><br>
                                     <form method="post">
                                       <a href="/dashboard/chamados/visualizar/<%=i.key%>"
@@ -44,7 +59,7 @@
                                         </span>
                                         <span class="text">Dados do chamado</span>
                                       </a>
-                                      <a href="/dashboard/projetos/visualizar/<%=i.data.projectId%>"
+                                      <a href="/dashboard/projetos/visualizar/<%= i.data.projectId ||i.data.project.id%>"
                                         class="btn btn-info btn-icon-split">
                                         <span class="icon text-white-50">
                                           <i class="fas fa-info-circle"></i>
@@ -88,21 +103,36 @@
                                       <small>
                                         <%= i.data.text %>
                                       </small>
-                                      <br><br>
-                                      <a href="/dashboard/chamados/visualizar/<%=i.key%>"
-                                        class="btn btn-secondary btn-icon-split">
-                                        <span class="icon text-white-50">
-                                          <i class="fas fa-exclamation"></i>
-                                        </span>
-                                        <span class="text">Dados do chamado</span>
-                                      </a>
-                                      <a href="/dashboard/projetos/visualizar/<%=i.data.projectId%>"
-                                        class="btn btn-info btn-icon-split">
-                                        <span class="icon text-white-50">
-                                          <i class="fas fa-info-circle"></i>
-                                        </span>
-                                        <span class="text">Ver projeto</span>
-                                      </a>
+                                      <% if(i.data.customer) {%>
+                                        <div style="padding: 20px;
+                                        background-color: #d7d7d7;
+                                        border-radius: 20px;
+                                        margin-top: 30px;">
+                                          <p>DADOS DO CLIENTE:</p>
+                                          <p style="font-size: 17px">Nome: <%=i.data.customer.name %>
+                                          </p>
+                                          <p style="font-size: 17px">Documento: <%=i.data.customer.document %>
+                                          </p>
+                                          <p style="font-size: 17px">Projeto: <%=i.data.project.name %>
+                                          </p>
+                                        </div>
+                                        <%}%>
+
+                                          <br><br>
+                                          <a href="/dashboard/chamados/visualizar/<%=i.key%>"
+                                            class="btn btn-secondary btn-icon-split">
+                                            <span class="icon text-white-50">
+                                              <i class="fas fa-exclamation"></i>
+                                            </span>
+                                            <span class="text">Dados do chamado</span>
+                                          </a>
+                                          <a href="/dashboard/projetos/visualizar/<%= i.data.projectId || i.data.project.id%>"
+                                            class="btn btn-info btn-icon-split">
+                                            <span class="icon text-white-50">
+                                              <i class="fas fa-info-circle"></i>
+                                            </span>
+                                            <span class="text">Ver projeto</span>
+                                          </a>
                                     </div>
                                   </div>
                                   <div class="col-auto">
@@ -122,11 +152,11 @@
       <i class="fas fa-angle-up"></i>
     </a>
     <%- include("../components/modal/logout.ejs") %>
-    <%- include("./components/modal/createsurvey.ejs") %>
-      <script src="/vendor/jquery/jquery.min.js"></script>
-      <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-      <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
-      <script src="/js/sb-admin-2.min.js"></script>
+      <%- include("./components/modal/createsurvey.ejs") %>
+        <script src="/vendor/jquery/jquery.min.js"></script>
+        <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+        <script src="/js/sb-admin-2.min.js"></script>
   </body>
 
   </html>
