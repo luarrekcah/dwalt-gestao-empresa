@@ -82,24 +82,31 @@ router.post("/", async (req, res, next) => {
       });
       createLogs(req.user.key, `Chamado preventivo para ${data.projectID}`);
       break;
-    case "corretivo":
-      
-      const pictures = JSON.parse(data.pics64);
-      let urls = [];
-      const storageRef = ref(
-        storage,
-        `gestaoempresa/business/${req.user.key}/surveys/photos/${
-          data.projectID
-        }-${new Date()}`
-      );
-      const promises = pictures.map((pic) => {
-        return uploadString(storageRef, pic, "data_url").then((snapshot) => {
-          return getDownloadURL(snapshot.ref);
-        });
+      case "instalacao":
+     createItem({
+        path: `gestaoempresa/business/${req.user.key}/surveys`,
+        params: {
+          type: "instalacao",
+          finished: false,
+          accepted: false,
+          createdAt: getDate(),
+          project: {
+            id: data.projectID,
+            name: projectData.apelidoProjeto
+          },
+          customer: {
+            name: customerData.nomeComp ? customerData.nomeComp : customerData.nomefantasia,
+            document: customerData.cpf ? customerData.cpf : customerData.cnpj
+          },
+          status: "Solicitada",
+          title: "Chamado de Instalação de Projeto",
+          text: "Chamado de instalação solicitado para esse projeto.",
+        },
       });
-
-      Promise.all(promises).then((downloadURLs) => {
-        urls = downloadURLs;
+      createLogs(req.user.key, `Chamado de instalação para ${data.projectID}`);
+      break;
+    case "corretivo":
+      if(data.pics64 === '' || data.pics === '') {
         createItem({
           path: `gestaoempresa/business/${req.user.key}/surveys`,
           params: {
@@ -118,12 +125,54 @@ router.post("/", async (req, res, next) => {
             status: "Solicitada",
             title: "Chamado Corretivo",
             text: "Chamado corretivo solicitado para esse projeto.",
-            authorPhotos: urls,
+            authorPhotos: [],
             authorObs: data.sobrechamado,
           },
         });
         createLogs(req.user.key, `Chamado corretivo para ${data.projectID}`);
-      });
+      } else {
+        const pictures = JSON.parse(data.pics64);
+        let urls = [];
+        const storageRef = ref(
+          storage,
+          `gestaoempresa/business/${req.user.key}/surveys/photos/${
+            data.projectID
+          }-${new Date()}`
+        );
+        const promises = pictures.map((pic) => {
+          return uploadString(storageRef, pic, "data_url").then((snapshot) => {
+            return getDownloadURL(snapshot.ref);
+          });
+        });
+  
+        Promise.all(promises).then((downloadURLs) => {
+          urls = downloadURLs;
+          createItem({
+            path: `gestaoempresa/business/${req.user.key}/surveys`,
+            params: {
+              type: "corretivo",
+              finished: false,
+              accepted: false,
+              createdAt: getDate(),
+              project: {
+                id: data.projectID,
+                name: projectData.apelidoProjeto
+              },
+              customer: {
+                name: customerData.nomeComp ? customerData.nomeComp : customerData.nomefantasia,
+                document: customerData.cpf ? customerData.cpf : customerData.cnpj
+              },
+              status: "Solicitada",
+              title: "Chamado Corretivo",
+              text: "Chamado corretivo solicitado para esse projeto.",
+              authorPhotos: urls,
+              authorObs: data.sobrechamado,
+            },
+          });
+          createLogs(req.user.key, `Chamado corretivo para ${data.projectID}`);
+        });
+      }
+      
 
       break;
   }

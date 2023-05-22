@@ -29,11 +29,29 @@
           <option selected>Selecione o tipo de chamado</option>
           <option value="preventivo">Preventivo</option>
           <option value="corretivo">Corretivo</option>
+          <option value="instalacao">Instalação</option>
         </select>
 
         <div style="display: none" id="preventivo">
           <form method="post">
             <input name="type" value="preventivo" style="display: none" />
+            <select name="projectID" class="form-control">
+              <% projects.forEach(p => { %>
+              <option value="<%=p.key%>"><%=p.data.apelidoProjeto %></option>
+              <% }); %>
+            </select>
+            <button
+              style="margin-top: 20px; width: 100%"
+              class="btn btn-primary"
+              type="submit"
+            >
+              Solicitar
+            </button>
+          </form>
+        </div>
+        <div style="display: none" id="instalacao">
+          <form method="post">
+            <input name="type" value="instalacao" style="display: none" />
             <select name="projectID" class="form-control">
               <% projects.forEach(p => { %>
               <option value="<%=p.key%>"><%=p.data.apelidoProjeto %></option>
@@ -120,17 +138,25 @@
   const selectTipoChamado = document.getElementById("selectTipoChamado");
   const preventivoDiv = document.getElementById("preventivo");
   const corretivoDiv = document.getElementById("corretivo");
+  const instalacaoDiv = document.getElementById("instalacao");
 
   selectTipoChamado.addEventListener("change", function () {
     if (selectTipoChamado.value === "preventivo") {
       preventivoDiv.style.display = "block";
       corretivoDiv.style.display = "none";
+      instalacaoDiv.style.display = "none";
     } else if (selectTipoChamado.value === "corretivo") {
       preventivoDiv.style.display = "none";
       corretivoDiv.style.display = "block";
+      instalacaoDiv.style.display = "none";
+    } else if (selectTipoChamado.value === "instalacao") {
+      preventivoDiv.style.display = "none";
+      corretivoDiv.style.display = "none";
+      instalacaoDiv.style.display = "block";
     } else {
       preventivoDiv.style.display = "none";
       corretivoDiv.style.display = "none";
+      instalacaoDiv.style.display = "none";
     }
   });
 
