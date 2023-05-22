@@ -45,7 +45,6 @@ router.post("/", async (req, res, next) => {
   const data = req.body;
 
   const cID = await getItems({path: `gestaoempresa/business/${req.user.key}/projects/${data.projectID}/customerID`});
-  const cpf = await getItems({path: `gestaoempresa/business/${req.user.key}/customers/${cID}/cpf`})
   const projectData = await getItems({path: `gestaoempresa/business/${req.user.key}/projects/${data.projectID}`});
   const customerData = await getItems({path: `gestaoempresa/business/${req.user.key}/customers/${cID}`})
 
