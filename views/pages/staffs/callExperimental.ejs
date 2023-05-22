@@ -1,0 +1,293 @@
+<%- include("../../partials/head.ejs") %>
+
+  <body id="page-top">
+    <div id="wrapper">
+      <%- include("../../partials/sidebar.ejs") %>
+        <div id="content-wrapper" class="d-flex flex-column">
+          <div id="content">
+            <%- include("../../partials/topbar.ejs") %>
+              <div class="container-fluid">
+                <h1 class="h3 mb-2 text-gray-800"><b>Chamados</b></h1>
+                <p class="mb-4">Chamados são solicitações de clientes ou da empresa, pode ser tanto para vistoria
+                  quanto algum defeito ou emergência.</p>
+                <a href="#" data-toggle="modal" data-target="#CreateSurvey" style="width: 100%;" class="btn btn-info">
+                  <span class="icon text-white-50">
+                    <i class="fas fa-plus"></i>
+                  </span>
+                  <span class="text">Criar chamado</span>
+                </a>
+                <h1 class="h3 mb-2 text-gray-800" style="padding-top: 20px">Chamados em aberto</h1>
+                <div class="card shadow mb-4">
+                  <div class="card-body">
+                    <div class="table-responsive">
+                      <table id="itemsTable" class="table table-bordered" width="100%" cellspacing="0">
+                        <thead>
+                          <tr>
+                            <th>Status</th>
+                            <th>Título</th>
+                            <th>Texto</th>
+                            <th>Data do Chamado</th>
+                            <th>Status</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                       
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+
+                <%- surveys.filter(i=> !i.data.finished).length === 0? '<b>Sem chamados abertos no momento</b>' : '' %>
+                  <% surveys.reverse().forEach(i=> { %>
+                    <% if(i.data.finished) return; %>
+                      <div style="margin-top: 20px"
+                        class="card border-left-<%=!i.data.accepted ? 'danger' : 'primary'%> shadow h-100 py-2">
+                        <div class="card-body">
+                          <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                              <div
+                                class="text-xs font-weight-bold text-<%=!i.data.accepted ? 'danger' : 'primary'%> text-uppercase mb-1">
+                                <%=!i.data.accepted ? 'Chamado pendente' : 'Chamado em execução' %>
+                              </div>
+                              <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                <p>
+                                  <%= i.data.title %>
+                                </p>
+                                <small>
+                                  <%= i.data.text %>
+                                </small>
+                                <% if(i.data.customer) {%>
+                                  <div style="padding: 20px;
+                                  background-color: #d7d7d7;
+                                  border-radius: 20px;
+                                  margin-top: 30px;">
+                                    <p>DADOS DO CLIENTE:</p>
+                                    <p style="font-size: 17px">Nome: <%=i.data.customer.name %>
+                                    </p>
+                                    <p style="font-size: 17px">Documento: <%=i.data.customer.document %>
+                                    </p>
+                                    <p style="font-size: 17px">Projeto: <%=i.data.project.name %>
+                                    </p>
+                                  </div>
+                                  <%}%>
+                                    <br><br>
+                                    <form method="post">
+                                      <a href="/dashboard/chamados/visualizar/<%=i.key%>"
+                                        class="btn btn-secondary btn-icon-split">
+                                        <span class="icon text-white-50">
+                                          <i class="fas fa-exclamation"></i>
+                                        </span>
+                                        <span class="text">Dados do chamado</span>
+                                      </a>
+                                      <a href="/dashboard/projetos/visualizar/<%= i.data.projectId ||i.data.project.id%>"
+                                        class="btn btn-info btn-icon-split">
+                                        <span class="icon text-white-50">
+                                          <i class="fas fa-info-circle"></i>
+                                        </span>
+                                        <span class="text">Ver projeto</span>
+                                      </a>
+                                      <input name="surveyId" value="<%=i.key%>" style='display: none' />
+                                      <input name="type" value="concludeCall" style='display: none' />
+                                      <button class="btn btn-success btn-icon-split" type="submit"><span
+                                          class="icon text-white-50">
+                                          <i class="fas fa-check"></i>
+                                        </span>
+                                        <span class="text">Concluído</span>
+                                      </button>
+                                    </form>
+                              </div>
+                            </div>
+                            <div class="col-auto">
+                              <i class="fas fa-exclamation fa-2x text-gray-300"></i>
+                            </div>
+                          </div>
+                          <small>Data do chamado:
+                            <b>
+                              <script>
+                                document.write(moment("<%= i.data.createdAt %>").fromNow());
+                              </script>
+                            </b>
+                            | <%= i.data.createdAt %>
+                          </small>
+                          <small>| Status: <%= i.data.status %></small>
+                        </div>
+                      </div>
+                      <% })%>
+                        <h1 class="h3 mb-2 text-gray-800" style="padding-top: 20px">Chamados finalizados</h1>
+                        <% surveys.forEach(i=> { %>
+                          <% if(!i.data.finished) return; %>
+                            <div style="margin-top: 20px" class="card border-left-success shadow h-100 py-2">
+                              <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                  <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                      Chamado finalizado
+                                    </div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                      <p>
+                                        <%= i.data.title %>
+                                      </p>
+                                      <small>
+                                        <%= i.data.text %>
+                                      </small>
+                                      <% if(i.data.customer) {%>
+                                        <div style="padding: 20px;
+                                        background-color: #d7d7d7;
+                                        border-radius: 20px;
+                                        margin-top: 30px;">
+                                          <p>DADOS DO CLIENTE:</p>
+                                          <p style="font-size: 17px">Nome: <%=i.data.customer.name %>
+                                          </p>
+                                          <p style="font-size: 17px">Documento: <%=i.data.customer.document %>
+                                          </p>
+                                          <p style="font-size: 17px">Projeto: <%=i.data.project.name %>
+                                          </p>
+                                        </div>
+                                        <%}%>
+
+                                          <br><br>
+                                          <a href="/dashboard/chamados/visualizar/<%=i.key%>"
+                                            class="btn btn-secondary btn-icon-split">
+                                            <span class="icon text-white-50">
+                                              <i class="fas fa-exclamation"></i>
+                                            </span>
+                                            <span class="text">Dados do chamado</span>
+                                          </a>
+                                          <a href="/dashboard/projetos/visualizar/<%= i.data.projectId || i.data.project.id%>"
+                                            class="btn btn-info btn-icon-split">
+                                            <span class="icon text-white-50">
+                                              <i class="fas fa-info-circle"></i>
+                                            </span>
+                                            <span class="text">Ver projeto</span>
+                                          </a>
+                                    </div>
+                                  </div>
+                                  <div class="col-auto">
+                                    <i class="fas fa-exclamation fa-2x text-gray-300"></i>
+                                  </div>
+                                </div>
+                                <small>Data do chamado:
+                                  <b>
+                                    <script>
+                                      document.write(moment("<%= i.data.createdAt %>").fromNow());
+                                    </script>
+                                  </b>
+                                  | <%= i.data.createdAt %>
+                                </small>
+
+                              </div>
+                            </div>
+                            <% })%>
+              </div>
+          </div>
+          <%- include("../../partials/footer.ejs") %>
+        </div>
+    </div>
+    <a class="scroll-to-top rounded" href="#page-top">
+      <i class="fas fa-angle-up"></i>
+    </a>
+    <%- include("../components/modal/logout.ejs") %>
+      <%- include("./components/modal/createsurvey.ejs") %>
+        <script src="/vendor/jquery/jquery.min.js"></script>
+        <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+        <script src="/js/sb-admin-2.min.js"></script>
+
+
+        <script type="text/javascript" src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+        <script type="text/javascript" src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap4.min.js"></script>
+
+
+        <script>
+          $(document).ready(function () {
+            // Exemplo de dados de itens
+            const items = [<% surveys.map(function (survey) { %>
+            {
+              data: {
+                accepted: <%= survey.data.accepted %>,
+                title: "<%= survey.data.title %>",
+                text: "<%= survey.data.text %>",
+                customer: {
+                  name: "<%= survey.data.customer.name %>",
+                  document: "<%= survey.data.customer.document %>"
+                },
+                project: {
+                  name: "<%= survey.data.project.name %>"
+                },
+                createdAt: "<%= survey.data.createdAt %>",
+                status: "<%= survey.data.status %>"
+              },
+              key: "<%= survey.key %>"
+            },
+<% }) %>];
+
+            // Cria a tabela DataTables com a extensão Row Details
+            var table = $("#itemsTable").DataTable({
+              language: {
+                url: 'https://cdn.datatables.net/plug-ins/1.13.1/i18n/pt-BR.json'
+              },
+              data: items,
+              columns: [
+                {
+                  data: "data.accepted",
+                  render: function (data) {
+                    return data ? "Chamado em execução" : "Chamado pendente";
+                  }
+                },
+                { data: "data.title" },
+                { data: "data.text" },
+                { data: "data.createdAt" },
+                { data: "data.status" },
+              ],
+              createdRow: function (row, data, dataIndex) {
+                $(row).addClass("clickable-row");
+                $(row).attr("data-toggle", "tooltip");
+                $(row).attr("title", "Clique para expandir");
+              }
+            });
+
+            // Evento de clique na linha para expandir/contrair o conteúdo
+            $("#itemsTable tbody").on("click", "tr.clickable-row", function () {
+              var tr = $(this);
+              var row = table.row(tr);
+
+              if (row.child.isShown()) {
+                // A linha já está expandida, então contrai o conteúdo
+                row.child.hide();
+                tr.removeClass("shown");
+              } else {
+                // A linha não está expandida, então expande o conteúdo
+                row.child(formatDetails(row.data())).show();
+                tr.addClass("shown");
+              }
+            });
+
+            // Função para formatar o conteúdo expandido
+            function formatDetails(item) {
+              var html = "<div>";
+           
+              html += `
+              <div style="padding: 20px;
+                                  background-color: #d7d7d7;
+                                  border-radius: 20px;
+                                  margin-top: 30px;">
+                                    <p>DADOS DO CLIENTE:</p>
+                                    <p style="font-size: 17px">Nome: ${item.data.customer.name }
+                                    </p>
+                                    <p style="font-size: 17px">Documento: ${item.data.customer.document }
+                                    </p>
+                                    <p style="font-size: 17px">Projeto: ${item.data.project.name }
+                                    </p>
+                                  </div>
+              `;
+
+              html += "</div>";
+              return html;
+            }
+          });
+        </script>
+
+  </body>
+
+  </html>
