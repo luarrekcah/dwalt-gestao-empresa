@@ -11,7 +11,7 @@
   },
   "homepage": "https://gestao.dlwalt.com",
   "scripts": {
-    "start": "pm2-runtime server.js",
+    "start": "pm2 start server.js",
     "test": "jasmine",
     "dev": "cross-env DEV=true nodemon server.js"
   },
