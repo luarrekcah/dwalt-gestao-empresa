@@ -11,7 +11,7 @@
   },
   "homepage": "https://gestao.dlwalt.com",
   "scripts": {
-    "start": "npx pm2 start server.js",
+    "start": "node server.js",
     "test": "jasmine",
     "dev": "cross-env DEV=true nodemon server.js"
   },
