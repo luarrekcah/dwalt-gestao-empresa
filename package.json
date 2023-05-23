@@ -11,7 +11,7 @@
   },
   "homepage": "https://gestao.dlwalt.com",
   "scripts": {
-    "start": "node server.js",
+    "start": "pm2 start server.js",
     "test": "jasmine",
     "dev": "cross-env DEV=true nodemon server.js"
   },
@@ -49,6 +49,7 @@
   "devDependencies": {
     "cross-env": "^7.0.3",
     "eslint": "^8.27.0",
-    "jasmine": "^4.5.0"
+    "jasmine": "^4.5.0",
+    "pm2": "^5.3.0"
   }
 }
