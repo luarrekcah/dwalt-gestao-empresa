@@ -9,6 +9,9 @@ const express = require("express"),
   RateLimit = require("express-rate-limit"),
   fs = require("fs");
 
+  
+const morgan = require('morgan');
+
 const handlersPath = "./services/socket_handlers",
   handlerFiles = fs.readdirSync(handlersPath);
 
@@ -42,6 +45,12 @@ app.set("view engine", "ejs");
 
 //app.use(helmet());
 //app.use(limiter);
+// Criando um stream de gravação para o arquivo de log
+const accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' });
+
+// Configurando o logger do morgan para gravar os logs no arquivo
+app.use(morgan('combined', { stream: accessLogStream }));
+
 app.use(logger("dev"));
 app.use(cors());
 app.use(cookieParser());

@@ -353,11 +353,16 @@ router.get("/reclamacoes", async (req, res, next) => {
   const complaints = await getAllItems({
     path: `gestaoempresa/business/${req.user.key}/complaints/`,
   });
+  
+  const notifications = await getAllItems({
+    path: `gestaoempresa/business/${req.user.key}/notifications`,
+  });
   const user = await getUser({ userId: req.user.key });
   const data = {
     user,
     complaints,
     message: null,
+    notifications
   };
   res.render("pages/customers/complaint", data);
 });
