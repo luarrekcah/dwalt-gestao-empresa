@@ -8,7 +8,7 @@ const {
   ref,
 } = require("@firebase/storage");
 
-const { updateItem, getUser, deleteItem } = require("../database/users");
+const { updateItem, getUser, deleteItem, getAllItems } = require("../database/users");
 const { getSubscription, deleteSubscription } = require("../services/asaas");
 
 router.get("/", async (req, res, next) => {
