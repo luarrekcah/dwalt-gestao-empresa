@@ -84,7 +84,7 @@ router.post("/", async (req, res) => {
   };
   if (checkUnique()) return res.redirect("/login?fail=true&message=userexists");
   createItem({ path: "gestaoempresa/business", params: user });
-  return res.redirect("/?message=registered");
+  return res.redirect("login/?message=registered");
 });
 
 module.exports = router;

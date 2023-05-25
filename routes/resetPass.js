@@ -75,7 +75,7 @@ router.post("/", async (req, res, next) => {
       },
     });
     createLogs(user.key, "Senha atualizada.");
-    return res.redirect(`/?message=RedefinedPassword`);
+    return res.redirect(`/login?message=RedefinedPassword`);
   } else {
     return res.redirect(
       `/resetarsenha?message=PasswordDontMatch&token=${token}`
