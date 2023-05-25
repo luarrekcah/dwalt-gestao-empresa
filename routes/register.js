@@ -82,7 +82,7 @@ router.post("/", async (req, res) => {
         item.data.info.documents.cnpj === user.info.cnpj
     );
   };
-  if (checkUnique()) return res.redirect("/?fail=true&message=userexists");
+  if (checkUnique()) return res.redirect("/login?fail=true&message=userexists");
   createItem({ path: "gestaoempresa/business", params: user });
   return res.redirect("/?message=registered");
 });
