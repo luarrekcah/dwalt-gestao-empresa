@@ -36,6 +36,14 @@ router.get("/", (req, res, next) => {
               "Clique em OK e faça login com as credenciais ou recupere sua conta.",
           };
           break;
+          case "registered":
+          message = {
+            type: "success",
+            title: "Usuário registrado!",
+            description:
+              "Clique em OK e faça login com as credenciais da sua conta.",
+          };
+          break;
         case "credentialserror":
           message = {
             type: "error",

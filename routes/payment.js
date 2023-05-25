@@ -46,6 +46,7 @@ router.post("/", async (req, res, next) => {
 
 router.get("/assinatura", async (req, res, next) => {
   const user = await getUser({ userId: req.user.key });
+  const subscriptionValue = await getItems({path: 'gestaoempresa/config/subscriptionValue'})
   if (
     user.data.subscriptionID !== "" &&
     user.data.subscriptionID !== undefined &&
@@ -74,7 +75,13 @@ router.get("/assinatura", async (req, res, next) => {
   } else {
     message = null;
   }
-  res.render("pages/payments/subscription", message);
+
+  const data = {
+    message,
+    subscriptionValue,
+  }
+  
+  res.render("pages/payments/subscription", data);
 });
 
 router.post("/assinatura", async (req, res, next) => {

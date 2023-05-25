@@ -119,7 +119,7 @@
                                                     <div class="card-footer"> <button type="button"
                                                             onclick="makePayment('card')"
                                                             class="btn btn-primary btn-user btn-block">
-                                                            Confirmar R$44,90 </button>
+                                                            Confirmar R$<%= subscriptionValue %> </button>
                                                 </form>
                                             </div>
                                         </div> <!-- End -->
@@ -133,7 +133,7 @@
                                             <p>Valor da mensalidade:</p>
                                             <div class="row text-center justify-content-center">
                                                 <p>R$</p>
-                                                <h2>44,90</h2>
+                                                <h2><%= subscriptionValue %></h2>
                                             </div>
                                             <hr>
                                             <p class="text-muted"><b>OBS:</b> A cobrança será realizada através dos
@@ -154,7 +154,7 @@
                                             <p>Valor da mensalidade:</p>
                                             <div class="row text-center justify-content-center">
                                                 <p>R$</p>
-                                                <h2>44,90</h2>
+                                                <h2><%= subscriptionValue %></h2>
                                             </div>
 
                                             <hr>
