@@ -105,7 +105,7 @@ router.get("/adicionar", async (req, res, next) => {
 
 router.post("/adicionar", (req, res, next) => {
   const project = req.body;
-  project.createdAt = getDate(moment);
+  project.createdAt = getDate();
   console.log(project);
   if (project.customerID === "Nenhum selecionado")
     return res.redirect("/dashboard/projetos?message=semcliente");

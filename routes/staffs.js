@@ -33,7 +33,7 @@ router.post("/", async (req, res, next) => {
             const name = req.body.teamName;
             const team = {
                 name,
-                createdAt: getDate(moment)
+                createdAt: getDate()
             }
             const teamsAll = await getAllItems({path: `gestaoempresa/business/${req.user.key}/teams`});
 
@@ -54,7 +54,7 @@ router.post("/", async (req, res, next) => {
                         projectId: "-NGTx9FoC3_Za5evJdNi",
                         title: "Mal atendido"
                         text: "bla bla bla"
-                        publishedAt: getDate(moment),
+                        publishedAt: getDate(),
                     }
                 });
 
@@ -66,7 +66,7 @@ router.post("/", async (req, res, next) => {
                          projectId: "-NGTx9FoC3_Za5evJdNi",
                          title: 'Sistema não liga',
                          text: 'Entao, eu dei olhada, acho que está com algum problema na fiação porque parou de funcinar e ta quente os fios.',
-                         createdAt: getDate(moment),
+                         createdAt: getDate(),
                          finished: false,
                          accepted: false,
                          status: 'Aguardando resposta da empresa...',
@@ -110,7 +110,7 @@ router.post("/", async (req, res, next) => {
                                 name: teamNameStaff,
                                 role: role_name,
                                 roles,
-                                addedAt: getDate(moment),
+                                addedAt: getDate(),
                             }
                         }
                     });

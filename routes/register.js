@@ -2,6 +2,7 @@ const { getDate } = require("../auth/functions/database");
 const { createItem, getAllItems } = require("../database/users");
 
 const bcrypt = require("bcryptjs");
+const moment = require('moment');
 
 const express = require("express"),
   router = express.Router();
@@ -71,7 +72,7 @@ router.post("/", async (req, res) => {
         number: "",
       },
       contractURL: "",
-      createdAt: getDate(moment),
+      createdAt: getDate(),
     },
   };
   const checkUnique = () => {
