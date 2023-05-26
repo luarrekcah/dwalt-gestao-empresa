@@ -16,7 +16,7 @@ router.get("/", async (req, res, next) => {
   let data = {};
 
   if (typeof token !== "string" || !token || token.length < 100) {
-    return res.redirect("/");
+    return res.redirect("/login");
   }
   jwt.verify(token, process.env.forgotpassword, async (err, decoded) => {
     if (err) {

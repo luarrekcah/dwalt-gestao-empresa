@@ -18,22 +18,11 @@ const handlersPath = "./services/socket_handlers",
 require("dotenv").config();
 
 const app = express();
-const http = require("http").Server(app);
-const io = require("socket.io")(http);
 const port = process.env.PORT || 3000;
 
 const limiter = RateLimit({
   windowMs: 10 * 60 * 1000, // 10 minutos
   max: 100, // Limite máximo de solicitações em 10 minutos
-});
-
-io.on("connection", (socket) => {
-  //console.log(socket.request)
-  handlerFiles.forEach((file) => {
-    const handler = require(`${handlersPath}/${file}`);
-    const eventName = handler.eventName || file.replace(".js", "");
-    socket.on(eventName, handler.handler);
-  });
 });
 
 require("./database.js");
@@ -84,11 +73,10 @@ process.on("unhandledRejection", (reason) => {
 });
 
 require("./routes")(app);
-require("./services/growatt");
-require("./services/sticknotes");
+require("./services/inverters");
 require("./services/notifications");
 
-const server = http.listen(port, function () {
+const server = app.listen(port, function () {
   console.log(`[CONNECTION INFO] Porta: ${server.address().port}`);
 });
 

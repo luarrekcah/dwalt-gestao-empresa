@@ -26,11 +26,11 @@ const { subscriptionChecker } = require("./utils");
 
 const authenticationMiddleware = (req, res, next) => {
   if (req.isAuthenticated()) return next();
-  res.redirect("/");
+  res.redirect("/login");
 };
 const authenticationSubsMiddleware = async (req, res, next) => {
   if (req.user === undefined || req.user.key === undefined)
-    return res.redirect("/");
+    return res.redirect("/login");
   try {
     const sub = await subscriptionChecker(req);
     console.log(sub);
@@ -41,7 +41,7 @@ const authenticationSubsMiddleware = async (req, res, next) => {
     return res.redirect(sub.redirect);
   } catch (error) {
     console.error(error);
-    return res.redirect("/");
+    return res.redirect("/login");
   }
 };
 

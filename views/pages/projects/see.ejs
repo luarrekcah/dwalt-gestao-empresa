@@ -66,76 +66,98 @@
                         </p>
                       </div>
 
+                      <div class="col-md-3">
+                        <b><i class="fas fa-square"></i> Marca do sistema</b>
+                        <p>
+                          <%= project.brand || project.typeInverter || 'Growatt' %>
+                        </p>
+                      </div>
 
                     </div>
-                    <% if(growattData && growattData.status) { %>
+                    <% if(project.overview) { %>
+
                       <h1 class="h3 mb-2 text-gray-800">Sistema Growatt
                       </h1>
                       <div class="row gx-3 mb-3">
 
+
+
+
                         <div class="col-md-3">
                           <b><i class="fas fa-wifi"></i> Status do Sistema</b>
                           <br>
-                          <% if (growattData.status===0) { %>
-                            <b>0 (reporte esse projeto para o suporte)</b>
-                            <% } else if (growattData.status===1) { %>
-                              <b style="color: green">Online</b>
-                              <% } else if (growattData.status===2) { %>
-                                <b>2 (reporte esse projeto para o suporte)</b>
-                                <% } else if (growattData.status===3) { %>
-                                  <b>3 (reporte esse projeto para o suporte)</b>
-                                  <% } else if (growattData.status===4) { %>
-                                    <b>Off-line</b>
-                                    <% } %>
-
+                          <b>
+                            <%= project.overview.status%>
+                          </b>
                         </div>
 
-                        <% if(project.overview) { %>
-                          <div class="col-md-3">
-                            <b><i class="fas fa-bolt"></i> Geração atual</b>
-                            <p>
-                              <%= project.overview.data.data.current_power%>
-                            </p>
-                          </div>
+                        <div class="col-md-3">
+                          <b><i class="fas fa-bolt"></i> Potência atual</b>
+                          <br>
+                          <b>
+                            <%= project.overview.current_kw%> kW
+                          </b>
+                        </div>
 
-                          <div class="col-md-3">
-                            <b><i class="fas fa-bolt"></i> Geração hoje</b>
-                            <p>
-                              <%= project.overview.data.data.today_energy%> kW
-                            </p>
-                          </div>
 
-                          <div class="col-md-3">
-                            <b><i class="fas fa-bolt"></i> Geração mensal</b>
-                            <p>
-                              <%= project.overview.data.data.monthly_energy%> kW
-                            </p>
+                        <div class="col-md-3">
+                          <b><i class="fas fa-bolt"></i> Gerado Hoje</b>
+                          <br>
+                          <b>
+                            <%= project.overview.generationHistoric.today%> kWh
+                          </b>
+                        </div>
+
+                        <div class="col-md-3">
+                          <b><i class="fas fa-bolt"></i> Gerado esse mês</b>
+                          <br>
+                          <b>
+                            <%= project.overview.generationHistoric.month %> kWh
+                          </b>
+                        </div>
+
+                        <div class="col-md-3">
+                          <b><i class="fas fa-bolt"></i> Gerado esse ano</b>
+                          <br>
+                          <b>
+                            <%= project.overview.generationHistoric.year %> kWh
+                          </b>
+                        </div>
+
+                        <div class="col-md-3">
+                          <b><i class="fas fa-bolt"></i> Total gerado</b>
+                          <br>
+                          <b>
+                            <%= project.overview.total_generated %> kWh
+                          </b>
+                        </div>
+
+                        <div class="col-md-3">
+                          <b><i class="fas fa-wifi"></i> Registrado na Growatt em</b>
+                          <br>
+                          <b>
+                            <%= project.overview.createdAt%>
+                          </b>
+                        </div>
+
+                        <!--
+                        <div class="row gx-3 mb-3">
+                          <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Histórico de geração</h6>
                           </div>
-                          <% }%>
-                            <div class="col-md-3">
-                              <b><i class="fas fa-bolt"></i> Geração total</b>
-                              <p>
-                                <%= growattData.total_energy%> kW
-                              </p>
+                          <div class="card-body">
+                            <div class="chart-area">
+                              <canvas id="myAreaChart"></canvas>
                             </div>
-                            <div class="col-md-3">
-                              <b><i class="fas fa-calendar"></i> Data de registro</b>
-                              <p>
-                                <%= growattData.create_date%>
-                              </p>
-                            </div>
-                      </div>
-                      <div class="row gx-3 mb-3">
-                        <div class="card-header py-3">
-                          <h6 class="m-0 font-weight-bold text-primary">Histórico de geração</h6>
-                        </div>
-                        <div class="card-body">
-                          <div class="chart-area">
-                            <canvas id="myAreaChart"></canvas>
                           </div>
                         </div>
+                        -->
+
                       </div>
-                      <%}%>
+                      <% }%>
+
+
+
                         <h1 class="h3 mb-2 text-gray-800">Imagens
                         </h1>
                         <% if(project.photos) { %>

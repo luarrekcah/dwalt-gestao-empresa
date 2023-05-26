@@ -1,0 +1,35 @@
+{
+  "plantID": "",
+  "brand": "",
+  "deviceID": "",
+  "deviceSN": "",
+  "overview": {
+    "type": "ongrid/offgrid",
+    "alert": {
+      "code": "error code",
+      "message": "error message",
+      "time": "timestamp",
+      "onAlert": "boolean (if active or not)"
+    },
+    "allAlerts": [],
+    "status": "on/off/warn/danger",
+    "total_generated": "Number",
+    "current_kw": "Number",
+    "createdAt": "",
+    "kwp": "",
+    "kwp_actual": "",
+    "devices": [],
+    "inverters": [],
+    "dataloggers": [],
+    "installed_dc_capacity": "number",
+    "installed_ac_capacity": "number",
+    "arrays": [],
+    "lastUpdateTime": "timestamp",
+    "generationHistoric": {
+      "today": "number",
+      "month": "number",
+      "year": "number"
+    },
+    "carbon_offset": "number"
+  }
+}

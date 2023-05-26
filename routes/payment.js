@@ -41,7 +41,7 @@ router.post("/", async (req, res, next) => {
     });
     return res.redirect("/pagamento/assinatura");
   });
-  //return res.redirect("/");
+  //return res.redirect("/login");
 });
 
 router.get("/assinatura", async (req, res, next) => {
