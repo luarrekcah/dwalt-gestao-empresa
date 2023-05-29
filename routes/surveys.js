@@ -47,6 +47,8 @@ router.post("/", async (req, res, next) => {
   const cID = await getItems({path: `gestaoempresa/business/${req.user.key}/projects/${data.projectID}/customerID`});
   const projectData = await getItems({path: `gestaoempresa/business/${req.user.key}/projects/${data.projectID}`});
   const customerData = await getItems({path: `gestaoempresa/business/${req.user.key}/customers/${cID}`})
+  
+console.log(customerData);
 
   switch (data.type) {
     case "concludeCall":
