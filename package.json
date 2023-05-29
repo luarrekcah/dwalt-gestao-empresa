@@ -13,7 +13,8 @@
   "scripts": {
     "start": "node server.js",
     "test": "jasmine",
-    "dev": "cross-env DEV=true nodemon server.js"
+    "dev": "cross-env DEV=true nodemon server.js",
+    "server-debug": "nodemon --inspect server.js"
   },
   "engines": {
     "node": "16.14.2"

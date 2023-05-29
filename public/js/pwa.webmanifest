@@ -1,0 +1,16 @@
+{
+    "name": "D | Walt Connect: Empresas",
+    "short_name": "Connect Empresas",
+    "description": "Realize a gestão da sua empresa de energia solar, organizando projetos, equipes e mais!",
+    "icons": [
+        {
+            "src": "img/logo512.png",
+            "type": "image/png",
+            "sizes": "512x512"
+          }
+    ],
+    "start_url": "/login",
+    "display": "fullscreen",
+    "theme_color": "#009eef",
+    "background_color": "#009eef"
+  }
