@@ -74,7 +74,7 @@ console.log(customerData);
             name: projectData.apelidoProjeto
           },
           customer: {
-            name: customerData.nomeComp ? customerData.nomeComp : customerData.nomefantasia,
+            name: customerData.nomeComp ? customerData.nomeComp : customerData.nomeFantasia,
             document: customerData.cpf ? customerData.cpf : customerData.cnpj
           },
           status: "Solicitada",
@@ -97,7 +97,7 @@ console.log(customerData);
             name: projectData.apelidoProjeto
           },
           customer: {
-            name: customerData.nomeComp ? customerData.nomeComp : customerData.nomefantasia,
+            name: customerData.nomeComp ? customerData.nomeComp : customerData.nomeFantasia,
             document: customerData.cpf ? customerData.cpf : customerData.cnpj
           },
           status: "Solicitada",
@@ -121,7 +121,7 @@ console.log(customerData);
               name: projectData.apelidoProjeto
             },
             customer: {
-              name: customerData.nomeComp ? customerData.nomeComp : customerData.nomefantasia,
+              name: customerData.nomeComp ? customerData.nomeComp : customerData.nomeFantasia,
               document: customerData.cpf ? customerData.cpf : customerData.cnpj
             },
             status: "Solicitada",
