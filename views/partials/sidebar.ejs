@@ -11,133 +11,135 @@
       <i class="fas fa-fw fa-tachometer-alt"></i>
       <span>Dashboard</span></a>
   </li>
-  <%if(user.data.email === 'contato@dlwalt.com') { %>
+  <%if(user.data.email==='contato@dlwalt.com' ) { %>
     <li class="nav-item <%= currentPage === 'dlwalt' ? 'active' : '' %>">
       <a class="nav-link" href="/dlwalt">
         <i class="fas fa-cogs"></i>
         <span>Painel D | WALT</span></a>
     </li>
-  <% } %>
-  <hr class="sidebar-divider">
-  <div class="sidebar-heading">
-    Interface
-  </div>
-  <li class="nav-item <%= currentPage.includes('projetos') ? 'active' : '' %>">
-    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseProjects" aria-expanded="true"
-      aria-controls="collapseProjects">
-      <i class="fas fa-fw fa-solar-panel"></i>
-      <span>Projetos</span>
-    </a>
-    <div id="collapseProjects" class="collapse" aria-labelledby="headingProjects" data-parent="#accordionSidebar">
-      <div class="bg-white py-2 collapse-inner rounded">
-        <h6 class="collapse-header">Opções disponíveis:</h6>
-        <a class="collapse-item" href="/dashboard/projetos">Gerenciar</a>
-        <a class="collapse-item" href="/dashboard/projetos/pendentes">Pendência</a>
-        <a class="collapse-item" href="/dashboard/projetos/terceirizar">Terceirizados</a>
+    <% } %>
+      <hr class="sidebar-divider">
+      <div class="sidebar-heading">
+        Interface
       </div>
-    </div>
-  </li>
-  <li class="nav-item <%=  currentPage.includes('chamados') ||  currentPage.includes('equipe') ? 'active' : '' %>" >
-    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseStaffs" aria-expanded="true"
-      aria-controls="collapseStaffs">
-      <i class="fas fa-fw fa-user-shield"></i>
-      <span>Equipe</span>
-    </a>
-    <div id="collapseStaffs" class="collapse" aria-labelledby="headingStaffs" data-parent="#accordionSidebar">
-      <div class="bg-white py-2 collapse-inner rounded">
-        <h6 class="collapse-header">Opções disponíveis:</h6>
-        <a class="collapse-item" href="/dashboard/chamados">Chamados</a>
-        <!--<a class="collapse-item" href="/dashboard/localizar/equipe">Localizar</a>-->
-        <a class="collapse-item" href="/dashboard/equipe">Gerenciar</a>
-      </div>
-    </div>
-  </li>
+      <li class="nav-item <%= currentPage.includes('projetos') ? 'active' : '' %>">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseProjects"
+          aria-expanded="true" aria-controls="collapseProjects">
+          <i class="fas fa-fw fa-solar-panel"></i>
+          <span>Projetos</span>
+        </a>
+        <div id="collapseProjects" class="collapse" aria-labelledby="headingProjects" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Opções disponíveis:</h6>
+            <a class="collapse-item" href="/dashboard/projetos">Gerenciar</a>
+            <a class="collapse-item" href="/dashboard/projetos/pendentes">Pendência</a>
+            <a class="collapse-item" href="/dashboard/projetos/terceirizar">Terceirizados</a>
+          </div>
+        </div>
+      </li>
+      <li class="nav-item <%=  currentPage.includes('chamados') ||  currentPage.includes('equipe') ? 'active' : '' %>">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseStaffs" aria-expanded="true"
+          aria-controls="collapseStaffs">
+          <i class="fas fa-fw fa-user-shield"></i>
+          <span>Equipe</span>
+        </a>
+        <div id="collapseStaffs" class="collapse" aria-labelledby="headingStaffs" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Opções disponíveis:</h6>
+            <a class="collapse-item" href="/dashboard/chamados">Chamados</a>
+            <!--<a class="collapse-item" href="/dashboard/localizar/equipe">Localizar</a>-->
+            <a class="collapse-item" href="/dashboard/equipe">Gerenciar</a>
+          </div>
+        </div>
+      </li>
 
-  <li class="nav-item <%=  currentPage.includes('clientes') ||  currentPage.includes('reclamacoes') ? 'active' : '' %>">
-    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseCustomers" aria-expanded="true"
-      aria-controls="collapseCustomers">
-      <i class="fas fa-fw fa-users"></i>
-      <span>Clientes</span>
-    </a>
-    <div id="collapseCustomers" class="collapse" aria-labelledby="headingCustomers" data-parent="#accordionSidebar">
-      <div class="bg-white py-2 collapse-inner rounded">
-        <h6 class="collapse-header">Opções disponíveis:</h6>
-        <a class="collapse-item" href="/dashboard/clientes">Gerenciar</a>
-        <a class="collapse-item" href="/dashboard/reclamacoes">Reclamações</a>
+      <li
+        class="nav-item <%=  currentPage.includes('clientes') ||  currentPage.includes('reclamacoes') ? 'active' : '' %>">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseCustomers"
+          aria-expanded="true" aria-controls="collapseCustomers">
+          <i class="fas fa-fw fa-users"></i>
+          <span>Clientes</span>
+        </a>
+        <div id="collapseCustomers" class="collapse" aria-labelledby="headingCustomers" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Opções disponíveis:</h6>
+            <a class="collapse-item" href="/dashboard/clientes">Gerenciar</a>
+            <a class="collapse-item" href="/dashboard/reclamacoes">Reclamações</a>
+          </div>
+        </div>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTools" aria-expanded="true"
+          aria-controls="collapseTools">
+          <i class="fas fa-fw fa-tools"></i>
+          <span>Ferramentas</span>
+        </a>
+        <div id="collapseTools" class="collapse" aria-labelledby="headingTools" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Opções disponíveis:</h6>
+            <a class="collapse-item" href="/dashboard" data-toggle="modal" data-target="#NotifyModal">Enviar notificação
+              <!--<span style="background-color: white; color: #4e73df; padding: 2px; border-radius: 20px; font-size: 11px; font-weight: 900">BETA</span>--></a>
+            <a class="collapse-item" href="/dashboard">Integrações <span
+                style="background-color: white; color: #4e73df; padding: 2px; border-radius: 20px; font-size: 11px; font-weight: 900">EM
+                PLANO</span></a>
+          </div>
+        </div>
+      </li>
+      <li class="nav-item  <%= currentPage.includes('inversores') ? 'active' : '' %>">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseInverters"
+          aria-expanded="true" aria-controls="collapseInverters">
+          <i class="fas fa-fw fa-square"></i>
+          <span>Inversores</span>
+        </a>
+        <div id="collapseInverters" class="collapse" aria-labelledby="headingInverters" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Opções disponíveis:</h6>
+            <a class="collapse-item" href="/dashboard/inversores/growatt">Growatt</a>
+            <a class="collapse-item" href="/dashboard/inversores/deye">Deye</a>
+            <a class="collapse-item" href="/dashboard/inversores/fronius">Fronius</a>
+            <a class="collapse-item" href="/dashboard/inversores/phb">Phb</a>
+            <a class="collapse-item" href="/dashboard/inversores/refusol">Refusol</a>
+          </div>
+        </div>
+      </li>
+      <li class="nav-item  <%= currentPage.includes('configuracao') ? 'active' : '' %>">
+        <a class="nav-link" href="/dashboard/configuracao">
+          <i class="fas fa-fw fa-cog"></i>
+          <span>Preferências </a>
+      </li>
+      <hr class="sidebar-divider">
+      <div class="sidebar-heading">
+        Suporte
       </div>
-    </div>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTools" aria-expanded="true"
-      aria-controls="collapseTools">
-      <i class="fas fa-fw fa-tools"></i>
-      <span>Ferramentas</span>
-    </a>
-    <div id="collapseTools" class="collapse" aria-labelledby="headingTools" data-parent="#accordionSidebar">
-      <div class="bg-white py-2 collapse-inner rounded">
-        <h6 class="collapse-header">Opções disponíveis:</h6>
-        <a class="collapse-item" href="/dashboard" data-toggle="modal" data-target="#NotifyModal">Enviar notificação
-          <!--<span style="background-color: white; color: #4e73df; padding: 2px; border-radius: 20px; font-size: 11px; font-weight: 900">BETA</span>--></a>
-        <a class="collapse-item" href="/dashboard">Integrações <span
-            style="background-color: white; color: #4e73df; padding: 2px; border-radius: 20px; font-size: 11px; font-weight: 900">EM
-            PLANO</span></a>
+      <li class="nav-item">
+        <a class="nav-link" href="https://www.youtube.com/watch?v=nRLYvi11iJQ" target="_blank"
+          rel="noopener noreferrer">
+          <i class="fas fa-fw fa-question"></i>
+          <span>Como funciona?</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="https://wa.me/+556892402096" target="_blank" rel="noopener noreferrer">
+          <i class="fas fa-fw fa-headset"></i>
+          <span>Suporte Técnico</span></a>
+      </li>
+      <hr class="sidebar-divider">
+      <div class="sidebar-heading">
+        Outros
       </div>
-    </div>
-  </li>
-  <li class="nav-item  <%= currentPage.includes('inversores') ? 'active' : '' %>">
-    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseInverters" aria-expanded="true"
-      aria-controls="collapseInverters">
-      <i class="fas fa-fw fa-square"></i>
-      <span>Inversores</span>
-    </a>
-    <div id="collapseInverters" class="collapse" aria-labelledby="headingInverters" data-parent="#accordionSidebar">
-      <div class="bg-white py-2 collapse-inner rounded">
-        <h6 class="collapse-header">Opções disponíveis:</h6>
-        <a class="collapse-item" href="/dashboard/inversores/growatt">Growatt</a>
-        <a class="collapse-item" href="/dashboard/inversores/deye">Deye</a>
-        <a class="collapse-item" href="/dashboard/inversores/fronius">Fronius</a>
-        <a class="collapse-item" href="/dashboard/inversores/phb">Phb</a>
-        <a class="collapse-item" href="/dashboard/inversores/refusol">Refusol</a>
+      <li class="nav-item">
+        <a class="nav-link" href="https://play.google.com/store/apps/details?id=com.dlwalt.equipe" target="_blank"
+          rel="noopener noreferrer">
+          <i class="fas fa-fw fa-mobile"></i>
+          <span>Baixar o app Equipe</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="https://play.google.com/store/apps/details?id=com.dlwalt.cliente" target="_blank"
+          rel="noopener noreferrer">
+          <i class="fas fa-fw fa-mobile"></i>
+          <span>Baixar o app Cliente</span></a>
+      </li>
+      <hr class="sidebar-divider d-none d-md-block">
+      <div class="text-center d-none d-md-inline">
+        <button class="rounded-circle border-0" id="sidebarToggle"></button>
       </div>
-    </div>
-  </li>
-  <li class="nav-item  <%= currentPage.includes('configuracao') ? 'active' : '' %>">
-    <a class="nav-link" href="/dashboard/configuracao">
-      <i class="fas fa-fw fa-cog"></i>
-      <span>Preferências </a>
-  </li>
-  <hr class="sidebar-divider">
-  <div class="sidebar-heading">
-    Suporte
-  </div>
-  <li class="nav-item">
-    <a class="nav-link" href="https://www.youtube.com/watch?v=nRLYvi11iJQ" target="_blank" rel="noopener noreferrer">
-      <i class="fas fa-fw fa-question"></i>
-      <span>Como funciona?</span></a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="https://wa.me/+556892402096" target="_blank" rel="noopener noreferrer">
-      <i class="fas fa-fw fa-headset"></i>
-      <span>Suporte Técnico</span></a>
-  </li>
-  <hr class="sidebar-divider">
-  <div class="sidebar-heading">
-    Outros
-  </div>
-  <li class="nav-item">
-    <a class="nav-link" href="https://play.google.com/store/apps/details?id=com.dlwalt.equipe" target="_blank"
-      rel="noopener noreferrer">
-      <i class="fas fa-fw fa-mobile"></i>
-      <span>Baixar o app Equipe</span></a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="https://play.google.com/store/apps/details?id=com.dlwalt.cliente" target="_blank"
-      rel="noopener noreferrer">
-      <i class="fas fa-fw fa-mobile"></i>
-      <span>Baixar o app Cliente</span></a>
-  </li>
-  <hr class="sidebar-divider d-none d-md-block">
-  <div class="text-center d-none d-md-inline">
-    <button class="rounded-circle border-0" id="sidebarToggle"></button>
-  </div>
 </ul>

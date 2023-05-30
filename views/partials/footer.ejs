@@ -7,16 +7,15 @@
 </footer>
 
 <%- include("../pages/components/modal/logout.ejs") %>
-<%- include("../pages/components/modal/logs.ejs") %>
-<%- include("../pages/components/modal/notify.ejs") %>
+  <%- include("../pages/components/modal/logs.ejs") %>
+    <%- include("../pages/components/modal/notify.ejs") %>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-<script src="/js/pwa.js"></script>
-<script src="/js/status.js"></script>
-<%if(message) {%>
-<script>
-  swal("<%=message.title%>", "<%=message.description%>", "<%=message.type%>");
-</script>
-<%}%>
-
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+      <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+      <script src="/js/pwa.js"></script>
+      <script src="/js/status.js"></script>
+      <%if(message) {%>
+        <script>
+          swal("<%=message.title%>", "<%=message.description%>", "<%=message.type%>");
+        </script>
+        <%}%>
