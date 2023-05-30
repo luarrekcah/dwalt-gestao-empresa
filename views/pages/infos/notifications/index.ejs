@@ -1,5 +1,4 @@
 <%- include("../../../partials/head.ejs") %>
-
     <body id="page-top">
         <div id="wrapper">
             <%- include("../../../partials/sidebar.ejs") %>
@@ -9,14 +8,10 @@
                             <div class="container-fluid">
                                 <h1 class="h3 mb-2 text-gray-800">Notificações</h1>
                                 <p class="mb-4">Todas as notificações recebidas</p>
-
                                 <div class="card shadow mb-4">
-
-
                                     <div class="card-body">
                                         <% if(notifications && notifications.length !==0) {%>
                                             <%notifications.forEach((not, i)=> {%>
-
                                                 <a class="dropdown-item d-flex align-items-center" href="#">
                                                     <div class="mr-3">
                                                         <div class="icon-circle bg-<%=not.data.style%>">
@@ -34,16 +29,11 @@
                                                         </span>
                                                     </div>
                                                 </a>
-
                                                 <hr>
-
                                                 <%})%>
                                                     <%} %>
                                     </div>
-
                                 </div>
-
-
                             </div>
                     </div>
                     <%- include("../../../partials/footer.ejs") %>
@@ -58,5 +48,4 @@
             <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
             <script src="/js/sb-admin-2.min.js"></script>
     </body>
-
-    </html>
+</html>
