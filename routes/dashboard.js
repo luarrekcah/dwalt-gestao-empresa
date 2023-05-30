@@ -192,6 +192,21 @@ router.get("/", async (req, res, next) => {
 router.post("/", async (req, res, next) => {
   console.log(req.body);
   switch (req.body.type.toLowerCase()) {
+    case "marknotifysasread":
+      const allNotifys = await getAllItems({
+        path: `gestaoempresa/business/${req.user.key}/notifications`,
+      });
+      for (let index = 0; index < allNotifys.length; index++) {
+        const notify = allNotifys[index];
+         updateItem({
+          path: `gestaoempresa/business/${req.user.key}/notifications/${notify.key}`,
+          params: {
+            read: true
+          }
+        })
+      }
+      return res.redirect("/dashboard");
+
     case "reload_growatt":
       const growattData = await getItems({
         path: `gestaoempresa/business/${req.user.key}/growatt`,
@@ -312,7 +327,6 @@ router.post("/", async (req, res, next) => {
         });
         return res.redirect("/dashboard?message=notifySend");
       }
-      break;
     case "mark_read_sticknotes":
       const sticknotes = await getAllItems({
         path: `gestaoempresa/business/${req.user.key}/sticknotes`,
@@ -326,9 +340,22 @@ router.post("/", async (req, res, next) => {
         });
       });
       return res.redirect("/dashboard");
-      break;
+   
   }
 });
+
+router.get("/notificacoes", async (req, res, next) => {
+  const user = await getUser({ userId: req.user.key });
+  const notifications = await getAllItems({
+    path: `gestaoempresa/business/${req.user.key}/notifications`,
+  });
+  const data = {
+    user,
+    message: null,
+    notifications,
+  };
+  res.render("pages/infos/notifications", data);
+})
 
 router.get("/localizar/equipe", async (req, res, next) => {
   const teams = await getAllItems({

@@ -25,13 +25,33 @@
                 <% } %>
       </a>
       <!-- Dropdown - Alerts -->
+      <style>
+        .dropdown-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+
+        }
+
+        .left {
+          float: left;
+        }
+
+        .right {
+          float: right;
+        }
+      </style>
       <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
         aria-labelledby="alertsDropdown">
-        <h6 class="dropdown-header">
-          Notificações
-        </h6>
+        <div class="dropdown-header">
+          <span class="left">Notificações</span>
+          <button onclick="markAsRead()" class="btn btn-primary btn-sm right">
+            <i class="fas fa-eye"></i> Marcar como lido
+          </button>
+        </div>
         <% if(notifications && notifications.length !==0) {%>
-          <%notifications.reverse().forEach(not=> {%>
+          <%notifications.reverse().forEach((not, i)=> {%>
+
             <a class="dropdown-item d-flex align-items-center" href="#">
               <div class="mr-3">
                 <div class="icon-circle bg-<%=not.data.style%>">
@@ -49,10 +69,12 @@
                 </span>
               </div>
             </a>
-            <%})%>
-              <%} %>
-                <a class="dropdown-item text-center small text-gray-500" href="/dashboard/notificacoes">Mostrar todas as
-                  notificações</a>
+            <% if(i> 4) return %>
+              <%})%>
+                <%} %>
+                  <a class="dropdown-item text-center small text-gray-500" href="/dashboard/notificacoes">Mostrar todas
+                    as
+                    notificações</a>
       </div>
     </li>
 
@@ -91,3 +113,9 @@
     </li>
   </ul>
 </nav>
+
+<script>
+  function markAsRead() {
+    axios.post('/dashboard', { type: 'markNotifysAsRead' });
+  }
+</script>
