@@ -55,13 +55,41 @@ router.get("/deye", async (req, res, next) => {
   const notifications = await getAllItems({
     path: `gestaoempresa/business/${req.user.key}/notifications`,
   });
+  
+  const deyeData = await getItems({
+    path: `gestaoempresa/business/${req.user.key}/inverters/deye`,
+  });
+
   const data = {
     user,
     logs,
     message: null,
     notifications,
+    deyeData
   };
   res.render("pages/inverters/deye", data);
+});
+
+router.post("/deye", async (req, res, next) => {
+  console.log(req.body);
+
+  const data = req.body;
+
+  switch (data.type) {
+    case "saveConfig":
+      updateItem({
+        path: `gestaoempresa/business/${req.user.key}/inverters/deye`,
+        params: {
+          apiid: data.apiid,
+          apikey: data.apikey,
+        },
+      });
+      res.sendStatus(200);
+      break;
+    default:
+      res.sendStatus(404);
+      break;
+  }
 });
 
 router.get("/fronius", async (req, res, next) => {

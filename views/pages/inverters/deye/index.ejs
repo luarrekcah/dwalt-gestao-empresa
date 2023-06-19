@@ -16,20 +16,81 @@
                     <h6 class="m-0 font-weight-bold text-primary">Configuração</h6>
                   </div>
 
-
                   <div class="card-body">
                     <div class="mb-3">
-                      <label class="small mb-1" for="inputEmailAddress">TOKEN</label>
+                      <label class="small mb-1" for="inputEmailAddress">API ID</label>
                       <div class="input-group">
-                        <input class="form-control" name="token" type="password"
-                          placeholder="Coloque seu token" value="">
+                        <input class="form-control" id="apiid" type="text" placeholder="Coloque seu API ID"
+                          value="<%=deyeData.apiid%>">
+                      </div>
+                    </div>
+                    <div class="mb-3">
+                      <label class="small mb-1" for="inputEmailAddress">API KEY</label>
+                      <div class="input-group">
+                        <input class="form-control" id="apikey" type="password" placeholder="Coloque seu apikey"
+                          value="<%=deyeData.apikey%>">
                         <button type="button" class="btn btn-outline-secondary input-group-text" id="togglePassword"><i
                             class="fa fa-eye"></i></button>
                       </div>
                     </div>
-                    
-                    <button class="btn btn-primary">Salvar
-                      mudanças</button>
+
+                    <% if(!deyeData.access_token) {%>
+
+                      <hr>
+
+                      <div class="mb-3" style="background-color: rgb(151, 0, 0); padding: 25px; border-radius: 25px;">
+                        <b style="color: #fff">SOLICITAR O PRIMEIRO TOKEN DE ACESSO</b>
+                        <p style="color: #fff">
+                          <small>Após preencher os dois dados acima você precisa <b>SOLICITAR TOKEN</b> para que o
+                            Connect tenha acesso.
+                            Esse processo só vai acontecer uma vez.
+                          </small>
+                        </p>
+
+                        <div class="mb-3">
+                          <label class="small mb-1" for="inputEmailAddress" style="color: #fff">SENHA SOLARMAN</label>
+                          <div class="input-group">
+                            <input class="form-control" id="password" type="password"
+                              placeholder="Coloque a senha do seu acesso solarman" value="<%=deyeData.password%>">
+                          </div>
+                        </div>
+
+                        <button class="btn btn-secondary" onclick="getToken()">SOLICITAR TOKEN DE ACESSO</button>
+
+                        <p> <small style="color: #fff">Não acessamos sua conta nem compartilhamos seus dados. Tudo que é
+                            solicitado aqui
+                            é um requisito da própria SOLARMAN API | DEYE.</small></p>
+
+
+                        <script>
+                          function getToken() {
+                            axios.get('https://api.solarmanpv.com/account/v1.0/token', {
+                              params: {
+                                appId: document.getElementById('apiid').value,
+                                language: 'en'
+                              },
+                              data: {
+                                appSecret: document.getElementById('apikey').value,
+                                password: document.getElementById('password').value
+                              }
+                            }).then(r => {
+                              console.log(r.data); // DÁ B.O COM O CORS, vou ter que falar com os caba lá
+                            }).catch(e => {
+                              console.warn(e);
+                              swal("Erro", "Ocorreu um erro desconhecido, tente mais tarde ou se o problema persistir, entre em contato com o suporte.", "error");
+                            })
+                          }
+                        </script>
+
+                      </div>
+
+
+                      <hr>
+
+                      <% } %>
+
+                        <button class="btn btn-primary" onclick="saveToken()">Salvar
+                          mudanças</button>
                   </div>
 
                 </div>
@@ -48,16 +109,33 @@
       <script src="/js/sb-admin-2.min.js"></script>
       <script>
         const togglePassword = document.querySelector('#togglePassword');
-        const password = document.querySelector('input[name="tokenGrowatt"]');
+        const secret = document.getElementById('token');
 
         togglePassword.addEventListener('click', function (e) {
           // toggle the type attribute
-          const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
-          password.setAttribute('type', type);
+          const type = secret.getAttribute('type') === 'password' ? 'text' : 'password';
+          secret.setAttribute('type', type);
           // toggle the eye icon
           this.querySelector('i').classList.toggle('fa-eye');
           this.querySelector('i').classList.toggle('fa-eye-slash');
         });
+      </script>
+      <script>
+        function saveToken() {
+          console.log('.');
+          axios.post('/dashboard/inversores/deye', {
+            type: 'saveConfig',
+            apikey: document.getElementById('apikey').value,
+            apiid: document.getElementById('apiid').value
+          }).then(r => {
+            console.log(r);
+            if (r.status === 200) {
+              swal("Token definido!", "Clique em OK para continuar.", "success");
+            } else {
+              swal("Erro", "Ocorreu um erro desconhecido, tente mais tarde ou se o problema persistir, entre em contato com o suporte.", "error");
+            }
+          })
+        }
       </script>
   </body>
 
