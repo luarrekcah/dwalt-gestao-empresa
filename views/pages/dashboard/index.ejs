@@ -189,6 +189,12 @@
                                     <div class="h5 mb-0 font-weight-bold text-gray-800">
                                       <%=complaints.filter(i=> !i.data.businessReply).length%>
                                     </div>
+                                    <%if(complaints.filter(i=> !i.data.businessReply).length >= 1) {%>
+                                      <div style="margin-top: 10px">
+                                        <a class="btn btn-danger btn-sm" href="/dashboard/reclamacoes">RESPONDER</a>
+                                        </div>
+                                      <%}%>
+                                    
                                   </div>
                                   <div class="col-auto">
                                     <i class="fas fa-exclamation fa-2x text-gray-300"></i>

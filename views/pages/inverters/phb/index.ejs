@@ -1,31 +1,64 @@
 <%- include("../../../partials/head.ejs") %>
 
-<body id="page-top">
-  <div id="wrapper">
-    <%- include("../../../partials/sidebar.ejs") %>
-    <div id="content-wrapper" class="d-flex flex-column">
-      <div id="content">
-        <%- include("../../../partials/topbar.ejs") %>
-        <div class="container-fluid">
-          <h1 class="h3 mb-2 text-gray-800">Sistema Phb</h1>
-          <p class="mb-4">Adicione seu token, acione o módulo e gerencie.</p>
+  <body id="page-top">
+    <div id="wrapper">
+      <%- include("../../../partials/sidebar.ejs") %>
+        <div id="content-wrapper" class="d-flex flex-column">
+          <div id="content">
+            <%- include("../../../partials/topbar.ejs") %>
+              <div class="container-fluid">
+                <h1 class="h3 mb-2 text-gray-800">Sistema Phb</h1>
+                <p class="mb-4">Adicione seu token, acione o módulo e gerencie.</p>
 
 
-          <h1>EM DESENVOLVIMENTO</h1>
+                <div class="card shadow mb-4">
+                  <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Configuração</h6>
+                  </div>
 
-      </div>
+
+                  <div class="card-body">
+                    <div class="mb-3">
+                      <label class="small mb-1" for="inputEmailAddress">TOKEN</label>
+                      <div class="input-group">
+                        <input class="form-control" name="token" type="password"
+                          placeholder="Coloque seu token" value="">
+                        <button type="button" class="btn btn-outline-secondary input-group-text" id="togglePassword"><i
+                            class="fa fa-eye"></i></button>
+                      </div>
+                    </div>
+                    
+                    <button class="btn btn-primary">Salvar
+                      mudanças</button>
+                  </div>
+
+                </div>
+              </div>
+          </div>
+          <%- include("../../../partials/footer.ejs") %>
+        </div>
     </div>
-    <%- include("../../../partials/footer.ejs") %>
-  </div>
-  </div>
-  <a class="scroll-to-top rounded" href="#page-top">
-    <i class="fas fa-angle-up"></i>
-  </a>
-  <%- include("../../components/modal/logout.ejs") %>
-  <script src="/vendor/jquery/jquery.min.js"></script>
-  <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
-  <script src="/js/sb-admin-2.min.js"></script>
-</body>
+    <a class="scroll-to-top rounded" href="#page-top">
+      <i class="fas fa-angle-up"></i>
+    </a>
+    <%- include("../../components/modal/logout.ejs") %>
+      <script src="/vendor/jquery/jquery.min.js"></script>
+      <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+      <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+      <script src="/js/sb-admin-2.min.js"></script>
+      <script>
+        const togglePassword = document.querySelector('#togglePassword');
+        const password = document.querySelector('input[name="tokenGrowatt"]');
 
-</html>
+        togglePassword.addEventListener('click', function (e) {
+          // toggle the type attribute
+          const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+          password.setAttribute('type', type);
+          // toggle the eye icon
+          this.querySelector('i').classList.toggle('fa-eye');
+          this.querySelector('i').classList.toggle('fa-eye-slash');
+        });
+      </script>
+  </body>
+
+  </html>

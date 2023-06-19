@@ -4,9 +4,14 @@ const { getAllItems, updateItem, getItems } = require("../../database/users"),
 
 const axios = require("axios");
 
-console.log("[ON] Growatt")
+console.log("[ON] Growatt");
 
 // Configuração base do axios
+
+const timers = {
+  min_interval: 1000 * 60 * 5,
+  max_interval: 1000 * 60 * 60 * 3,
+};
 
 let axiosConfig = {
   baseURL: "https://openapi.growatt.com/v1/",
@@ -65,12 +70,14 @@ const getAllSystems = async () => {
     // ignora empresas que não possui um token
     const business = allBusiness[index];
     if (
-      !business.data.info.tokenGrowatt ||
-      business.data.info.tokenGrowatt === ""
+      !business.data.inverters ||
+      !business.data.inverters.growatt ||
+      !business.data.inverters.growatt.token ||
+      business.data.inverters.growatt.token === ""
     ) {
       return;
     }
-    const growattToken = business.data.info.tokenGrowatt;
+    const growattToken = business.data.inverters.growatt.token;
 
     axiosConfig.headers.token = growattToken;
 
@@ -176,7 +183,7 @@ const getAllSystems = async () => {
             }
           }
         } else {
-          await delay(2)
+          await delay(2);
         }
       } catch (error) {
         console.warn(error);
@@ -197,7 +204,7 @@ setInterval(() => {
   } catch (error) {
     console.log(error);
   }
-}, 1000 * 60 * 60 * 3);
+}, timers.max_interval);
 
 //http(s)://test.growatt.com/v1/plant/details
 
@@ -219,13 +226,15 @@ const updateBasicDetailsProjects = async () => {
     const business = allBusiness[index];
 
     if (
-      !business.data.info.tokenGrowatt ||
-      business.data.info.tokenGrowatt === ""
+      !business.data.inverters ||
+      !business.data.inverters.growatt ||
+      !business.data.inverters.growatt.token ||
+      business.data.inverters.growatt.token === ""
     ) {
       return;
     }
 
-    const growattToken = business.data.info.tokenGrowatt;
+    const growattToken = business.data.inverters.growatt.token;
 
     const allProjects = await getAllProjects(business.key);
 
@@ -346,13 +355,15 @@ const updateBasicOverviewProjects = async () => {
     const business = allBusiness[index];
 
     if (
-      !business.data.info.tokenGrowatt ||
-      business.data.info.tokenGrowatt === ""
+      !business.data.inverters ||
+      !business.data.inverters.growatt ||
+      !business.data.inverters.growatt.token ||
+      business.data.inverters.growatt.token === ""
     ) {
       return;
     }
 
-    const growattToken = business.data.info.tokenGrowatt;
+    const growattToken = business.data.inverters.growatt.token;
 
     const allProjects = await getAllProjects(business.key);
 
@@ -434,13 +445,15 @@ const getAllDevices = async () => {
     const business = allBusiness[index];
 
     if (
-      !business.data.info.tokenGrowatt ||
-      business.data.info.tokenGrowatt === ""
+      !business.data.inverters ||
+      !business.data.inverters.growatt ||
+      !business.data.inverters.growatt.token ||
+      business.data.inverters.growatt.token === ""
     ) {
       return;
     }
 
-    const growattToken = business.data.info.tokenGrowatt;
+    const growattToken = business.data.inverters.growatt.token;
 
     const allProjects = await getAllProjects(business.key);
 
@@ -508,13 +521,113 @@ setInterval(() => {
   } catch (error) {
     console.log(error);
   }
-}, 1000 * 60 * 60 * 3);
+}, timers.max_interval);
+
+const getHistoricalWeek = async () => {
+  // Only call 10 times
+  //http(s)://test.growatt.com/v1/plant/energy
+  /**
+   * OUTPUT: 
+   * {
+    "data": {
+        "count": 6,
+        "time_unit": "day",
+        "energys": [
+            {
+                "date": "2018-12-12",
+                "energy": "0"
+            },
+            {
+                "date": "2018-12-13",
+                "energy": "7.6"
+            },
+            {
+                "date": "2018-12-14",
+                "energy": "0"
+            },
+            {
+                "date": "2018-12-15",
+                "energy": "0"
+            },
+            {
+                "date": "2018-12-16",
+                "energy": "0"
+            },
+            {
+                "date": "2018-12-17",
+                "energy": "0"
+            }
+        ]
+    },
+    "error_code": 0,
+    "error_msg": ""
+}
+   */
+  const allBusiness = await getAllBusiness();
+
+  for (let index = 0; index < allBusiness.length; index++) {
+    const business = allBusiness[index];
+
+    if (
+      !business.data.inverters ||
+      !business.data.inverters.growatt ||
+      !business.data.inverters.growatt.token ||
+      business.data.inverters.growatt.token === ""
+    ) {
+      return;
+    }
+
+    const growattToken = business.data.inverters.growatt.token;
+
+    const allProjects = await getAllProjects(business.key);
+
+    for (let index = 0; index < allProjects.length; index++) {
+      const project = allProjects[index];
+
+      if (
+        !project.data.plantID &&
+        (project.data.brand !== "growatt" ||
+          project.data.inverterType !== "growatt")
+      ) {
+        continue;
+      }
+
+      await delay(60*3);
+
+      const data = new Date();
+
+      axiosConfig.headers.token = growattToken;
+      axiosConfig.params.plant_id = project.data.plantID;
+      axiosConfig.params.start_date = `${data.getFullYear()}-${data.getMonth() + 1}-${data.getDate() - 7}`;
+      axiosConfig.params.end_date = `${data.getFullYear()}-${data.getMonth() + 1}-${data.getDate()}`;
+      axiosConfig.params.time_unit = `day`;
+
+      axios.get("plant/energy", axiosConfig).then(async (res) => {
+        try {
+          if (verifyErrors(res)) {
+            const historic = res.data.data.energys;
+
+            updateItem({
+              path: `gestaoempresa/business/${business.key}/projects/${project.key}/overview/generationHistoric`,
+              params: {
+                weekArray: historic,
+              },
+            });
+          }
+        } catch (e) {
+          console.warn(e);
+        }
+      });
+    }
+  }
+};
+
+getHistoricalWeek();
 
 // Checar todos os aparelhos de um projeto
 const checkAllAlarms = () => {
-// API device/inverter/alarm (needs device_sn)
-
-/*OUTPUT
+  // API device/inverter/alarm (needs device_sn)
+  /*OUTPUT
  * "sn": "LCB1714075",
         "count": 161,
         "alarms": [
@@ -527,168 +640,5 @@ const checkAllAlarms = () => {
             }
         ]
  */
-
-// if(device.type === 1)...
-}
-
-
-/*
-// only 10 times by day check
-const getData = async (dataB) => {
-console.log("Getting data");
-  axios
-    .get("https://openapi.growatt.com/v1/plant/list", {
-      headers: { token: dataB.data.info.tokenGrowatt },
-    })
-    .then((response) => {
-      const data = response.data;
-      if (data.error_code !== 0) return;
-      updateItem({
-        path: `gestaoempresa/business/${dataB.key}/growatt/plantList`,
-        params: { data },
-      });
-      updateItem({
-        path: `gestaoempresa/business/${dataB.key}/growatt/token`,
-        params: {
-          lastUse: getDate(),
-        },
-      });
-      console.log(
-        "Token atualizado para " + dataB.data.info.documents.nome_fantasia
-      );
-    });
-
-  const growatt = await getItems({
-    path: `gestaoempresa/business/${dataB.key}/growatt`,
-  });
-
-  const projects = await getAllItems({
-    path: `gestaoempresa/business/${dataB.key}/projects`,
-  });
-
-  projects.forEach((p) => {
-    if (
-      p.data.username_growatt !== "" &&
-      p.data.username_growatt !== undefined
-    ) {
-      const username = p.data.username_growatt;
-      const plant = growatt.plantList.data.data.plants.find(
-        (plant) => plant.name === username
-      );
-      const data = new Date();
-
-      const now = moment(new Date());
-      let date = moment("01-01-2000", "MM-DD-YYYY");
-      if (p.data.month_power) {
-        date = moment(p.data.month_power.data.lastUpdate);
-      }
-      const duration = moment.duration(now.diff(date));
-
-      if (duration.asHours() <= 3.0) {
-        setTimeout(() => {
-          axios
-            .get("https://openapi.growatt.com/v1/plant/energy", {
-              headers: { token: dataB.data.info.tokenGrowatt },
-              params: {
-                plant_id: plant.plant_id,
-                start_date: plant.create_date,
-                end_date: `${data.getFullYear()}-${
-                  data.getMonth() + 1
-                }-${data.getDate()}`,
-                time_unit: "month",
-              },
-            })
-            .then((response) => {
-              const data = response.data;
-              data.lastUpdate = getDate();
-              updateItem({
-                path: `gestaoempresa/business/${dataB.key}/projects/${p.key}/month_power`,
-                params: { data },
-              });
-            });
-        }, 5 * 60 * 1000);
-      } else {
-        return;
-      }
-    }
-  });
+  // if(device.type === 1)...
 };
-
-setInterval(async () => {
-  const business = await getAllItems({ path: `gestaoempresa/business/` });
-  business.forEach((b) => {
-    if (b.data.info.tokenGrowatt) {
-      if (b.data.growatt && b.data.growatt.token) {
-        const now = moment(new Date());
-        const date = moment(b.data.growatt.token.lastUse);
-        const duration = moment.duration(now.diff(date));
-        if (duration.asHours() >= growattConfig.minimumTime) {
-          try {
-            getData(b);
-          } catch (error) {
-            console.log(error);
-          }
-        }
-      } else {
-        try {
-          getData(b);
-        } catch (error) {
-          console.log(error);
-        }
-      }
-    }
-  });
-}, growattConfig.intervalCheckMinutes * 60 * 1000);
-
-setInterval(async () => {
-  const business = await getAllItems({ path: `gestaoempresa/business/` });
-  business.forEach(async (b) => {
-    const projects = await getAllItems({
-      path: `gestaoempresa/business/${b.key}/projects`,
-    });
-    const growatt = await getItems({
-      path: `gestaoempresa/business/${b.key}/growatt`,
-    });
-    projects.forEach(async (p) => {
-      if (
-        p.data.username_growatt === "" &&
-        p.data.username_growatt === undefined
-      )
-        return;
-      const username = p.data.username_growatt;
-      if (growatt.plantList === undefined || growatt.plantList.data.data.count === 0) return;
-      let plant;
-      try {
-        plant = growatt.plantList.data.data.plants.find(
-        (plant) => plant.name === username
-      );
-      } catch (error) {
-        return console.log(error);
-      }
-      if (plant === undefined) return;
-      console.log(plant);
-      setTimeout(() => {
-        try {
-          axios
-          .get("https://openapi.growatt.com/v1/plant/data", {
-            headers: { token: b.data.info.tokenGrowatt },
-            params: { plant_id: plant.plant_id },
-          })
-          .then((response) => {
-            const data = response.data;
-            if (data.error_code !== 0 || data.data.count === 0) return;
-            updateItem({
-              path: `gestaoempresa/business/${b.key}/projects/${p.key}/overview`,
-              params: { data },
-            });
-            console.log("Update overview data");
-          });
-        } catch (error) {
-          console.log(error);
-        }
-      }, 5 * 60 * 1000);
-    });
-  });
-}, 6 * 60 * 1000); // 6 minutes
-
-*/

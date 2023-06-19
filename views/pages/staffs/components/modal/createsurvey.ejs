@@ -54,6 +54,7 @@
             <input name="type" value="instalacao" style="display: none" />
             <select name="projectID" class="form-control">
               <% projects.forEach(p => { %>
+              <option selected>Selecione o projeto</option>
               <option value="<%=p.key%>"><%=p.data.apelidoProjeto %></option>
               <% }); %>
             </select>
@@ -135,6 +136,7 @@
 </div>
 
 <script>
+
   const selectTipoChamado = document.getElementById("selectTipoChamado");
   const preventivoDiv = document.getElementById("preventivo");
   const corretivoDiv = document.getElementById("corretivo");

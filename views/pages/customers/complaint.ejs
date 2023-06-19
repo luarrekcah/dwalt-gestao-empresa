@@ -9,50 +9,64 @@
                             <div class="container-fluid">
                                 <h1 class="h3 mb-2 text-gray-800">Reclamações de cliente</h1>
                                 <p class="mb-4">Aqui você pode responder a reclamações de seus clientes</p>
-                                <p>Reclamações totais: <b><%=complaints.length%> </b>
-                                    | Respondidas: <b><%=complaints.filter(i => i.data.businessReply).length%> </b>
-                                    | Pendentes: <b><%=complaints.filter(i => !i.data.businessReply).length%> </b>
+                                <p>Reclamações totais: <b>
+                                        <%=complaints.length%>
+                                    </b>
+                                    | Respondidas: <b>
+                                        <%=complaints.filter(i=> i.data.businessReply).length%>
+                                    </b>
+                                    | Pendentes: <b>
+                                        <%=complaints.filter(i=> !i.data.businessReply).length%>
+                                    </b>
                                 </p>
-                                <%- complaints.filter(i => !i.data.businessReply).length === 0 ? '<b>Sem reclamações restantes para responder</b>' : '' %>
-                                <% complaints.forEach(i => { %>
-                                <% if(i.data.businessReply) return; %>
-                                <div class="card border-left-<%=i.data.businessReply ? 'sucess' : 'danger'%> shadow h-100 py-2" style="margin-bottom: 20px">
-                                    <div class="card-body">
-                                        <div class="row no-gutters align-items-center">
-                                                <div class="col mr-2">
-                                                    <div class="text-xs font-weight-bold text-<%=i.data.businessReply ? 'sucess' : 'danger'%> text-uppercase mb-1">
-                                                        Reclamação</div>
-                                                    <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                                        <p><%=i.data.title%></p>
-                                                        <small><%=i.data.text%></small>
-                                                        <p></p>
-                                                        <a href="/dashboard/projetos/visualizar/<%=i.data.projectId%>" class="btn btn-info btn-icon-split">
-                                                            <span class="icon text-white-50">
-                                                                <i class="fas fa-info-circle"></i>
-                                                            </span>
-                                                            <span class="text">Mais informações</span>
-                                                        </a>
-                                                        <a href="#" onclick="replyComplaint('<%=i.key%>')" class="btn btn-secondary btn-icon-split">
-                                                            <span class="icon text-white-50">
-                                                                <i class="fas fa-exclamation"></i>
-                                                            </span>
-                                                            <span class="text">Responder</span>
-                                                        </a>
+                                <%- complaints.filter(i=> !i.data.businessReply).length === 0 ? '<b>Sem reclamações restantes para responder</b>' : '' %>
+                                    <% complaints.forEach(i=> { %>
+                                        <% if(i.data.businessReply) return; %>
+                                            <div class="card border-left-<%=i.data.businessReply ? 'sucess' : 'danger'%> shadow h-100 py-2"
+                                                style="margin-bottom: 20px">
+                                                <div class="card-body">
+                                                    <div class="row no-gutters align-items-center">
+                                                        <div class="col mr-2">
+                                                            <div
+                                                                class="text-xs font-weight-bold text-<%=i.data.businessReply ? 'sucess' : 'danger'%> text-uppercase mb-1">
+                                                                Reclamação</div>
+                                                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                                                <p>
+                                                                    <%=i.data.title%>
+                                                                </p>
+                                                                <small>
+                                                                    <%=i.data.text%>
+                                                                </small>
+                                                                <p></p>
+                                                                <a href="/dashboard/projetos/visualizar/<%=i.data.project.id%>"
+                                                                    class="btn btn-info btn-icon-split">
+                                                                    <span class="icon text-white-50">
+                                                                        <i class="fas fa-info-circle"></i>
+                                                                    </span>
+                                                                    <span class="text">Mais informações</span>
+                                                                </a>
+                                                                <a href="#" onclick="replyComplaint('<%=i.key%>')"
+                                                                    class="btn btn-secondary btn-icon-split">
+                                                                    <span class="icon text-white-50">
+                                                                        <i class="fas fa-exclamation"></i>
+                                                                    </span>
+                                                                    <span class="text">Responder</span>
+                                                                </a>
+                                                            </div>
+                                                            <p></p>
+                                                            <small>Enviado <b>
+                                                                    <script>
+                                                                        document.write(moment("<%=i.data.createdAt%>").fromNow());
+                                                                    </script>
+                                                                </b></small>
+                                                        </div>
+                                                        <div class="col-auto">
+                                                            <i class="fas fa-exclamation fa-2x text-gray-300"></i>
+                                                        </div>
                                                     </div>
-                                                    <p></p>
-                                                    <small>Enviado <b>
-                                                        <script>
-                                                            document.write(moment("<%=i.data.createdAt%>").fromNow());
-                                                          </script>
-                                                    </b></small>
                                                 </div>
-                                                <div class="col-auto">
-                                                    <i class="fas fa-exclamation fa-2x text-gray-300"></i>
-                                                </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <% }) %>
+                                            </div>
+                                            <% }) %>
                             </div>
                     </div>
                     <%- include("../../partials/footer.ejs") %>
@@ -68,31 +82,31 @@
             <script src="/js/sb-admin-2.min.js"></script>
             <script>
                 function replyComplaint(id) {
-  const message = prompt("Digite a mensagem de resposta:");
+                    const message = prompt("Digite a mensagem de resposta:");
 
-  console.log(message);
+                    console.log(message);
 
-  if(message === '') return alert("Digite algo para responder uma reclamação.")
-  if(!message) return;
+                    if (message === '') return alert("Digite algo para responder uma reclamação.")
+                    if (!message) return;
 
-  const confirmSend = confirm("Tem certeza que deseja enviar a mensagem?");
+                    const confirmSend = confirm("Tem certeza que deseja enviar a mensagem?");
 
-  if (confirmSend) {
-    axios
-      .post("/dashboard/reclamacoes", {
-        type: "reply",
-        data: {
-          message,
-          id,
-        },
-      })
-      .then(function (response) {
-        window.location.href = response.request.responseURL;
-      });
-  } else {
-    return;
-  }
-}
+                    if (confirmSend) {
+                        axios
+                            .post("/dashboard/reclamacoes", {
+                                type: "reply",
+                                data: {
+                                    message,
+                                    id,
+                                },
+                            })
+                            .then(function (response) {
+                                window.location.href = response.request.responseURL;
+                            });
+                    } else {
+                        return;
+                    }
+                }
             </script>
     </body>
 
