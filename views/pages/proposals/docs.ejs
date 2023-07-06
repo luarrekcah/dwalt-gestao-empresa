@@ -1,0 +1,236 @@
+<%- include("../../partials/head.ejs") %>
+
+<body id="page-top">
+  <div id="wrapper">
+    <%- include("../../partials/sidebar.ejs") %>
+    <div id="content-wrapper" class="d-flex flex-column">
+      <div id="content">
+        <%- include("../../partials/topbar.ejs") %>
+        <div class="container-fluid">
+          <h1 class="h3 mb-2 text-gray-800">Documentação</h1>
+          <p class="mb-4">Chaves de utilização do nosso sistema de geração para seus documentos DOCX</p>
+
+          <div class="card shadow mb-4">
+            <div class="card-header py-3">
+              <h6 class="m-0 font-weight-bold text-primary">Chaves</h6>
+            </div>
+
+
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                  <thead>
+                    <tr>
+                      <th>Tipo</th>
+                      <th>Chave</th>
+                      <th>Descrição</th>
+                      <th>Retorno (exemplo)</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                      <tr>
+                        <td>Proposta</td>
+                        <td><code>{proposalID}</code></td>
+                        <td>Número de identificação da proposta</td>
+                        <td>0000001</td>
+                      </tr>
+
+                      <tr>
+                        <td>Proposta</td>
+                        <td><code>{criadoEm}</code></td>
+                        <td>Data de criação da proposta</td>
+                        <td>00/00/0000</td>
+                      </tr>
+                      <tr>
+                        <td>Proposta</td>
+                        <td><code>{validade}</code></td>
+                        <td>Validade da proposta em dias</td>
+                        <td>7</td>
+                      </tr>
+                      
+                      <tr>
+                        <td>Cliente</td>
+                        <td><code>{cpf_cnpj}</code></td>
+                        <td>CPF/CNPJ do seu cliente</td>
+                        <td>000.000.000-00</td>
+                      </tr>
+                      <tr>
+                        <td>Cliente</td>
+                        <td><code>{nome_cliente}</code></td>
+                        <td>Nome do seu cliente</td>
+                        <td>Valdemir da Silva</td>
+                      </tr>
+                      <tr>
+                        <td>Vendedor</td>
+                        <td><code>{nomeVendedor}</code></td>
+                        <td>Nome do vendedor</td>
+                        <td>Valdemir da Silva</td>
+                      </tr>
+
+
+                      <tr>
+                        <td>Sistema</td>
+                        <td><code>{classe}</code></td>
+                        <td>Tipo do sistema</td>
+                        <td>Monofásico</td>
+                      </tr>
+
+                      <tr>
+                        <td>Sistema</td>
+                        <td><code>{tituloGerador}</code></td>
+                        <td>Titulo do sistema</td>
+                        <td>GERADOR GROWATT ...</td>
+                      </tr>
+
+                      <tr>
+                        <td>Sistema</td>
+                        <td><code>{descricaoGerador}</code></td>
+                        <td>Componentes ou descrição do gerador</td>
+                        <td>16 PLACAS ...</td>
+                      </tr>
+
+                      <tr>
+                        <td>Sistema</td>
+                        <td><code>{invQntd}</code></td>
+                        <td>Quantidade de Inversores</td>
+                        <td>1</td>
+                      </tr>
+
+                      <tr>
+                        <td>Sistema</td>
+                        <td><code>{placasQntd}</code></td>
+                        <td>Quantidade de Placas</td>
+                        <td>1</td>
+                      </tr>
+
+                      <tr>
+                        <td>Sistema</td>
+                        <td><code>{kwp}</code></td>
+                        <td>Potência do Sistema</td>
+                        <td>10000</td>
+                      </tr>
+
+                      <tr>
+                        <td>Sistema</td>
+                        <td><code>{kwMes}</code></td>
+                        <td>Geração Mensal</td>
+                        <td>10000</td>
+                      </tr>
+
+                      <tr>
+                        <td>Sistema</td>
+                        <td><code>{kwAno}</code></td>
+                        <td>Geração anual</td>
+                        <td>10000</td>
+                      </tr>
+
+                      <tr>
+                        <td>Sistema</td>
+                        <td><code>{prazo}</code></td>
+                        <td>Prazo de Instalação</td>
+                        <td>90</td>
+                      </tr>
+
+
+
+
+
+                      
+                      <tr>
+                        <td>Pagamento</td>
+                        <td><code>{24x}</code></td>
+                        <td>24 Parcelas</td>
+                        <td>000,00</td>
+                      </tr>
+                      <tr>
+                        <td>Pagamento</td>
+                        <td><code>{36x}</code></td>
+                        <td>36 Parcelas</td>
+                        <td>000,00</td>
+                      </tr>
+                      <tr>
+                        <td>Pagamento</td>
+                        <td><code>{48x}</code></td>
+                        <td>48 Parcelas</td>
+                        <td>000,00</td>
+                      </tr>
+                      <tr>
+                        <td>Pagamento</td>
+                        <td><code>{60x}</code></td>
+                        <td>60 Parcelas</td>
+                        <td>000,00</td>
+                      </tr>
+                      <tr>
+                        <td>Pagamento</td>
+                        <td><code>{72x}</code></td>
+                        <td>72 Parcelas</td>
+                        <td>000,00</td>
+                      </tr>
+                       <tr>
+                        <td>Pagamento</td>
+                        <td><code>{84x}</code></td>
+                        <td>84 Parcelas</td>
+                        <td>000,00</td>
+                      </tr>
+                      <tr>
+                        <td>Pagamento</td>
+                        <td><code>{banco}</code></td>
+                        <td>Identificação do tipo de pagamento ou banco</td>
+                        <td>Financiamento</td>
+                      </tr>
+                      <tr>
+                        <td>Pagamento</td>
+                        <td><code>{entrada}</code></td>
+                        <td>Valor de entrada do pagamento</td>
+                        <td>000,00</td>
+                      </tr>
+                      <tr>
+                        <td>Pagamento</td>
+                        <td><code>{formaPag}</code></td>
+                        <td>Forma de Pagamento</td>
+                        <td>Financiamento</td>
+                      </tr>
+                      <tr>
+                        <td>Pagamento</td>
+                        <td><code>{valorFinanciado}</code></td>
+                        <td></td>
+                        <td>000,00</td>
+                      </tr>
+                      <tr>
+                        <td>Pagamento</td>
+                        <td><code>{valorParceladoCartao}</code></td>
+                        <td></td>
+                        <td>000,00</td>
+                      </tr>
+                      <tr>
+                        <td>Pagamento</td>
+                        <td><code>{valorSistema}</code></td>
+                        <td>Valor total do sistema</td>
+                        <td>000,00</td>
+                      </tr>
+                      
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            
+          </div>
+
+          
+        </div>
+      </div>
+      <%- include("../../partials/footer.ejs") %>
+    </div>
+  </div>
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+  <%- include("../components/modal/logout.ejs") %>
+  <script src="/vendor/jquery/jquery.min.js"></script>
+  <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+  <script src="/js/sb-admin-2.min.js"></script>
+
+</body>
+
+</html>

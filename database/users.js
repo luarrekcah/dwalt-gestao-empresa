@@ -7,7 +7,7 @@ const {
   get,
   set,
 } = require("@firebase/database");
-const { getStorage } = require("@firebase/storage");
+const { ref: storRef, getStorage, uploadString, getDownloadURL } = require("@firebase/storage");
 const moment = require("../services/moment");
 require("../database");
 
@@ -118,7 +118,7 @@ module.exports = {
   },
   uploadFile: ({ path, base64 }) => {
     const storage = getStorage();
-    const storageRef = ref(storage, path);
+    const storageRef = storRef(storage, path);
     const url = uploadString(storageRef, base64, "data_url").then(
       (snapshot) => {
         return getDownloadURL(snapshot.ref).then((downloadURL) => {

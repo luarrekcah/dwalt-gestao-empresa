@@ -52,6 +52,7 @@
         <% if(notifications && notifications.length !==0) {%>
           <%notifications.reverse().forEach((not, i)=> {%>
 
+            <% if(i >= 3) return %>
             <a class="dropdown-item d-flex align-items-center" href="#">
               <div class="mr-3">
                 <div class="icon-circle bg-<%=not.data.style%>">
@@ -69,7 +70,6 @@
                 </span>
               </div>
             </a>
-            <% if(i> 4) return %>
               <%})%>
                 <%} %>
                   <a class="dropdown-item text-center small text-gray-500" href="/dashboard/notificacoes">Mostrar todas

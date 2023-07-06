@@ -1,0 +1,282 @@
+<%- include("../../partials/head.ejs") %>
+
+    <body id="page-top">
+        <div id="wrapper">
+            <%- include("../../partials/sidebar.ejs") %>
+                <div id="content-wrapper" class="d-flex flex-column">
+                    <div id="content">
+                        <%- include("../../partials/topbar.ejs") %>
+                            <div class="container-fluid">
+                                <h1 class="h3 mb-2 text-gray-800">Propostas</h1>
+                                <p class="mb-4">Crie e gerencie propostas para seus clientes!</p>
+                                <div class="card shadow mb-4">
+                                    <div class="card-header py-3">
+                                        <h6 class="m-0 font-weight-bold text-primary">Início</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row gx-3 mb-3">
+                                            <% if(docxBase64) { %>
+                                                <div class="col-md-3">
+                                                    <b>Editar Proposta
+                                                        <a href="<%=docxBase64%>" style="padding: 5px"
+                                                            class="btn btn-primary">
+                                                            <i class="fa fa-download" style="font-size: 15px;"></i>
+                                                        </a>
+                                                        <button id="unlockEditProposal" onclick="unlockEdit()"
+                                                            style="padding: 5px" class="btn btn-danger">
+                                                            <i class="fa fa-lock" style="font-size: 15px;"></i>
+                                                        </button>
+                                                    </b>
+                                                    <p>
+                                                    <div id="editProposalDiv" style="display: none;">
+                                                        <div class="input-group mb-3">
+                                                            <div class="custom-file">
+                                                                <input type="file" class="custom-file-input"
+                                                                    id="docxTemplate" type="file" accept=".docx"
+                                                                    aria-describedby="inputGroupFileAddon01">
+                                                                <label class="custom-file-label"
+                                                                    for="inputGroupFile01">ARQUIVO DOCX</label>
+                                                            </div>
+                                                        </div>
+                                                        <button class="btn btn-primary" id="buttonSaveTemplate">Salvar
+                                                            novo arquivo</button>
+                                                    </div>
+                                                    </p>
+                                                </div>
+                                                <% } else { %>
+                                                    <div class="col-md-3">
+                                                        <b>Adicionar Proposta</b>
+                                                        <p>
+                                                            <input id="docxTemplate" type="file" accept=".docx" />
+                                                        </p>
+                                                        <p> <button class="btn btn-primary"
+                                                                id="buttonSaveTemplate">Salvar
+                                                                arquivo</button></p>
+                                                    </div>
+                                                    <%} %>
+                                                        <div class="col-md-3">
+                                                            <b>Precisa de Ajuda?</b>
+                                                            <p>
+                                                                <a target="_blank"
+                                                                    href="/dashboard/propostas/docs">Documentação da
+                                                                    Proposta</a>
+                                                            </p>
+                                                        </div>
+                                                       <!-- <div class="col-md-3">
+                                                            <b>Tutorial de Criação</b>
+                                                            <p>
+                                                                <a target="_blank" href="#">Em breve</a>
+                                                            </p>
+                                                        </div>-->
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <% if(proposals.length===0) {%>
+                                    <div class="card shadow mb-4">
+                                        <div class="card-body">
+                                            <h1 class="h3 mb-2 text-gray-800">Nenhuma proposta encontrada. Clique <a
+                                                    href="/dashboard/propostas/nova" style="height: 25px; width: 25px;"
+                                                    class="btn btn-info btn-circle">
+                                                    <i class="fas fa-plus"></i>
+                                                </a> para registrar
+                                            </h1>
+                                        </div>
+                                    </div>
+                                    <% } else { %>
+
+                                        <div class="card shadow mb-4">
+                                            <div class="card-header py-3">
+                                                <h6 class="m-0 font-weight-bold text-primary">Propostas</h6>
+                                                <br>
+                                                <a href="/dashboard/propostas/nova" style="width: 100%"
+                                                    class="btn btn-info">
+                                                    <span class="icon text-white-50">
+                                                        <i class="fas fa-plus"></i>
+                                                    </span>
+                                                    <span class="text">Adicionar Proposta</span>
+                                                </a>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="table-responsive">
+                                                    <table class="table table-bordered" id="dataTable" width="100%"
+                                                        cellspacing="0">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Identificador</th>
+                                                                <th>Cliente</th>
+                                                                <th>Data</th>
+                                                                <th>kWp</th>
+
+                                                                <th>kwh</th>
+                                                                <th>Botões</th>
+
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <% if(proposals !==undefined) { %>
+                                                                <% proposals.reverse().forEach((item, i)=> { %>
+                                                                    <tr>
+                                                                        <td>
+                                                                            <%=item.data.proposalID%>
+                                                                        </td>
+                                                                        <td>
+                                                                            <%=item.data.nome_cliente%>
+                                                                        </td>
+                                                                        <td>
+                                                                            <%=item.data.criadoEm%>
+                                                                        </td>
+                                                                        <td>
+                                                                            <%=item.data.kwp%>
+                                                                        </td>
+                                                                        <td>
+                                                                            <%=item.data.kwMes%>
+                                                                        </td>
+                                                                        <td>
+                                                                            <button
+                                                                                onclick="generateProposal('<%=item.data.proposalID%>', '<%=item.key%>')"
+                                                                                class="btn btn-success btn-circle">
+                                                                                <i class="fa fa-file"></i>
+                                                                            </button>
+                                                                            <!--<a href="propostas/editar/<%=item.key%>"
+                                                                                class="btn btn-primary btn-circle">
+                                                                                <i class="fas fa-edit"></i>
+                                                                            </a>-->
+                                                                            <button
+                                                                                onclick="deleteProposal('<%=item.key%>')"
+                                                                                class="btn btn-danger btn-circle">
+                                                                                <i class="fas fa-trash"></i>
+                                                                            </button>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <% }); %>
+                                                                        <% } %>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <% } %>
+
+
+
+
+                            </div>
+                    </div>
+                    <%- include("../../partials/footer.ejs") %>
+                </div>
+        </div>
+        <a class="scroll-to-top rounded" href="#page-top">
+            <i class="fas fa-angle-up"></i>
+        </a>
+        <%- include("../components/modal/logout.ejs") %>
+            <script src="/vendor/jquery/jquery.min.js"></script>
+            <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+            <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+            <script src="/js/sb-admin-2.min.js"></script>
+            <script type="text/javascript" src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+            <script type="text/javascript"
+                src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap4.min.js"></script>
+
+            <script>
+                $(document).ready(function () {
+                    $('#dataTable').DataTable({
+                        language: {
+                            url: 'https://cdn.datatables.net/plug-ins/1.13.1/i18n/pt-BR.json'
+                        }
+                    });
+                });
+            </script>
+
+            <script>
+                let fileContent = null;
+
+                document.getElementById("docxTemplate").addEventListener("change", function (event) {
+                    const file = event.target.files[0];
+                    const reader = new FileReader();
+
+                    reader.onload = function (loadEvent) {
+                        fileContent = loadEvent.target.result;
+                    };
+
+                    reader.readAsDataURL(file);
+                });
+
+                document.getElementById("buttonSaveTemplate").addEventListener("click", function () {
+                    // Envia o arquivo para o backend
+                    if (fileContent) {
+                        swal("Enviando...", "Aguarde a conclusão. NÃO FECHE ESSA TELA.", "warning");
+                        uploadFile(fileContent);
+                    }
+                });
+
+                function uploadFile(fileContent) {
+                    axios
+                        .post("/dashboard/propostas", { fileContent })
+                        .then(function (response) {
+                            console.log(response.data);
+                            swal("Arquivo Salvo!", "Clique em OK para continuar.", "success");
+                        })
+                        .catch(function (error) {
+                            console.error(error);
+                            swal("ERRO!", "Tente novamente mais tarde ou contate o suporte.", "error");
+                        });
+                }
+
+                function unlockEdit() {
+                    const unlockButton = document.getElementById("unlockEditProposal");
+                    const editDiv = document.getElementById("editProposalDiv");
+
+                    if (unlockButton.classList.contains("btn-danger")) {
+                        unlockButton.classList.remove("btn-danger");
+                        unlockButton.classList.add("btn-success");
+                        unlockButton.getElementsByTagName("i")[0].classList.remove("fa-lock");
+                        unlockButton.getElementsByTagName("i")[0].classList.add("fa-unlock");
+                        editDiv.style.display = "block";
+                    } else {
+                        unlockButton.classList.remove("btn-success");
+                        unlockButton.classList.add("btn-danger");
+                        unlockButton.getElementsByTagName("i")[0].classList.remove("fa-unlock");
+                        unlockButton.getElementsByTagName("i")[0].classList.add("fa-lock");
+                        editDiv.style.display = "none";
+                    }
+                }
+
+                function generateProposal(propId, key) {
+                    swal("Solicitando...", "Aguarde a conclusão. NÃO FECHE ESSA TELA.", "warning");
+                    axios.post('/dashboard/propostas/generate?key=' + key).then(res => {
+                        if (res.status === 200) {
+                            swal("Arquivo recebido!", "Aguarde o download.", "success");
+                            const blob = new Blob([res.data], { type: 'application/octet-stream' });
+                            const url = window.URL.createObjectURL(blob);
+                            const link = document.createElement('a');
+                            link.href = url;
+                            link.download = 'PROPOSTA-'+propId + '.docx';
+                            link.click();
+                        } else {
+                            swal("Erro", "Não foi possível gerar o arquivo.", "error");
+                        }
+                    });
+                }
+
+                function deleteProposal(key) {
+                    const confirmDelete = confirm('Quer mesmo apagar essa proposta?');
+
+                    if (confirmDelete) {
+                        axios.delete('/dashboard/propostas?key=' + key).then(res => {
+                            if (res.status === 200) {
+                                swal("Proposta deletada!", "Clique em OK para continuar.", "success");
+                                location.reload();
+                            } else {
+                            swal("Erro", "Não foi possível gerar o arquivo.", "error");
+                        }
+                        });
+                    }
+                }
+
+            </script>
+
+    </body>
+
+    </html>
