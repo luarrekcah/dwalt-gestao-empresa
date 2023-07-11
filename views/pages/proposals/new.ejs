@@ -95,7 +95,7 @@
                                                     <label class="small mb-1" for="kwp">
                                                         kWp do sistema
                                                     </label>
-                                                    <input name="kwp" class="form-control" id="kwp" type="number"
+                                                    <input name="kwp" class="form-control" id="kwp" type="text"
                                                         value="0">
                                                 </div>
 
@@ -125,10 +125,10 @@
                                                     <label class="small mb-1" for="descricaoGerador">
                                                         Descrição do gerador
                                                     </label>
-                                                    <input name="descricaoGerador" class="form-control"
-                                                        id="descricaoGerador" type="text"
-                                                        placeholder="COMPONENTES DO GERADOR: ...">
+                                                    <textarea name="descricaoGerador" class="form-control" id="descricaoGerador"
+                                                        placeholder="COMPONENTES DO GERADOR: ..." style="white-space: pre-wrap;" multiple></textarea>
                                                 </div>
+                                                                                               
 
                                             </div>
                                             <hr>
@@ -140,16 +140,16 @@
                                                     <label class="small mb-1" for="valorSistema">
                                                         Valor Total
                                                     </label>
-                                                    <input name="valorSistema" class="form-control" id="valorSistema"
-                                                        type="text" value="0">
+                                                    <input name="valorSistema" class="form-control BRL"
+                                                        id="valorSistema" type="text" value="0">
                                                 </div>
 
                                                 <div class="col-md-2">
                                                     <label class="small mb-1" for="entrada">
                                                         Valor de Entrada
                                                     </label>
-                                                    <input name="entrada" class="form-control" id="entrada" type="text"
-                                                        value="0">
+                                                    <input name="entrada" class="form-control BRL" id="entrada"
+                                                        type="text" value="0">
                                                 </div>
 
 
@@ -170,7 +170,7 @@
                                                     <label class="small mb-1" for="valorFinanciado">
                                                         Valor Financiado
                                                     </label>
-                                                    <input name="valorFinanciado" class="form-control"
+                                                    <input name="valorFinanciado" class="form-control BRL"
                                                         id="valorFinanciado" type="text" value="0">
                                                 </div>
 
@@ -180,7 +180,7 @@
                                                     <label class="small mb-1" for="valorParceladoCartao">
                                                         Valor Parcelado no Cartão
                                                     </label>
-                                                    <input name="valorParceladoCartao" class="form-control"
+                                                    <input name="valorParceladoCartao" class="form-control BRL"
                                                         id="valorParceladoCartao" type="text" value="0">
                                                 </div>
 
@@ -196,7 +196,7 @@
                                                     <label class="small mb-1" for="24x">
                                                         24x
                                                     </label>
-                                                    <input name="24x" class="form-control" id="24x" type="text"
+                                                    <input name="24x" class="form-control BRL" id="24x" type="text"
                                                         value="0">
                                                 </div>
 
@@ -204,7 +204,7 @@
                                                     <label class="small mb-1" for="36x">
                                                         36x
                                                     </label>
-                                                    <input name="36x" class="form-control" id="36x" type="text"
+                                                    <input name="36x" class="form-control BRL" id="36x" type="text"
                                                         value="0">
                                                 </div>
 
@@ -212,7 +212,7 @@
                                                     <label class="small mb-1" for="48x">
                                                         48x
                                                     </label>
-                                                    <input name="48x" class="form-control" id="48x" type="text"
+                                                    <input name="48x" class="form-control BRL" id="48x" type="text"
                                                         value="0">
                                                 </div>
 
@@ -220,7 +220,7 @@
                                                     <label class="small mb-1" for="60x">
                                                         60x
                                                     </label>
-                                                    <input name="60x" class="form-control" id="60x" type="text"
+                                                    <input name="60x" class="form-control BRL" id="60x" type="text"
                                                         value="0">
                                                 </div>
 
@@ -228,7 +228,7 @@
                                                     <label class="small mb-1" for="72x">
                                                         72x
                                                     </label>
-                                                    <input name="72x" class="form-control" id="72x" type="text"
+                                                    <input name="72x" class="form-control BRL" id="72x" type="text"
                                                         value="0">
                                                 </div>
 
@@ -236,7 +236,7 @@
                                                     <label class="small mb-1" for="84x">
                                                         84x
                                                     </label>
-                                                    <input name="84x" class="form-control" id="84x" type="text"
+                                                    <input name="84x" class="form-control BRL" id="84x" type="text"
                                                         value="0">
                                                 </div>
 
@@ -246,13 +246,6 @@
 
                                             <input name="type" type="text" value="saveAndGenerate" style="display: none"
                                                 placeholder="alterar o valor do input pode ocorrer erros, se for detectada alteração, sua conta será banida.">
-
-                                            <a href="#" target="_blank" class="btn btn-secondary btn-icon-split">
-                                                <span class="icon text-white-50">
-                                                    <i class="fas fa-exclamation"></i>
-                                                </span>
-                                                <span class="text">Documentação da Proposta</span>
-                                            </a>
 
                                             <button id="saveAndGenerateButton"
                                                 class="btn btn-success btn-icon-split"><span class="icon text-white-50">
@@ -309,6 +302,39 @@
                             swal("ERRO!", "Tente mais tarde, se persistir o problema, relate a empresa.", "error");
                         });*/
                 });
+            </script>
+
+
+            <script type='text/javascript'
+                src="https://rawgit.com/RobinHerbots/jquery.inputmask/3.x/dist/jquery.inputmask.bundle.js"></script>
+            <script>
+                $(document).ready(function () {
+                    $(":input").inputmask();
+
+                    $("#kwp").inputmask({
+                        greedy: false,
+                        radixPoint: ",",
+                        groupSeparator: ",",
+                        alias: "numeric",
+                        autoGroup: true,
+                        digits: 2,
+                        digitsOptional: false,
+                        clearMaskOnLostFocus: false
+                    })
+
+                    $(".BRL").inputmask({
+                        prefix: "R$ ",
+                        greedy: false,
+                        radixPoint: ",",
+                        groupSeparator: ".",
+                        alias: "numeric",
+                        autoGroup: true,
+                        digits: 2,
+                        digitsOptional: false,
+                        clearMaskOnLostFocus: false,
+                        placeholder: "R$ 0,00",
+                    });
+                })
             </script>
     </body>
 
