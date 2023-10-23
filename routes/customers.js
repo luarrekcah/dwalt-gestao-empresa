@@ -67,10 +67,13 @@ router.post("/adicionar", async (req, res, next) => {
   const customer = req.body;
   customer.createdAt = getDate();
   console.log(customer);
-  createItem({
+  const key = await createItem({
     path: `gestaoempresa/business/${customer.business}/customers`,
     params: customer,
   });
+
+  console.log(key);
+  
   createLogs(
     req.user.key,
     `Cliente ${customer.nomeComp || customer.nomeFantasia} registrado.`

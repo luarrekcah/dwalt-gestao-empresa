@@ -16,19 +16,19 @@
                     <div class="row gx-3 mb-3">
                       <div class="col-md-6">
                         <label class="small mb-1" for="nomeComp">Nome Completo <b style="color: red">*</b></label>
-                        <input name="nomeComp" value="<%=customer.nomeComp%>" class="form-control" id="nomeComp"
+                        <input name="nomeComp" value="<%=customer.nomeComp || ''%>" class="form-control" id="nomeComp"
                           type="text" placeholder="Nome completo" required>
                       </div>
                       <!-- Form Group (first name)-->
                       <div class="col-md-6">
                         <label class="small mb-1" for="cpf">CPF <b style="color: red">*</b></label>
-                        <input name="cpf" value="<%=customer.cpf%>" class="form-control" id="cpf" type="text"
+                        <input name="cpf" value="<%=customer.cpf || ''%>" class="form-control" id="cpf" type="text"
                           placeholder="000.000.000-00" required>
                       </div>
                       <!-- Form Group (last name)-->
                       <div class="col-md-6">
                         <label class="small mb-1" for="dataNasc">Data de Nascimento <b style="color: red">*</b></label>
-                        <input name="dataNasc" value="<%=customer.dataNasc%>" class="form-control" id="dataNasc"
+                        <input name="dataNasc" value="<%=customer.dataNasc || ''%>" class="form-control" id="dataNasc"
                           type="date" required>
                       </div>
                     </div>
@@ -37,13 +37,13 @@
                       <!-- Form Group (first name)-->
                       <div class="col-md-6">
                         <label class="small mb-1" for="email">E-mail <b style="color: red">*</b></label>
-                        <input name="email" value="<%=customer.email%>" class="form-control" id="email" type="text"
+                        <input name="email" value="<%=customer.email || ''%>" class="form-control" id="email" type="text"
                           placeholder="fulano@gmail.com" required>
                       </div>
                       <!-- Form Group (last name)-->
                       <div class="col-md-6">
                         <label class="small mb-1" for="celular">Celular <b style="color: red">*</b></label>
-                        <input name="celular" value="<%=customer.celular%>" class="form-control" id="celular"
+                        <input name="celular" value="<%=customer.celular || ''%>" class="form-control" id="celular"
                           type="text" placeholder="(00) 0.0000-0000" required>
                       </div>
                     </div>
@@ -52,13 +52,13 @@
                       <!-- Form Group (first name)-->
                       <div class="col-md-6">
                         <label class="small mb-1" for="nomeMae">Nome da Mãe <b style="color: red">*</b></label>
-                        <input name="nomeMae" value="<%=customer.nomeMae%>" class="form-control" id="nomeMae"
+                        <input name="nomeMae" value="<%=customer.nomeMae || ''%>" class="form-control" id="nomeMae"
                           type="text" placeholder="" required>
                       </div>
                       <!-- Form Group (last name)-->
                       <div class="col-md-6">
                         <label class="small mb-1" for="rg">RG <b style="color: red">*</b></label>
-                        <input name="rg" value="<%=customer.rg%>" class="form-control" id="rg" type="text"
+                        <input name="rg" value="<%=customer.rg || ''%>" class="form-control" id="rg" type="text"
                           placeholder="" required>
                       </div>
                     </div>
@@ -68,14 +68,14 @@
                       <div class="col-md-6">
                         <div class="form-check">
                           <input class="form-check-input" type="radio" name="sexo" id="flexRadioDefault1"
-                            value="masculino" <%-customer.sexo.toLowerCase()==='masculino' ? "checked" : '' %>>
+                            value="masculino" <%-customer.sexo && customer.sexo.toLowerCase()==='masculino' ? "checked" : '' %>>
                           <label class="form-check-label" for="flexRadioDefault1">
                             Masculino
                           </label>
                         </div>
                         <div class="form-check">
                           <input class="form-check-input" type="radio" name="sexo" id="flexRadioDefault2"
-                            value="feminino" <%-customer.sexo.toLowerCase()==='feminino' ? "checked" : '' %>>
+                            value="feminino" <%-customer.sexo && customer.sexo.toLowerCase()==='feminino' ? "checked" : '' %>>
                           <label class="form-check-label" for="flexRadioDefault2">
                             Feminino
                           </label>
@@ -86,14 +86,14 @@
                       <div class="col-md-6">
                         <div class="form-check">
                           <input class="form-check-input" type="radio" name="estadoCivil" id="flexRadioDefault1"
-                            value="casado" <%-customer.estadoCivil.toLowerCase()==='casado' ? "checked" : '' %>>
+                            value="casado" <%-customer.estadoCivil && customer.estadoCivil.toLowerCase()==='casado' ? "checked" : '' %>>
                           <label class="form-check-label" for="flexRadioDefault1">
                             Casado(a)
                           </label>
                         </div>
                         <div class="form-check">
                           <input class="form-check-input" type="radio" name="estadoCivil" id="flexRadioDefault2"
-                            value="solteiro" <%-customer.estadoCivil.toLowerCase()==='solteiro' ? "checked" : '' %>>
+                            value="solteiro" <%-customer.estadoCivil  && customer.estadoCivil.toLowerCase()==='solteiro' ? "checked" : '' %>>
                           <label class="form-check-label" for="flexRadioDefault2">
                             Solteiro(a)
                           </label>
@@ -111,7 +111,7 @@
                       <!-- Form Group (last name)-->
                       <div class="col-md-6">
                         <label class="small mb-1" for="ocupacao">Ocupação</label>
-                        <input name="ocupacao" value="<%=customer.ocupacao%>" class="form-control" id="ocupacao"
+                        <input name="ocupacao" value="<%=customer.ocupacao || ''%>" class="form-control" id="ocupacao"
                           type="text" placeholder="Empresário">
                       </div>
                     </div>
@@ -120,13 +120,13 @@
                       <!-- Form Group (first name)-->
                       <div class="col-md-6">
                         <label class="small mb-1" for="profissao">Profissão</label>
-                        <input name="profissao" value="<%=customer.profissao%>" class="form-control" id="profissao"
+                        <input name="profissao" value="<%=customer.profissao || ''%>" class="form-control" id="profissao"
                           type="text" placeholder="Dono de empresa">
                       </div>
                       <!-- Form Group (last name)-->
                       <div class="col-md-6">
                         <label class="small mb-1" for="anos">Anos Atuando</label>
-                        <input name="anos" value="<%=customer.anos%>" class="form-control" id="anos" type="text"
+                        <input name="anos" value="<%=customer.anos || ''%>" class="form-control" id="anos" type="text"
                           placeholder="9">
                       </div>
                     </div>
@@ -135,20 +135,20 @@
                       <!-- Form Group (first name)-->
                       <div class="col-md-6">
                         <label class="small mb-1" for="meses">Meses Atuando</label>
-                        <input name="meses" value="<%=customer.meses%>" class="form-control" id="meses" type="text"
+                        <input name="meses" value="<%=customer.meses || ''%>" class="form-control" id="meses" type="text"
                           placeholder="12">
                       </div>
                       <!-- Form Group (last name)-->
                       <div class="col-md-6">
                         <label class="small mb-1" for="renda">Renda Mensal</label>
-                        <input name="renda" value="<%=customer.renda%>" data-inputmask="'alias': 'currency'"
+                        <input name="renda" value="<%=customer.renda || ''%>" data-inputmask="'alias': 'currency'"
                           class="form-control" id="renda" type="text" placeholder="R$00.000">
                       </div>
                     </div>
 
                     <div class="mb-3">
                       <label class="small mb-1" for="endCompleto">Endereço Completo <b style="color: red">*</b></label>
-                      <input name="endCompleto" value="<%=customer.endCompleto%>" class="form-control" id="endCompleto"
+                      <input name="endCompleto" value="<%=customer.endCompleto || ''%>" class="form-control" id="endCompleto"
                         type="text" placeholder="Rua, bairro, número, complemento - Cidade / Estado - CEP" value=""
                         required>
                     </div>

@@ -19,7 +19,7 @@
                   <b class="mb-4">Selecione o cliente <b
                     style="color: red">*</b></b>
                   <div class="mb-3">
-                    <select class="form-control" name='customerID' id="customerID" required>
+                    <select class="form-control chosen-select" name='customerID' id="customerID" required>
                       <option selected>Nenhum selecionado</option>
                       <% customers.forEach(c=> { %>
                         <option value="<%=c.key%>">
@@ -219,6 +219,8 @@
       <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
       <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
       <script src="/js/sb-admin-2.min.js"></script>
+      
+      <script src="/vendor/chosen/chosen.jquery.min.js"></script>
 
 
 
@@ -240,6 +242,39 @@
           })
         })
       </script>
+
+      <script>
+         $(".chosen-select").chosen({no_results_text: "Cliente não encontrado!"}); 
+      </script>
+
+      
+<script>
+  function fetchEndereco(customerID) {
+    const url = '/api/v1/customer/' + customerID;
+
+    axios.get(url)
+      .then(function (response) {
+        document.getElementById('endCompleto').value = response.data.endCompleto;
+      })
+      .catch(function (error) {
+        console.error('Erro ao buscar o endereço:', error);
+      });
+  }
+
+  $(".chosen-select").chosen();
+
+  $("#customerID").on("change", function () {
+    const customerID = this.value;
+
+    if (customerID !== 'Nenhum selecionado') {
+      fetchEndereco(customerID);
+    } else {
+      document.getElementById('endCompleto').value = '';
+    }
+  });
+</script>
+
+
   </body>
 
   </html>

@@ -11,6 +11,7 @@ const express = require("express"),
 
   
 const morgan = require('morgan');
+const defaultData = require("./middlewares/defaultData.js");
 
 const handlersPath = "./services/socket_handlers",
   handlerFiles = fs.readdirSync(handlersPath);
@@ -67,6 +68,8 @@ app.use(function(req, res, next) {
   res.locals.currentPage = req.originalUrl.replace(/\//g, '');
   next();
 });
+
+app.use(defaultData);
 
 process.on("unhandledRejection", (reason) => {
   throw reason;

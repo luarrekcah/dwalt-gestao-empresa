@@ -6,9 +6,14 @@ const express = require("express"),
 
 const admin = require("firebase-admin");
 
-const { getAllItems, getItems, updateItem, createItem } = require("../../database/users");
+const {
+  getAllItems,
+  getItems,
+  updateItem,
+  createItem,
+} = require("../../database/users");
 
-const moment = require('moment');
+const moment = require("moment");
 
 router.get("/", async (req, res, next) => {
   res.sendStatus(200);
@@ -95,17 +100,16 @@ router.post("/updateSubscriptionValue", async (req, res, next) => {
   return res.sendStatus(200);
 });
 
-
 router.post("/getProjout/:type", async (req, res, next) => {
   console.log(req.body);
   switch (req.params.type) {
-    case "messages": 
-    const data = await getAllItems({
-      path: `gestaoempresa/projouts/${req.body.key}/messages`,
-    });
-    return res.json(data);
+    case "messages":
+      const data = await getAllItems({
+        path: `gestaoempresa/projouts/${req.body.key}/messages`,
+      });
+      return res.json(data);
   }
-})
+});
 
 router.post("/updateProjout/:type", async (req, res, next) => {
   console.log(req.body);
@@ -126,24 +130,33 @@ router.post("/updateProjout/:type", async (req, res, next) => {
         },
       });
       return res.sendStatus(200);
-      case "updateHistoric":
-        createItem({
-          path: `gestaoempresa/projouts/${req.body.key}/historic`,
-          params: {
-            content: req.body.content,
-            createdAt: moment().format()
-          },
-        });
-        return res.sendStatus(200);
-        case "newMessage":
-          createItem({
-            path: `gestaoempresa/projouts/${req.body.key}/messages`,
-            params: {
-              message: req.body.message,
-            },
-          });
-          return res.sendStatus(200);
+    case "updateHistoric":
+      createItem({
+        path: `gestaoempresa/projouts/${req.body.key}/historic`,
+        params: {
+          content: req.body.content,
+          createdAt: moment().format(),
+        },
+      });
+      return res.sendStatus(200);
+    case "newMessage":
+      createItem({
+        path: `gestaoempresa/projouts/${req.body.key}/messages`,
+        params: {
+          message: req.body.message,
+        },
+      });
+      return res.sendStatus(200);
   }
+});
+
+router.get("/customer/:cID", async (req, res, next) => {
+  let { cID } = req.params;
+  const customer = await getItems({
+    path: `gestaoempresa/business/${req.user.key}/customers/${cID}`,
+  });
+
+  return res.json(customer);
 });
 
 module.exports = router;

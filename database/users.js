@@ -12,21 +12,24 @@ const moment = require("../services/moment");
 require("../database");
 
 module.exports = {
-  createItem: ({ path, params }) => {
+  createItem: async ({ path, params }) => {
     const db = getDatabase();
     if (!path) return { error: "Sem path" };
     if (path.includes("undefined")) {
       console.log(path);
       return console.warn("Erro, undefined!");
     }
+    
     try {
-      push(ref(db, path), params)
-        .then(console.log("[LOG] Gravação no banco de dados"))
-        .catch((error) => {
-          console.warn(error);
-        });
+      const newItemRef = push(ref(db, path), params);
+      const newItemKey = newItemRef.key;
+  
+      console.log("[LOG] Gravação no banco de dados");
+      
+      return newItemKey;
     } catch (error) {
       console.warn(error);
+      return { error: "Erro ao criar o item no banco de dados" };
     }
   },
   updateItem: ({ path, params }) => {

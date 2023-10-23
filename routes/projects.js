@@ -26,9 +26,9 @@ router.get("/", async (req, res, next) => {
   });
   const user = await getUser({ userId: req.user.key });
 
-  const  notifications = await getAllItems({
+  const notifications = await getAllItems({
     path: `gestaoempresa/business/${req.user.key}/notifications`,
-  })
+  });
 
   let message;
   if (req.query.message) {
@@ -68,7 +68,7 @@ router.get("/", async (req, res, next) => {
     projects,
     message,
     currentPage: res.locals.currentPage,
-    notifications
+    notifications,
   };
   res.render("pages/projects", data);
 });
@@ -90,15 +90,15 @@ router.get("/adicionar", async (req, res, next) => {
   const customers = await getAllItems({
     path: `gestaoempresa/business/${req.user.key}/customers`,
   });
-  const  notifications = await getAllItems({
+  const notifications = await getAllItems({
     path: `gestaoempresa/business/${req.user.key}/notifications`,
-  })
+  });
   const data = {
     user,
     message: null,
     customers,
     currentPage: res.locals.currentPage,
-    notifications
+    notifications,
   };
   res.render("pages/projects/new", data);
 });
@@ -144,9 +144,9 @@ router.get("/visualizar/:id", async (req, res, next) => {
     path: `gestaoempresa/business/${req.user.key}/projects/${req.params.id}/historic`,
   });
 
-  const  notifications = await getAllItems({
+  const notifications = await getAllItems({
     path: `gestaoempresa/business/${req.user.key}/notifications`,
-  })
+  });
 
   let required = [];
 
@@ -277,7 +277,7 @@ router.get("/visualizar/:id", async (req, res, next) => {
     required,
     historic,
     currentPage: res.locals.currentPage,
-    notifications
+    notifications,
   };
   res.render("pages/projects/see", data);
 });
@@ -372,16 +372,16 @@ router.get("/editar/:id", async (req, res, next) => {
   const project = await getItems({
     path: `gestaoempresa/business/${req.user.key}/projects/${req.params.id}`,
   });
-  const  notifications = await getAllItems({
+  const notifications = await getAllItems({
     path: `gestaoempresa/business/${req.user.key}/notifications`,
-  })
+  });
   const data = {
     user,
     project,
     message: null,
     customers,
     currentPage: res.locals.currentPage,
-    notifications
+    notifications,
   };
   res.render("pages/projects/edit", data);
 });
@@ -393,7 +393,45 @@ router.post("/editar/:id", async (req, res, next) => {
   const project = await getItems({
     path: `gestaoempresa/business/${req.user.key}/projects/${req.params.id}`,
   });
+
+  const customerData = await getItems({
+    path: `gestaoempresa/business/${req.user.key}/customers/${project.customerID}`,
+  });
+
   console.log(req.body);
+
+  if (req.body.Status === "equipamentoEntregue") {
+    console.log("Equipamentos entregues, criando um chamado de instalação...");
+
+    try {
+      createItem({
+        path: `gestaoempresa/business/${req.user.key}/surveys`,
+        params: {
+          type: "instalacao",
+          finished: false,
+          accepted: false,
+          createdAt: getDate(),
+          project: {
+            id: req.params.id,
+            name: project.apelidoProjeto,
+          },
+          customer: {
+            name: customerData.nomeComp
+              ? customerData.nomeComp
+              : customerData.nomeFantasia,
+            document: customerData.cpf ? customerData.cpf : customerData.cnpj,
+          },
+          status: "Solicitada",
+          title: "Chamado de Instalação de Projeto",
+          text: "Chamado de instalação automático solicitado para esse projeto devido a entrega de equipamentos.",
+        },
+      });
+      createLogs(req.user.key, `Chamado de instalação para ${req.params.id}`);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   if (req.body.Status === "finalizado" && projectStatus !== "finalizado") {
     const requiredPhotosConfig = await getAllItems({
       path: `gestaoempresa/business/${req.user.key}/config/projectRequiredImages`,
@@ -471,9 +509,9 @@ router.get("/pendentes", async (req, res, next) => {
     path: `gestaoempresa/business/${req.user.key}`,
   });
 
-  const  notifications = await getAllItems({
+  const notifications = await getAllItems({
     path: `gestaoempresa/business/${req.user.key}/notifications`,
-  })
+  });
 
   const businessRequiredPhotosLength = await getAllItems({
     path: `gestaoempresa/business/${req.user.key}/config/projectRequiredImages`,
@@ -518,7 +556,7 @@ router.get("/pendentes", async (req, res, next) => {
     message: null,
     pendingProjects,
     currentPage: res.locals.currentPage,
-    notifications
+    notifications,
   };
   res.render("pages/projects/pending", data);
 });

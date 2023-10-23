@@ -33,14 +33,14 @@
                         <div class="col-md-3">
                           <b>RG</b>
                           <p>
-                            <%-customer.rg==='' ? '<b style="color: red;">Não provido</b>' : `${customer.rg}` %>
+                            <%-!customer.rg || customer.rg==='' ? '<b style="color: red;">Não provido</b>' : `${customer.rg}` %>
 
                           </p>
                         </div>
                         <div class="col-md-3">
                           <b>Data de Nascimento</b>
                           <p>
-                            <% if(customer.dataNasc==='' ) { %>
+                            <% if(!customer.dataNasc || customer.dataNasc==='' ) { %>
                               <b style="color: red;">Não provido</b>
                               <% } else { %>
                                 <%=customer.dataNasc.split('-')[2]%>/<%=customer.dataNasc.split('-')[1]%>/<%=customer.dataNasc.split('-')[0]%>
@@ -50,14 +50,14 @@
                         <div class="col-md-3">
                           <b>Sexo</b>
                           <p>
-                            <%-customer.sexo==='' ? '<b style="color: red;">Não provido</b>' : `${customer.sexo}` %>
+                            <%- !customer.sexo || customer.sexo==='' ? '<b style="color: red;">Não provido</b>' : `${customer.sexo}` %>
                           </p>
                         </div>
 
                         <div class="col-md-3">
                           <b>Estado Civil</b>
                           <p>
-                            <%-customer.estadoCivil==='' ? '<b style="color: red;">Não provido</b>' :
+                            <%-!customer.estadoCivil || customer.estadoCivil==='' ? '<b style="color: red;">Não provido</b>' :
                               `${customer.estadoCivil}` %>
                           </p>
                         </div>
@@ -65,7 +65,7 @@
                         <div class="col-md-3">
                           <b>Nome da Mãe</b>
                           <p>
-                            <%-customer.nomeMae==='' ? '<b style="color: red;">Não provido</b>' : `${customer.nomeMae}`
+                            <%-!customer.nomeMae || customer.nomeMae==='' ? '<b style="color: red;">Não provido</b>' : `${customer.nomeMae}`
                               %>
                           </p>
                         </div>
@@ -73,7 +73,7 @@
                         <div class="col-md-3">
                           <b>E-mail</b>
                           <p>
-                            <%-customer.email==='' ? '<b style="color: red;">Não provido</b>' : `${customer.email}` %>
+                            <%-!customer.email || customer.email ==='' ? '<b style="color: red;">Não provido</b>' : `${customer.email}` %>
                           </p>
                         </div>
 
@@ -94,34 +94,34 @@
                         <div class="col-md-3">
                           <b>Profissão</b>
                           <p>
-                            <%-customer.profissao==='' ? '<b style="color: red;">Não provido</b>' :
+                            <%-!customer.profissao || customer.profissao==='' ? '<b style="color: red;">Não provido</b>' :
                               `${customer.profissao}` %>
                           </p>
                         </div>
                         <div class="col-md-3">
                           <b>Ocupação</b>
                           <p>
-                            <%-customer.ocupacao==='' ? '<b style="color: red;">Não provido</b>' :
+                            <%-!customer.ocupacao || customer.ocupacao==='' ? '<b style="color: red;">Não provido</b>' :
                               `${customer.ocupacao}` %>
                           </p>
                         </div>
                         <div class="col-md-3">
                           <b>Renda</b>
                           <p>
-                            <%-customer.renda==='' ? '<b style="color: red;">Não provido</b>' : `${customer.renda}` %>
+                            <%-!customer.renda || customer.renda==='' ? '<b style="color: red;">Não provido</b>' : `${customer.renda}` %>
                           </p>
                         </div>
                         <div class="col-md-3">
                           <b>Patrimônio</b>
                           <p>
-                            <%-customer.patrimonio==='' ? '<b style="color: red;">Não provido</b>' :
+                            <%-!customer.patrimonio || customer.patrimonio==='' ? '<b style="color: red;">Não provido</b>' :
                               `${customer.patrimonio}` %>
                           </p>
                         </div>
                         <div class="col-md-3">
                           <b>Atuando há</b>
                           <p>
-                            <% if(customer.anos==='' && customer.meses==='' ) { %>
+                            <% if(!customer.anos || customer.anos==='' && !customer.meses || customer.meses==='' ) { %>
                               <b style="color: red;">Não provido</b>
                               <% } else { %>
                                 <%=customer.anos%> anos e <%=customer.meses%> meses.
@@ -160,7 +160,7 @@
                           <div class="col-md-3">
                             <b>Data de Abertura</b>
                             <p>
-                              <% if(customer.abertura==='' ) { %>
+                              <% if(!customer.abertura || customer.abertura==='' ) { %>
                                 <b style="color: red;">Não provido</b>
                                 <% } else { %>
                                   <%=customer.abertura.split('-')[2]%>/<%=customer.abertura.split('-')[1]%>/<%=customer.abertura.split('-')[0]%>
@@ -174,14 +174,14 @@
                           <div class="col-md-3">
                             <b>E-mail</b>
                             <p>
-                              <%-customer.email==='' ? '<b style="color: red;">Não provido</b>' : `${customer.email}` %>
+                              <%-!customer.email || customer.email==='' ? '<b style="color: red;">Não provido</b>' : `${customer.email}` %>
                             </p>
                           </div>
 
                           <div class="col-md-3">
                             <b>Celular</b>
                             <p>
-                              <%-customer.celular==='' ? '<b style="color: red;">Não provido</b>' :
+                              <%- !customer.celular || customer.celular==='' ? '<b style="color: red;">Não provido</b>' :
                                 `${customer.celular}` %>
                             </p>
                           </div>
@@ -197,13 +197,13 @@
                           <div class="col-md-3">
                             <b>Renda</b>
                             <p>
-                              <%-customer.renda==='' ? '<b style="color: red;">Não provido</b>' : `${customer.renda}` %>
+                              <%-!customer.renda || customer.renda==='' ? '<b style="color: red;">Não provido</b>' : `${customer.renda}` %>
                             </p>
                           </div>
                           <div class="col-md-3">
                             <b>Patrimônio</b>
                             <p>
-                              <%-customer.patrimonio==='' ? '<b style="color: red;">Não provido</b>' :
+                              <%- !customer.patrimonio || customer.patrimonio==='' ? '<b style="color: red;">Não provido</b>' :
                                 `${customer.patrimonio}` %>
                             </p>
                           </div>
@@ -211,7 +211,7 @@
                           <div class="col-md-3">
                             <b>Atividade</b>
                             <p>
-                              <%-customer.atividade==='' ? '<b style="color: red;">Não provido</b>' :
+                              <%-!customer.atividade || customer.atividade==='' ? '<b style="color: red;">Não provido</b>' :
                                 `${customer.atividade}` %>
                             </p>
                           </div>
