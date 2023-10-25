@@ -18,7 +18,7 @@ const { getCnpj } = require("../controllers/thirdparty.controller");
 const { updateSubscriptionValue } = require("../controllers/admin.controller");
 const { getProjout } = require("../controllers/projout.controller");
 const { getCustomerByID } = require("../controllers/customer.controller");
-const { getProjects } = require("../controllers/projects.controller");
+const { getProjects, getProject } = require("../controllers/projects.controller");
 const { getGrowattData } = require("../controllers/inverters.controller");
 
 // Check api
