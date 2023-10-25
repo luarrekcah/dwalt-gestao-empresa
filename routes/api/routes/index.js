@@ -19,6 +19,7 @@ const { updateSubscriptionValue } = require("../controllers/admin.controller");
 const { getProjout } = require("../controllers/projout.controller");
 const { getCustomerByID } = require("../controllers/customer.controller");
 const { getProjects } = require("../controllers/projects.controller");
+const { getGrowattData } = require("../controllers/inverters.controller");
 
 // Check api
 // URL: locahost:3000/api/v1/
@@ -39,6 +40,10 @@ router.get("/cnpj/:cnpj", getCnpj);
 
 // Apps API =>
 router.get("/projects/:businessKey", getProjects);
+router.get("/projects/:businessKey/:projectKey", getProject);
+
+
+router.get("/inverters/growatt/:businessKey", getGrowattData);
 
 
 module.exports = router;

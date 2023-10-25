@@ -1,4 +1,4 @@
-const { getAllItems } = require("../../../database/users");
+const { getAllItems, getItems } = require("../../../database/users");
 
 async function getProjects(req, res, next) {
   let { businessKey } = req.params;
@@ -22,6 +22,17 @@ async function getProjects(req, res, next) {
   res.json(paginatedProjects);
 }
 
+async function getProject(req, res, next) {
+    let { businessKey, projectKey } = req.params;
+
+    const project = await getItems({
+        path: `gestaoempresa/business/${businessKey}/projects/${projectKey}`
+    });
+
+    res.json(project);
+}
+
 module.exports = {
   getProjects,
+  getProject
 };
