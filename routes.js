@@ -22,7 +22,7 @@ const indexLandingRouter = require("./routes/landing");
 
 const webhookPayments = require("./routes/webhook/payments");
 
-const api = require("./routes/api");
+const api = require("./routes/api/routes");
 const { subscriptionChecker } = require("./utils");
 
 const authenticationMiddleware = (req, res, next) => {
