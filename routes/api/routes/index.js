@@ -41,7 +41,7 @@ router.get("/cnpj/:cnpj", getCnpj);
 // Apps API =>
 router.get("/projects/:businessKey", getProjects);
 router.get("/project/:businessKey/:projectKey", getProject);
-router.get("/projects/search/:businessKey", searchProject);
+//router.get("/projects/search/:businessKey", searchProject);
 
 
 router.get("/inverters/growatt/:businessKey", getGrowattData);
