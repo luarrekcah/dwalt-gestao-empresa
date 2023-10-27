@@ -20,10 +20,14 @@ const { getProjout } = require("../controllers/projout.controller");
 const { getCustomerByID } = require("../controllers/customer.controller");
 const { getProjects, getProject } = require("../controllers/projects.controller");
 const { getGrowattData } = require("../controllers/inverters.controller");
+const { getStatistics } = require("../controllers/general.controller");
 
 // Check api
 // URL: locahost:3000/api/v1/
 router.get("/", get);
+
+// General
+router.get("/general/:businessKey/length", getStatistics);
 
 // Intern
 router.post("/notification", sendNotify);

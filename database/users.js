@@ -131,4 +131,23 @@ module.exports = {
     );
     return url;
   },
+  countItems: async ({path}) => {
+    const db = getDatabase();
+  
+    if (!path) return { error: "Sem path" };
+  
+    try {
+      const snapshot = await get(ref(db, path));
+      
+      if (snapshot.exists()) {
+        const count = snapshot.numChildren();
+        return count;
+      } else {
+        return 0;
+      }
+    } catch (error) {
+      console.warn(error);
+      return { error: "Erro ao contar os itens no banco de dados" };
+    }
+  }
 };
