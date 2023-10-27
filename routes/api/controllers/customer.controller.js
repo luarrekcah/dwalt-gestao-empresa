@@ -1,3 +1,5 @@
+const { getItems } = require("../../../database/users");
+
 async function getCustomerByID(req, res, next) {
     let { cID } = req.params;
   const customer = await getItems({
