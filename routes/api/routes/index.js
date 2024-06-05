@@ -47,6 +47,8 @@ router.get("/projects/:businessKey", getProjects);
 router.get("/project/:businessKey/:projectKey", getProject);
 //router.get("/projects/search/:businessKey", searchProject);
 
+router.get("/business", getProjects);
+
 
 router.get("/inverters/growatt/:businessKey", getGrowattData);
 
