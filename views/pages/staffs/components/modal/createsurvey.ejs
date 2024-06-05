@@ -35,7 +35,13 @@
         <div style="display: none" id="preventivo">
           <form method="post">
             <input name="type" value="preventivo" style="display: none" />
-            <select name="projectID" class="form-control">
+            <select
+              class="select-sel"
+              style="width: 100%"
+              name="projectID"
+              required
+            >
+              <option selected>Nenhum selecionado</option>
               <% projects.forEach(p => { %>
               <option value="<%=p.key%>"><%=p.data.apelidoProjeto %></option>
               <% }); %>
@@ -52,9 +58,14 @@
         <div style="display: none" id="instalacao">
           <form method="post">
             <input name="type" value="instalacao" style="display: none" />
-            <select name="projectID" class="form-control">
+            <select
+              class="select-sel"
+              style="width: 100%"
+              name="projectID"
+              required
+            >
+              <option selected>Nenhum selecionado</option>
               <% projects.forEach(p => { %>
-              <option selected>Selecione o projeto</option>
               <option value="<%=p.key%>"><%=p.data.apelidoProjeto %></option>
               <% }); %>
             </select>
@@ -71,10 +82,12 @@
           <form method="post" id="form">
             <input name="type" value="corretivo" style="display: none" />
             <select
+              class="select-sel"
+              style="width: 100%; margin-bottom: 20px"
               name="projectID"
-              class="form-control"
-              style="margin-bottom: 20px"
+              required
             >
+              <option selected>Nenhum selecionado</option>
               <% projects.forEach(p => { %>
               <option value="<%=p.key%>"><%=p.data.apelidoProjeto %></option>
               <% }); %>
@@ -93,11 +106,10 @@
               />
             </div>
 
-            <div id="picturesPreview" style="display: flex;
-            flex-wrap: nowrap; 
-            overflow-x: scroll;">
-              
-            </div>
+            <div
+              id="picturesPreview"
+              style="display: flex; flex-wrap: nowrap; overflow-x: scroll"
+            ></div>
             <div class="mb-3">
               <label class="small mb-1" for="pics">Fotos</label>
               <input
@@ -136,7 +148,6 @@
 </div>
 
 <script>
-
   const selectTipoChamado = document.getElementById("selectTipoChamado");
   const preventivoDiv = document.getElementById("preventivo");
   const corretivoDiv = document.getElementById("corretivo");
@@ -168,7 +179,7 @@
     if (files.length === 0) return;
 
     let picsArray = [];
-    
+
     /*if (document.getElementById("pics64").value !== "") {
       try {
         picsArray = JSON.parse(document.getElementById("pics64").value);
