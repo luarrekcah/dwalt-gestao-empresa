@@ -1,0 +1,222 @@
+<%- include("../../partials/head.ejs") %>
+
+<style>
+    /* Melhorando a usabilidade */
+.kanban-column {
+  background-color: #f4f4f4;
+  padding: 10px;
+  margin-right: 10px;
+  width: 250px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  user-select: none; /* Evita a seleção de texto ao arrastar */
+}
+
+.kanban-header {
+  font-weight: bold;
+  text-align: center;
+  padding: 5px;
+  background-color: #007bff;
+  color: white;
+  border-radius: 5px;
+  cursor: move; /* Mostra que a área é arrastável */
+}
+
+.kanban-cards {
+  min-height: 50px;
+}
+
+.kanban-card {
+  background-color: white;
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  cursor: move; /* Mostra que os cartões são arrastáveis */
+}
+
+.kanban-card textarea {
+  width: 100%;
+  margin-top: 5px;
+  resize: none;
+  height: 60px;
+  user-select: text; /* Permite a seleção de texto dentro de anotações */
+}
+</style>
+
+
+<body id="page-top">
+  <div id="wrapper">
+    <%- include("../../partials/sidebar.ejs") %>
+    <div id="content-wrapper" class="d-flex flex-column">
+      <div id="content">
+        <%- include("../../partials/topbar.ejs") %>
+        <div class="container-fluid">
+          <h1 class="h3 mb-2 text-gray-800">Kanban - Projetos</h1>
+          <p class="mb-4">Organização de Projetos
+          </p>
+
+          <div id="kanban-board" class="row">
+            <!-- Os quadros (listas de tarefas) serão renderizados aqui -->
+          </div>
+          
+          <button id="add-board" class="btn btn-primary mt-4">Adicionar Quadro</button>
+        
+        </div>
+      </div>
+      <%- include("../../partials/footer.ejs") %>
+    </div>
+  </div>
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+  <%- include("../components/modal/logout.ejs") %>
+  <script src="/vendor/jquery/jquery.min.js"></script>
+  <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+  <script src="/js/sb-admin-2.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js"></script>
+
+
+  <script>
+     let kanbanData = [
+    {
+      id: 1,
+      title: "Quadro 1",
+      cards: [
+        { id: 101, content: "Tarefa 1", notes: "Anotações para tarefa 1" },
+        { id: 102, content: "Tarefa 2", notes: "Anotações para tarefa 2" }
+      ]
+    },
+    {
+      id: 2,
+      title: "Quadro 2",
+      cards: [
+        { id: 201, content: "Tarefa 3", notes: "Anotações para tarefa 3" }
+      ]
+    }
+  ];
+  
+    // Função para renderizar o Kanban
+    function renderKanban() {
+      $('#kanban-board').empty(); // Limpa o conteúdo
+  
+      kanbanData.forEach(board => {
+        const boardHtml = `
+          <div class="kanban-column" data-id="${board.id}">
+            <div class="kanban-header">${board.title}</div>
+            <div class="kanban-cards" id="board-${board.id}" data-board-id="${board.id}">
+              ${board.cards.map(card => `
+                <div class="kanban-card" data-id="${card.id}">
+                  <div class="card-content">${card.content}</div>
+                  <textarea class="card-notes">${card.notes || ''}</textarea>
+                </div>
+              `).join('')}
+            </div>
+            <button class="add-card btn btn-sm btn-secondary mt-2" data-id="${board.id}">Adicionar Cartão</button>
+          </div>`;
+        $('#kanban-board').append(boardHtml);
+      });
+  
+      // Tornar os cartões arrastáveis
+      $('.kanban-cards').each(function() {
+        Sortable.create(this, {
+          group: "kanban", // Define o grupo para arrastar entre colunas
+          animation: 150,
+          handle: '.kanban-card', // Define onde o item pode ser arrastado
+          onEnd: function(evt) {
+            const itemEl = evt.item;
+            const originBoardId = evt.from.getAttribute('data-board-id'); // Pega o board de origem corretamente
+            const destinationBoardId = evt.to.getAttribute('data-board-id'); // Pega o board de destino corretamente
+            const cardId = itemEl.getAttribute('data-id');
+  
+            if (!originBoardId || !destinationBoardId) {
+              console.error("Board ID não encontrado");
+              return;
+            }
+  
+            // Atualizar posição do cartão no JSON
+            updateCardPosition(cardId, originBoardId, destinationBoardId);
+          }
+        });
+      });
+  
+      // Tornar os quadros (boards) arrastáveis
+      Sortable.create(document.getElementById('kanban-board'), {
+        animation: 150,
+        handle: '.kanban-header', // Arrastar apenas pelo cabeçalho do quadro
+        onEnd: function(evt) {
+          const boardId = evt.item.getAttribute('data-id');
+          const newIndex = evt.newIndex;
+  
+          // Atualizar posição dos quadros no JSON
+          updateBoardPosition(boardId, newIndex);
+        }
+      });
+    }
+  
+    // Função para adicionar um novo quadro (board)
+    $('#add-board').on('click', function() {
+      const boardTitle = prompt('Nome do novo quadro:');
+      if (boardTitle) {
+        const newBoard = { id: Date.now(), title: boardTitle, cards: [] };
+        kanbanData.push(newBoard);
+        renderKanban();
+      }
+    });
+  
+    // Função para adicionar um novo cartão (card)
+    $(document).on('click', '.add-card', function() {
+      const boardId = $(this).data('id');
+      const cardContent = prompt('Conteúdo do novo cartão:');
+      if (cardContent) {
+        const board = kanbanData.find(b => b.id == boardId);
+        const newCard = { id: Date.now(), content: cardContent };
+        board.cards.push(newCard);
+        renderKanban();
+      }
+    });
+  
+    // Função para salvar a nova posição do cartão no JSON
+    function updateCardPosition(cardId, originBoardId, destinationBoardId) {
+      const originBoard = kanbanData.find(board => board.id == originBoardId);
+      const destinationBoard = kanbanData.find(board => board.id == destinationBoardId);
+  
+      if (!originBoard || !destinationBoard) {
+        console.error("Quadro de origem ou destino não encontrado");
+        return;
+      }
+  
+      const card = originBoard.cards.find(c => c.id == cardId);
+  
+      if (!card) {
+        console.error("Cartão não encontrado");
+        return;
+      }
+  
+      // Remove o cartão do quadro de origem e adiciona ao destino
+      originBoard.cards = originBoard.cards.filter(c => c.id != cardId);
+      destinationBoard.cards.push(card);
+  
+      // Re-renderizar o Kanban para refletir as mudanças
+      renderKanban();
+    }
+  
+    // Função para atualizar a posição do quadro no JSON
+    function updateBoardPosition(boardId, newIndex) {
+      const board = kanbanData.find(b => b.id == boardId);
+      kanbanData = kanbanData.filter(b => b.id != boardId);
+      kanbanData.splice(newIndex, 0, board);
+    }
+  
+    // Renderiza o Kanban inicialmente
+    renderKanban();
+  </script>
+  
+
+
+
+</body>
+
+</html>

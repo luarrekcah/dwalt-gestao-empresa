@@ -16,6 +16,7 @@ const indexRouter = require("./routes/index"),
   notFoundRouter = require("./routes/notfound"),
   invertersRouter = require("./routes/inverters"),
   panelRouter = require("./routes/panel"),
+  kanbanRouter = require("./routes/kanban"),
   proposalsRouter = require('./routes/proposals');
 
 const indexLandingRouter = require("./routes/landing");
@@ -84,6 +85,12 @@ module.exports = (app) => {
     authenticationSubsMiddleware,
     proposalsRouter
   );
+  app.use(
+    "/dashboard/kanban",
+    authenticationSubsMiddleware,
+    kanbanRouter
+  );
+
 
   //api
   app.use("/api/v1", api);
