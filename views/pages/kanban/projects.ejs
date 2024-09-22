@@ -107,12 +107,13 @@
           </div>
         </div>
         <div class="kanban-cards" id="board-${board.id}" data-board-id="${board.id}">
-          ${board.cards.map(card => `
-            <div class="kanban-card" data-id="${card.id}">
-              <div class="card-content">${card.content}</div>
-              <textarea class="card-notes">${card.notes || ''}</textarea>
-            </div>
-          `).join('')}
+      ${board.cards && board.cards.length > 0 ? board.cards.map(card => `
+  <div class="kanban-card" data-id="${card.id}">
+    <div class="card-content">${card.content}</div>
+    <textarea class="card-notes">${card.notes || ''}</textarea>
+    <button class="delete-card btn btn-sm btn-danger mt-2" data-card-id="${card.id}" data-board-id="${board.id}">Excluir</button>
+  </div>
+`).join('') : 'Nenhum cartão disponível'}
         </div>
         <button class="add-card btn btn-sm btn-secondary mt-2" data-id="${board.id}">Adicionar Cartão</button>
       </div>`;
@@ -256,6 +257,28 @@ $(document).on('click', '.delete-board', function() {
     }
   }
 });
+
+// Função para deletar um cartão (card)
+$(document).on('click', '.delete-card', function() {
+  const cardId = $(this).data('card-id');
+  const boardId = $(this).data('board-id');
+  const board = kanbanData.find(b => b.id == boardId);
+  
+  if (confirm('Tem certeza que deseja excluir este cartão?')) {
+    const cardIndex = board.cards.findIndex(c => c.id == cardId);
+    
+    if (cardIndex > -1) {
+      board.cards.splice(cardIndex, 1); // Remove o cartão do array
+      renderKanban();
+
+      // Atualiza o servidor com o cartão removido
+      axios.put(window.location.href, { kanbanData })
+        .then(response => console.log('Cartão excluído com sucesso'))
+        .catch(error => console.error('Erro ao excluir cartão:', error));
+    }
+  }
+});
+
 
   
     // Renderiza o Kanban inicialmente
