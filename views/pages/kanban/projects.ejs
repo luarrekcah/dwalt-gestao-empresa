@@ -43,6 +43,17 @@
   height: 60px;
   user-select: text; /* Permite a seleção de texto dentro de anotações */
 }
+
+.kanban-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 5px;
+}
+
+.kanban-actions button {
+  margin-left: 5px;
+}
+
 </style>
 
 
@@ -78,25 +89,8 @@
   <script src="/js/sb-admin-2.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js"></script>
 
-
   <script>
-     let kanbanData = [
-    {
-      id: 1,
-      title: "Quadro 1",
-      cards: [
-        { id: 101, content: "Tarefa 1", notes: "Anotações para tarefa 1" },
-        { id: 102, content: "Tarefa 2", notes: "Anotações para tarefa 2" }
-      ]
-    },
-    {
-      id: 2,
-      title: "Quadro 2",
-      cards: [
-        { id: 201, content: "Tarefa 3", notes: "Anotações para tarefa 3" }
-      ]
-    }
-  ];
+    let kanbanData = <%- JSON.stringify(kanbanData) %>;
   
     // Função para renderizar o Kanban
     function renderKanban() {
@@ -104,18 +98,24 @@
   
       kanbanData.forEach(board => {
         const boardHtml = `
-          <div class="kanban-column" data-id="${board.id}">
-            <div class="kanban-header">${board.title}</div>
-            <div class="kanban-cards" id="board-${board.id}" data-board-id="${board.id}">
-              ${board.cards.map(card => `
-                <div class="kanban-card" data-id="${card.id}">
-                  <div class="card-content">${card.content}</div>
-                  <textarea class="card-notes">${card.notes || ''}</textarea>
-                </div>
-              `).join('')}
+      <div class="kanban-column" data-id="${board.id}">
+        <div class="kanban-header">
+          ${board.title}
+          <div class="kanban-actions">
+            <button class="edit-board btn btn-sm btn-warning" data-id="${board.id}">Editar</button>
+            <button class="delete-board btn btn-sm btn-danger" data-id="${board.id}">Excluir</button>
+          </div>
+        </div>
+        <div class="kanban-cards" id="board-${board.id}" data-board-id="${board.id}">
+          ${board.cards.map(card => `
+            <div class="kanban-card" data-id="${card.id}">
+              <div class="card-content">${card.content}</div>
+              <textarea class="card-notes">${card.notes || ''}</textarea>
             </div>
-            <button class="add-card btn btn-sm btn-secondary mt-2" data-id="${board.id}">Adicionar Cartão</button>
-          </div>`;
+          `).join('')}
+        </div>
+        <button class="add-card btn btn-sm btn-secondary mt-2" data-id="${board.id}">Adicionar Cartão</button>
+      </div>`;
         $('#kanban-board').append(boardHtml);
       });
   
@@ -126,18 +126,17 @@
           animation: 150,
           handle: '.kanban-card', // Define onde o item pode ser arrastado
           onEnd: function(evt) {
-            const itemEl = evt.item;
-            const originBoardId = evt.from.getAttribute('data-board-id'); // Pega o board de origem corretamente
-            const destinationBoardId = evt.to.getAttribute('data-board-id'); // Pega o board de destino corretamente
-            const cardId = itemEl.getAttribute('data-id');
+            const cardId = evt.item.getAttribute('data-id');
+            const originBoardId = evt.from.getAttribute('data-board-id');
+            const destinationBoardId = evt.to.getAttribute('data-board-id');
   
             if (!originBoardId || !destinationBoardId) {
               console.error("Board ID não encontrado");
               return;
             }
   
-            // Atualizar posição do cartão no JSON
-            updateCardPosition(cardId, originBoardId, destinationBoardId);
+            // Atualizar posição do cartão no array de dados
+            updateKanbanData('card', cardId, originBoardId, destinationBoardId);
           }
         });
       });
@@ -150,10 +149,44 @@
           const boardId = evt.item.getAttribute('data-id');
           const newIndex = evt.newIndex;
   
-          // Atualizar posição dos quadros no JSON
-          updateBoardPosition(boardId, newIndex);
+          // Atualizar posição dos quadros no array de dados
+          updateKanbanData('board', boardId, newIndex);
         }
       });
+    }
+  
+    // Função genérica para atualizar a posição no array de dados e enviar para o servidor
+    function updateKanbanData(type, id, origin, destination = null) {
+      if (type === 'card') {
+        const originBoard = kanbanData.find(board => board.id == origin);
+        const destinationBoard = kanbanData.find(board => board.id == destination);
+        const card = originBoard.cards.find(c => c.id == id);
+  
+        if (!originBoard || !destinationBoard || !card) {
+          console.error("Quadro ou cartão não encontrado");
+          return;
+        }
+  
+        // Remove o cartão do quadro de origem e adiciona ao destino
+        originBoard.cards = originBoard.cards.filter(c => c.id != id);
+        destinationBoard.cards.push(card);
+      } else if (type === 'board') {
+        const board = kanbanData.find(b => b.id == id);
+        kanbanData = kanbanData.filter(b => b.id != id);
+        kanbanData.splice(destination, 0, board);
+      }
+  
+      // Re-renderiza o Kanban para refletir as mudanças
+      renderKanban();
+  
+      // Faz o PUT request com o array atualizado usando Axios
+      axios.put(window.location.href, { kanbanData })
+        .then(response => {
+          console.log('Atualização enviada para o servidor com sucesso');
+        })
+        .catch(error => {
+          console.error('Erro ao atualizar o Kanban:', error);
+        });
     }
   
     // Função para adicionar um novo quadro (board)
@@ -163,6 +196,11 @@
         const newBoard = { id: Date.now(), title: boardTitle, cards: [] };
         kanbanData.push(newBoard);
         renderKanban();
+  
+        // Atualiza o servidor com o novo quadro
+        axios.put(window.location.href, { kanbanData })
+          .then(response => console.log('Novo quadro adicionado com sucesso'))
+          .catch(error => console.error('Erro ao adicionar quadro:', error));
       }
     });
   
@@ -175,44 +213,55 @@
         const newCard = { id: Date.now(), content: cardContent };
         board.cards.push(newCard);
         renderKanban();
+  
+        // Atualiza o servidor com o novo cartão
+        axios.put(window.location.href, { kanbanData })
+          .then(response => console.log('Novo cartão adicionado com sucesso'))
+          .catch(error => console.error('Erro ao adicionar cartão:', error));
       }
     });
+
+    // Função para editar o título de um quadro (board)
+$(document).on('click', '.edit-board', function() {
+  const boardId = $(this).data('id');
+  const board = kanbanData.find(b => b.id == boardId);
+  const newTitle = prompt('Novo título para o quadro:', board.title);
   
-    // Função para salvar a nova posição do cartão no JSON
-    function updateCardPosition(cardId, originBoardId, destinationBoardId) {
-      const originBoard = kanbanData.find(board => board.id == originBoardId);
-      const destinationBoard = kanbanData.find(board => board.id == destinationBoardId);
+  if (newTitle) {
+    board.title = newTitle;
+    renderKanban();
+
+    // Atualiza o servidor com o novo título do quadro
+    axios.put(window.location.href, { kanbanData })
+      .then(response => console.log('Título do quadro alterado com sucesso'))
+      .catch(error => console.error('Erro ao alterar título do quadro:', error));
+  }
+});
+
+
+    // Função para deletar um quadro (board)
+$(document).on('click', '.delete-board', function() {
+  const boardId = $(this).data('id');
+  const boardIndex = kanbanData.findIndex(b => b.id == boardId);
   
-      if (!originBoard || !destinationBoard) {
-        console.error("Quadro de origem ou destino não encontrado");
-        return;
-      }
-  
-      const card = originBoard.cards.find(c => c.id == cardId);
-  
-      if (!card) {
-        console.error("Cartão não encontrado");
-        return;
-      }
-  
-      // Remove o cartão do quadro de origem e adiciona ao destino
-      originBoard.cards = originBoard.cards.filter(c => c.id != cardId);
-      destinationBoard.cards.push(card);
-  
-      // Re-renderizar o Kanban para refletir as mudanças
+  if (confirm('Tem certeza que deseja excluir este quadro?')) {
+    if (boardIndex > -1) {
+      kanbanData.splice(boardIndex, 1); // Remove o quadro do array
       renderKanban();
+
+      // Atualiza o servidor com o quadro removido
+      axios.put(window.location.href, { kanbanData })
+        .then(response => console.log('Quadro excluído com sucesso'))
+        .catch(error => console.error('Erro ao excluir quadro:', error));
     }
-  
-    // Função para atualizar a posição do quadro no JSON
-    function updateBoardPosition(boardId, newIndex) {
-      const board = kanbanData.find(b => b.id == boardId);
-      kanbanData = kanbanData.filter(b => b.id != boardId);
-      kanbanData.splice(newIndex, 0, board);
-    }
+  }
+});
+
   
     // Renderiza o Kanban inicialmente
     renderKanban();
   </script>
+  
   
 
 
