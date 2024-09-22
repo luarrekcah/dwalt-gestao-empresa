@@ -279,6 +279,34 @@ $(document).on('click', '.delete-card', function() {
   }
 });
 
+// Função para capturar mudanças nas anotações dos cartões
+$(document).on('blur', '.card-notes', function() {
+  const cardId = $(this).closest('.kanban-card').data('id');
+  const boardId = $(this).closest('.kanban-cards').data('board-id');
+  const newNotes = $(this).val(); // Pega o valor da anotação
+
+  // Atualizar as notas no array de dados kanbanData
+  const board = kanbanData.find(b => b.id == boardId);
+  const card = board.cards.find(c => c.id == cardId);
+
+  if (card) {
+    card.notes = newNotes; // Atualiza as anotações no objeto de cartão
+  }
+
+  // Re-renderiza o Kanban (opcional)
+  // renderKanban(); // Se você quiser renderizar novamente após a mudança
+
+  // Envia a atualização para o servidor
+  axios.put(window.location.href, { kanbanData })
+    .then(response => {
+      console.log('Anotações salvas com sucesso');
+    })
+    .catch(error => {
+      console.error('Erro ao salvar anotações:', error);
+    });
+});
+
+
 
   
     // Renderiza o Kanban inicialmente
