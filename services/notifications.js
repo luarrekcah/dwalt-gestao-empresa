@@ -35,7 +35,7 @@ const checkPendingSurveys = async () => {
     }).toString();
 
     axios
-      .post(`https://connect.dlwalt.com/api/v1/notification?${params}`)
+      .post(`https://connect.dwalt.net/api/v1/notification?${params}`)
       .then((r) => {
         console.log(r.data);
       });

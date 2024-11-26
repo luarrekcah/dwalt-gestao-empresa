@@ -9,7 +9,7 @@ const express = require("express"),
   RateLimit = require("express-rate-limit"),
   fs = require("fs");
 
-  
+
 const morgan = require('morgan');
 const defaultData = require("./middlewares/defaultData.js");
 
@@ -64,7 +64,7 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   res.locals.currentPage = req.originalUrl.replace(/\//g, '');
   next();
 });
@@ -78,6 +78,7 @@ process.on("unhandledRejection", (reason) => {
 require("./routes")(app);
 require("./services/inverters");
 require("./services/notifications");
+require("./crons")
 
 const server = app.listen(port, function () {
   console.log(`[CONNECTION INFO] Porta: ${server.address().port}`);

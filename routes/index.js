@@ -104,7 +104,7 @@ router.post(
         <p>IP: ${ip}</p>
         <p>HORÁRIO: ${new Date()}</p>
         <p>NAVEGADOR: ${browser}</p>
-        <p>Não foi você? <a href="https://connect.dlwalt.com/esqueciasenha">troque sua senha<a></p>
+        <p>Não foi você? <a href="https://connect.dwalt.net/esqueciasenha">troque sua senha<a></p>
         `,
       });
     } else {
@@ -114,7 +114,7 @@ router.post(
         <p>IP: ${ip}</p>
         <p>HORÁRIO: ${new Date()}</p>
         <p>NAVEGADOR: ${browser}</p>
-        <p>Não foi você? <a href="https://connect.dlwalt.com/esqueciasenha">troque sua senha<a></p>
+        <p>Não foi você? <a href="https://connect.dwalt.net/esqueciasenha">troque sua senha<a></p>
         `,
       });
     }
