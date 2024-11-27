@@ -56,7 +56,7 @@
                       </div>
                     </div>
 
-               
+
 
 
                     <div class="row gx-3 mb-3">
@@ -305,22 +305,58 @@
           }
         });
 
+        function validateCPF(cpf) {
+          cpf = cpf.replace(/\D/g, ''); // Remove todos os caracteres não numéricos
+          if (cpf.length !== 11 || /^(\d)\1+$/.test(cpf)) {
+            return false; // Verifica se o CPF tem 11 dígitos ou é uma sequência repetida
+          }
+
+          let sum = 0;
+          for (let i = 0; i < 9; i++) {
+            sum += parseInt(cpf.charAt(i)) * (10 - i);
+          }
+
+          let remainder = (sum * 10) % 11;
+          if (remainder === 10 || remainder === 11) remainder = 0;
+          if (remainder !== parseInt(cpf.charAt(9))) return false;
+
+          sum = 0;
+          for (let i = 0; i < 10; i++) {
+            sum += parseInt(cpf.charAt(i)) * (11 - i);
+          }
+
+          remainder = (sum * 10) % 11;
+          if (remainder === 10 || remainder === 11) remainder = 0;
+          return remainder === parseInt(cpf.charAt(10));
+        }
+
+
         function userAlreadyExists() {
-          let cpf_cnpj,
-            choose;
+          let cpf_cnpj, choose;
 
           const cpf = document.getElementById('cpf').value;
           const cnpj = document.getElementById('cnpj').value;
 
           if (cpf === '') {
             cpf_cnpj = cnpj.replace(/\D/g, '');
-            choose = 'cnpj'
+            choose = 'cnpj';
           } else {
             cpf_cnpj = cpf.replace(/\D/g, '');
-            choose = 'cpf'
+            choose = 'cpf';
+
+            // Validação do CPF
+            if (!validateCPF(cpf_cnpj)) {
+              document.getElementById('warnCpf').innerText = 'CPF inválido!';
+              document.getElementById('submitCpf').setAttribute('disabled', '');
+              return; // Sai da função se o CPF for inválido
+            } else {
+              document.getElementById('warnCpf').innerText = '';
+              document.getElementById('submitCpf').removeAttribute('disabled');
+            }
           }
 
-          axios.get(`/dashboard/clientes/checkExist/${cpf_cnpj}`)
+          axios
+            .get(`/dashboard/clientes/checkExist/${cpf_cnpj}`)
             .then((response) => {
               const { data } = response;
               console.log(data);
