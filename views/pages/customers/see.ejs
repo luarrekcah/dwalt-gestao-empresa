@@ -31,13 +31,6 @@
                           </p>
                         </div>
                         <div class="col-md-3">
-                          <b>RG</b>
-                          <p>
-                            <%-!customer.rg || customer.rg==='' ? '<b style="color: red;">Não provido</b>' : `${customer.rg}` %>
-
-                          </p>
-                        </div>
-                        <div class="col-md-3">
                           <b>Data de Nascimento</b>
                           <p>
                             <% if(!customer.dataNasc || customer.dataNasc==='' ) { %>
@@ -63,14 +56,6 @@
                         </div>
 
                         <div class="col-md-3">
-                          <b>Nome da Mãe</b>
-                          <p>
-                            <%-!customer.nomeMae || customer.nomeMae==='' ? '<b style="color: red;">Não provido</b>' : `${customer.nomeMae}`
-                              %>
-                          </p>
-                        </div>
-
-                        <div class="col-md-3">
                           <b>E-mail</b>
                           <p>
                             <%-!customer.email || customer.email ==='' ? '<b style="color: red;">Não provido</b>' : `${customer.email}` %>
@@ -89,43 +74,6 @@
                           <p>
                             <%-customer.endCompleto==='' ? '<b style="color: red;">Não provido</b>' :
                               `${customer.endCompleto}` %>
-                          </p>
-                        </div>
-                        <div class="col-md-3">
-                          <b>Profissão</b>
-                          <p>
-                            <%-!customer.profissao || customer.profissao==='' ? '<b style="color: red;">Não provido</b>' :
-                              `${customer.profissao}` %>
-                          </p>
-                        </div>
-                        <div class="col-md-3">
-                          <b>Ocupação</b>
-                          <p>
-                            <%-!customer.ocupacao || customer.ocupacao==='' ? '<b style="color: red;">Não provido</b>' :
-                              `${customer.ocupacao}` %>
-                          </p>
-                        </div>
-                        <div class="col-md-3">
-                          <b>Renda</b>
-                          <p>
-                            <%-!customer.renda || customer.renda==='' ? '<b style="color: red;">Não provido</b>' : `${customer.renda}` %>
-                          </p>
-                        </div>
-                        <div class="col-md-3">
-                          <b>Patrimônio</b>
-                          <p>
-                            <%-!customer.patrimonio || customer.patrimonio==='' ? '<b style="color: red;">Não provido</b>' :
-                              `${customer.patrimonio}` %>
-                          </p>
-                        </div>
-                        <div class="col-md-3">
-                          <b>Atuando há</b>
-                          <p>
-                            <% if(!customer.anos || customer.anos==='' && !customer.meses || customer.meses==='' ) { %>
-                              <b style="color: red;">Não provido</b>
-                              <% } else { %>
-                                <%=customer.anos%> anos e <%=customer.meses%> meses.
-                                    <%}%>
                           </p>
                         </div>
                       </div>
