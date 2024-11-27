@@ -11,11 +11,26 @@
     <%- include("../pages/components/modal/notify.ejs") %>
 
       <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-      <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
       <script src="/js/pwa.js"></script>
       <script src="/js/status.js"></script>
-      <%if(message) {%>
+      <% if (message) { %>
         <script>
-          swal("<%=message.title%>", "<%=message.description%>", "<%=message.type%>");
+          Swal.fire({
+            title: "<%= message.title %>",
+            html: `<p><%= message.description %></p>
+                   <% if (message.buttons) { %>
+                     <% message.buttons.forEach(function(button) { %>
+                       <a href="<%= button.link %>" class="swal2-confirm swal2-styled" 
+                          style="margin-right: 10px;">
+                          <%= button.text %>
+                       </a>
+                     <% }); %>
+                   <% } %>`,
+            icon: "<%= message.type %>",
+            showCancelButton: false, 
+            // showConfirmButton: false,
+          });
         </script>
-        <%}%>
+        <% } %>
+        

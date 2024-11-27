@@ -28,10 +28,30 @@ router.get("/", async (req, res, next) => {
   const notifications = await getAllItems({
     path: `gestaoempresa/business/${req.user.key}/notifications`,
   });
+
+  if (req.query.message) {
+    switch (req.query.message.toLowerCase()) {
+      case "registrado":
+        message = {
+          type: "success",
+          title: "Cliente Registrado!",
+          description:
+            "Deseja criar um projeto para o cliente?",
+            buttons: [
+              {text: "Adicionar Projeto", link: "/dashboard/projetos/adicionar"}
+            ]
+        };
+        break;
+    }
+  } else {
+    message = null;
+  }
+
+
   const data = {
     user,
     customers,
-    message: null,
+    message,
     currentPage: res.locals.currentPage,
     notifications,
   };
