@@ -154,20 +154,14 @@
                             </p>
                           </div>
 
-
-                          <div class="col-md-3">
-                            <b>Renda</b>
-                            <p>
-                              <%-!customer.renda || customer.renda==='' ? '<b style="color: red;">Não provido</b>' : `${customer.renda}` %>
-                            </p>
-                          </div>
-                          <div class="col-md-3">
-                            <b>Patrimônio</b>
-                            <p>
-                              <%- !customer.patrimonio || customer.patrimonio==='' ? '<b style="color: red;">Não provido</b>' :
-                                `${customer.patrimonio}` %>
-                            </p>
-                          </div>
+                          <% if(customer.street) { %>
+                            <div class="col-md-3">
+                              <b>Endereço Completo</b>
+                              <p>
+                                <%= `${customer.street}, ${customer.neighborhood}, ${customer.number}, ${customer.complement} - ${customer.city}, ${customer.state}` %>
+                              </p>
+                            </div>
+                            <% } %>
 
                           <div class="col-md-3">
                             <b>Atividade</b>

@@ -9,231 +9,201 @@
               <div class="container-fluid">
                 <h1 class="h3 mb-2 text-gray-800">Editando <%=customer.nomeComp || customer.nomeFantasia%>
                 </h1>
-                <% if(customer.type==='pf' ) { %>
-                  <form method="POST">
+
+
+                <form method="POST">
+
+                  <div id="campos-comuns">
                     <b class="mb-4">Dados Básicos</b>
-                    <!-- Form Row-->
+
+                    <div class="row gx-3 mb-3">
+
+                      <div class="col-md-6">
+                        <label class="small mb-1" for="email">E-mail <b style="color: red">*</b></label>
+                        <input name="email" class="form-control" id="email" type="text" placeholder="fulano@gmail.com"
+                        value="<%=customer.email || ''%>"  required>
+                      </div>
+
+                      <div class="col-md-6">
+                        <label class="small mb-1" for="celular">Celular <b style="color: red">*</b></label>
+                        <input name="celular" class="form-control" id="celular" type="text"
+                          placeholder="(00) 0.0000-0000" value="<%=customer.celular || ''%>" required>
+                      </div>
+                    </div>
+                  </div>
+
+                  <% if(customer.type==='pf' ) { %>
+
+                    <b class="mb-4">Dados Pessoa Física</b>
                     <div class="row gx-3 mb-3">
                       <div class="col-md-6">
                         <label class="small mb-1" for="nomeComp">Nome Completo <b style="color: red">*</b></label>
-                        <input name="nomeComp" value="<%=customer.nomeComp || ''%>" class="form-control" id="nomeComp"
-                          type="text" placeholder="Nome completo" required>
+                        <input name="nomeComp" class="form-control" id="nomeComp" type="text"
+                          placeholder="Nome completo" value="<%=customer.nomeComp || ''%>" required>
                       </div>
-                      <!-- Form Group (first name)-->
+
                       <div class="col-md-6">
                         <label class="small mb-1" for="cpf">CPF <b style="color: red">*</b></label>
-                        <input name="cpf" value="<%=customer.cpf || ''%>" class="form-control" id="cpf" type="text"
-                          placeholder="000.000.000-00" required>
+                        <input name="cpf" onblur="userAlreadyExists()" class="form-control" id="cpf" type="text"
+                          placeholder="000.000.000-00" value="<%=customer.cpf || ''%>" required>
+                        <b style="color: red" id="warnCpf"></b>
                       </div>
-                      <!-- Form Group (last name)-->
+
                       <div class="col-md-6">
                         <label class="small mb-1" for="dataNasc">Data de Nascimento <b style="color: red">*</b></label>
-                        <input name="dataNasc" value="<%=customer.dataNasc || ''%>" class="form-control" id="dataNasc"
-                          type="date" required>
+                        <input name="dataNasc" class="form-control" id="dataNasc" type="date" value="<%=customer.dataNasc || ''%>" required>
                       </div>
                     </div>
 
                     <div class="row gx-3 mb-3">
-                      <!-- Form Group (first name)-->
-                      <div class="col-md-6">
-                        <label class="small mb-1" for="email">E-mail <b style="color: red">*</b></label>
-                        <input name="email" value="<%=customer.email || ''%>" class="form-control" id="email"
-                          type="text" placeholder="fulano@gmail.com" required>
-                      </div>
-                      <!-- Form Group (last name)-->
-                      <div class="col-md-6">
-                        <label class="small mb-1" for="celular">Celular <b style="color: red">*</b></label>
-                        <input name="celular" value="<%=customer.celular || ''%>" class="form-control" id="celular"
-                          type="text" placeholder="(00) 0.0000-0000" required>
-                      </div>
-                    </div>
-
-                    <div class="row gx-3 mb-3">
-                      <div class="col-md-6">
-                        <div class="form-check">
-                          <input class="form-check-input" type="radio" name="sexo" id="flexRadioDefault1"
-                            value="masculino" <%-customer.sexo && customer.sexo.toLowerCase()==='masculino' ? "checked"
-                            : '' %>>
-                          <label class="form-check-label" for="flexRadioDefault1">
-                            Masculino
-                          </label>
-                        </div>
-                        <div class="form-check">
-                          <input class="form-check-input" type="radio" name="sexo" id="flexRadioDefault2"
-                            value="feminino" <%-customer.sexo && customer.sexo.toLowerCase()==='feminino' ? "checked"
-                            : '' %>>
-                          <label class="form-check-label" for="flexRadioDefault2">
-                            Feminino
-                          </label>
-                        </div>
-                      </div>
-
 
                       <div class="col-md-6">
-                        <div class="form-check">
-                          <input class="form-check-input" type="radio" name="estadoCivil" id="flexRadioDefault1"
-                            value="casado" <%-customer.estadoCivil && customer.estadoCivil.toLowerCase()==='casado'
-                            ? "checked" : '' %>>
-                          <label class="form-check-label" for="flexRadioDefault1">
-                            Casado(a)
-                          </label>
-                        </div>
-                        <div class="form-check">
-                          <input class="form-check-input" type="radio" name="estadoCivil" id="flexRadioDefault2"
-                            value="solteiro" <%-customer.estadoCivil && customer.estadoCivil.toLowerCase()==='solteiro'
-                            ? "checked" : '' %>>
-                          <label class="form-check-label" for="flexRadioDefault2">
-                            Solteiro(a)
-                          </label>
-                        </div>
-                      </div>
-                    </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="sexo" id="flexRadioDefault1" value="masculino"
+                        <%-customer.sexo && customer.sexo.toLowerCase()==='masculino' ? "checked" : '' %>>
+                    <label class="form-check-label" for="flexRadioDefault1">
+                        Masculino
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="sexo" id="flexRadioDefault2" value="feminino"
+                        <%-customer.sexo && customer.sexo.toLowerCase()==='feminino' ? "checked" : '' %>>
+                    <label class="form-check-label" for="flexRadioDefault2">
+                        Feminino
+                    </label>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="form-check">
+                  <input class="form-check-input" type="radio" name="estadoCivil" id="flexRadioDefault1"
+                      value="casado" <%-customer.estadoCivil && customer.estadoCivil.toLowerCase()==='casado'
+                      ? "checked" : '' %>>
+                  <label class="form-check-label" for="flexRadioDefault1">
+                      Casado(a)
+                  </label>
+              </div>
+              <div class="form-check">
+                  <input class="form-check-input" type="radio" name="estadoCivil" id="flexRadioDefault2"
+                      value="solteiro" <%-customer.estadoCivil && customer.estadoCivil.toLowerCase()==='solteiro'
+                      ? "checked" : '' %>>
+                  <label class="form-check-label" for="flexRadioDefault2">
+                      Solteiro(a)
+                  </label>
+              </div>
+          </div>
 
 
-                    <div class="row gx-3 mb-3">
-
-                      <div class="col-md-6">
-                        <label class="small mb-1" for="zipcode">CEP <b style="color: red">*</b></label>
-                        <input name="zipcode" class="form-control" id="zipcode" type="text" placeholder="CEP"
-                          value="<%=customer.zipcode || ''%>" required>
-                        <small style="color:red">Preencha o CEP para autocompletar os dados.</small>
-                      </div>
-
-                      <div class="col-md-6">
-                        <label class="small mb-1" for="street">Rua <b style="color: red">*</b></label>
-                        <input name="street" class="form-control" id="street" type="text" placeholder="Rua"
-                          value="<%=customer.street || customer.address || ''%>" required>
-                      </div>
-                      <div class="col-md-6">
-                        <label class="small mb-1" for="neighborhood">Bairro <b style="color: red">*</b></label>
-                        <input name="neighborhood" class="form-control" id="neighborhood" type="text"
-                          placeholder="Bairro" value="<%=customer.neighborhood || ''%>" required>
-
-                      </div>
-                      <div class="col-md-6">
-
-                        <label class="small mb-1" for="number">Número <b style="color: red">*</b></label>
-                        <input name="number" class="form-control" id="number" type="text" placeholder="Número"
-                          value="<%=customer.number || ''%>" required>
-                      </div>
-                      <div class="col-md-6">
-
-                        <label class="small mb-1" for="complement">Complemento</label>
-                        <input name="complement" class="form-control" id="complement" type="text"
-                          placeholder="Complemento" value="<%=customer.complement || ''%>">
-                      </div>
-                      <div class="col-md-6">
-                        <label class="small mb-1" for="city">Cidade <b style="color: red">*</b></label>
-                        <input name="city" class="form-control" id="city" type="text" placeholder="Cidade"
-                          value="<%=customer.city || ''%>" required>
-                      </div>
-
-                      <div class="col-md-6">
-                        <label class="small mb-1" for="state">Estado <b style="color: red">*</b></label>
-                        <input name="state" class="form-control" id="state" type="text" placeholder="Estado"
-                          value="<%=customer.state || ''%>" required>
-                      </div>
 
                     </div>
 
-                    <b class="mb-4">Configuração de login</b>
-
-                    <div class="row gx-3 mb-3">
-                      <!-- Form Group (first name)-->
-                      <div class="col-md-6">
-                        <label class="small mb-1" for="password">Senha</label>
-                        <input name="password" class="form-control" id="password" type="text"
-                          value="<%=customer.password%>">
-                      </div>
-                    </div>
+                    
+                    <% } %>
 
 
-                    <div class="row gx-3 mb-3" style="display: none;">
-                      <div class="col-md-6">
-                        <input name="business" class="form-control" type="text" value="<%=user.key%>" required
-                          autocomplete="off" />
-                      </div>
-                    </div>
-                    <!-- Save changes button-->
-                    <button class="btn btn-primary" style="width: 100%;" type="submit">Atualizar
-                      Cliente</button>
-                  </form>
-                  <% } else {%>
-
-                    <form method="POST">
-
-                      <input name="type" id="type" value="pj" type="text" style="display: none">
+                    <% if(customer.type==='pj' ) { %>
+                      <b class="mb-4">Dados Pessoa Jurídica</b>
                       <div class="row gx-3 mb-3">
                         <div class="col-md-6">
                           <label class="small mb-1" for="cnpj">CNPJ <b style="color: red">*</b></label>
-                          <input name="cnpj" class="form-control" id="cnpj" type="text" placeholder="00.000.000/0000-00"
-                            value="<%=customer.cnpj%>" required>
+                          <input name="cnpj" onblur="getCnpj()" class="form-control" id="cnpj" type="text"
+                            placeholder="00.000.000/0000-00" value="<%=customer.cnpj%>" required>
+                          <b style="color: red" id="warnCnpj"></b>
                         </div>
                         <div class="col-md-6">
                           <label class="small mb-1" for="nomeFantasia">Nome Fantasia <b style="color: red">*</b></label>
                           <input name="nomeFantasia" class="form-control" id="nomeFantasia" type="text"
-                            placeholder="Nome Fantasia" value="<%=customer.nomeFantasia%>" required>
+                            placeholder="Nome Fantasia" value="<%= customer.nomeFantasia %>" required>
                         </div>
                       </div>
-                      <div class="row gx-3 mb-3">
-
-                        <div class="col-md-6">
-                          <label class="small mb-1" for="email">E-mail <b style="color: red">*</b></label>
-                          <input name="email" class="form-control" id="emailPJ" type="text"
-                            placeholder="fulano@gmail.com" value="<%=customer.email%>" required>
-                        </div>
-
-                        <div class="col-md-6">
-                          <label class="small mb-1" for="celular">Celular <b style="color: red">*</b></label>
-                          <input name="celular" class="form-control" id="celularPJ" type="text"
-                            value="<%=customer.celular%>" placeholder="(00) 0.0000-0000" required>
-                        </div>
-                      </div>
-
-
                       <div class="row gx-3 mb-3">
 
                         <div class="col-md-6">
                           <label class="small mb-1" for="abertura">Abertura</label>
-                          <input name="abertura" class="form-control" id="aberturaPJ" type="date"
-                            value="<%=customer.abertura%>">
+                          <input name="abertura" class="form-control" id="aberturaPJ" value="<%=customer.abertura%>" type="date">
                         </div>
 
                         <div class="col-md-6">
                           <label class="small mb-1" for="atividade">Atividade Principal</label>
-                          <input name="atividade" class="form-control" id="atividadePJ" value="<%=customer.atividade%>"
-                            type="text">
+                          <input name="atividade" class="form-control" id="atividadePJ" value="<%=customer.atividade%>" type="text">
                         </div>
 
                       </div>
 
-                      <div class="mb-3">
-                        <label class="small mb-1" for="enderecoPJ">Endereço Completo <b style="color: red">*</b></label>
-                        <input name="endCompleto" class="form-control" id="enderecoPJ" type="text"
-                          placeholder="Rua, bairro, número, complemento - Cidade / Estado - CEP"
-                          value="<%=customer.endCompleto%>" required>
-                      </div>
-                      <b class="mb-4">Configuração de login</b>
-                      <div class="row gx-3 mb-3">
 
-                        <div class="col-md-6">
-                          <label class="small mb-1" for="password">Senha</label>
-                          <input name="password" class="form-control" id="password" type="text"
-                            value="<%=customer.password%>">
+                      <% } %>
+
+                        <b class="mb-4">Endereço</b>
+
+                        <div class="row gx-3 mb-3">
+
+                          <div class="col-md-6">
+                              <label class="small mb-1" for="zipcode">CEP <b style="color: red">*</b></label>
+                              <input name="zipcode" class="form-control" id="zipcode" type="text" placeholder="CEP"
+                                  value="<%=customer.zipcode || ''%>" required>
+                              <small style="color:red">Preencha o CEP para autocompletar os dados.</small>
+                          </div>
+              
+                          <div class="col-md-6">
+                              <label class="small mb-1" for="street">Rua <b style="color: red">*</b></label>
+                              <input name="street" class="form-control" id="street" type="text" placeholder="Rua"
+                                  value="<%=customer.street || customer.address || ''%>" required>
+                          </div>
+                          <div class="col-md-6">
+                              <label class="small mb-1" for="neighborhood">Bairro <b style="color: red">*</b></label>
+                              <input name="neighborhood" class="form-control" id="neighborhood" type="text" placeholder="Bairro"
+                                  value="<%=customer.neighborhood || ''%>" required>
+              
+                          </div>
+                          <div class="col-md-6">
+              
+                              <label class="small mb-1" for="number">Número <b style="color: red">*</b></label>
+                              <input name="number" class="form-control" id="number" type="text" placeholder="Número"
+                                  value="<%=customer.number || ''%>" required>
+                          </div>
+                          <div class="col-md-6">
+              
+                              <label class="small mb-1" for="complement">Complemento</label>
+                              <input name="complement" class="form-control" id="complement" type="text" placeholder="Complemento"
+                                  value="<%=customer.complement || ''%>">
+                          </div>
+                          <div class="col-md-6">
+                              <label class="small mb-1" for="city">Cidade <b style="color: red">*</b></label>
+                              <input name="city" class="form-control" id="city" type="text" placeholder="Cidade"
+                                  value="<%=customer.city || ''%>" required>
+                          </div>
+              
+                          <div class="col-md-6">
+                              <label class="small mb-1" for="state">Estado <b style="color: red">*</b></label>
+                              <input name="state" class="form-control" id="state" type="text" placeholder="Estado"
+                                  value="<%=customer.state || ''%>" required>
+                          </div>
+              
+                      </div>
+
+                        <b class="mb-4">Configuração de login</b>
+                        <div class="row gx-3 mb-3">
+
+                          <div class="col-md-6">
+                            <label class="small mb-1" for="password">Senha</label>
+                            <input name="password" class="form-control" id="password" type="text"
+                              value="<%=customer.password%>">
+                          </div>
                         </div>
-                      </div>
-                      <div class="row gx-3 mb-3" style="display: none;">
-                        <div class="col-md-6">
-                          <input name="business" class="form-control" type="text" value="<%=user.key%>" required
-                            autocomplete="off" />
+                        <div class="row gx-3 mb-3" style="display: none;">
+                          <div class="col-md-6">
+                            <input name="business" class="form-control" type="text" value="<%=user.key%>" required
+                              autocomplete="off" />
+                          </div>
                         </div>
-                      </div>
 
-                      <button class="btn btn-primary" style="width: 100%;" type="submit">Atualizar
-                        Cliente</button>
-                    </form>
+                        <button class="btn btn-primary w-100" type="submit" id="submitCustomer">Atualizar
+                          Cliente</button>
 
-                    <% }%>
+
+
+
+                </form>
 
               </div>
           </div>

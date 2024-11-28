@@ -8,19 +8,39 @@
             <%- include("../../partials/topbar.ejs") %>
               <div class="container-fluid">
                 <h1 class="h3 mb-2 text-gray-800">Novo Cliente</h1>
-                <p class="mb-4">Registrar um cliente possibilita acesso ao app connect e para criar projetos.
+                <p class="mb-4">
+                  Registrar um cliente possibilita acesso ao app connect e para criar projetos.
                 </p>
-                <select id="selectTipoCliente" class="form-control" style="margin-bottom: 20px" required="">
-                  <option value="" selected>Selecione o tipo de cliente</option>
-                  <option value="pf">Pessoa Física</option>
-                  <option value="pj">Pessoa Jurídica</option>
-                </select>
 
-                <div id="pf" style="display: none">
-                  <form method="POST">
+                <form method="POST">
+                  <select id="selectTipoCliente" class="form-control mb-3" name="type" required>
+                    <option value="" selected>Selecione o tipo de cliente</option>
+                    <option value="pf">Pessoa Física</option>
+                    <option value="pj">Pessoa Jurídica</option>
+                  </select>
+
+                  <div id="campos-comuns">
                     <b class="mb-4">Dados Básicos</b>
 
-                    <input name="type" id="type" value="pf" type="text" style="display: none">
+                    <div class="row gx-3 mb-3">
+
+                      <div class="col-md-6">
+                        <label class="small mb-1" for="email">E-mail <b style="color: red">*</b></label>
+                        <input name="email" class="form-control" id="email" type="text" placeholder="fulano@gmail.com"
+                          required>
+                      </div>
+
+                      <div class="col-md-6">
+                        <label class="small mb-1" for="celular">Celular <b style="color: red">*</b></label>
+                        <input name="celular" class="form-control" id="celular" type="text"
+                          placeholder="(00) 0.0000-0000" required>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div id="campos-pf" style="display: none;">
+
+                    <b class="mb-4">Dados Pessoa Física</b>
                     <div class="row gx-3 mb-3">
                       <div class="col-md-6">
                         <label class="small mb-1" for="nomeComp">Nome Completo <b style="color: red">*</b></label>
@@ -40,25 +60,6 @@
                         <input name="dataNasc" class="form-control" id="dataNasc" type="date" required>
                       </div>
                     </div>
-
-                    <div class="row gx-3 mb-3">
-
-                      <div class="col-md-6">
-                        <label class="small mb-1" for="email">E-mail <b style="color: red">*</b></label>
-                        <input name="email" class="form-control" id="email" type="text" placeholder="fulano@gmail.com"
-                          required>
-                      </div>
-
-                      <div class="col-md-6">
-                        <label class="small mb-1" for="celular">Celular <b style="color: red">*</b></label>
-                        <input name="celular" class="form-control" id="celular" type="text"
-                          placeholder="(00) 0.0000-0000" required>
-                      </div>
-                    </div>
-
-
-
-
                     <div class="row gx-3 mb-3">
                       <div class="col-md-6">
                         <div class="form-check">
@@ -77,7 +78,6 @@
                         </div>
                       </div>
 
-
                       <div class="col-md-6">
                         <div class="form-check">
                           <input class="form-check-input" type="radio" name="estadoCivil" id="flexRadioDefault1"
@@ -95,76 +95,10 @@
                         </div>
                       </div>
                     </div>
+                  </div>
 
-
-
-                    <div class="row gx-3 mb-3">
-
-                      <div class="col-md-6">
-                        <label class="small mb-1" for="zipcode">CEP <b style="color: red">*</b></label>
-                        <input name="zipcode" class="form-control" id="zipcode" type="text" placeholder="CEP" required>
-                        <small style="color:red">Preencha o CEP para autocompletar os dados.</small>
-                      </div>
-
-                      <div class="col-md-6">
-                        <label class="small mb-1" for="street">Rua <b style="color: red">*</b></label>
-                        <input name="street" class="form-control" id="street" type="text" placeholder="Rua" required>
-                      </div>
-                      <div class="col-md-6">
-                        <label class="small mb-1" for="neighborhood">Bairro <b style="color: red">*</b></label>
-                        <input name="neighborhood" class="form-control" id="neighborhood" type="text"
-                          placeholder="Bairro" required>
-
-                      </div>
-                      <div class="col-md-6">
-
-                        <label class="small mb-1" for="number">Número <b style="color: red">*</b></label>
-                        <input name="number" class="form-control" id="number" type="text" placeholder="Número" required>
-                      </div>
-                      <div class="col-md-6">
-
-                        <label class="small mb-1" for="complement">Complemento</label>
-                        <input name="complement" class="form-control" id="complement" type="text"
-                          placeholder="Complemento">
-                      </div>
-                      <div class="col-md-6">
-                        <label class="small mb-1" for="city">Cidade <b style="color: red">*</b></label>
-                        <input name="city" class="form-control" id="city" type="text" placeholder="Cidade" required>
-                      </div>
-
-                      <div class="col-md-6">
-                        <label class="small mb-1" for="state">Estado <b style="color: red">*</b></label>
-                        <input name="state" class="form-control" id="state" type="text" placeholder="Estado" required>
-                      </div>
-
-                    </div>
-
-                    <b class="mb-4">Configuração de login</b>
-                    <div class="row gx-3 mb-3">
-
-                      <div class="col-md-6">
-                        <label class="small mb-1" for="password">Senha</label>
-                        <input name="password" class="form-control" id="password" type="text"
-                          value="<%=config.users ? config.users.passCommon : ''%>">
-                      </div>
-                    </div>
-                    <div class="row gx-3 mb-3" style="display: none;">
-                      <div class="col-md-6">
-                        <input name="business" class="form-control" type="text" value="<%=user.key%>" required
-                          autocomplete="off" />
-                      </div>
-                    </div>
-
-                    <button class="btn btn-primary" style="width: 100%;" type="submit" id="submitCpf" disabled>Registrar
-                      Cliente</button>
-                  </form>
-                </div>
-                <!--CLIENTE PJ-->
-                <div id="pj" style="display: none">
-                  <form method="POST">
-                    <b class="mb-4">Dados Básicos</b>
-
-                    <input name="type" id="type" value="pj" type="text" style="display: none">
+                  <div id="campos-pj" style="display: none;">
+                    <b class="mb-4">Dados Pessoa Jurídica</b>
                     <div class="row gx-3 mb-3">
                       <div class="col-md-6">
                         <label class="small mb-1" for="cnpj">CNPJ <b style="color: red">*</b></label>
@@ -181,22 +115,6 @@
                     <div class="row gx-3 mb-3">
 
                       <div class="col-md-6">
-                        <label class="small mb-1" for="email">E-mail <b style="color: red">*</b></label>
-                        <input name="email" class="form-control" id="emailPJ" type="text" placeholder="fulano@gmail.com"
-                          required>
-                      </div>
-
-                      <div class="col-md-6">
-                        <label class="small mb-1" for="celular">Celular <b style="color: red">*</b></label>
-                        <input name="celular" class="form-control" id="celularPJ" type="text"
-                          placeholder="(00) 0.0000-0000" required>
-                      </div>
-                    </div>
-
-
-                    <div class="row gx-3 mb-3">
-
-                      <div class="col-md-6">
                         <label class="small mb-1" for="abertura">Abertura</label>
                         <input name="abertura" class="form-control" id="aberturaPJ" type="date">
                       </div>
@@ -207,71 +125,72 @@
                       </div>
 
                     </div>
+                  </div>
 
-                    <div class="row gx-3 mb-3">
+                  <b class="mb-4">Endereço</b>
 
-                      <div class="col-md-6">
-                        <label class="small mb-1" for="zipcode">CEP <b style="color: red">*</b></label>
-                        <input name="zipcode" class="form-control" id="zipcode" type="text" placeholder="CEP" required>
-                        <small style="color:red">Preencha o CEP para autocompletar os dados.</small>
-                      </div>
+                  <div class="row gx-3 mb-3">
 
-                      <div class="col-md-6">
-                        <label class="small mb-1" for="street">Rua <b style="color: red">*</b></label>
-                        <input name="street" class="form-control" id="street" type="text" placeholder="Rua" required>
-                      </div>
-                      <div class="col-md-6">
-                        <label class="small mb-1" for="neighborhood">Bairro <b style="color: red">*</b></label>
-                        <input name="neighborhood" class="form-control" id="neighborhood" type="text"
-                          placeholder="Bairro" required>
-
-                      </div>
-                      <div class="col-md-6">
-
-                        <label class="small mb-1" for="number">Número <b style="color: red">*</b></label>
-                        <input name="number" class="form-control" id="number" type="text" placeholder="Número" required>
-                      </div>
-                      <div class="col-md-6">
-
-                        <label class="small mb-1" for="complement">Complemento</label>
-                        <input name="complement" class="form-control" id="complement" type="text"
-                          placeholder="Complemento">
-                      </div>
-                      <div class="col-md-6">
-                        <label class="small mb-1" for="city">Cidade <b style="color: red">*</b></label>
-                        <input name="city" class="form-control" id="city" type="text" placeholder="Cidade" required>
-                      </div>
-
-                      <div class="col-md-6">
-                        <label class="small mb-1" for="state">Estado <b style="color: red">*</b></label>
-                        <input name="state" class="form-control" id="state" type="text" placeholder="Estado" required>
-                      </div>
-
+                    <div class="col-md-6">
+                      <label class="small mb-1" for="zipcode">CEP <b style="color: red">*</b></label>
+                      <input name="zipcode" class="form-control" id="zipcode" type="text" placeholder="CEP" required>
+                      <small style="color:red">Preencha o CEP para autocompletar os dados.</small>
                     </div>
 
-
-                    <b class="mb-4">Configuração de login</b>
-                    <div class="row gx-3 mb-3">
-
-                      <div class="col-md-6">
-                        <label class="small mb-1" for="password">Senha</label>
-                        <input name="password" class="form-control" id="password" type="text"
-                          value="<%=config.users ? config.users.passCommon : ''%>">
-                      </div>
+                    <div class="col-md-6">
+                      <label class="small mb-1" for="street">Rua <b style="color: red">*</b></label>
+                      <input name="street" class="form-control" id="street" type="text" placeholder="Rua" required>
                     </div>
-                    <div class="row gx-3 mb-3" style="display: none;">
-                      <div class="col-md-6">
-                        <input name="business" class="form-control" type="text" value="<%=user.key%>" required
-                          autocomplete="off" />
-                      </div>
+                    <div class="col-md-6">
+                      <label class="small mb-1" for="neighborhood">Bairro <b style="color: red">*</b></label>
+                      <input name="neighborhood" class="form-control" id="neighborhood" type="text" placeholder="Bairro"
+                        required>
+
+                    </div>
+                    <div class="col-md-6">
+
+                      <label class="small mb-1" for="number">Número <b style="color: red">*</b></label>
+                      <input name="number" class="form-control" id="number" type="text" placeholder="Número" required>
+                    </div>
+                    <div class="col-md-6">
+
+                      <label class="small mb-1" for="complement">Complemento</label>
+                      <input name="complement" class="form-control" id="complement" type="text"
+                        placeholder="Complemento">
+                    </div>
+                    <div class="col-md-6">
+                      <label class="small mb-1" for="city">Cidade <b style="color: red">*</b></label>
+                      <input name="city" class="form-control" id="city" type="text" placeholder="Cidade" required>
                     </div>
 
-                    <button class="btn btn-primary" style="width: 100%;" type="submit" id="submitCnpj"
-                      disabled>Registrar
-                      Cliente</button>
-                  </form>
-                </div>
+                    <div class="col-md-6">
+                      <label class="small mb-1" for="state">Estado <b style="color: red">*</b></label>
+                      <input name="state" class="form-control" id="state" type="text" placeholder="Estado" required>
+                    </div>
+
+                  </div>
+
+                  <b class="mb-4">Configuração de login</b>
+                  <div class="row gx-3 mb-3">
+
+                    <div class="col-md-6">
+                      <label class="small mb-1" for="password">Senha</label>
+                      <input name="password" class="form-control" id="password" type="text"
+                        value="<%=config.users ? config.users.passCommon : ''%>">
+                    </div>
+                  </div>
+                  <div class="row gx-3 mb-3" style="display: none;">
+                    <div class="col-md-6">
+                      <input name="business" class="form-control" type="text" value="<%=user.key%>" required
+                        autocomplete="off" />
+                    </div>
+                  </div>
+
+                  <button class="btn btn-primary w-100" type="submit" id="submitCustomer" disabled>Registrar
+                    Cliente</button>
+                </form>
               </div>
+
           </div>
           <%- include("../../partials/footer.ejs") %>
         </div>
@@ -337,24 +256,63 @@
       </script>
 
       <script>
+        // Obtenha o elemento select e os contêineres de PF e PJ
         const selectTipoCliente = document.getElementById("selectTipoCliente");
-        const pfDiv = document.getElementById("pf");
-        const pjDiv = document.getElementById("pj");
+        const pfDiv = document.getElementById("campos-pf");
+        const pjDiv = document.getElementById("campos-pj");
 
+        function limparCampos(campoContainerId) {
+          const inputs = document.querySelectorAll(`#${campoContainerId} input`);
+          inputs.forEach(input => {
+            input.value = ""; // Limpa o valor do campo
+            input.checked = false; // Para campos do tipo checkbox ou radio
+          });
+        }
+
+
+        // Adicione o listener de evento
         selectTipoCliente.addEventListener("change", function () {
-          console.log(selectTipoCliente.value)
+          console.log("Valor selecionado:", selectTipoCliente.value);
           console.log("Índice selecionado:", selectTipoCliente.selectedIndex);
+
           if (selectTipoCliente.selectedIndex === 1) {
+            // Pessoa Física
             pfDiv.style.display = "block";
             pjDiv.style.display = "none";
+            // Remove o atributo "required" dos campos PJ
+            document.querySelectorAll("#campos-pj input").forEach(input => input.required = false);
+
+            // Adiciona o atributo "required" aos campos PF
+            document.querySelectorAll("#campos-pf input").forEach(input => input.required = true);
+
+
+            document.getElementById('submitCustomer').removeAttribute('disabled');
+            limparCampos("campos-pj");
           } else if (selectTipoCliente.selectedIndex === 2) {
+            // Pessoa Jurídica
             pfDiv.style.display = "none";
             pjDiv.style.display = "block";
+            document.querySelectorAll("#campos-pf input").forEach(input => input.required = false);
+
+            // Adiciona o atributo "required" aos campos PJ
+            document.querySelectorAll("#campos-pj input").forEach(input => input.required = true);
+
+
+            document.getElementById('submitCustomer').removeAttribute('disabled');
+            limparCampos("campos-pf");
           } else {
+
+            document.getElementById('submitCustomer').setAttribute('disabled', '');
+            // Nenhuma seleção
             pfDiv.style.display = "none";
             pjDiv.style.display = "none";
+            document.querySelectorAll("#campos-pf input, #campos-pj input").forEach(input => input.required = false);
+
+            limparCampos("campos-pf");
+            limparCampos("campos-pj");
           }
         });
+
 
         function validateCPF(cpf) {
           cpf = cpf.replace(/\D/g, ''); // Remove todos os caracteres não numéricos
@@ -398,11 +356,11 @@
             // Validação do CPF
             if (!validateCPF(cpf_cnpj)) {
               document.getElementById('warnCpf').innerText = 'CPF inválido!';
-              document.getElementById('submitCpf').setAttribute('disabled', '');
+              document.getElementById('submitCustomer').setAttribute('disabled', '');
               return; // Sai da função se o CPF for inválido
             } else {
               document.getElementById('warnCpf').innerText = '';
-              document.getElementById('submitCpf').removeAttribute('disabled');
+              document.getElementById('submitCustomer').removeAttribute('disabled');
             }
           }
 
@@ -415,17 +373,17 @@
               if (data.error) {
                 if (choose === 'cpf') {
                   document.getElementById('warnCpf').innerText = 'Esse cliente já existe!';
-                  document.getElementById('submitCpf').setAttribute('disabled', '');
+                  document.getElementById('submitCustomer').setAttribute('disabled', '');
                 } else {
                   document.getElementById('warnCnpj').innerText = 'Esse cliente já existe!';
-                  document.getElementById('submitCnpj').setAttribute('disabled', '');
+                  document.getElementById('submitCustomer').setAttribute('disabled', '');
                 }
               } else {
                 if (choose === 'cpf') {
-                  document.getElementById('submitCpf').removeAttribute('disabled');
+                  document.getElementById('submitCustomer').removeAttribute('disabled');
                   document.getElementById('warnCpf').innerText = '';
                 } else {
-                  document.getElementById('submitCnpj').removeAttribute('disabled');
+                  document.getElementById('submitCustomer').removeAttribute('disabled');
                   document.getElementById('warnCnpj').innerText = '';
                 }
               }
@@ -446,19 +404,30 @@
           axios.get(`/api/v1/cnpj/${cnpj}`)
             .then((response) => {
               const { data } = response;
+              console.log(data); 
+
+              document.getElementById("zipcode").value = data.cep || ''; // Preenche o CEP
+              document.getElementById("street").value = data.logradouro || ''; // Preenche a rua
+              document.getElementById("neighborhood").value = data.bairro || ''; // Preenche o bairro
+              document.getElementById("number").value = data.numero || ''; // Preenche o número
+              document.getElementById("complement").value = data.complemento || ''; // Preenche o complemento (caso exista)
+              document.getElementById("city").value = data.municipio || ''; // Preenche a cidade
+              document.getElementById("state").value = data.uf || ''; // Preenche o estado
+
+              document.getElementById("nomeFantasia").value = data.fantasia || ''; // Preenche o nome fantasia
+
               const abertura = data.abertura.split('/');
-              console.log(data);
-              document.getElementById("nomeFantasia").value = data.fantasia
-              document.getElementById("emailPJ").value = data.email
-              document.getElementById("celularPJ").value = data.telefone
-              document.getElementById("patrimonioPJ").value = data.capital_social
-              document.getElementById("aberturaPJ").value = `${abertura[2]}-${abertura[1]}-${abertura[0]}`
-              document.getElementById("enderecoPJ").value = `${data.logradouro}, ${data.numero}, ${data.bairro} - ${data.municipio}, ${data.uf} | CEP: ${data.cep}`
+              document.getElementById("aberturaPJ").value = `${abertura[2]}-${abertura[1]}-${abertura[0]}`; // Formato correto de data
+
+              document.getElementById("email").value = data.email || '';
+              document.getElementById("celular").value = data.telefone || '';
+
               document.getElementById("atividadePJ").value = `${data.atividade_principal[0].code} - ${data.atividade_principal[0].text}`
             })
             .catch((error) => {
-              console.log(error);
+              console.error("Erro ao buscar dados:", error);
             });
+
 
           userAlreadyExists();
         }
