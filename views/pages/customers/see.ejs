@@ -69,13 +69,26 @@
                               %>
                           </p>
                         </div>
+
+                        <% if(customer.endCompleto) { %>
+                          <div class="col-md-3">
+                            <b>Endereço Completo (legado)</b>
+                            <p>
+                              <%-customer.endCompleto==='' ? '<b style="color: red;">Não provido</b>' :
+                                `${customer.endCompleto}` %>
+                            </p>
+                          </div>
+                        <% } %>
+
+                        <% if(customer.street) { %>
                         <div class="col-md-3">
                           <b>Endereço Completo</b>
                           <p>
-                            <%-customer.endCompleto==='' ? '<b style="color: red;">Não provido</b>' :
-                              `${customer.endCompleto}` %>
+                            <%= `${customer.street}, ${customer.neighborhood}, ${customer.number}, ${customer.complement} - ${customer.city}, ${customer.state}` %>
                           </p>
                         </div>
+                        <% } %>
+
                       </div>
                     </div>
                   </div>
@@ -134,7 +147,7 @@
                             </p>
                           </div>
                           <div class="col-md-3">
-                            <b>Endereço Completo</b>
+                            <b>Endereço Completo (legado)</b>
                             <p>
                               <%-customer.endCompleto==='' ? '<b style="color: red;">Não provido</b>' :
                                 `${customer.endCompleto}` %>

@@ -186,6 +186,7 @@ router.get("/editar/:id", async (req, res, next) => {
 });
 
 router.post("/editar/:id", async (req, res, next) => {
+  console.log(req.body)
   updateItem({
     path: `gestaoempresa/business/${req.user.key}/customers/${req.params.id}`,
     params: req.body,

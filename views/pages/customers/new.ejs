@@ -97,11 +97,48 @@
                     </div>
 
 
-                    <div class="mb-3">
-                      <label class="small mb-1" for="endCompleto">Endereço Completo <b style="color: red">*</b></label>
-                      <input name="endCompleto" class="form-control" id="endCompleto" type="text"
-                        placeholder="Rua, bairro, número, complemento - Cidade / Estado - CEP" value="" required>
+
+                    <div class="row gx-3 mb-3">
+                      
+                      <div class="col-md-6">
+                        <label class="small mb-1" for="zipcode">CEP <b style="color: red">*</b></label>
+                        <input name="zipcode" class="form-control" id="zipcode" type="text" placeholder="CEP" required>
+                        <small style="color:red">Preencha o CEP para autocompletar os dados.</small>
+                      </div>
+
+                      <div class="col-md-6">
+                        <label class="small mb-1" for="street">Rua <b style="color: red">*</b></label>
+                        <input name="street" class="form-control" id="street" type="text" placeholder="Rua" required>
+                      </div>
+                      <div class="col-md-6">
+                        <label class="small mb-1" for="neighborhood">Bairro <b style="color: red">*</b></label>
+                        <input name="neighborhood" class="form-control" id="neighborhood" type="text"
+                          placeholder="Bairro" required>
+
+                      </div>
+                      <div class="col-md-6">
+
+                        <label class="small mb-1" for="number">Número <b style="color: red">*</b></label>
+                        <input name="number" class="form-control" id="number" type="text" placeholder="Número" required>
+                      </div>
+                      <div class="col-md-6">
+
+                        <label class="small mb-1" for="complement">Complemento</label>
+                        <input name="complement" class="form-control" id="complement" type="text"
+                          placeholder="Complemento">
+                      </div>
+                      <div class="col-md-6">
+                        <label class="small mb-1" for="city">Cidade <b style="color: red">*</b></label>
+                        <input name="city" class="form-control" id="city" type="text" placeholder="Cidade" required>
+                      </div>
+
+                      <div class="col-md-6">
+                        <label class="small mb-1" for="state">Estado <b style="color: red">*</b></label>
+                        <input name="state" class="form-control" id="state" type="text" placeholder="Estado" required>
+                      </div>
+
                     </div>
+
                     <b class="mb-4">Configuração de login</b>
                     <div class="row gx-3 mb-3">
 
@@ -165,12 +202,6 @@
                       </div>
 
                       <div class="col-md-6">
-                        <label class="small mb-1" for="patrimonio">Patrimônio</label>
-                        <input name="patrimonio" class="form-control" id="patrimonioPJ" type="text"
-                          placeholder="R$00000">
-                      </div>
-
-                      <div class="col-md-6">
                         <label class="small mb-1" for="atividade">Atividade Principal</label>
                         <input name="atividade" class="form-control" id="atividadePJ" type="text">
                       </div>
@@ -178,17 +209,47 @@
                     </div>
 
                     <div class="row gx-3 mb-3">
+                      
                       <div class="col-md-6">
-                        <label class="small mb-1" for="renda">Renda Mensal</label>
-                        <input name="renda" class="form-control" id="renda" type="text" placeholder="R$00.000">
+                        <label class="small mb-1" for="zipcode">CEP <b style="color: red">*</b></label>
+                        <input name="zipcode" class="form-control" id="zipcode" type="text" placeholder="CEP" required>
+                        <small style="color:red">Preencha o CEP para autocompletar os dados.</small>
+                      </div>
+
+                      <div class="col-md-6">
+                        <label class="small mb-1" for="street">Rua <b style="color: red">*</b></label>
+                        <input name="street" class="form-control" id="street" type="text" placeholder="Rua" required>
+                      </div>
+                      <div class="col-md-6">
+                        <label class="small mb-1" for="neighborhood">Bairro <b style="color: red">*</b></label>
+                        <input name="neighborhood" class="form-control" id="neighborhood" type="text"
+                          placeholder="Bairro" required>
+
+                      </div>
+                      <div class="col-md-6">
+
+                        <label class="small mb-1" for="number">Número <b style="color: red">*</b></label>
+                        <input name="number" class="form-control" id="number" type="text" placeholder="Número" required>
+                      </div>
+                      <div class="col-md-6">
+
+                        <label class="small mb-1" for="complement">Complemento</label>
+                        <input name="complement" class="form-control" id="complement" type="text"
+                          placeholder="Complemento">
+                      </div>
+                      <div class="col-md-6">
+                        <label class="small mb-1" for="city">Cidade <b style="color: red">*</b></label>
+                        <input name="city" class="form-control" id="city" type="text" placeholder="Cidade" required>
+                      </div>
+
+                      <div class="col-md-6">
+                        <label class="small mb-1" for="state">Estado <b style="color: red">*</b></label>
+                        <input name="state" class="form-control" id="state" type="text" placeholder="Estado" required>
                       </div>
 
                     </div>
-                    <div class="mb-3">
-                      <label class="small mb-1" for="enderecoPJ">Endereço Completo <b style="color: red">*</b></label>
-                      <input name="endCompleto" class="form-control" id="enderecoPJ" type="text"
-                        placeholder="Rua, bairro, número, complemento - Cidade / Estado - CEP" value="" required>
-                    </div>
+
+
                     <b class="mb-4">Configuração de login</b>
                     <div class="row gx-3 mb-3">
 
@@ -259,29 +320,19 @@
             showMaskOnFocus: false,
           });
 
-          $("#patrimonio").inputmask('currency', {
-            greedy: false,
-            radixPoint: ",",
-            prefix: "R$",
-            groupSeparator: ".",
-            alias: "numeric",
-            autoGroup: true,
-            digits: 2,
-            digitsOptional: false,
-            clearMaskOnLostFocus: false
-          })
+          $("#zipcode").inputmask({
+            mask: '99999-999',
+            placeholder: '_',
+            showMaskOnHover: false,
+            showMaskOnFocus: false,
+          });
 
-          $("#renda").inputmask('currency', {
-            greedy: false,
-            radixPoint: ",",
-            prefix: "R$",
-            groupSeparator: ".",
-            alias: "numeric",
-            autoGroup: true,
-            digits: 2,
-            digitsOptional: false,
-            clearMaskOnLostFocus: false
-          })
+          $("#number").inputmask({
+            mask: '9999[9]',
+            placeholder: '_',
+            showMaskOnHover: false,
+            showMaskOnFocus: false,
+          });
         })
       </script>
 
@@ -411,6 +462,48 @@
 
           userAlreadyExists();
         }
+
+
+  document.getElementById('zipcode').addEventListener('blur', async function () {
+    const cep = this.value.replace(/\D/g, ''); // Remove caracteres não numéricos
+    if (cep.length !== 8) {
+      alert('Por favor, insira um CEP válido.');
+      return;
+    }
+
+    try {
+      const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+      if (!response.ok) {
+        throw new Error('Erro na busca do CEP');
+      }
+      const data = await response.json();
+
+      if (data.erro) {
+        alert('CEP não encontrado. Preencha os campos manualmente.');
+        //liberarEdicao(true); // Libera a edição dos campos
+        return;
+      }
+
+      // Preenche os campos e desabilita para evitar edição
+      document.getElementById('street').value = data.logradouro || '';
+      document.getElementById('neighborhood').value = data.bairro || '';
+      document.getElementById('city').value = data.localidade || '';
+      document.getElementById('state').value = data.uf || '';
+
+     // liberarEdicao(false); // Impede edição nos campos preenchidos
+    } catch (error) {
+      console.error('Erro ao buscar o CEP:', error);
+      alert('Erro ao buscar o CEP. Tente novamente.');
+    }
+  });
+
+  // Libera ou bloqueia edição dos campos
+  function liberarEdicao(isEditable) {
+    const fields = ['street', 'neighborhood', 'city', 'state'];
+    fields.forEach((field) => {
+      document.getElementById(field).disabled = !isEditable && document.getElementById(field).value !== '';
+    });
+  }
 
       </script>
   </body>
