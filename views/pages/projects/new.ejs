@@ -16,8 +16,7 @@
                 </p>
                 <form method="POST">
                   <!-- Form Group (username)-->
-                  <b class="mb-4">Selecione o cliente <b
-                    style="color: red">*</b></b>
+                  <b class="mb-4">Selecione o cliente <b style="color: red">*</b></b>
                   <div class="mb-3">
                     <select class="form-control chosen-select" name='customerID' id="customerID" required>
                       <option selected>Nenhum selecionado</option>
@@ -29,8 +28,7 @@
                     </select>
                   </div>
 
-                  <b class="mb-4">Selecione o inversor <b
-                    style="color: red">*</b></b>
+                  <b class="mb-4">Selecione o inversor <b style="color: red">*</b></b>
                   <div class="mb-3">
                     <select name="brand" class="form-control" required>
                       <option selected>Nenhum selecionado</option>
@@ -62,12 +60,50 @@
 
                   </div>
 
-                  <div class="mb-3">
-                    <label class="small mb-1" for="endCompleto">Endereço da Unidade Consumidora <b
-                        style="color: red">*</b></label>
-                    <input name="endCompleto" class="form-control" id="endCompleto" type="text"
-                      placeholder="Rua, bairro, número, complemento - Cidade / Estado - CEP" value="" required>
+                  <div class="row gx-3 mb-3">
+
+                    <div class="col-md-6">
+                      <label class="small mb-1" for="zipcode">CEP <b style="color: red">*</b></label>
+                      <input name="zipcode" class="form-control" id="zipcode" type="text" placeholder="CEP" required>
+                      <small style="color:red">Preencha o CEP para autocompletar os dados.</small>
+                    </div>
+
+                    <div class="col-md-6">
+                      <label class="small mb-1" for="street">Rua <b style="color: red">*</b></label>
+                      <input name="street" class="form-control" id="street" type="text" placeholder="Rua" required>
+                    </div>
+                    <div class="col-md-6">
+                      <label class="small mb-1" for="neighborhood">Bairro <b style="color: red">*</b></label>
+                      <input name="neighborhood" class="form-control" id="neighborhood" type="text" placeholder="Bairro"
+                        required>
+
+                    </div>
+                    <div class="col-md-6">
+
+                      <label class="small mb-1" for="number">Número <b style="color: red">*</b></label>
+                      <input name="number" class="form-control" id="number" type="text" placeholder="Número" required>
+                    </div>
+                    <div class="col-md-6">
+
+                      <label class="small mb-1" for="complement">Complemento</label>
+                      <input name="complement" class="form-control" id="complement" type="text"
+                        placeholder="Complemento">
+                    </div>
+                    <div class="col-md-6">
+                      <label class="small mb-1" for="city">Cidade <b style="color: red">*</b></label>
+                      <input name="city" class="form-control" id="city" type="text" placeholder="Cidade" required>
+                    </div>
+
+                    <div class="col-md-6">
+                      <label class="small mb-1" for="state">Estado <b style="color: red">*</b></label>
+                      <input name="state" class="form-control" id="state" type="text" placeholder="Estado" required>
+                    </div>
+
                   </div>
+
+
+
+
 
                   <b class="mb-4">Dados para visualização (todos os apps)</b>
 
@@ -219,9 +255,9 @@
       <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
       <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
       <script src="/js/sb-admin-2.min.js"></script>
-      
+
       <script src="/vendor/chosen/chosen.jquery.min.js"></script>
-  
+
 
       <script type='text/javascript'
         src="https://rawgit.com/RobinHerbots/jquery.inputmask/3.x/dist/jquery.inputmask.bundle.js"></script>
@@ -243,35 +279,102 @@
       </script>
 
       <script>
-         $(".chosen-select").chosen({no_results_text: "Cliente não encontrado!"}); 
+        $(".chosen-select").chosen({ no_results_text: "Cliente não encontrado!" }); 
       </script>
 
-      
-<script>
-  function fetchEndereco(customerID) {
-    const url = '/api/v1/customer/' + customerID;
 
-    axios.get(url)
-      .then(function (response) {
-        document.getElementById('endCompleto').value = response.data.endCompleto;
-      })
-      .catch(function (error) {
-        console.error('Erro ao buscar o endereço:', error);
-      });
-  }
+      <script>
+        function fetchEndereco(customerID) {
+          const url = '/api/v1/customer/' + customerID;
 
-  $(".chosen-select").chosen();
+          axios.get(url)
+            .then(function (response) {
+              document.getElementById('zipcode').value = response.data.zipcode;
+              document.getElementById('street').value = response.data.street;
+              document.getElementById('neighborhood').value = response.data.neighborhood;
+              document.getElementById('number').value = response.data.number;
+              document.getElementById('complement').value = response.data.complement;
+              document.getElementById('city').value = response.data.city;
+              document.getElementById('state').value = response.data.state;
+            })
+            .catch(function (error) {
+              console.error('Erro ao buscar o endereço:', error);
+            });
+        }
 
-  $("#customerID").on("change", function () {
-    const customerID = this.value;
+        $(".chosen-select").chosen();
 
-    if (customerID !== 'Nenhum selecionado') {
-      fetchEndereco(customerID);
-    } else {
-      document.getElementById('endCompleto').value = '';
-    }
-  });
-</script>
+        $("#customerID").on("change", function () {
+          const customerID = this.value;
+
+          if (customerID !== 'Nenhum selecionado') {
+            fetchEndereco(customerID);
+          } else {
+            document.getElementById('endCompleto').value = '';
+          }
+        });
+
+
+        $(document).ready(function () {
+          $(":input").inputmask();
+
+          $("#zipcode").inputmask({
+            mask: '99999-999',
+            placeholder: '_',
+            showMaskOnHover: false,
+            showMaskOnFocus: false,
+          });
+
+          $("#number").inputmask({
+            mask: '9999[9]',
+            placeholder: '_',
+            showMaskOnHover: false,
+            showMaskOnFocus: false,
+          });
+        })
+
+
+        document.getElementById('zipcode').addEventListener('blur', async function () {
+          const cep = this.value.replace(/\D/g, ''); // Remove caracteres não numéricos
+          if (cep.length !== 8) {
+            alert('Por favor, insira um CEP válido.');
+            return;
+          }
+
+          try {
+            const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+            if (!response.ok) {
+              throw new Error('Erro na busca do CEP');
+            }
+            const data = await response.json();
+
+            if (data.erro) {
+              alert('CEP não encontrado. Preencha os campos manualmente.');
+              //liberarEdicao(true); // Libera a edição dos campos
+              return;
+            }
+
+            // Preenche os campos e desabilita para evitar edição
+            document.getElementById('street').value = data.logradouro || '';
+            document.getElementById('neighborhood').value = data.bairro || '';
+            document.getElementById('city').value = data.localidade || '';
+            document.getElementById('state').value = data.uf || '';
+
+            // liberarEdicao(false); // Impede edição nos campos preenchidos
+          } catch (error) {
+            console.error('Erro ao buscar o CEP:', error);
+            alert('Erro ao buscar o CEP. Tente novamente.');
+          }
+        });
+
+        // Libera ou bloqueia edição dos campos
+        function liberarEdicao(isEditable) {
+          const fields = ['street', 'neighborhood', 'city', 'state'];
+          fields.forEach((field) => {
+            document.getElementById(field).disabled = !isEditable && document.getElementById(field).value !== '';
+          });
+        }
+      </script>
 
 
   </body>

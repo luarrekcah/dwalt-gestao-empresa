@@ -1,199 +1,315 @@
 <%- include("../../partials/head.ejs") %>
 
-<body id="page-top">
-  <div id="wrapper">
-    <%- include("../../partials/sidebar.ejs") %>
-    <div id="content-wrapper" class="d-flex flex-column">
-      <div id="content">
-        <%- include("../../partials/topbar.ejs") %>
-        <div class="container-fluid">
-          <h1 class="h3 mb-2 text-gray-800">Editando <%=project.apelidoProjeto%></h1>
-          <p class="mb-4">Adicione projetos, gerencie-os pelos apps Cliente, Equipe e o site
-            atual. Seu cliente e sua Equipe
-            pode contribuir para a inserção dos dados.
-            Adicione mais dados adicionais em formato de imagem utilizando os apps. Todos da sua
-            equipe terão acesso aos projetos.
-          </p>
-          <form method="POST">
-            <!-- Form Group (username)-->
-            <b class="mb-4">Selecione o cliente</b>
-            <div class="mb-3">
-              <select class="form-control" name='customerID' id="customerID" required>
-                <option>Nenhum selecionado</option>
-                <% customers.forEach(c => { %>
-                <option value="<%=c.key%>" <%- project.customerID === c.key ? 'selected' : '' %>><%=c.data.nomeComp || c.data.nomeFantasia%> - (<%=c.data.cpf || c.data.cnpj%>)</option>
-                <% }) %>
-              </select>
-            </div>
+  <body id="page-top">
+    <div id="wrapper">
+      <%- include("../../partials/sidebar.ejs") %>
+        <div id="content-wrapper" class="d-flex flex-column">
+          <div id="content">
+            <%- include("../../partials/topbar.ejs") %>
+              <div class="container-fluid">
+                <h1 class="h3 mb-2 text-gray-800">Editando <%=project.apelidoProjeto%>
+                </h1>
+                <p class="mb-4">Adicione projetos, gerencie-os pelos apps Cliente, Equipe e o site
+                  atual. Seu cliente e sua Equipe
+                  pode contribuir para a inserção dos dados.
+                  Adicione mais dados adicionais em formato de imagem utilizando os apps. Todos da sua
+                  equipe terão acesso aos projetos.
+                </p>
+                <form method="POST">
+                  <!-- Form Group (username)-->
+                  <b class="mb-4">Selecione o cliente</b>
+                  <div class="mb-3">
+                    <select class="form-control" name='customerID' id="customerID" required>
+                      <option>Nenhum selecionado</option>
+                      <% customers.forEach(c=> { %>
+                        <option value="<%=c.key%>" <%- project.customerID===c.key ? 'selected' : '' %>>
+                          <%=c.data.nomeComp || c.data.nomeFantasia%> - (<%=c.data.cpf || c.data.cnpj%>)</option>
+                        <% }) %>
+                    </select>
+                  </div>
 
-            <b class="mb-4">Dados Básicos</b>
-            <div class="row gx-3 mb-3">
-              <div class="col-md-6">
-                <label class="small mb-1" for="username_growatt">Nome da planta no sistema da Growatt (opcional)</label>
-                <input name="username_growatt" class="form-control" id="username_growatt" value="<%=project.username_growatt%>" type="text" placeholder="Nome da planta.">
+                  <b class="mb-4">Dados Básicos</b>
+                  <div class="row gx-3 mb-3">
+                    <div class="col-md-6">
+                      <label class="small mb-1" for="username_growatt">Nome da planta no sistema da Growatt
+                        (opcional)</label>
+                      <input name="username_growatt" class="form-control" id="username_growatt"
+                        value="<%=project.username_growatt%>" type="text" placeholder="Nome da planta.">
+                    </div>
+
+                    <div class="col-md-6">
+                      <label class="small mb-1" for="cod">Código do Produto</label>
+                      <input name="cod" class="form-control" id="cod" type="text" placeholder="00000-00"
+                        value="<%=project.cod%>">
+                    </div>
+                  </div>
+
+                  <div class="row gx-3 mb-3">
+
+                    <div class="col-md-6">
+                      <label class="small mb-1" for="zipcode">CEP <b style="color: red">*</b></label>
+                      <input name="zipcode" class="form-control" id="zipcode" type="text" placeholder="CEP"
+                        value="<%=project.zipcode || ''%>" required>
+                      <small style="color:red">Preencha o CEP para autocompletar os dados.</small>
+                    </div>
+
+                    <div class="col-md-6">
+                      <label class="small mb-1" for="street">Rua <b style="color: red">*</b></label>
+                      <input name="street" class="form-control" id="street" type="text" placeholder="Rua"
+                        value="<%=project.street || project.address || ''%>" required>
+                    </div>
+                    <div class="col-md-6">
+                      <label class="small mb-1" for="neighborhood">Bairro <b style="color: red">*</b></label>
+                      <input name="neighborhood" class="form-control" id="neighborhood" type="text" placeholder="Bairro"
+                        value="<%=project.neighborhood || ''%>" required>
+
+                    </div>
+                    <div class="col-md-6">
+
+                      <label class="small mb-1" for="number">Número <b style="color: red">*</b></label>
+                      <input name="number" class="form-control" id="number" type="text" placeholder="Número"
+                        value="<%=project.number || ''%>" required>
+                    </div>
+                    <div class="col-md-6">
+
+                      <label class="small mb-1" for="complement">Complemento</label>
+                      <input name="complement" class="form-control" id="complement" type="text"
+                        placeholder="Complemento" value="<%=project.complement || ''%>">
+                    </div>
+                    <div class="col-md-6">
+                      <label class="small mb-1" for="city">Cidade <b style="color: red">*</b></label>
+                      <input name="city" class="form-control" id="city" type="text" placeholder="Cidade"
+                        value="<%=project.city || ''%>" required>
+                    </div>
+
+                    <div class="col-md-6">
+                      <label class="small mb-1" for="state">Estado <b style="color: red">*</b></label>
+                      <input name="state" class="form-control" id="state" type="text" placeholder="Estado"
+                        value="<%=project.state || ''%>" required>
+                    </div>
+
+                  </div>
+
+
+                  <b class="mb-4">Dados para visualização (todos os apps)</b>
+                  <div class="row gx-3 mb-3">
+                    <div class="col-md-6">
+                      <label class="small mb-1" for="apelidoProjeto">Identificação do
+                        Projeto</label>
+                      <input name="apelidoProjeto" class="form-control" id="apelidoProjeto" type="text"
+                        placeholder="Apelido do projeto" value="<%=project.apelidoProjeto%>" required>
+                    </div>
+                    <div class="col-md-6">
+                      <label class="small mb-1" for="category">Categoria: <b style="color: red">*</b></label>
+
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="category" id="category" value="residencial"
+                          <%-project.category.toLowerCase()==='residencial' ? "checked" : '' %>>
+                        <label class="form-check-label" for="category">
+                          Residencial
+                        </label>
+                      </div>
+
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="category" id="category" value="comercial"
+                          <%-project.category.toLowerCase()==='comercial' ? "checked" : '' %>>
+                        <label class="form-check-label" for="category">
+                          Comercial
+                        </label>
+                      </div>
+
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="category" id="category" value="industrial"
+                          <%-project.category.toLowerCase()==='industrial' ? "checked" : '' %>>
+                        <label class="form-check-label" for="category">
+                          Industrial
+                        </label>
+                      </div>
+
+                    </div>
+                    <!-- Form Group (last name)-->
+                    <div class="col-md-6">
+                      <label class="small mb-1" for="kwp">kWp do Projeto</label>
+                      <input name="kwp" class="form-control" id="kwp" type="text" placeholder="000"
+                        value="<%=project.kwp%>" required>
+                    </div>
+
+                    <div class="col-md-6">
+                      <label class="small mb-1" for="Status">Status <b style="color: red">*</b></label>
+
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="Status" id="flexRadioDefault1"
+                          value="dadosEntregue" <%-project.Status==='dadosEntregue' ? "checked" : '' %>>
+                        <label class="form-check-label" for="flexRadioDefault1">
+                          Dados entregues
+                        </label>
+                      </div>
+
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="Status" id="flexRadioDefault1"
+                          value="protocolado" <%-project.Status==='protocolado' ? "checked" : '' %>>
+                        <label class="form-check-label" for="flexRadioDefault1">
+                          Projeto Protocolado
+                        </label>
+                      </div>
+
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="Status" id="flexRadioDefault1"
+                          value="aprovado" <%-project.Status==='aprovado' ? "checked" : '' %>>
+                        <label class="form-check-label" for="flexRadioDefault1">
+                          Projeto aprovado
+                        </label>
+                      </div>
+
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="Status" id="flexRadioDefault1"
+                          value="equipamentoEntregue" <%-project.Status==='equipamentoEntregue' ? "checked" : '' %>>
+                        <label class="form-check-label" for="flexRadioDefault1">
+                          Equipamentos entregue
+                        </label>
+                      </div>
+
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="Status" id="flexRadioDefault1"
+                          value="concluido" <%-project.Status==='concluido' ? "checked" : '' %>>
+                        <label class="form-check-label" for="flexRadioDefault1">
+                          Instalação concluída
+                        </label>
+                      </div>
+
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="Status" id="flexRadioDefault1"
+                          value="vistoriaSolicitada" <%-project.Status==='vistoriaSolicitada' ? "checked" : '' %>>
+                        <label class="form-check-label" for="flexRadioDefault1">
+                          Vistoria solicitada
+                        </label>
+                      </div>
+
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="Status" id="flexRadioDefault1"
+                          value="vistoriaAprovada" <%-project.Status==='vistoriaAprovada' ? 'checked' : '' %>>
+                        <label class="form-check-label" for="flexRadioDefault1">
+                          Vistoria Aprovada
+                        </label>
+                      </div>
+
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="Status" id="flexRadioDefault1"
+                          value="finalizado" <%-project.Status==='finalizado' ? "checked" : '' %>>
+                        <label class="form-check-label" for="flexRadioDefault1">
+                          Finalizado
+                        </label>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <label class="small mb-1" for="RStatus">Razão do Status</label>
+                      <input name="RStatus" class="form-control" id="RStatus" type="text"
+                        placeholder="Estamos aguardando X documentação.">
+                    </div>
+                    <div class="col-md-6">
+                      <label class="small mb-1" for="coords">Coordenadas da unidade
+                        consumidora</label>
+                      <input name="coords" class="form-control" id="coords" type="text"
+                        placeholder="-9.373395, -52.814905" value="<%=project.coords%>" required>
+                    </div>
+                    <div class="col-md-6">
+                      <label class="small mb-1" for="statusRastreio">Status de rastreio dos equipamentos<b
+                          style="color: red">*</b></label>
+                      <input name="statusRastreio" class="form-control" id="statusRastreio" type="text"
+                        value="<%=project.statusRastreio === undefined ? 'Rastreio indisponível no momento' : project.statusRastreio%>"
+                        required>
+                    </div>
+                  </div>
+                  <div class="row gx-3 mb-3" style="display: none;">
+                    <div class="col-md-6">
+                      <input name="business" class="form-control" type="text" value="<%=user.key%>"
+                        value="<%=project.business%>" required autocomplete="off" />
+                    </div>
+                  </div>
+                  <!-- Save changes button-->
+                  <button class="btn btn-primary" style="width: 100%;" type="submit">Atualizar
+                    Projeto</button>
+                </form>
               </div>
-
-              <div class="col-md-6">
-                <label class="small mb-1" for="cod">Código do Produto</label>
-                <input name="cod" class="form-control" id="cod" type="text" placeholder="00000-00" value="<%=project.cod%>">
-              </div>
-            </div>
-            <div class="mb-3">
-              <label class="small mb-1" for="endCompleto">Endereço da Unidade Consumidora</label>
-              <input name="endCompleto" class="form-control" id="endCompleto" type="text" placeholder="Rua, bairro, número, complemento - Cidade / Estado - CEP" value="" value="<%=project.endCompleto%>">
-            </div>
-            <b class="mb-4">Dados para visualização (todos os apps)</b>
-            <div class="row gx-3 mb-3">
-              <div class="col-md-6">
-                <label class="small mb-1" for="apelidoProjeto">Identificação do
-                  Projeto</label>
-                <input name="apelidoProjeto" class="form-control" id="apelidoProjeto" type="text" placeholder="Apelido do projeto" value="<%=project.apelidoProjeto%>" required>
-              </div>
-              <div class="col-md-6">
-                <label class="small mb-1" for="category">Categoria: <b style="color: red">*</b></label>
-
-                <div class="form-check">
-                  <input class="form-check-input" type="radio" name="category" id="category" value="residencial" <%-project.category.toLowerCase() === 'residencial' ? "checked" : ''%>>
-                  <label class="form-check-label" for="category">
-                    Residencial
-                  </label>
-                </div>
-
-                <div class="form-check">
-                  <input class="form-check-input" type="radio" name="category" id="category" value="comercial" <%-project.category.toLowerCase() === 'comercial' ? "checked" : ''%>>
-                  <label class="form-check-label" for="category">
-                    Comercial
-                  </label>
-                </div>
-
-                <div class="form-check">
-                  <input class="form-check-input" type="radio" name="category" id="category" value="industrial" <%-project.category.toLowerCase() === 'industrial' ? "checked" : ''%>>
-                  <label class="form-check-label" for="category">
-                    Industrial
-                  </label>
-                </div>
-
-              </div>
-              <!-- Form Group (last name)-->
-              <div class="col-md-6">
-                <label class="small mb-1" for="kwp">kWp do Projeto</label>
-                <input name="kwp" class="form-control" id="kwp" type="text" placeholder="000" value="<%=project.kwp%>" required>
-              </div>
-
-              <div class="col-md-6">
-                <label class="small mb-1" for="Status">Status <b style="color: red">*</b></label>
-
-                <div class="form-check">
-                  <input class="form-check-input" type="radio" name="Status" id="flexRadioDefault1" value="dadosEntregue" <%-project.Status === 'dadosEntregue' ? "checked" : ''%>>
-                  <label class="form-check-label" for="flexRadioDefault1">
-                    Dados entregues
-                  </label>
-                </div>
-
-                <div class="form-check">
-                  <input class="form-check-input" type="radio" name="Status" id="flexRadioDefault1" value="protocolado" <%-project.Status === 'protocolado' ? "checked" : ''%>>
-                  <label class="form-check-label" for="flexRadioDefault1">
-                    Projeto Protocolado
-                  </label>
-                </div>
-
-                <div class="form-check">
-                  <input class="form-check-input" type="radio" name="Status" id="flexRadioDefault1" value="aprovado" <%-project.Status === 'aprovado' ? "checked" : ''%>>
-                  <label class="form-check-label" for="flexRadioDefault1">
-                    Projeto aprovado
-                  </label>
-                </div>
-
-                <div class="form-check">
-                  <input class="form-check-input" type="radio" name="Status" id="flexRadioDefault1" value="equipamentoEntregue" <%-project.Status === 'equipamentoEntregue' ? "checked" : ''%>>
-                  <label class="form-check-label" for="flexRadioDefault1">
-                    Equipamentos entregue
-                  </label>
-                </div>
-
-                <div class="form-check">
-                  <input class="form-check-input" type="radio" name="Status" id="flexRadioDefault1" value="concluido" <%-project.Status === 'concluido' ? "checked" : ''%>>
-                  <label class="form-check-label" for="flexRadioDefault1">
-                    Instalação concluída
-                  </label>
-                </div>
-
-                <div class="form-check">
-                  <input class="form-check-input" type="radio" name="Status" id="flexRadioDefault1" value="vistoriaSolicitada" <%-project.Status === 'vistoriaSolicitada' ? "checked" : ''%>>
-                  <label class="form-check-label" for="flexRadioDefault1">
-                    Vistoria solicitada
-                  </label>
-                </div>
-
-                <div class="form-check">
-                  <input class="form-check-input" type="radio" name="Status" id="flexRadioDefault1" value="vistoriaAprovada" <%-project.Status === 'vistoriaAprovada' ? 'checked' : ''%>>
-                  <label class="form-check-label" for="flexRadioDefault1">
-                    Vistoria Aprovada
-                  </label>
-                </div>
-
-                <div class="form-check">
-                  <input class="form-check-input" type="radio" name="Status" id="flexRadioDefault1" value="finalizado" <%-project.Status === 'finalizado' ? "checked" : ''%>>
-                  <label class="form-check-label" for="flexRadioDefault1">
-                    Finalizado
-                  </label>
-                </div>
-              </div>
-              <div class="col-md-6">
-                <label class="small mb-1" for="RStatus">Razão do Status</label>
-                <input name="RStatus" class="form-control" id="RStatus" type="text" placeholder="Estamos aguardando X documentação.">
-              </div>
-              <div class="col-md-6">
-                <label class="small mb-1" for="coords">Coordenadas da unidade
-                  consumidora</label>
-                <input name="coords" class="form-control" id="coords" type="text" placeholder="-9.373395, -52.814905" value="<%=project.coords%>" required>
-              </div>
-              <div class="col-md-6">
-                <label class="small mb-1" for="statusRastreio">Status de rastreio dos equipamentos<b style="color: red">*</b></label>
-                <input name="statusRastreio" class="form-control" id="statusRastreio" type="text" value="<%=project.statusRastreio === undefined ? 'Rastreio indisponível no momento' : project.statusRastreio%>" required>
-              </div>
-            </div>
-            <div class="row gx-3 mb-3" style="display: none;">
-              <div class="col-md-6">
-                <input name="business" class="form-control" type="text" value="<%=user.key%>" value="<%=project.business%>" required autocomplete="off" />
-              </div>
-            </div>
-            <!-- Save changes button-->
-            <button class="btn btn-primary" style="width: 100%;" type="submit">Atualizar
-              Projeto</button>
-          </form>
+          </div>
+          <%- include("../../partials/footer.ejs") %>
         </div>
-      </div>
-      <%- include("../../partials/footer.ejs") %>
     </div>
-  </div>
-  <a class="scroll-to-top rounded" href="#page-top">
-    <i class="fas fa-angle-up"></i>
-  </a>
-  <%- include("../components/modal/logout.ejs") %>
-  <script src="/vendor/jquery/jquery.min.js"></script>
-  <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
-  <script src="/js/sb-admin-2.min.js"></script>
+    <a class="scroll-to-top rounded" href="#page-top">
+      <i class="fas fa-angle-up"></i>
+    </a>
+    <%- include("../components/modal/logout.ejs") %>
+      <script src="/vendor/jquery/jquery.min.js"></script>
+      <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+      <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+      <script src="/js/sb-admin-2.min.js"></script>
 
-  
-  <script type='text/javascript' src="https://rawgit.com/RobinHerbots/jquery.inputmask/3.x/dist/jquery.inputmask.bundle.js"></script>
-  <script>
-    $(document).ready(function() {
-      $(":input").inputmask();
 
-      $("#kwp").inputmask({
-        greedy: false,
-        radixPoint: ",",
-        groupSeparator: ",",
-        alias: "numeric",
-        autoGroup: true,
-        digits: 2,
-        digitsOptional: false,
-        clearMaskOnLostFocus: false
-      })
-    })
-  </script>
-</body>
+      <script type='text/javascript'
+        src="https://rawgit.com/RobinHerbots/jquery.inputmask/3.x/dist/jquery.inputmask.bundle.js"></script>
+      <script>
+        $(document).ready(function () {
+          $(":input").inputmask();
 
-</html>
+          $("#kwp").inputmask({
+            greedy: false,
+            radixPoint: ",",
+            groupSeparator: ",",
+            alias: "numeric",
+            autoGroup: true,
+            digits: 2,
+            digitsOptional: false,
+            clearMaskOnLostFocus: false
+          })
+
+          $("#zipcode").inputmask({
+            mask: '99999-999',
+            placeholder: '_',
+            showMaskOnHover: false,
+            showMaskOnFocus: false,
+          });
+
+          $("#number").inputmask({
+            mask: '9999[9]',
+            placeholder: '_',
+            showMaskOnHover: false,
+            showMaskOnFocus: false,
+          });
+        })
+
+        document.getElementById('zipcode').addEventListener('blur', async function () {
+          const cep = this.value.replace(/\D/g, ''); // Remove caracteres não numéricos
+          if (cep.length !== 8) {
+            alert('Por favor, insira um CEP válido.');
+            return;
+          }
+
+          try {
+            const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+            if (!response.ok) {
+              throw new Error('Erro na busca do CEP');
+            }
+            const data = await response.json();
+
+            if (data.erro) {
+              alert('CEP não encontrado. Preencha os campos manualmente.');
+              //liberarEdicao(true); // Libera a edição dos campos
+              return;
+            }
+
+            // Preenche os campos e desabilita para evitar edição
+            document.getElementById('street').value = data.logradouro || '';
+            document.getElementById('neighborhood').value = data.bairro || '';
+            document.getElementById('city').value = data.localidade || '';
+            document.getElementById('state').value = data.uf || '';
+
+            // liberarEdicao(false); // Impede edição nos campos preenchidos
+          } catch (error) {
+            console.error('Erro ao buscar o CEP:', error);
+            alert('Erro ao buscar o CEP. Tente novamente.');
+          }
+        });
+      </script>
+  </body>
+
+  </html>

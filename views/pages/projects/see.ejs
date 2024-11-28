@@ -73,6 +73,24 @@
                         </p>
                       </div>
 
+                      <% if(project.endCompleto) { %>
+                        <div class="col-md-3">
+                          <b><i class="fas fa-square"></i> Endereço Completo (legado)</b>
+                          <p>
+                            <%= project.endCompleto %>
+                          </p>
+                        </div>
+                      <% } %>
+
+                      <% if(project.street) { %>
+                        <div class="col-md-3">
+                          <b><i class="fas fa-square"></i> Endereço Completo (legado)</b>
+                          <p>
+                            <%= `${project.street}, ${project.neighborhood}, ${project.number}, ${project.complement} - ${project.city}, ${project.state}` %>
+                          </p>
+                        </div>
+                      <% } %>
+                     
                     </div>
                     <% if(project.overview && project.overview.current_kw) { %>
 

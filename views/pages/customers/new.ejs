@@ -99,7 +99,7 @@
 
 
                     <div class="row gx-3 mb-3">
-                      
+
                       <div class="col-md-6">
                         <label class="small mb-1" for="zipcode">CEP <b style="color: red">*</b></label>
                         <input name="zipcode" class="form-control" id="zipcode" type="text" placeholder="CEP" required>
@@ -209,7 +209,7 @@
                     </div>
 
                     <div class="row gx-3 mb-3">
-                      
+
                       <div class="col-md-6">
                         <label class="small mb-1" for="zipcode">CEP <b style="color: red">*</b></label>
                         <input name="zipcode" class="form-control" id="zipcode" type="text" placeholder="CEP" required>
@@ -464,46 +464,46 @@
         }
 
 
-  document.getElementById('zipcode').addEventListener('blur', async function () {
-    const cep = this.value.replace(/\D/g, ''); // Remove caracteres não numéricos
-    if (cep.length !== 8) {
-      alert('Por favor, insira um CEP válido.');
-      return;
-    }
+        document.getElementById('zipcode').addEventListener('blur', async function () {
+          const cep = this.value.replace(/\D/g, ''); // Remove caracteres não numéricos
+          if (cep.length !== 8) {
+            alert('Por favor, insira um CEP válido.');
+            return;
+          }
 
-    try {
-      const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
-      if (!response.ok) {
-        throw new Error('Erro na busca do CEP');
-      }
-      const data = await response.json();
+          try {
+            const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+            if (!response.ok) {
+              throw new Error('Erro na busca do CEP');
+            }
+            const data = await response.json();
 
-      if (data.erro) {
-        alert('CEP não encontrado. Preencha os campos manualmente.');
-        //liberarEdicao(true); // Libera a edição dos campos
-        return;
-      }
+            if (data.erro) {
+              alert('CEP não encontrado. Preencha os campos manualmente.');
+              //liberarEdicao(true); // Libera a edição dos campos
+              return;
+            }
 
-      // Preenche os campos e desabilita para evitar edição
-      document.getElementById('street').value = data.logradouro || '';
-      document.getElementById('neighborhood').value = data.bairro || '';
-      document.getElementById('city').value = data.localidade || '';
-      document.getElementById('state').value = data.uf || '';
+            // Preenche os campos e desabilita para evitar edição
+            document.getElementById('street').value = data.logradouro || '';
+            document.getElementById('neighborhood').value = data.bairro || '';
+            document.getElementById('city').value = data.localidade || '';
+            document.getElementById('state').value = data.uf || '';
 
-     // liberarEdicao(false); // Impede edição nos campos preenchidos
-    } catch (error) {
-      console.error('Erro ao buscar o CEP:', error);
-      alert('Erro ao buscar o CEP. Tente novamente.');
-    }
-  });
+            // liberarEdicao(false); // Impede edição nos campos preenchidos
+          } catch (error) {
+            console.error('Erro ao buscar o CEP:', error);
+            alert('Erro ao buscar o CEP. Tente novamente.');
+          }
+        });
 
-  // Libera ou bloqueia edição dos campos
-  function liberarEdicao(isEditable) {
-    const fields = ['street', 'neighborhood', 'city', 'state'];
-    fields.forEach((field) => {
-      document.getElementById(field).disabled = !isEditable && document.getElementById(field).value !== '';
-    });
-  }
+        // Libera ou bloqueia edição dos campos
+        function liberarEdicao(isEditable) {
+          const fields = ['street', 'neighborhood', 'city', 'state'];
+          fields.forEach((field) => {
+            document.getElementById(field).disabled = !isEditable && document.getElementById(field).value !== '';
+          });
+        }
 
       </script>
   </body>
