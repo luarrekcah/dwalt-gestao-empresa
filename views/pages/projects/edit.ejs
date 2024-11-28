@@ -219,6 +219,11 @@
                         value="<%=project.statusRastreio === undefined ? 'Rastreio indisponível no momento' : project.statusRastreio%>"
                         required>
                     </div>
+
+                    <div class="col-md-6">
+                      <label class="small mb-1" for="projectObs">Observações do Projeto</label>
+                      <input name="projectObs" class="form-control" id="projectObs" type="text"  value="<%=project.projectObs === undefined ? '' : project.projectObs%>">
+                    </div>
                   </div>
                   <div class="row gx-3 mb-3" style="display: none;">
                     <div class="col-md-6">

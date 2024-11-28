@@ -90,6 +90,16 @@
                           </p>
                         </div>
                       <% } %>
+
+
+                      <div class="col-md-3">
+                        <b><i class="fas fa-warning"></i> Observações do Projeto</b>
+                        <p>
+                          <%- project.projectObs ? project.projectObs : '<b style="color: red;">Não provido</b>' %>
+                        </p>
+                      </div>
+                      
+                      
                      
                     </div>
                     <% if(project.overview && project.overview.current_kw) { %>
