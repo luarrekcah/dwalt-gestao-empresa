@@ -176,6 +176,8 @@ router.get("/", async (req, res, next) => {
     !customersWithProjects.has(customer.key)
   );
 
+  const needProtocolProject = projects.filter(pjs => pjs.data.Status === "concluido")
+
   const data = {
     user,
     projects,
@@ -190,6 +192,7 @@ router.get("/", async (req, res, next) => {
     config,
     currentPage: res.locals.currentPage,
     customerWithoutProject,
+    needProtocolProject,
     notifications,
   };
   res.render("pages/dashboard", data);
