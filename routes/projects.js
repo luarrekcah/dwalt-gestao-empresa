@@ -432,6 +432,40 @@ router.post("/editar/:id", async (req, res, next) => {
     }
   }
 
+  
+  /**
+   * if (req.body.Status === "aprovado") {
+    try {
+      createItem({
+        path: `gestaoempresa/business/${req.user.key}/surveys`,
+        params: {
+          type: "logistica",
+          finished: false,
+          accepted: false,
+          createdAt: getDate(),
+          project: {
+            id: req.params.id,
+            name: project.apelidoProjeto,
+          },
+          customer: {
+            name: customerData.nomeComp
+              ? customerData.nomeComp
+              : customerData.nomeFantasia,
+            document: customerData.cpf ? customerData.cpf : customerData.cnpj,
+          },
+          status: "Solicitada",
+          title: "Chamado de Logística",
+          text: "Chamado de logística criado automaticamente pela atualização do projeto.",
+        },
+      });
+      createLogs(req.user.key, `Chamado de instalação para ${req.params.id}`);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+   */
+
+
   if (req.body.Status === "finalizado" && projectStatus !== "finalizado") {
     const requiredPhotosConfig = await getAllItems({
       path: `gestaoempresa/business/${req.user.key}/config/projectRequiredImages`,
