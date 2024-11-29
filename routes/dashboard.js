@@ -76,9 +76,8 @@ const getData = async (res, req) => {
             params: {
               plant_id: plant.plant_id,
               start_date: plant.create_date,
-              end_date: `${data.getFullYear()}-${
-                data.getMonth() + 1
-              }-${data.getDate()}`,
+              end_date: `${data.getFullYear()}-${data.getMonth() + 1
+                }-${data.getDate()}`,
               time_unit: "month",
             },
           })
@@ -99,8 +98,8 @@ const getData = async (res, req) => {
 
 router.get("/", async (req, res, next) => {
   const projects = await getAllItems({
-      path: `gestaoempresa/business/${req.user.key}/projects`,
-    }),
+    path: `gestaoempresa/business/${req.user.key}/projects`,
+  }),
     customers = await getAllItems({
       path: `gestaoempresa/business/${req.user.key}/customers`,
     }),
@@ -171,6 +170,12 @@ router.get("/", async (req, res, next) => {
     );
   }
 
+  const customersWithProjects = new Set(projects.map(project => project.data.customerID));
+
+  const customerWithoutProject = customers.filter(customer =>
+    !customersWithProjects.has(customer.key)
+  );
+
   const data = {
     user,
     projects,
@@ -184,6 +189,7 @@ router.get("/", async (req, res, next) => {
     stickNotes,
     config,
     currentPage: res.locals.currentPage,
+    customerWithoutProject,
     notifications,
   };
   res.render("pages/dashboard", data);
@@ -198,7 +204,7 @@ router.post("/", async (req, res, next) => {
       });
       for (let index = 0; index < allNotifys.length; index++) {
         const notify = allNotifys[index];
-         updateItem({
+        updateItem({
           path: `gestaoempresa/business/${req.user.key}/notifications/${notify.key}`,
           params: {
             read: true
@@ -340,7 +346,7 @@ router.post("/", async (req, res, next) => {
         });
       });
       return res.redirect("/dashboard");
-   
+
   }
 });
 
@@ -359,8 +365,8 @@ router.get("/notificacoes", async (req, res, next) => {
 
 router.get("/localizar/equipe", async (req, res, next) => {
   const teams = await getAllItems({
-      path: `gestaoempresa/business/${req.user.key}/teams`,
-    }),
+    path: `gestaoempresa/business/${req.user.key}/teams`,
+  }),
     user = await getUser({ userId: req.user.key });
 
   const notifications = await getAllItems({
@@ -380,7 +386,7 @@ router.get("/reclamacoes", async (req, res, next) => {
   const complaints = await getAllItems({
     path: `gestaoempresa/business/${req.user.key}/complaints/`,
   });
-  
+
   const notifications = await getAllItems({
     path: `gestaoempresa/business/${req.user.key}/notifications`,
   });
