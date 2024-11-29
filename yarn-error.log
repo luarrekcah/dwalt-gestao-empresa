@@ -25,7 +25,7 @@ npm manifest:
   {
     "name": "dwaltgestao",
     "version": "1.0.0",
-    "description": "Checkout on www.dlwalt.com",
+    "description": "Checkout on www.dwalt.net",
     "main": "server.js",
     "private": true,
     "author": {

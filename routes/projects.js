@@ -18,7 +18,7 @@ const {
   deleteObject,
   getDownloadURL,
 } = require("@firebase/storage");
-const { createNotification } = require("../utils");
+const { createNotification, calculateDeadline } = require("../utils");
 
 router.get("/", async (req, res, next) => {
   const projects = await getAllItems({
@@ -531,6 +531,8 @@ router.get("/pendentes", async (req, res, next) => {
         path: `gestaoempresa/business/${req.user.key}/projects/${pj.key}/requiredPhotos`,
       });
 
+      const deadlineProject = calculateDeadline({projectDeadline: pj.data.projectDeadline, createdAt: pj.data.createdAt})
+
       if (
         !(business.config.projectRules.docMinimum - docs.length <= 0) ||
         businessRequiredPhotosLength.length - requiredPhotos.length !== 0
@@ -538,6 +540,7 @@ router.get("/pendentes", async (req, res, next) => {
         pendingProjects.push({
           key: pj.key,
           title: pj.data.apelidoProjeto,
+          deadline: deadlineProject,
           documents: {
             left: business.config.projectRules.docMinimum - docs.length,
             total: business.config.projectRules.docMinimum,

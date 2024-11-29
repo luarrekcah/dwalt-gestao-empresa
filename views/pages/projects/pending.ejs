@@ -19,6 +19,7 @@
                         <thead>
                           <tr>
                             <th>Identificação</th>
+                            <th>Prazo</th>
                             <th>N° Docs em falta</th>
                             <th>N° Fotos em falta</th>
                             <th>Botões</th>
@@ -34,6 +35,24 @@
                                     <td>
                                       <%= item.title %>
                                     </td>
+                                    <td>
+                                      <% 
+                                        const days = item.deadline; 
+                                        let status;
+                                        
+                                        if (days > 30) {
+                                          status = "EM PRAZO";
+                                        } else if (days > 1) {
+                                          status = "PRIORIDADE";
+                                        } else {
+                                          status = "ATRASADO";
+                                        }
+                                      %>
+                                      <%= days %> dias <span style="font-weight: bold; color: <%= days > 30 ? 'green' : (days > 1 ? 'orange' : 'red') %>;">
+                                        (<%= status %>)
+                                      </span>
+                                    </td>
+                                    
                                     <% if(item.documents.left <= 0) { %>
                                       <td><b style="color: green">OK</b></td>
                                       <% } else { %>

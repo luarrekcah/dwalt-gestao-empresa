@@ -124,4 +124,21 @@ module.exports = {
       }
     }
   },
+  calculateDeadline: ({projectDeadline, createdAt}) => {
+    const now = new Date();
+
+    // Converta os valores para objetos Date
+    const deadlineDate = projectDeadline ? new Date(projectDeadline) : null;
+    const createdAtDate = new Date(createdAt);
+  
+    // Se projectDeadline for fornecido, calcule os dias restantes
+    if (deadlineDate) {
+      return Math.ceil((deadlineDate - now) / (1000 * 60 * 60 * 24));
+    }
+  
+    // Caso contrário, calcule os dias para 90 dias após createdAt
+    const ninetyDaysFromCreated = createdAtDate.getTime() + 90 * 24 * 60 * 60 * 1000;
+    return Math.ceil((ninetyDaysFromCreated - now) / (1000 * 60 * 60 * 24));
+  
+  }
 };
