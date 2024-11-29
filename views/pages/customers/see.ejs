@@ -43,22 +43,24 @@
                         <div class="col-md-3">
                           <b>Sexo</b>
                           <p>
-                            <%- !customer.sexo || customer.sexo==='' ? '<b style="color: red;">Não provido</b>' : `${customer.sexo}` %>
+                            <%- !customer.sexo || customer.sexo==='' ? '<b style="color: red;">Não provido</b>' :
+                              `${customer.sexo}` %>
                           </p>
                         </div>
 
                         <div class="col-md-3">
                           <b>Estado Civil</b>
                           <p>
-                            <%-!customer.estadoCivil || customer.estadoCivil==='' ? '<b style="color: red;">Não provido</b>' :
-                              `${customer.estadoCivil}` %>
+                            <%-!customer.estadoCivil || customer.estadoCivil===''
+                              ? '<b style="color: red;">Não provido</b>' : `${customer.estadoCivil}` %>
                           </p>
                         </div>
 
                         <div class="col-md-3">
                           <b>E-mail</b>
                           <p>
-                            <%-!customer.email || customer.email ==='' ? '<b style="color: red;">Não provido</b>' : `${customer.email}` %>
+                            <%-!customer.email || customer.email==='' ? '<b style="color: red;">Não provido</b>' :
+                              `${customer.email}` %>
                           </p>
                         </div>
 
@@ -70,6 +72,13 @@
                           </p>
                         </div>
 
+                        <div class="col-md-3">
+                          <b>Observações</b>
+                          <p>
+                            <%-customer.obs==='' ? '<b style="color: red;">Não provido</b>' : `${customer.obs}` %>
+                          </p>
+                        </div>
+
                         <% if(customer.endCompleto) { %>
                           <div class="col-md-3">
                             <b>Endereço Completo (legado)</b>
@@ -78,16 +87,17 @@
                                 `${customer.endCompleto}` %>
                             </p>
                           </div>
-                        <% } %>
+                          <% } %>
 
-                        <% if(customer.street) { %>
-                        <div class="col-md-3">
-                          <b>Endereço Completo</b>
-                          <p>
-                            <%= `${customer.street}, ${customer.neighborhood}, ${customer.number}, ${customer.complement} - ${customer.city}, ${customer.state}` %>
-                          </p>
-                        </div>
-                        <% } %>
+                            <% if(customer.street) { %>
+                              <div class="col-md-3">
+                                <b>Endereço Completo</b>
+                                <p>
+                                  <%= `${customer.street}, ${customer.neighborhood}, ${customer.number},
+                                    ${customer.complement} - ${customer.city}, ${customer.state}` %>
+                                </p>
+                              </div>
+                              <% } %>
 
                       </div>
                     </div>
@@ -135,15 +145,16 @@
                           <div class="col-md-3">
                             <b>E-mail</b>
                             <p>
-                              <%-!customer.email || customer.email==='' ? '<b style="color: red;">Não provido</b>' : `${customer.email}` %>
+                              <%-!customer.email || customer.email==='' ? '<b style="color: red;">Não provido</b>' :
+                                `${customer.email}` %>
                             </p>
                           </div>
 
                           <div class="col-md-3">
                             <b>Celular</b>
                             <p>
-                              <%- !customer.celular || customer.celular==='' ? '<b style="color: red;">Não provido</b>' :
-                                `${customer.celular}` %>
+                              <%- !customer.celular || customer.celular==='' ? '<b style="color: red;">Não provido</b>'
+                                : `${customer.celular}` %>
                             </p>
                           </div>
                           <div class="col-md-3">
@@ -154,22 +165,30 @@
                             </p>
                           </div>
 
+                          <div class="col-md-3">
+                            <b>Observações</b>
+                            <p>
+                              <%-customer.obs==='' ? '<b style="color: red;">Não provido</b>' : `${customer.obs}` %>
+                            </p>
+                          </div>
+
                           <% if(customer.street) { %>
                             <div class="col-md-3">
                               <b>Endereço Completo</b>
                               <p>
-                                <%= `${customer.street}, ${customer.neighborhood}, ${customer.number}, ${customer.complement} - ${customer.city}, ${customer.state}` %>
+                                <%= `${customer.street}, ${customer.neighborhood}, ${customer.number},
+                                  ${customer.complement} - ${customer.city}, ${customer.state}` %>
                               </p>
                             </div>
                             <% } %>
 
-                          <div class="col-md-3">
-                            <b>Atividade</b>
-                            <p>
-                              <%-!customer.atividade || customer.atividade==='' ? '<b style="color: red;">Não provido</b>' :
-                                `${customer.atividade}` %>
-                            </p>
-                          </div>
+                              <div class="col-md-3">
+                                <b>Atividade</b>
+                                <p>
+                                  <%-!customer.atividade || customer.atividade===''
+                                    ? '<b style="color: red;">Não provido</b>' : `${customer.atividade}` %>
+                                </p>
+                              </div>
                         </div>
                       </div>
                     </div>
@@ -187,15 +206,15 @@
                           <div class="row gx-3 mb-3">
                             <div class="col-md-3">
                               <% if(photos && photos.length!==0) { %>
-                                
+
                                 <b>Links de acesso:</b>
                                 <%photos.forEach((photo, index)=> {%>
                                   <p>
                                     <a target="_blank" href="<%=photo.data.url%>"> Imagem - (<%=index + 1%>)</a>
                                   </p>
                                   <%})%>
-                                <%} else {%>
-                                  <b>Sem imagens! Clique no "+" e adicione quantas imagens quiser.</b>
+                                    <%} else {%>
+                                      <b>Sem imagens! Clique no "+" e adicione quantas imagens quiser.</b>
                                       <%}%>
                             </div>
                           </div>
