@@ -43,19 +43,21 @@
                           <%=project.coords%>
                         </p>
                       </div>
+                      <!--
                       <div class="col-md-3">
                         <b><i class="fas fa-square"></i> Código do Gerador</b>
                         <p>
                           <%-project.cod==='' ? '<b style="color: red;">Não provido</b>' : `${project.cod}` %>
                         </p>
-                      </div>
+                      </div>-->
+                      <!--
                       <div class="col-md-3">
                         <b><i class="fas fa-solar-panel"></i> Usuário Growatt</b>
                         <p>
                           <%-project.username_growatt==='' ? '<b style="color: red;">Não provido</b>' :
                             `${project.username_growatt}` %>
                         </p>
-                      </div>
+                      </div>-->
                       <div class="col-md-3">
                         <b><i class="fas fa-user"></i> Cliente</b>
                         <p>
@@ -65,13 +67,14 @@
                           </a>
                         </p>
                       </div>
-
+<!--
+                      
                       <div class="col-md-3">
-                        <b><i class="fas fa-square"></i> Marca do sistema</b>
+                        <b><i class="fas fa-square"></i> Marca do Inversor</b>
                         <p>
                           <%= project.brand || project.typeInverter || 'Growatt' %>
                         </p>
-                      </div>
+                      </div>-->
 
                       <% if(project.endCompleto) { %>
                         <div class="col-md-3">
