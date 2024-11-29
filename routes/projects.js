@@ -432,9 +432,7 @@ router.post("/editar/:id", async (req, res, next) => {
     }
   }
 
-  
-  /**
-   * if (req.body.Status === "aprovado") {
+   if (req.body.Status === "aprovado") {
     try {
       createItem({
         path: `gestaoempresa/business/${req.user.key}/surveys`,
@@ -458,12 +456,12 @@ router.post("/editar/:id", async (req, res, next) => {
           text: "Chamado de logística criado automaticamente pela atualização do projeto.",
         },
       });
-      createLogs(req.user.key, `Chamado de instalação para ${req.params.id}`);
+      createLogs(req.user.key, `Chamado de logística para ${req.params.id}`);
     } catch (error) {
       console.log(error);
     }
   }
-   */
+   
 
 
   if (req.body.Status === "finalizado" && projectStatus !== "finalizado") {
