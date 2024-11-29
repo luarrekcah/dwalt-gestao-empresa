@@ -98,6 +98,116 @@
                           <%- project.projectObs ? project.projectObs : '<b style="color: red;">Não provido</b>' %>
                         </p>
                       </div>
+
+                       <!-- N° do Contrato -->
+  <div class="col-md-3">
+    <b><i class="fas fa-file-contract"></i> N° do Contrato</b>
+    <p>
+      <%- project.contractNumber && project.contractNumber.trim() !== '' 
+        ? `${project.contractNumber}` 
+        : '<b style="color: red;">Não provido</b>' %>
+    </p>
+  </div>
+
+  <!-- Vendedor -->
+  <div class="col-md-3">
+    <b><i class="fas fa-user-tie"></i> Vendedor</b>
+    <p>
+      <%- project.seller && project.seller.trim() !== '' 
+        ? `${project.seller}` 
+        : '<b style="color: red;">Não provido</b>' %>
+    </p>
+  </div>
+
+  <!-- Data do Contrato -->
+  <div class="col-md-3">
+    <b><i class="fas fa-calendar-alt"></i> Data do Contrato</b>
+    <p>
+      <%- project.contractDate 
+        ? new Date(project.contractDate).toLocaleDateString() 
+        : '<b style="color: red;">Não provido</b>' %>
+    </p>
+  </div>
+
+  <!-- Data de Pagamento -->
+  <div class="col-md-3">
+    <b><i class="fas fa-money-check-alt"></i> Data de Pagamento</b>
+    <p>
+      <%- project.paymentDate 
+        ? new Date(project.paymentDate).toLocaleDateString() 
+        : '<b style="color: red;">Não provido</b>' %>
+    </p>
+  </div>
+
+  <!-- Prazo do Projeto -->
+  <div class="col-md-3">
+    <b><i class="fas fa-clock"></i> Prazo do Projeto</b>
+    <p>
+      <%- project.projectDeadline 
+        ? new Date(project.projectDeadline).toLocaleDateString() 
+        : '<b style="color: red;">Não provido</b>' %>
+    </p>
+  </div>
+
+  <!-- Observações do Projeto -->
+  <div class="col-md-3">
+    <b><i class="fas fa-sticky-note"></i> Observações do Projeto</b>
+    <p>
+      <%- project.projectObs && project.projectObs.trim() !== '' 
+        ? `${project.projectObs}` 
+        : '<b style="color: red;">Não provido</b>' %>
+    </p>
+  </div>
+
+  <!-- Kit do Projeto -->
+  <div class="col-md-3">
+    <b><i class="fas fa-toolbox"></i> Kit do Projeto</b>
+    <p>
+      <%- project.kit && project.kit.trim() !== '' 
+        ? `${project.kit}` 
+        : '<b style="color: red;">Não provido</b>' %>
+    </p>
+  </div>
+
+  <!-- Tipo de Telhado -->
+  <div class="col-md-3">
+    <b><i class="fas fa-home"></i> Tipo de Telhado</b>
+    <p>
+      <%- project.roof && project.roof.trim() !== '' 
+        ? `${project.roof}` 
+        : '<b style="color: red;">Não provido</b>' %>
+    </p>
+  </div>
+
+  <!-- Tipo de Venda -->
+  <div class="col-md-3">
+    <b><i class="fas fa-tag"></i> Tipo de Venda</b>
+    <p>
+      <%- project.saleType && project.saleType.trim() !== '' 
+        ? `${project.saleType}` 
+        : '<b style="color: red;">Não provido</b>' %>
+    </p>
+  </div>
+
+  <!-- Quantidade de Painéis -->
+  <div class="col-md-3">
+    <b><i class="fas fa-th"></i> Quantidade de Painéis</b>
+    <p>
+      <%- project.panelQuantity 
+        ? `${project.panelQuantity}` 
+        : '<b style="color: red;">Não provido</b>' %>
+    </p>
+  </div>
+
+  <!-- Watts de Cada Painel -->
+  <div class="col-md-3">
+    <b><i class="fas fa-battery-full"></i> Watts por Painel</b>
+    <p>
+      <%- project.wattsPerPanel 
+        ? `${project.wattsPerPanel} W` 
+        : '<b style="color: red;">Não provido</b>' %>
+    </p>
+  </div>
                       
                       
                      

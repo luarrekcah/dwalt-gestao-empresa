@@ -28,7 +28,7 @@
                     </select>
                   </div>
 
-                  <b class="mb-4">Selecione o inversor <b style="color: red">*</b></b>
+                 <!-- <b class="mb-4">Selecione o inversor <b style="color: red">*</b></b>
                   <div class="mb-3">
                     <select name="brand" class="form-control" required>
                       <option selected>Nenhum selecionado</option>
@@ -39,26 +39,54 @@
                       <option value="refusol">Refusol</option>
                       <option value="outro">Outro - Não Listado</option>
                     </select>
-                  </div>
+                  </div>-->
 
                   <b class="mb-4">Dados Básicos</b>
                   <!-- Form Row-->
                   <div class="row gx-3 mb-3">
                     <!-- Form Group (first name)-->
                     <div class="col-md-6">
-                      <label class="small mb-1" for="cod">Código do Produto</label>
-                      <input name="cod" class="form-control" id="cod" type="text" placeholder="00000-00">
+                      <label class="small mb-1" for="contractNumber">N° do Contrato</label>
+                      <input name="contractNumber" class="form-control" id="contractNumber" type="text" placeholder="00000-00">
                     </div>
 
-                    <div class="col-md-6">
+                   <!-- <div class="col-md-6">
                       <label class="small mb-1" for="username_growatt">Nome da planta no sistema da Growatt
                         (opcional)</label>
                       <input name="username_growatt" class="form-control" id="username_growatt" type="text"
                         placeholder="Nome da planta.">
+                    </div>-->
+
+                     <!-- Vendedor -->
+                     <div class="col-md-6">
+                      <label class="small mb-1" for="seller">Vendedor</label>
+                      <input name="seller" class="form-control" id="seller" type="text" placeholder="Nome do Vendedor">
+                    </div>
+                  
+                    <!-- Data do Contrato -->
+                    <div class="col-md-6">
+                      <label class="small mb-1" for="contractDate">Data do Contrato</label>
+                      <input name="contractDate" class="form-control" id="contractDate" type="date" placeholder="Data do Contrato">
+                    </div>
+                  
+                    <!-- Data de Pagamento -->
+                    <div class="col-md-6">
+                      <label class="small mb-1" for="paymentDate">Data de Pagamento</label>
+                      <input name="paymentDate" class="form-control" id="paymentDate" type="date" placeholder="Data de Pagamento">
+                    </div>
+
+                     <!-- Prazo -->
+                     <div class="col-md-6">
+                      <label class="small mb-1" for="projectDeadline">Prazo do Projeto <b
+                        style="color: red">*</b></label>
+                      <input name="projectDeadline" class="form-control" id="projectDeadline" type="date" placeholder="Data para entrega" required>
                     </div>
 
 
                   </div>
+
+                  
+                  <b class="mb-4">Endereço</b>
 
                   <div class="row gx-3 mb-3">
 
@@ -97,6 +125,14 @@
                     <div class="col-md-6">
                       <label class="small mb-1" for="state">Estado <b style="color: red">*</b></label>
                       <input name="state" class="form-control" id="state" type="text" placeholder="Estado" required>
+                    </div>
+
+                    
+                    <div class="col-md-6">
+                      <label class="small mb-1" for="coords">Coordenadas da unidade
+                        consumidora <b style="color: red">*</b></label>
+                      <input name="coords" class="form-control" id="coords" type="text"
+                        placeholder="-9.373395, -52.814905" required>
                     </div>
 
                   </div>
@@ -214,16 +250,20 @@
                       </div>
                     </div>
 
+                    
+
+                  </div>
+
+
+                  
+                  <b class="mb-4">Status</b>
+
+                  <div class="row gx-3 mb-3">
+
                     <div class="col-md-6">
                       <label class="small mb-1" for="RStatus">Razão do Status</label>
                       <input name="RStatus" class="form-control" id="RStatus" type="text"
                         placeholder="Estamos aguardando X documentação.">
-                    </div>
-                    <div class="col-md-6">
-                      <label class="small mb-1" for="coords">Coordenadas da unidade
-                        consumidora <b style="color: red">*</b></label>
-                      <input name="coords" class="form-control" id="coords" type="text"
-                        placeholder="-9.373395, -52.814905" required>
                     </div>
                     <div class="col-md-6">
                       <label class="small mb-1" for="statusRastreio">Status de rastreio dos equipamentos<b
@@ -235,13 +275,54 @@
                       <label class="small mb-1" for="projectObs">Observações do Projeto</label>
                       <input name="projectObs" class="form-control" id="projectObs" type="text">
                     </div>
+
                   </div>
+
+                  
+                  <b class="mb-4">Detalhes do Projeto</b>
+
+                  <div class="row gx-3 mb-3">
+                    <!-- Kit -->
+                    <div class="col-md-6">
+                      <label class="small mb-1" for="kit">Kit do projeto</label>
+                      <input name="kit" class="form-control" id="kit" type="text" placeholder="Informações do Kit">
+                    </div>
+                  
+                    <!-- Telhado -->
+                    <div class="col-md-6">
+                      <label class="small mb-1" for="roof">Tipo de Telhado</label>
+                      <input name="roof" class="form-control" id="roof" type="text" placeholder="Fibrocimento">
+                    </div>
+                  
+                    <!-- Tipo de Venda -->
+                    <div class="col-md-6">
+                      <label class="small mb-1" for="saleType">Tipo de Venda</label>
+                      <input name="saleType" class="form-control" id="saleType" type="text" placeholder="Tipo de Venda">
+                    </div>
+                  
+                    <!-- Quantidade de Painéis -->
+                    <div class="col-md-6">
+                      <label class="small mb-1" for="panelQuantity">Quantidade de Painéis </label>
+                      <input name="panelQuantity" class="form-control" id="panelQuantity" type="number" placeholder="Quantidade de Painéis" >
+                    </div>
+                  
+                    <!-- Watts -->
+                    <div class="col-md-6">
+                      <label class="small mb-1" for="wattsPerPanel">Watts de cada painel</label>
+                      <input name="wattsPerPanel" class="form-control" id="wattsPerPanel" type="number" placeholder="Watts">
+                    </div>
+                  </div>
+                  
+                  
+
                   <div class="row gx-3 mb-3" style="display: none;">
                     <div class="col-md-6">
                       <input name="business" class="form-control" type="text" value="<%=user.key%>" required
                         autocomplete="off" />
                     </div>
                   </div>
+
+
                   <!-- Save changes button-->
                   <button class="btn btn-primary" style="width: 100%;" type="submit">Registrar
                     Projeto</button>
@@ -378,6 +459,17 @@
             document.getElementById(field).disabled = !isEditable && document.getElementById(field).value !== '';
           });
         }
+
+        document.addEventListener("DOMContentLoaded", function () {
+    const deadlineInput = document.getElementById("projectDeadline");
+    const today = new Date();
+    const deadlineDate = new Date(today);
+    deadlineDate.setDate(today.getDate() + 90); // Adiciona 90 dias
+
+    // Converte a data para o formato "YYYY-MM-DD" para o input de tipo "date"
+    const formattedDate = deadlineDate.toISOString().split("T")[0];
+    deadlineInput.value = formattedDate;
+  });
       </script>
 
 
