@@ -38,11 +38,7 @@
                     <select id="filterKey" class="form-control">
                       <option value="apelidoProjeto">Identificação</option>
                       <option value="Status">Status</option>
-                      <option value="category">Categoria</option>
                       <option value="kwp">Potência (kwp)</option>
-                      <option value="endCompleto">Endereço Legado</option>
-                      <option value="city">Cidade</option>
-                      <option value="state">Estado</option>
                     </select>
                   </div>
                   <!-- Campo para o valor -->
@@ -167,13 +163,7 @@
             table.column(2).search(filterValue).draw();
           } else if (filterKey === 'kwp') {
             table.column(2).search(filterValue).draw();
-          } else if (filterKey === 'endCompleto') {
-            table.column(5).search(filterValue).draw();
-          } else if (filterKey === 'city') {
-            table.column(5).search(filterValue).draw();
-          } else if (filterKey === 'state') {
-            table.column(6).search(filterValue).draw();
-          }
+          } 
         });
       });
     </script>
