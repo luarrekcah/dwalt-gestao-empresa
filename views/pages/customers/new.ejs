@@ -170,7 +170,7 @@
 
                   </div>
 
-                  
+
                   <b class="mb-4">Outras informações</b>
                   <div class="row gx-3 mb-3">
 
@@ -196,6 +196,28 @@
                     </div>
                   </div>
 
+                  <b class="mb-4">Documentos</b>
+
+                  <div class="field">
+                    <label class="label">Selecione os documentos</label>
+                    <div class="control">
+                      <div class="file has-name is-primary">
+                        <label class="file-label">
+                          <input class="file-input" type="file" id="fileInput" multiple>
+                          <span class="file-cta">
+                            <span class="file-icon">
+                              <i class="fas fa-upload"></i>
+                            </span>
+                            <span class="file-label">Escolha os arquivos...</span>
+                          </span>
+                          <span class="file-name" id="fileName">Nenhum arquivo selecionado</span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <input type="hidden" id="base64Input" name="base64Documents">
+
                   <button class="btn btn-primary w-100" type="submit" id="submitCustomer" disabled>Registrar
                     Cliente</button>
                 </form>
@@ -217,7 +239,14 @@
 
       <script type='text/javascript'
         src="https://rawgit.com/RobinHerbots/jquery.inputmask/3.x/dist/jquery.inputmask.bundle.js"></script>
-      <script>
+   
+   
+   
+   
+   
+   
+   
+   <script>
         $(document).ready(function () {
           $(":input").inputmask();
 
@@ -414,7 +443,7 @@
           axios.get(`/api/v1/cnpj/${cnpj}`)
             .then((response) => {
               const { data } = response;
-              console.log(data); 
+              console.log(data);
 
               document.getElementById("zipcode").value = data.cep || ''; // Preenche o CEP
               document.getElementById("street").value = data.logradouro || ''; // Preenche a rua
@@ -484,7 +513,36 @@
           });
         }
 
+
+
+        document.getElementById("fileInput").addEventListener("change", async function (event) {
+  const files = event.target.files;
+  const base64Array = [];
+
+  for (let i = 0; i < files.length; i++) {
+    const base64 = await fileToBase64(files[i]);
+    base64Array.push(base64);
+  }
+
+  // Inserindo os dados base64 no input escondido
+  document.getElementById("base64Input").value = JSON.stringify(base64Array);
+});
+
+function fileToBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = (error) => reject(error);
+    reader.readAsDataURL(file);
+  });
+}
+
+        
+
+
       </script>
+
+<script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
   </body>
 
   </html>

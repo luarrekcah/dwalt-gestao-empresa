@@ -2,7 +2,7 @@
     <div class="modal-dialog" role="photo">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="PhotoLabel">Adicionar imagem ao cliente</h5>
+                <h5 class="modal-title" id="PhotoLabel">Adicionar documento ao cliente</h5>
                 <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>
                 </button>
@@ -12,11 +12,11 @@
                     <div class="mb-3">
 
                         <input type="text" name="type" value="ADD_PHOTO" style="display: none;">
-                        <input id="inputFile" accept="image/png, image/jpeg" multiple type="file" onchange="convertToBase64();"
+                        <input id="inputFile" multiple type="file" onchange="convertToBase64();"
                             style="margin-top: 20px" />
                         <input type="text" name="documentBase64" id="documentBase64" value="[]" style="display: none;">
                     </div>
-                    <button class="btn btn-primary" style="width: 100%;" type="submit">Adicionar Imagens</button>
+                    <button class="btn btn-primary" style="width: 100%;" type="submit">Adicionar documentos</button>
                 </form>
             </div>
             <div class="modal-footer">
