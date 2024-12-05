@@ -29,6 +29,9 @@ router.get("/", async (req, res, next) => {
   });
   const user = await getUser({ userId: req.user.key });
 
+
+  console.log(surveys[600].project)
+
   let message;
 
   if (req.query.message) {

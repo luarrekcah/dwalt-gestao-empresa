@@ -59,7 +59,7 @@
                                         </span>
                                         <span class="text">Dados do chamado</span>
                                       </a>
-                                      <a href="/dashboard/projetos/visualizar/<%= i.data.projectId ||i.data.project.id%>"
+                                      <a href="/dashboard/projetos/visualizar/<%= i.data.projectId || (i.data.project && i.data.project.id) || '' %>"
                                         class="btn btn-info btn-icon-split">
                                         <span class="icon text-white-50">
                                           <i class="fas fa-info-circle"></i>
